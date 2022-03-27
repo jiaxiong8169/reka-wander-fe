@@ -1,20 +1,62 @@
-
-
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {Image} from 'react-native';
 
 // Screens
-import NearByCategoryScreen from '../containers/NearByCategoryScreen';
-import NearBySearchScreen from '../containers/NearBySearchScreen';
-
+import SpotsHomeScreen from '../containers/spots/SpotsHomeScreen';
+import NearByHomeScreen from '../containers/spots/nearby/NearByHomeScreen';
+import NearByCategoryScreen from '../containers/spots/nearby/NearByCategoryScreen';
+import NearBySearchScreen from '../containers/spots/nearby/NearBySearchScreen';
+import NearByDetailsScreen from '../containers/spots/nearby/NearByDetailsScreen';
 //Screen names
 const homeName = "Home";
-const detailsName = "Details";
-const settingsName = "Settings";
-
+const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+
+function SpotsHomeStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="SpotsHome"
+        component={SpotsHomeScreen}
+        options={{
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        name="NearByHome"
+        component={NearByHomeScreen}
+        options={{
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        name="NearBySearch"
+        component={NearBySearchScreen}
+        options={{
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        name="NearByDetails"
+        component={NearByDetailsScreen}
+        options={{
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        name="NearByCategory"
+        component={NearByCategoryScreen}
+        options={{
+          headerShown: false
+        }}
+      />
+      
+    </Stack.Navigator>
+  );
+}
 
 function MainContainer() {
   return (
@@ -71,10 +113,17 @@ function MainContainer() {
           style: { padding: 10, height: 70}
         }}>
 
-        <Tab.Screen name='Spots' component={NearBySearchScreen} />
+        {/* <Tab.Screen name='Spots' component={NearBySearchScreen} /> */}
+        <Tab.Screen
+          name="Spots"
+          component={SpotsHomeStack}
+          // options={{
+          //   tabBarLabel: 'Spots',
+          // }}
+        />
         <Tab.Screen name='Agency' component={NearByCategoryScreen} />
         <Tab.Screen name='Store' component={NearBySearchScreen} />
-        <Tab.Screen name='Settings' component={NearBySearchScreen} />
+        <Tab.Screen name='Settings' component={NearByHomeScreen} />
         <Tab.Screen name='Payment' component={NearBySearchScreen} />
         <Tab.Screen name='News' component={NearBySearchScreen} />
       </Tab.Navigator>
