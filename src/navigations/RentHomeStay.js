@@ -24,7 +24,7 @@ const Withkids = (props) => {
 
     return (
         <View style={styles.body}>
-            <Card>
+            <Card style={{ width: '100%' }}>
                 <View style={{ alignItems: 'center' }}>
                     <Text style={styles.question}>
                         {props.quest}
@@ -46,11 +46,12 @@ const Withkids = (props) => {
                         source={require('../assets/kids.png')}
                         style={{
                             padding: 1,
-                            width: 260,
+                            aspectRatio: 1,
+                            width: '100%',
                             resizeMode: 'contain',
                             // justifyContent: 'flex-end',
                             alignItems: 'flex-end',
-                            height: 200
+                            height: undefined
                         }}
                     />
                 </View>
@@ -67,8 +68,10 @@ const styles = StyleSheet.create({
     },
     body: {
         // marginBottom: '10%',
-        margin: 10,
+        marginBottom: 20,
+        marginTop: 30,
         marginHorizontal: '8%',
+        width: '100%',
         // padding: 10,
         // marginLeft: 20,
         // marginRight:20,

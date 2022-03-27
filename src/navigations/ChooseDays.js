@@ -13,7 +13,7 @@ const ChooseDays = (props) => {
     return (
 
         <View style={styles.body}>
-            <Card>
+            <Card style={{ width: '100%' }}>
                 <View style={styles.body_container}>
                     <View style={{ alignItems: 'center' }}>
                         <Text style={styles.question}>
@@ -33,7 +33,10 @@ const styles = StyleSheet.create({
         fontSize: 40,
     },
     body: {
-        margin: 10,
+        marginBottom: 20,
+        marginTop: 30,
+        marginHorizontal: 13,
+        width: '100%',
     },
     body_container: {
     },

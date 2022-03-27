@@ -181,7 +181,7 @@ const Stepper: FC<StepperProps> = (props) => {
                   onNext();
                 }}
               >
-                <Text style={[{ color: 'white', fontSize: 20 }, buttonTextStyle]}>Next</Text>
+                <Text style={[{ color: 'white', fontSize: 15 }, buttonTextStyle]}>Next</Text>
               </TouchableOpacity>
 
             )}

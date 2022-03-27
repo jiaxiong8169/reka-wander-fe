@@ -4,8 +4,10 @@ import {
     View,
     Text,
     Image,
+    ScrollView,
     Pressable,
 } from 'react-native';
+// import { ScrollView } from 'react-native-gesture-handler';
 // import SelectPax from '../component/dropdown/Pax';
 import Card from '../component/card/card';
 // import RadioGroup from 'react-native-radio-button-group';
@@ -25,20 +27,17 @@ const Withkids = (props) => {
     const onPressHandler = () => {
         console.log(formattedEndDate);
     }
-
+// const containerWidth = (Dimensions.get('window').width) * 0.7;
+// const containerHeight = (Dimensions.get('window').height) * 0.7;
     return (
+        // <ScrollView>
         <View style={styles.body}>
-            <Card>
+            <Card style={{width: '100%'}}>
                 <View style={{ alignItems: 'center' }}>
                     <Text style={styles.question}>
                         {props.quest}
                     </Text>
                 </View>
-                <Pressable
-                    onPress={onPressHandler}
-                >
-                    <Text>press</Text>
-                </Pressable>
                 <View style={{ marginHorizontal: '15%' }}>
                     <RadioButtonRN
                         data={data}
@@ -55,16 +54,18 @@ const Withkids = (props) => {
                         source={require('../assets/kids.png')}
                         style={{
                             padding: 1,
-                            width: 260,
+                            aspectRatio: 1,
+                            width: '100%',
                             resizeMode: 'contain',
                             // justifyContent: 'flex-end',
                             alignItems: 'flex-end',
-                            height: 200
+                            height: undefined
                         }}
                     />
                 </View>
             </Card>
         </View>
+        // </ScrollView>
 
     );
 };
@@ -75,8 +76,10 @@ const styles = StyleSheet.create({
     },
     body: {
         // marginBottom: '10%',
-        margin: 10,
+        marginBottom: 20,
+        marginTop: 30,
         marginHorizontal: '8%',
+        width: '100%',
         // padding: 10,
     },
     body_container: {

@@ -11,7 +11,8 @@ const SelectBudget = () => {
             <Picker
                 selectedValue={Budget}
                 onValueChange={(value, index) => SetBudget(value)}
-                mode="dropdown" // Android only
+                // mode="dropdown" // Android only
+                mode="dialog"
                 style={styles.picker}
             >
                 <Picker.Item label="100" value="100" />

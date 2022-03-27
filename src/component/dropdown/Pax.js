@@ -11,7 +11,7 @@ const SelectPax = () => {
             <Picker
                 selectedValue={Pax}
                 onValueChange={(value) => SetPax(value)}
-                mode="dropdown" // Android only
+                mode="dialog" // Android only
                 style={styles.picker}
             >
                 <Picker.Item label="1" value="1" />

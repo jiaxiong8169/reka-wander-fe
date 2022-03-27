@@ -5,6 +5,7 @@ import {
   Text,
   Image,
   SafeAreaView,
+  ScrollView,
 } from 'react-native';
 import MultiSelectExample from '../component/dropdown/interest';
 import Card from '../component/card/card';
@@ -12,37 +13,39 @@ import Card from '../component/card/card';
 
 
 const TravelInterest = (props) => {
-  const [selectedOption, setselectedOption] = useState({ value: '', label: 'Select anything' });
 
   return (
-
-    // <SafeAreaView style={{ flex: 1 }}>
-      <View style={styles.body}>
-        <Card>
-          <View style={styles.body_container}>
-            <View style={{ alignItems: 'center' }}>
-              <Text style={styles.question}>
-                {props.quest}
-              </Text>
-            </View>
-            <MultiSelectExample />
-
-            <View style={{ marginTop: 10, }}>
-              <Image
-                source={require('../assets/Travel_interest.png')}
-                style={{
-                  // flex: 1,
-                  // aspectRatio: 1, // Your aspect ratio
-                  width: 260,
-                  resizeMode: 'contain',
-                  height: 200,
-                }}
-              />
-            </View>
+    // <ScrollView>
+    // <SafeAreaView>
+    <View style={styles.body}>
+      <Card style={{ width: '100%' }}>
+        <View style={styles.body_container}>
+          <View style={{ alignItems: 'center' }}>
+            <Text style={styles.question}>
+              {props.quest}
+            </Text>
           </View>
-        </Card>
-      </View>
+          <MultiSelectExample />
+
+          <View style={{ marginTop: 10, }}>
+            <Image
+              source={require('../assets/Travel_interest.png')}
+              style={{
+                padding: 1,
+                aspectRatio: 1,
+                width: '100%',
+                resizeMode: 'contain',
+                // justifyContent: 'flex-end',
+                alignItems: 'flex-end',
+                height: undefined
+              }}
+            />
+          </View>
+        </View>
+      </Card>
+    </View>
     // </SafeAreaView>
+    // </ScrollView>
   );
 };
 
@@ -51,8 +54,13 @@ const styles = StyleSheet.create({
     fontSize: 40,
   },
   body: {
-    margin: 10,
+    // marginBottom: 20,
+    // marginTop:30,
+    // marginHorizontal: '8%',
+    marginBottom: 20,
+    marginTop: 30,
     marginHorizontal: '8%',
+    width: '100%',
     //this is to format the dropdown box, it fix this issue => when click more than 2, the card will become fat
   },
   body_container: {
@@ -62,6 +70,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontFamily: 'sans-serif-medium',
     fontWeight: 'bold',
+    marginBottom: 10,
   },
   button: {
     backgroundColor: 'red',

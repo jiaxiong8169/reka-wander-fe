@@ -6,7 +6,7 @@ import {
   ScrollView,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import Stepper from './src/component/stepper/step';
+// import Stepper from './src/component/stepper/step';
 
 import PaxPage from './src/navigations/People';
 import ChooseDays from './src/navigations/ChooseDays';
@@ -20,7 +20,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 
-// import Stepper from 'react-native-stepper-ui';
+import Stepper from 'react-native-stepper-ui';
 
 const Stack = createStackNavigator();
 
@@ -28,9 +28,9 @@ const content = [
   <ChooseDays
     quest='How many days?'
   />,
-  // <Withkids
-  //   quest='With kids?'
-  // />,
+  <Withkids
+    quest='With kids?'
+  />,
   <TravelInterest
     quest='Travel interest'
   />,
@@ -82,49 +82,50 @@ function Planner({ navigation }) {
     <LinearGradient
       colors={['#CFDDFC', 'white', 'white', '#CFDDFC']}
       style={{ height: '100%', width: '100%' }}>
+      <ScrollView>
+        <View style={styles.container}>
+          <Text style={styles.title}>
+            Hi <Text style={{
+              fontWeight: 'bold',
+              fontFamily: 'sans-serif-light',
+            }}>Melvin,</Text>
+          </Text>
+          <Text style={styles.subtitle}>
+            Create your destiny
+          </Text>
 
-      <View style={styles.container}>
-        <Text style={styles.title}>
-          Hi <Text style={{
-            fontWeight: 'bold',
-            fontFamily: 'sans-serif-light',
-          }}>Melvin,</Text>
-        </Text>
-        <Text style={styles.subtitle}>
-          Create your destiny
-        </Text>
+          <Stepper
+            active={active}
+            content={content}
+            onBack={() => setActive((p) => p - 1)}
+            onNext={() => setActive((P) => P + 1)}
+            onFinish={onPressHandler}
+            wrapperStyle={{
+              margin: 20,
 
-        <Stepper
-          active={active}
-          content={content}
-          onBack={() => setActive((p) => p - 1)}
-          onNext={() => setActive((P) => P + 1)}
-          onFinish={onPressHandler}
-          wrapperStyle={{
-            margin: 10,
-          }}
-          stepStyle={{
-            backgroundColor: "#ff4500",
-            width: 15,
-            height: 15,
-          }}
-          stepTextStyle={{
-            opacity: 0,
-          }}
-          buttonStyle={{
-            // alignSelf: 'center',
-            alignItems: 'center',
-            // justifyContent: 'center',
-            // marginBottom: 60,
+            }}
+            stepStyle={{
+              backgroundColor: "#ff4500",
+              width: 10,
+              height: 10,
+            }}
+            stepTextStyle={{
+              opacity: 0,
+            }}
+            buttonStyle={{
+              // alignSelf: 'center',
+              alignItems: 'center',
+              // justifyContent: 'center',
+              // marginBottom: 60,
               width: "35%",
               // height: 40,
               borderRadius: 50,
-            backgroundColor: "#ff0000",
-          }}
-        >
-        </Stepper>
-      </View>
-
+              backgroundColor: "#ff0000",
+            }}
+          >
+          </Stepper>
+        </View>
+      </ScrollView>
     </LinearGradient>
   );
 
@@ -248,17 +249,18 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 20,
   },
   title: {
     fontWeight: '300',
     fontSize: 40,
-    marginHorizontal: 10,
-    marginTop: 10,
+    // marginHorizontal: 10,
+    // marginTop: 10,
     color: `#4169E1`,
   },
   subtitle: {
     fontSize: 15,
-    marginLeft: 10,
+    // marginLeft: 10,
     color: `#4169E1`,
   },
 });

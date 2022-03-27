@@ -11,7 +11,7 @@ import Card from '../component/card/card';
 const PaxPage = (props) => {
   return (
     <View style={styles.body}>
-      <Card>
+      <Card style={{ width: '100%' }}>
         <View style={styles.body_container}>
           <Text style={styles.question}>
             {props.quest}
@@ -22,9 +22,13 @@ const PaxPage = (props) => {
             <Image
               source={require('../assets/People.png')}
               style={{
-                width: 260,
+                padding: 1,
+                aspectRatio: 1,
+                width: '100%',
                 resizeMode: 'contain',
-                height: 200,
+                // justifyContent: 'flex-end',
+                alignItems: 'flex-end',
+                height: undefined
               }}
             />
           </View>
@@ -42,8 +46,10 @@ const styles = StyleSheet.create({
   },
   body: {
     // marginBottom: '10%',
-    margin: 10,
+    marginBottom: 20,
+    marginTop: 30,
     marginHorizontal: '8%',
+    width: '100%',
     // flex: 1,
     // backgroundColor: '#ffffff',
     // borderRadius: 20,
