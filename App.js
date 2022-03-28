@@ -4,10 +4,12 @@ import {
   View,
   Text,
   ScrollView,
+  TouchableOpacity,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 // import Stepper from './src/component/stepper/step';
 
+import HomePage from './src/navigations/Home';
 import PaxPage from './src/navigations/People';
 import ChooseDays from './src/navigations/ChooseDays';
 import TravelBudget from './src/navigations/travelBudget';
@@ -21,6 +23,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 
 import Stepper from 'react-native-stepper-ui';
+// import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const Stack = createStackNavigator();
 
@@ -49,7 +52,7 @@ const content = [
   />,
 ];
 
-function Finish({ navigation }) {
+function Finish() {
   return (
     <LinearGradient
       colors={['#CFDDFC', 'white', 'white', '#CFDDFC']}
@@ -72,6 +75,19 @@ function Finish({ navigation }) {
   )
 };
 
+function Home({ navigation }) {
+  const onPressHandler = () => {
+    navigation.navigate('Planner_Question');
+  };
+  return (
+    <TouchableOpacity
+      onPress={onPressHandler}
+    >
+      <HomePage />
+    </TouchableOpacity>
+  )
+};
+
 function Planner({ navigation }) {
   const [active, setActive] = useState(0);
 
@@ -82,7 +98,7 @@ function Planner({ navigation }) {
     <LinearGradient
       colors={['#CFDDFC', 'white', 'white', '#CFDDFC']}
       style={{ height: '100%', width: '100%' }}>
-      <ScrollView>
+      <ScrollView nestedScrollEnabled>
         <View style={styles.container}>
           <Text style={styles.title}>
             Hi <Text style={{
@@ -137,6 +153,13 @@ const App = () => {
 
 
       <Stack.Navigator>
+        <Stack.Screen
+          name="HomePage"
+          component={Home}
+          options={{
+            header: () => null
+          }}
+        />
         <Stack.Screen
           name="Planner_Question"
           component={Planner}
