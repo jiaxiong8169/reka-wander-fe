@@ -12,6 +12,8 @@ target 'RekaWander' do
     :hermes_enabled => false
   )
 
+  pod 'react-native-encrypted-storage', :path => '../node_modules/react-native-encrypted-storage'
+
   target 'RekaWanderTests' do
     inherit! :complete
     # Pods for testing
