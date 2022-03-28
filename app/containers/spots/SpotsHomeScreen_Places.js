@@ -21,7 +21,7 @@ const previewCount = 3;
 const itemWidth = width / (previewCount + 0.5);
 const startScroll = 0;
 
-export default function SpotHomeScreen_Places({navigation}) {
+export default function SpotsHomeScreen_Places({navigation}) {
   const data = [...Array(10).keys()];
   const flatlistRef = React.useRef();
 
@@ -50,7 +50,7 @@ export default function SpotHomeScreen_Places({navigation}) {
           <Text bold fontSize={18} marginLeft={2}>
             Restaurants {'  '}
             <Text underline mt="2" fontSize={15} color="blue.600"
-             onPress={() => navigation.navigate('NearByCategory')}
+             onPress={() => navigation.navigate('SpotsCategory')}
              >
               View More>>
             </Text>
@@ -84,7 +84,7 @@ export default function SpotHomeScreen_Places({navigation}) {
         <Text bold fontSize={18} marginLeft={2}>
             Places {'  '}
             <Text underline mt="2" fontSize={15} color="blue.600"
-             onPress={() => navigation.navigate('NearByCategory')}>
+             onPress={() => navigation.navigate('SpotsCategory')}>
               View More>>
             </Text>
           </Text>
@@ -117,7 +117,7 @@ export default function SpotHomeScreen_Places({navigation}) {
         <Text bold fontSize={18} marginLeft={2}>
             Hotels {'  '}
             <Text underline mt="2" fontSize={15} color="blue.600"
-             onPress={() => navigation.navigate('NearByCategory')}>
+             onPress={() => navigation.navigate('SpotsCategory')}>
               View More>>
             </Text>
           </Text>

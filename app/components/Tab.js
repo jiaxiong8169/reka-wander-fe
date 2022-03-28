@@ -10,7 +10,7 @@ import GradientBackground from './GradientBackground';
 import React from 'react';
 import {FlatList, Text} from 'react-native';
 import { TabBar } from 'react-native-tab-view';
-import SpotHomeScreen_Places from '../containers/spots/SpotHomeScreen_Places';
+import SpotsHomeScreen_Places from '../containers/spots/SpotsHomeScreen_Places';
 
 const {width} = Dimensions.get('window');
 //you need to preview n items.
@@ -33,7 +33,7 @@ export default function Tab({navigation}) {
   );
   
   const Places = () => (
-    <SpotHomeScreen_Places navigation={navigation}/>
+    <SpotsHomeScreen_Places navigation={navigation}/>
   );
   
   const renderScene = SceneMap({

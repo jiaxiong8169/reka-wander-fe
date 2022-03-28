@@ -17,7 +17,7 @@ const BlueSubtitle = props => {
           color: 'rgb(117,157,246)',
         }}>
         {' '}
-        {props.text2},
+        {props.text2}
       </Text>
     </Text>
   );

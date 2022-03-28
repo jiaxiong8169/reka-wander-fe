@@ -52,7 +52,7 @@ export default function NearByHomeScreen({navigation}) {
         /> */}
         <View style={{marginBottom: 10}}>
           <Text bold fontSize={18} marginLeft={2}>
-            Restaurants {'  '}
+            Nearby Restaurants {'  '}
             <Text underline mt="2" fontSize={15} color="blue.600"
              onPress={() => navigation.navigate('NearByCategory')}
              >
@@ -86,7 +86,7 @@ export default function NearByHomeScreen({navigation}) {
 
         <View style={{marginBottom: 10}}>
         <Text bold fontSize={18} marginLeft={2}>
-            Places {'  '}
+            Nearby Places {'  '}
             <Text underline mt="2" fontSize={15} color="blue.600"
              onPress={() => navigation.navigate('NearByCategory')}>
               View More>>
@@ -119,7 +119,7 @@ export default function NearByHomeScreen({navigation}) {
 
         <View style={{marginBottom: 20}}>
         <Text bold fontSize={18} marginLeft={2}>
-            Hotels {'  '}
+            Nearby Hotels {'  '}
             <Text underline mt="2" fontSize={15} color="blue.600"
              onPress={() => navigation.navigate('NearByCategory')}>
               View More>>

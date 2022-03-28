@@ -6,6 +6,7 @@ import {Image} from 'react-native';
 
 // Screens
 import SpotsHomeScreen from '../containers/spots/SpotsHomeScreen';
+import SpotsCategoryScreen from '../containers/spots/SpotsCategoryScreen'
 import NearByHomeScreen from '../containers/spots/nearby/NearByHomeScreen';
 import NearByCategoryScreen from '../containers/spots/nearby/NearByCategoryScreen';
 import NearBySearchScreen from '../containers/spots/nearby/NearBySearchScreen';
@@ -21,6 +22,13 @@ function SpotsHomeStack() {
       <Stack.Screen
         name="SpotsHome"
         component={SpotsHomeScreen}
+        options={{
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        name="SpotsCategory"
+        component={SpotsCategoryScreen}
         options={{
           headerShown: false
         }}
@@ -53,7 +61,6 @@ function SpotsHomeStack() {
           headerShown: false
         }}
       />
-      
     </Stack.Navigator>
   );
 }
@@ -62,7 +69,7 @@ function MainContainer() {
   return (
     <NavigationContainer>
       <Tab.Navigator 
-        initialRouteName={homeName}
+        // initialRouteName={homeName}
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             let tabIconSource;
@@ -117,13 +124,10 @@ function MainContainer() {
         <Tab.Screen
           name="Spots"
           component={SpotsHomeStack}
-          // options={{
-          //   tabBarLabel: 'Spots',
-          // }}
         />
         <Tab.Screen name='Agency' component={NearByCategoryScreen} />
         <Tab.Screen name='Store' component={NearBySearchScreen} />
-        <Tab.Screen name='Settings' component={NearByHomeScreen} />
+        <Tab.Screen name='Settings' component={NearByDetailsScreen} />
         <Tab.Screen name='Payment' component={NearBySearchScreen} />
         <Tab.Screen name='News' component={NearBySearchScreen} />
       </Tab.Navigator>

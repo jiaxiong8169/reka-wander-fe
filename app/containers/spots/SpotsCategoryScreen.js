@@ -1,9 +1,9 @@
 import * as React from 'react';
 import {View, Image} from 'react-native';
-import GradientBackground from '../../../components/GradientBackground';
+import GradientBackground from '../../components/GradientBackground';
 import {Button, ChevronLeftIcon, Text, Badge} from 'native-base';
-import BlueSubtitle from '../../../components/BlueSubtitle';
-import Card from '../../../components/Card';
+import BlueSubtitle from '../../components/BlueSubtitle';
+import Card from '../../components/Card';
 import {Rating} from 'react-native-ratings';
 import {StyleSheet} from 'react-native';
 
@@ -17,18 +17,18 @@ export default function NearByCategoryScreen({navigation}) {
           mt="1"
           marginRight="2"
           onPress={() => navigation.goBack()}></ChevronLeftIcon>
-        <BlueSubtitle text1={'Nearby'} text2={'Hotels'}></BlueSubtitle>
+        <BlueSubtitle text1={''} text2={'Hotels'}></BlueSubtitle>
       </View>
       <View>
         <Card style={{height: 150, flexDirection: 'row'}}>
           <Image
             style={{flex: 1, height: undefined, borderRadius: 5}}
-            source={require('../../../assets/home.jpg')}></Image>
+            source={require('../../assets/home.jpg')}></Image>
           <View style={{flex: 3, flexDirection: 'column', marginLeft: 10}}>
             <View style={{flexDirection: 'row', flex: 2}}>
               <View style={{flex: 1}}>
                 <Text bold fontSize={14} letterSpacing="sm" lineHeight="xs">
-                  Hotel Testingv 21321321321321321
+                  Hotel Testingv 2132
                 </Text>
                 <View
                   style={{
@@ -54,7 +54,7 @@ export default function NearByCategoryScreen({navigation}) {
                   }}>
                   <Image
                     style={{width: 15, height: 15}}
-                    source={require('../../../assets/pin.png')}
+                    source={require('../../assets/pin.png')}
                     tintColor={'#52525b'}
                   />
                   <Text marginLeft="1" fontSize={10} color="gray.600">
