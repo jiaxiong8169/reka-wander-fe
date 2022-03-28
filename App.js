@@ -9,15 +9,15 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 // import Stepper from './src/component/stepper/step';
 
-import HomePage from './src/navigations/Home';
-import PaxPage from './src/navigations/People';
-import ChooseDays from './src/navigations/ChooseDays';
-import TravelBudget from './src/navigations/travelBudget';
-import TravelInterest from './src/navigations/Travelinterest';
-import Withkids from './src/navigations/Withkids';
-import RentHomeStay from './src/navigations/RentHomeStay';
-import RentCar from './src/navigations/RentCar';
-import Loading from './src/navigations/Loading';
+import HomePage from './src/navigations/PlannerHomeScreen';
+import PaxPage from './src/navigations/PlannerPaxScreen';
+import ChooseDays from './src/navigations/PlannerCalendarScreen';
+import TravelBudget from './src/navigations/PlannertravelBudgetScreen';
+import TravelInterest from './src/navigations/PlannerTravelinterestScreen';
+import Withkids from './src/navigations/PlannerWithkidsScreen';
+import RentHomeStay from './src/navigations/PlannerRentHomeStayScreen';
+import RentCar from './src/navigations/PlannerRentCarScreen';
+import Loading from './src/navigations/PlannerLoadingScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
