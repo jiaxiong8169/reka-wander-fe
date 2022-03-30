@@ -14,13 +14,13 @@ export const Router = () => {
     return (
         <NavigationContainer>
             {authData ? <AppStack /> : <AuthStack />}
-            {!!authError && <Modal animationType="slide" transparent visible={modalVisible} onRequestClose={() => setModalVisible(false)}>
+            <Modal animationType="slide" transparent visible={!!authError} onRequestClose={() => setModalVisible(false)}>
                 <View style={styles.modalView}>
                     <Text style={styles.modalText}>
-                        authError
+                        {authError}
                     </Text>
                 </View>
-            </Modal>}
+            </Modal>
         </NavigationContainer>
     )
 }
@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 10,
         alignItems: "center",
+        justifyContent: "flex-end",
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
