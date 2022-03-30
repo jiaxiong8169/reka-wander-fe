@@ -1,3 +1,4 @@
+import { Link } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native';
 import { useAuth } from '../../hooks/useAuth';
@@ -14,7 +15,7 @@ const SignInScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <View style={[styles.shape, { flex: 1 }]}></View>
-            <View style={{ flex: 1, alignSelf: "center" }}>
+            <View style={{ flex: 1, alignSelf: "center", justifyContent: "center" }}>
                 <Text style={styles.titleStyle}>
                     Hello Traveller!
                 </Text>
@@ -41,10 +42,32 @@ const SignInScreen = ({ navigation }) => {
                     </View>
                 </View>
             </View>
-            <View style={[styles.buttonContainer, { flex: 3 }]}>
+            <View style={[styles.buttonContainer, { flex: 1 }]}>
                 <TouchableOpacity style={styles.button} onPress={handleButtonPress}>
                     <Text style={styles.buttonText}>Login</Text>
                 </TouchableOpacity>
+            </View>
+            <View style={{ flex: 1, alignSelf: 'center' }}>
+                <Text>
+                    Sign up with
+                </Text>
+            </View>
+            <View style={{ flex: 1, alignSelf: 'center' }}>
+                <Text>
+                    <Link to={{ screen: "Register Screen" }}>
+                        <Text style={styles.otherMethod}>
+                            {"Email\t\t"}
+                        </Text>
+                    </Link>
+                    <Text style={styles.otherMethod}>
+                        {"Google"}
+                    </Text>
+                </Text>
+            </View>
+            <View style={{ flex: 1, alignSelf: 'center' }}>
+                <Text>
+                    Continue as Visitor
+                </Text>
             </View>
         </View>
     )
@@ -96,6 +119,9 @@ const styles = StyleSheet.create({
         textAlign: "center",
         shadowColor: "black",
         fontSize: 15
+    },
+    otherMethod: {
+        padding: 3,
     }
 })
 

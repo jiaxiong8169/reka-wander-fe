@@ -34,6 +34,21 @@ const AuthProvider = ({ children }) => {
         }
     }
 
+    const signUp = async (userRegInfo) => {
+        setLoading(true);
+        AuthService.signUp(userRegInfo).then((_authData) => {
+            setLoading(false);
+            return true;
+        })
+            .catch((err) => {
+                err.response.json().then(data => {
+                    setAuthError(data.message);
+                    setLoading(false);
+                });
+                return false
+            });
+    }
+
     const signIn = async (email, password) => {
         setLoading(true);
         AuthService.signIn(email, password).then((_authData) => {
@@ -57,7 +72,7 @@ const AuthProvider = ({ children }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ authData, authError, loading, signIn, signOut }}>
+        <AuthContext.Provider value={{ authData, authError, loading, signIn, signOut, signUp }}>
             {children}
         </AuthContext.Provider>
     )
