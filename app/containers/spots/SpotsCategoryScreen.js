@@ -118,7 +118,7 @@ export default function NearByCategoryScreen({navigation}) {
                 </View>
               </View>
             </View>
-            <Button size="sm" padding="1" bg="blue.600">
+            <Button size="sm" padding="1" bg="blue.600" _pressed={{bg: 'blue.300', _text: {color: 'white'}}}>
               Reserve Now
             </Button>
           </View>

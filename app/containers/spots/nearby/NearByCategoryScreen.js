@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {View, Image} from 'react-native';
 import GradientBackground from '../../../components/GradientBackground';
-import {Button, ChevronLeftIcon, Text, Badge} from 'native-base';
+import {Button, ChevronLeftIcon, Text, Badge, NBBox} from 'native-base';
 import BlueSubtitle from '../../../components/BlueSubtitle';
 import Card from '../../../components/Card';
 import {Rating} from 'react-native-ratings';
@@ -118,7 +118,7 @@ export default function NearByCategoryScreen({navigation}) {
                 </View>
               </View>
             </View>
-            <Button size="sm" padding="1" bg="blue.600">
+            <Button size="sm" padding="1" bg="blue.600" _pressed={{bg: 'blue.300', _text: {color: 'white'}}}>
               Reserve Now
             </Button>
           </View>
@@ -133,4 +133,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.2,
     borderColor: '#rgb(204,204,204)',
   },
+  button:{
+    borderRadius: 100
+  }
 });

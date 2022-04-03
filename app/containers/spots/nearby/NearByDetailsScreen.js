@@ -1,95 +1,113 @@
 import * as React from 'react';
 import {View, StyleSheet, Dimensions} from 'react-native';
-import GradientBackground from '../../../components/GradientBackground';
 import {Image} from 'react-native';
-import {IconButton, Box, Heading, Text, Button} from 'native-base';
+import {
+  Box,
+  Heading,
+  Text,
+  ArrowBackIcon,
+  Pressable,
+} from 'native-base';
 import {Rating} from 'react-native-ratings';
 import {ScrollView, SafeAreaView} from 'react-native';
+import RoundButton from '../../../components/RoundButton';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 export default function NearByDetailsScreen({navigation}) {
   return (
-    // <GradientBackground>
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
-      <Image
-        style={styles.image}
-        source={require('../../../assets/home.jpg')}>
-        </Image>
-      <View style={{flex: 1}}></View>
-      <View style={styles.textContainer}>
-        <Heading size="2xl" color={'white'}>
-          Hotel 1234
-        </Heading>
+        <Image
+          style={styles.image}
+          source={require('../../../assets/home.jpg')}></Image>
+        <View style={{flex: 1}}></View>
+        <Box style={styles.backButton}>
+          <Pressable onPress={() => navigation.goBack()}>
+            <ArrowBackIcon size="8" color="white" m="1" />
+          </Pressable>
+        </Box>
 
-        <Text fontSize={14} color="white">
-          Kota Kinabalu
-        </Text>
-        <View
-          style={{
-            flexDirection: 'row',
-          }}>
-          <Text bold fontSize={14} color="white">
-            Western Food
+        <View style={styles.textContainer}>
+          <Heading size="2xl" color={'white'}>
+            Hotel 1234
+          </Heading>
+
+          <Text fontSize={14} color="white">
+            Kota Kinabalu
           </Text>
-        </View>
-        <Rating
-          style={{
-            marginRight: 'auto',
-            marginTop: 6,
-          }}
-          imageSize={15}
-          ratingCount={5}
-          startingValue={4}
-          tintColor={'#414141'}
-          readonly
-        />
-        <Text mt="3" mb="10" color={'white'}>
-          adsalksjdklasjdklaslkjdaklslasjdlaskjdasdasdsadsadsadasdasdasdasdsadasdasdasdasdasda
-          adsalksjdklasjdklaslkjdaklslasjdlaskjdasdasdsadsadsadasdasdasdasdsadasdasdasdasdasda
-          adsalksjdklasjdklaslkjdaklslasjdlaskjdasdasdsadsadsadasdasdasdasdsadasdasdasdasdasda
-          adsalksjdklasjdklaslkjdaklslasjdlaskjdasdasdsadsadsadasdasdasdasdsadasdasdasdasdasda
-        </Text>
-        <Button
-          bg={'red.500'}
-          key={'lg'}
-          size={'lg'}
-          mb={5}
-          _pressed={{bg: 'red.300', _text: {color: 'white'}}}>
-          Direction
-        </Button>
-      </View>
-      <View style={styles.buttonContainer}>
-        <View style={{flexDirection:'row'}}>
-          <Image
-            style={styles.icon}
-            source={require('../../../assets/love.png')}></Image>
-          <Text ml={'2'} bold fontSize={12} color="gray.500" style={styles.iconText}>
-            10.5k
+          <View
+            style={{
+              flexDirection: 'row',
+            }}>
+            <Text bold fontSize={14} color="white">
+              Western Food
+            </Text>
+          </View>
+          <Rating
+            style={{
+              marginRight: 'auto',
+              marginTop: 6,
+            }}
+            imageSize={15}
+            ratingCount={5}
+            startingValue={4}
+            tintColor={'#414141'}
+            readonly
+          />
+          <Text mt="3" mb="10" color={'white'}>
+            adsalksjdklasjdklaslkjdaklslasjdlaskjdasdasdsadsadsadasdasdasdasdsadasdasdasdasdasda
+            adsalksjdklasjdklaslkjdaklslasjdlaskjdasdasdsadsadsadasdasdasdasdsadasdasdasdasdasda
+            adsalksjdklasjdklaslkjdaklslasjdlaskjdasdasdsadsadsadasdasdasdasdsadasdasdasdasdasda
+            adsalksjdklasjdklaslkjdaklslasjdlaskjdasdasdsadsadsadasdasdasdasdsadasdasdasdasdasda
           </Text>
+          <RoundButton title="Direction" backgroundColor="#dc2626" />
         </View>
-        <View style={{flexDirection:'row'}}>
-        <Image
-          style={styles.icon}
-          source={require('../../../assets/message.png')} tintColor="red"></Image>
-        <Text ml={'2'} bold fontSize={12} color="red.500" style={styles.iconText}>
-          633
-        </Text>
+        <View style={styles.buttonContainer}>
+          <View style={{flexDirection: 'row'}}>
+            <Image
+              style={styles.icon}
+              source={require('../../../assets/love.png')}></Image>
+            <Text
+              ml={'2'}
+              bold
+              fontSize={12}
+              color="gray.500"
+              style={styles.iconText}>
+              10.5k
+            </Text>
+          </View>
+          <View style={{flexDirection: 'row'}}>
+            <Image
+              style={styles.icon}
+              source={require('../../../assets/message.png')}
+              tintColor="red"></Image>
+            <Text
+              ml={'2'}
+              bold
+              fontSize={12}
+              color="red.500"
+              style={styles.iconText}>
+              633
+            </Text>
+          </View>
+          <View style={{flexDirection: 'row'}}>
+            <Image
+              style={styles.icon}
+              source={require('../../../assets/share.png')}></Image>
+            <Text
+              ml={'2'}
+              bold
+              fontSize={12}
+              color="gray.500"
+              style={styles.iconText}>
+              87
+            </Text>
+          </View>
         </View>
-        <View style={{flexDirection:'row'}}>
-        <Image
-          style={styles.icon}
-          source={require('../../../assets/share.png')}></Image>
-        <Text ml={'2'} bold fontSize={12} color="gray.500" style={styles.iconText}>
-          87
-        </Text>
-        </View>
-      </View>
       </View>
     </ScrollView>
-    // </GradientBackground>
   );
 }
 
@@ -103,7 +121,7 @@ const styles = StyleSheet.create({
     left: 0,
     top: -16,
     // height: height,
-    minHeight: height*0.5 + 20,
+    minHeight: height * 0.5 + 20,
     width: '100%',
     paddingTop: '14%',
     paddingLeft: '5%',
@@ -117,7 +135,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     left: '15%',
     right: 0,
-    top: height*0.33,
+    top: height * 0.33,
     paddingLeft: '10%',
     paddingRight: '10%',
     flex: 1,
@@ -128,12 +146,12 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     position: 'relative',
-    backgroundColor: '#414141'
+    backgroundColor: '#414141',
   },
   image: {
     flex: 1,
     width: '100%',
-    height: height*0.4,
+    height: height * 0.4,
     position: 'relative',
   },
   icon: {
@@ -144,5 +162,13 @@ const styles = StyleSheet.create({
   },
   iconText: {
     alignSelf: 'center',
+  },
+  backButton: {
+    position: 'absolute',
+    left: 20,
+    top: 20,
+    alignSelf: 'flex-start',
+    backgroundColor: 'rgba(69, 69 , 69, 0.7)',
+    borderRadius: 5,
   },
 });
