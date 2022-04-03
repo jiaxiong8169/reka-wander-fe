@@ -1,22 +1,43 @@
 import * as React from 'react';
 import {View, Text, StyleSheet, Image, Dimensions} from 'react-native';
-import Card from '../../../components/Card';
+import Card from '../components/Card';
 import LinearGradient from 'react-native-linear-gradient';
 import { Button } from "native-base";
-import BlueSubtitle from '../../../components/BlueSubtitle';
-import GradientBackground from '../../../components/GradientBackground';
+import { createStackNavigator } from '@react-navigation/stack';
 
 export default function NearBySearchScreen({navigation}) {
   return (
-    <GradientBackground>
-        <BlueSubtitle text1={'Hi'} text2={'Melvin,'}></BlueSubtitle>
+    <LinearGradient
+      colors={['#CFDDFC', 'white']}
+      start={{x: 0, y: 0}}
+      end={{x: 0, y: 0.5}}
+      style={{height: '100%', width: '100%'}}>
+      <View style={{padding: 20}}>
+        <Text
+          style={{
+            fontSize: 40,
+            color: 'rgb(117,157,246)',
+            fontWeight: '300',
+            marginBottom: 20,
+          }}>
+          Hi
+          <Text
+            style={{
+              fontSize: 40,
+              fontWeight: 'bold',
+              color: 'rgb(117,157,246)',
+            }}>
+            {' '}
+            Melvin,
+          </Text>
+        </Text>
         <Card style={styles.card}>
           <Image
           style={styles.image}
-            source={require('../../../assets/map.png')}
+            source={require('../assets/map.png')}
           />
           <Button w="50%" m="3" size="lg" bg="blue.500"
-          onPress={() => navigation.navigate('NearByHome')}
+          onPress={() => navigation.navigate('NearByCategory')}
           _pressed={{bg: "blue.300",_text: {color: "white"}}}>Find Nearby</Button>
 
           <Text style={styles.h2}>Or {"\n"}
@@ -24,10 +45,11 @@ export default function NearBySearchScreen({navigation}) {
           
           <Image
           style={styles.image}
-            source={require('../../../assets/search.png')}
+            source={require('../assets/search.png')}
           />
         </Card>
-    </GradientBackground>
+      </View>
+    </LinearGradient>
   );
 }
 
