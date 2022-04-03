@@ -10,6 +10,13 @@ import {
 import MultiSelectExample from '../component/dropdown/interest';
 import Card from '../component/card/card';
 // import Multiselect from 'multiselect-react-dropdown';
+// import { LogBox } from 'react-native'
+
+
+
+// LogBox.ignoreWarnings([
+//   'VirtualizedLists should never be nested', // TODO: Remove when fixed
+// ])
 
 
 const TravelInterest = (props) => {

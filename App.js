@@ -4,6 +4,7 @@ import {
   View,
   Text,
   ScrollView,
+  SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -28,15 +29,16 @@ import Stepper from 'react-native-stepper-ui';
 const Stack = createStackNavigator();
 
 const content = [
+  <TravelInterest
+    quest='Travel interest'
+  />,
   <ChooseDays
     quest='How many days?'
   />,
   <Withkids
     quest='With kids?'
   />,
-  <TravelInterest
-    quest='Travel interest'
-  />,
+  
 
   <RentHomeStay
     quest='Rent Homestay?'
@@ -98,50 +100,66 @@ function Planner({ navigation }) {
     <LinearGradient
       colors={['#CFDDFC', 'white', 'white', '#CFDDFC']}
       style={{ height: '100%', width: '100%' }}>
-      <ScrollView nestedScrollEnabled>
-        <View style={styles.container}>
-          <Text style={styles.title}>
-            Hi <Text style={{
-              fontWeight: 'bold',
-              fontFamily: 'sans-serif-light',
-            }}>Melvin,</Text>
-          </Text>
-          <Text style={styles.subtitle}>
-            Create your destiny
-          </Text>
-
-          <Stepper
-            active={active}
-            content={content}
-            onBack={() => setActive((p) => p - 1)}
-            onNext={() => setActive((P) => P + 1)}
-            onFinish={onPressHandler}
-            wrapperStyle={{
-              margin: 20,
-
-            }}
-            stepStyle={{
-              backgroundColor: "#ff4500",
-              width: 10,
-              height: 10,
-            }}
-            stepTextStyle={{
-              opacity: 0,
-            }}
-            buttonStyle={{
-              // alignSelf: 'center',
-              alignItems: 'center',
-              // justifyContent: 'center',
-              // marginBottom: 60,
-              width: "35%",
-              // height: 40,
-              borderRadius: 50,
-              backgroundColor: "#ff0000",
-            }}
+      {/* <View style={{ flex: 1 }}> */}
+        {/* <ScrollView horizontal={false}>
+          <ScrollView horizontal={true}> */}
+          {/* <SafeAreaView> */}
+            <ScrollView
+            nestedScrollEnabled={true}
+            contentContainerStyle={{ flexGrow: 1 }}
           >
-          </Stepper>
-        </View>
-      </ScrollView>
+
+            <View style={styles.container}>
+              <View>
+                <Text style={styles.title}>
+                  Hi <Text style={{
+                    fontWeight: 'bold',
+                    fontFamily: 'sans-serif-light',
+                  }}>Melvin,</Text>
+                </Text>
+                <Text style={styles.subtitle}>
+                  Create your destiny
+                </Text>
+              </View>
+
+              <View>
+                <Stepper
+                  active={active}
+                  content={content}
+                  onBack={() => setActive((p) => p - 1)}
+                  onNext={() => setActive((P) => P + 1)}
+                  onFinish={onPressHandler}
+                  wrapperStyle={{
+                    margin: 20,
+
+                  }}
+                  stepStyle={{
+                    backgroundColor: "#ff4500",
+                    width: 10,
+                    height: 10,
+                  }}
+                  stepTextStyle={{
+                    opacity: 0,
+                  }}
+                  buttonStyle={{
+                    // alignSelf: 'center',
+                    alignItems: 'center',
+                    // justifyContent: 'center',
+                    // marginBottom: 60,
+                    width: "35%",
+                    // height: 40,
+                    borderRadius: 50,
+                    backgroundColor: "#ff0000",
+                  }}
+                >
+                </Stepper>
+              </View>
+            </View>
+
+          </ScrollView>
+          {/* </SafeAreaView> */}
+        {/* </ScrollView> */}
+      {/* </View> */}
     </LinearGradient>
   );
 

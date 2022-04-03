@@ -130,6 +130,15 @@
 // export default MultiSelectExample;
 
 
+
+
+
+
+
+
+
+
+
 // import component
 import React, { Component } from 'react';
 import { SafeAreaView, View } from 'react-native';
@@ -192,7 +201,7 @@ class MultiSelectExample extends Component {
       <View>
         <MultiSelect
           hideTags={true}
-          
+          flatListProps={{nestedScrollEnabled: true}}
           items={items}
           uniqueKey="id"
           ref={(component) => { this.multiSelect = component }}
@@ -200,7 +209,7 @@ class MultiSelectExample extends Component {
           selectedItems={selectedItems}
           selectText="Select your travel interest"
           searchInputPlaceholderText="Search interest..."
-          onChangeInput={(text) => console.log(text)}
+          // onChangeInput={(text) => console.log(text)}
           altFontFamily="ProximaNova-Light"
           tagRemoveIconColor="#6fbae8"
           tagBorderColor="#6fbae8"
@@ -238,3 +247,80 @@ class MultiSelectExample extends Component {
 }
 
 export default MultiSelectExample;
+
+
+
+
+// import React, { Component } from 'react';
+// import { View } from 'react-native';
+// import Icon from 'react-native-vector-icons/MaterialIcons';
+// import SectionedMultiSelect from 'react-native-sectioned-multi-select';
+
+// const items = [{
+//   id: 'Entertaiment',
+//   name: 'Entertaiment'
+// },
+// {
+//   id: 'Leisure',
+//   name: 'Leisure'
+// },
+// {
+//   id: 'Adventure',
+//   name: 'Adventure'
+// },
+// {
+//   id: 'Culture',
+//   name: 'Culture'
+// },
+// {
+//   id: 'Honeymoons',
+//   name: 'Honeymoons'
+// },
+// {
+//   id: 'Nature',
+//   name: 'Nature'
+// },
+// {
+//   id: 'djsjudksjd',
+//   name: 'Benue'
+// },
+// {
+//   id: 'sdhyaysdj',
+//   name: 'Kaduna'
+// },
+// {
+//   id: 'suudydjsjd',
+//   name: 'Abu'
+// }
+// ];
+
+// export default class MultiSelectExample extends Component {
+//   constructor() {
+//     super();
+//     this.state = {
+//       selectedItems: [],
+//     };
+//   }
+//   onSelectedItemsChange = (selectedItems) => {
+//     this.setState({ selectedItems });
+//   };
+
+//   render() {
+//     return (
+//       <View>
+//         <SectionedMultiSelect
+//           items={items}
+//           IconRenderer={Icon}
+//           uniqueKey="id"
+
+//           // subKey="children"
+//           selectText="Choose some things..."
+//           showDropDowns={true}
+//           readOnlyHeadings={true}
+//           onSelectedItemsChange={this.onSelectedItemsChange}
+//           selectedItems={this.state.selectedItems}
+//         />
+//       </View>
+//     );
+//   }
+// }
