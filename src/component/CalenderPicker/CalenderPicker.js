@@ -86,7 +86,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         width: '100%',
         flex: 1,
-        aspectRatio: 1,
     },
 });
 

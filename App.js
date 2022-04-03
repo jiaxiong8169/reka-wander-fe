@@ -3,57 +3,17 @@ import {
   StyleSheet,
   View,
   Text,
-  ScrollView,
-  SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-// import Stepper from './src/component/stepper/step';
 
+import PlannerSteps from './src/navigations/PlannerProgressSteps';
 import HomePage from './src/navigations/PlannerHomeScreen';
-import PaxPage from './src/navigations/PlannerPaxScreen';
-import ChooseDays from './src/navigations/PlannerCalendarScreen';
-import TravelBudget from './src/navigations/PlannertravelBudgetScreen';
-import TravelInterest from './src/navigations/PlannerTravelinterestScreen';
-import Withkids from './src/navigations/PlannerWithkidsScreen';
-import RentHomeStay from './src/navigations/PlannerRentHomeStayScreen';
-import RentCar from './src/navigations/PlannerRentCarScreen';
 import Loading from './src/navigations/PlannerLoadingScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-
-import Stepper from 'react-native-stepper-ui';
-// import { TouchableOpacity } from 'react-native-gesture-handler';
-
 const Stack = createStackNavigator();
-
-const content = [
-  <TravelInterest
-    quest='Travel interest'
-  />,
-  <PaxPage
-    quest='How many Pax?'
-  />,
-  <ChooseDays
-    quest='How many days?'
-  />,
-  <Withkids
-    quest='With kids?'
-  />,
-  
-
-  <RentHomeStay
-    quest='Rent Homestay?'
-  />,
-  <RentCar
-    quest='Rent Car?'
-  />,
-  
-  <TravelBudget
-    quest='Travel budget'
-  />,
-];
 
 function Finish() {
   return (
@@ -91,89 +51,9 @@ function Home({ navigation }) {
   )
 };
 
-function Planner({ navigation }) {
-  const [active, setActive] = useState(0);
-
-  const onPressHandler = () => {
-    navigation.navigate('FinishPage');
-  };
-  return (
-    <LinearGradient
-      colors={['#CFDDFC', 'white', 'white', '#CFDDFC']}
-      style={{ height: '100%', width: '100%' }}>
-      {/* <View style={{ flex: 1 }}> */}
-        {/* <ScrollView horizontal={false}>
-          <ScrollView horizontal={true}> */}
-          {/* <SafeAreaView> */}
-            <ScrollView
-            nestedScrollEnabled={true}
-            contentContainerStyle={{ flexGrow: 1 }}
-          >
-
-            <View style={styles.container}>
-              <View>
-                <Text style={styles.title}>
-                  Hi <Text style={{
-                    fontWeight: 'bold',
-                    fontFamily: 'sans-serif-light',
-                  }}>Melvin,</Text>
-                </Text>
-                <Text style={styles.subtitle}>
-                  Create your destiny
-                </Text>
-              </View>
-
-              <View>
-                <Stepper
-                  active={active}
-                  content={content}
-                  onBack={() => setActive((p) => p - 1)}
-                  onNext={() => setActive((P) => P + 1)}
-                  onFinish={onPressHandler}
-                  wrapperStyle={{
-                    margin: 20,
-                    alignItems: 'center',
-
-                  }}
-                  stepStyle={{
-                    backgroundColor: "#ff4500",
-                    width: 10,
-                    height: 10,
-                  }}
-                  stepTextStyle={{
-                    opacity: 0,
-                  }}
-                  buttonStyle={{
-                    alignSelf: 'auto',
-                    alignItems: 'center',
-                    // justifyContent: 'center',
-                    // marginRight: 0,
-                    margin: 20,
-                    marginTop: 5,
-                    width: "35%",
-                    // height: 40,
-                    borderRadius: 50,
-                    backgroundColor: "#ff0000",
-                  }}
-                >
-                </Stepper>
-              </View>
-            </View>
-
-          </ScrollView>
-          {/* </SafeAreaView> */}
-        {/* </ScrollView> */}
-      {/* </View> */}
-    </LinearGradient>
-  );
-
-}
-
 const App = () => {
   return (
     <NavigationContainer>
-
-
       <Stack.Navigator>
         <Stack.Screen
           name="HomePage"
@@ -184,7 +64,7 @@ const App = () => {
         />
         <Stack.Screen
           name="Planner_Question"
-          component={Planner}
+          component={PlannerSteps}
           options={{
             header: () => null
           }}
@@ -196,99 +76,10 @@ const App = () => {
             header: () => null
           }}
         >
-
         </Stack.Screen>
-
       </Stack.Navigator>
-
     </NavigationContainer>
   )
-
-  // const [active, setActive] = useState(0);
-
-  // const onPressHandler = ({ navigation }) => {
-  //   navigation.navigate('Finish');
-  // };
-
-
-
-  // const Stepper = {
-  //   activeColor: '#00bfff',
-  //   activeBorderColor: '#00bfff',
-  //   completeColor: '#00bfff',
-  //   completeBorderColor: '#00bfff',
-  //   defaultColor: '#ff4500',
-  //   defaultBorderColor: '#ff4500',
-  //   steps: { step },
-  //   size: 10,
-  // };
-
-  // const nextbuttonTextStyle = {
-  //   backgroundColor: "#ff0000",
-  //   width: 150,
-  //   height: 50,
-  //   borderRadius: 50,
-  //   color: "white",
-  //   padding: 12
-  // };
-
-  // const previousbuttonTextStyle = {
-  //   backgroundColor: "white",
-  //   padding: 10,
-  //   borderWidth: 1,
-  //   borderRadius: 12,
-  //   borderColor: "#3584c5",
-  //   color: "#3584c5"
-  // };
-
-
-  // return (
-
-  //   <LinearGradient
-  //     colors={['#CFDDFC', 'white', 'white', '#CFDDFC']}
-  //     style={{ height: '100%', width: '100%' }}>
-
-  //     <View style={styles.container}>
-  //       <Text style={styles.title}>
-  //         Hi <Text style={{
-  //           fontWeight: 'bold',
-  //           fontFamily: 'sans-serif-light',
-  //         }}>Melvin,</Text>
-  //       </Text>
-  //       <Text style={styles.subtitle}>
-  //         Create your destiny
-  //       </Text>
-
-  //       <Stepper
-  //         active={active}
-  //         content={content}
-  //         onBack={() => setActive((p) => p - 1)}
-  //         onNext={() => setActive((P) => P + 1)}
-  //         onFinish={onPressHandler}
-  //         wrapperStyle={{
-  //           // height: '93%',
-  //           margin: 10,
-  //         }}
-  //         stepStyle={{
-  //           backgroundColor: "#ff4500",
-  //           width: 15,
-  //           height: 15,
-  //         }}
-  //         stepTextStyle={{
-  //           opacity: 0,
-  //         }}
-  //         buttonStyle={{
-  //           // alignSelf: 'center',
-  //           // alignItems: 'center',
-  //           // marginBottom: 60,
-  //           backgroundColor: "#ff0000",
-  //         }}
-  //       >
-  //       </Stepper>
-  //     </View>
-
-  //   </LinearGradient>
-  // );
 };
 
 const styles = StyleSheet.create({
@@ -299,13 +90,10 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: '300',
     fontSize: 40,
-    // marginHorizontal: 10,
-    // marginTop: 10,
     color: `#4169E1`,
   },
   subtitle: {
     fontSize: 15,
-    // marginLeft: 10,
     color: `#4169E1`,
   },
 });

@@ -13,7 +13,7 @@ const ChooseDays = (props) => {
     return (
 
         <View style={styles.body}>
-            <Card style={{ width: '100%' }}>
+            <Card>
                 <View style={styles.body_container}>
                     <View style={{ alignItems: 'center' }}>
                         <Text style={styles.question}>

@@ -356,7 +356,7 @@ export default class MultiSelectExample extends Component {
           uniqueKey="id"
 
           subKey="children"
-          selectText="Choose some things..."
+          selectText="Choose your interest"
           searchPlaceholderText="Search your interest"
           showDropDowns={false}
           readOnlyHeadings={true}
