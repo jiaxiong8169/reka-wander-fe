@@ -8,6 +8,7 @@ import {
 import React from 'react';
 import {FlatList, Image} from 'react-native';
 import {SearchIcon, Text} from 'native-base';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import GradientBackground from '../../components/GradientBackground';
 
 const {width} = Dimensions.get('window');
@@ -63,7 +64,8 @@ export default function SpotsHomeScreen_Places({navigation}) {
             showsHorizontalScrollIndicator={false}
             data={data}
             renderItem={({item, index}) => (
-              <View style={styles.view}>
+              <TouchableOpacity style={styles.view}
+              onPress={() => navigation.navigate('NearByDetails')}>
                 <Image
                   source={require('../../assets/restaurant.jpg')}
                   style={{
@@ -74,7 +76,7 @@ export default function SpotsHomeScreen_Places({navigation}) {
                     borderRadius: 10,
                   }}
                 />
-              </View>
+              </TouchableOpacity>
             )}
           />
         </View>
@@ -96,7 +98,8 @@ export default function SpotsHomeScreen_Places({navigation}) {
             showsHorizontalScrollIndicator={false}
             data={data}
             renderItem={({item, index}) => (
-              <View style={styles.view}>
+              <TouchableOpacity style={styles.view}
+              onPress={() => navigation.navigate('NearByDetails')}>
                 <Image
                   source={require('../../assets/experiences.jpg')}
                   style={{
@@ -107,7 +110,7 @@ export default function SpotsHomeScreen_Places({navigation}) {
                     borderRadius: 10,
                   }}
                 />
-              </View>
+              </TouchableOpacity>
             )}
           />
         </View>
@@ -129,7 +132,8 @@ export default function SpotsHomeScreen_Places({navigation}) {
             showsHorizontalScrollIndicator={false}
             data={data}
             renderItem={({item, index}) => (
-              <View style={styles.view}>
+              <TouchableOpacity style={styles.view}
+              onPress={() => navigation.navigate('NearByDetails')}>
                 <Image
                   source={require('../../assets/home.jpg')}
                   style={{
@@ -140,7 +144,7 @@ export default function SpotsHomeScreen_Places({navigation}) {
                     borderRadius: 10,
                   }}
                 />
-              </View>
+              </TouchableOpacity>
             )}
           />
         </View>

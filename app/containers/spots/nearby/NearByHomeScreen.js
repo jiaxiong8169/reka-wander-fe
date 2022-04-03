@@ -12,6 +12,7 @@ import {SearchIcon, Text} from 'native-base';
 import GradientBackground from '../../../components/GradientBackground';
 import {TabView, SceneMap} from 'react-native-tab-view';
 import { TabBar } from 'react-native-tab-view';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 
@@ -68,7 +69,8 @@ export default function NearByHomeScreen({navigation}) {
             showsHorizontalScrollIndicator={false}
             data={data}
             renderItem={({item, index}) => (
-              <View style={styles.view}>
+              <TouchableOpacity style={styles.view}
+              onPress={() => navigation.navigate('NearByDetails')}>
                 <Image
                   source={require('../../../assets/restaurant.jpg')}
                   style={{
@@ -79,7 +81,7 @@ export default function NearByHomeScreen({navigation}) {
                     borderRadius: 10,
                   }}
                 />
-              </View>
+              </TouchableOpacity>
             )}
           />
         </View>
@@ -101,7 +103,8 @@ export default function NearByHomeScreen({navigation}) {
             showsHorizontalScrollIndicator={false}
             data={data}
             renderItem={({item, index}) => (
-              <View style={styles.view}>
+              <TouchableOpacity style={styles.view}
+              onPress={() => navigation.navigate('NearByDetails')}>
                 <Image
                   source={require('../../../assets/experiences.jpg')}
                   style={{
@@ -112,7 +115,7 @@ export default function NearByHomeScreen({navigation}) {
                     borderRadius: 10,
                   }}
                 />
-              </View>
+              </TouchableOpacity>
             )}
           />
         </View>
@@ -134,7 +137,8 @@ export default function NearByHomeScreen({navigation}) {
             showsHorizontalScrollIndicator={false}
             data={data}
             renderItem={({item, index}) => (
-              <View style={styles.view}>
+              <TouchableOpacity style={styles.view}
+              onPress={() => navigation.navigate('NearByDetails')}>
                 <Image
                   source={require('../../../assets/home.jpg')}
                   style={{
@@ -145,7 +149,7 @@ export default function NearByHomeScreen({navigation}) {
                     borderRadius: 10,
                   }}
                 />
-              </View>
+              </TouchableOpacity>
             )}
           />
         </View>
