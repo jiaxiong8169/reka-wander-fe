@@ -2,6 +2,7 @@ import { Link } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native';
 import { useAuth } from '../../hooks/useAuth';
+import GoogleAuth from './google-auth';
 
 const SignInScreen = ({ navigation }) => {
 
@@ -59,9 +60,7 @@ const SignInScreen = ({ navigation }) => {
                             {"Email\t\t"}
                         </Text>
                     </Link>
-                    <Text style={styles.otherMethod}>
-                        {"Google"}
-                    </Text>
+                    <GoogleAuth />
                 </Text>
             </View>
             <View style={{ flex: 1, alignSelf: 'center' }}>
