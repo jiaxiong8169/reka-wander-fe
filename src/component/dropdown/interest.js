@@ -185,7 +185,7 @@ const items = [{
 class MultiSelectExample extends Component {
 
   state = {
-    selectedItems: []
+    selectedItems: [],
   };
 
 
@@ -201,7 +201,7 @@ class MultiSelectExample extends Component {
       <View>
         <MultiSelect
           hideTags={true}
-          flatListProps={{nestedScrollEnabled: true}}
+          flatListProps={{ nestedScrollEnabled: true }}
           items={items}
           uniqueKey="id"
           ref={(component) => { this.multiSelect = component }}
@@ -214,7 +214,7 @@ class MultiSelectExample extends Component {
           tagRemoveIconColor="#6fbae8"
           tagBorderColor="#6fbae8"
           tagTextColor="#483D8B"
-          styleTextTag={{fontSize: 10}}
+
           selectedItemTextColor="#CCC"
           selectedItemIconColor="#191970"
           // styleTextDropdownSelected={{ color: "#AFEEEE" }}
@@ -222,7 +222,9 @@ class MultiSelectExample extends Component {
           itemTextColor="#483D8B"
           submitButtonColor="#6fbae8"
           displayKey="name"
-          searchInputStyle={{ color: "#CCC" }}
+          searchInputStyle={{
+            color: "#CCC"
+          }}
           // submitButtonColor="#CCC"
           submitButtonText="Submit"
           // noItemsText='Please select at least one'
@@ -233,7 +235,29 @@ class MultiSelectExample extends Component {
           styleItemsContainer={{
             // margin: 10,
           }}
-          styleListContainer={{ maxHeight: 150 }}
+          styleListContainer={{
+            // maxHeight: 150
+          }}
+          tagContainerStyle={
+            {
+              justifyContent: 'flex-start',
+              height: 33,
+              width: '40%',
+              paddingLeft: 10,
+              paddingRight: 10,
+            }
+          }
+          styleTextTag={
+            {
+              fontSize: 10,
+            }
+          }
+          styleDropdownMenuSubsection={{
+            paddingVertical: 0,
+          }}
+          // fixedHeight={true}
+        // textColor="#AFEEEE"
+
 
         />
         <View>

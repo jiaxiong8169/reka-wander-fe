@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     // marginBottom: '10%',
     marginBottom: 20,
     marginTop: 30,
-    marginHorizontal: '8%',
+    // marginHorizontal: '8%',
     width: '100%',
     // flex: 1,
     // backgroundColor: '#ffffff',

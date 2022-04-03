@@ -32,6 +32,9 @@ const content = [
   <TravelInterest
     quest='Travel interest'
   />,
+  <PaxPage
+    quest='How many Pax?'
+  />,
   <ChooseDays
     quest='How many days?'
   />,
@@ -46,9 +49,7 @@ const content = [
   <RentCar
     quest='Rent Car?'
   />,
-  <PaxPage
-    quest='How many Pax?'
-  />,
+  
   <TravelBudget
     quest='Travel budget'
   />,
@@ -131,6 +132,7 @@ function Planner({ navigation }) {
                   onFinish={onPressHandler}
                   wrapperStyle={{
                     margin: 20,
+                    alignItems: 'center',
 
                   }}
                   stepStyle={{
@@ -142,10 +144,12 @@ function Planner({ navigation }) {
                     opacity: 0,
                   }}
                   buttonStyle={{
-                    // alignSelf: 'center',
+                    alignSelf: 'auto',
                     alignItems: 'center',
                     // justifyContent: 'center',
-                    // marginBottom: 60,
+                    // marginRight: 0,
+                    margin: 20,
+                    marginTop: 5,
                     width: "35%",
                     // height: 40,
                     borderRadius: 50,

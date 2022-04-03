@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import {
-    StyleSheet,
-    Text,
-    View
-} from 'react-native';
+import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
+
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
 
 export default class Calendar extends Component {
     constructor(props) {
@@ -32,9 +31,14 @@ export default class Calendar extends Component {
     render() {
         const { selectedStartDate, selectedEndDate } = this.state;
         const minDate = new Date(); // Today
-        const maxDate = new Date(2050, 12, 31);
-        const formattedStartDate = selectedStartDate ? selectedStartDate.format('YYYY-MM-DD') : '';
-        const formattedEndDate = selectedEndDate ? selectedEndDate.format('YYYY-MM-DD') : '';
+        const year = minDate.getFullYear();
+        const maxDate = new Date(year + 2, 12, 31);
+        const formattedStartDate = selectedStartDate
+            ? selectedStartDate.format('YYYY-MM-DD')
+            : '';
+        const formattedEndDate = selectedEndDate
+            ? selectedEndDate.format('YYYY-MM-DD')
+            : '';
         return (
             <View style={styles.container}>
                 {/* calendar size controlled in makeStyles.js 36 -> index.js 144
@@ -42,26 +46,35 @@ export default class Calendar extends Component {
 
                 */}
                 <CalendarPicker
-                    // scrollable
-                    // months={['January', 'Febuary','March','April','May','June','July','August','September','October','November','December']}
+                    width={width - 100}
+                    style={styles.container}
                     minDate={minDate}
                     maxDate={maxDate}
-                    todayBackgroundColor="#4169E1"
-                    selectedDayColor="#9370DB"
+                    selectedDayColor="#4169E1"
                     selectedDayTextColor="#FFFFFF"
                     allowRangeSelection={true}
                     onDateChange={this.onDateChange}
                 />
 
-                <View style={style = { flexDirection: 'row', justifyContent: 'space-between', }}>
-                    <Text style={{ fontSize: 14, fontWeight: "400", }}>Start Date</Text>
+                <View
+                    style={
+                        { flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }
+                    }>
+                    <Text style={{ fontSize: 14, fontWeight: '400' }}>Start Date</Text>
                     {/* <Text style={{ fontSize: 14, fontWeight: 400,}}>Start Date{formattedStartDate}</Text> */}
-                    <Text style={{ fontSize: 14, fontWeight: "400", }}>End Date</Text>
+                    <Text style={{ fontSize: 14, fontWeight: '400' }}>End Date</Text>
                     {/* <Text style={{ fontSize: 14, fontWeight: 400,}}>End Date{formattedEndDate}</Text> */}
                 </View>
-                <View style={style = { flexDirection: 'row', justifyContent: 'space-between', }}>
-                    <Text style={{ fontSize: 14, fontWeight: "400", }}>{formattedStartDate}</Text>
-                    <Text style={{ fontSize: 14, fontWeight: "400", }}>{formattedEndDate}</Text>
+                <View
+                    style={
+                       { flexDirection: 'row', justifyContent: 'space-between' }
+                    }>
+                    <Text style={{ fontSize: 14, fontWeight: '400' }}>
+                        {formattedStartDate}
+                    </Text>
+                    <Text style={{ fontSize: 14, fontWeight: '400' }}>
+                        {formattedEndDate}
+                    </Text>
                 </View>
             </View>
         );
@@ -71,6 +84,9 @@ export default class Calendar extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#FFFFFF',
+        width: '100%',
+        flex: 1,
+        aspectRatio: 1,
     },
 });
 

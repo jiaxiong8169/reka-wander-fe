@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     body: {
         marginBottom: 20,
         marginTop: 30,
-        marginHorizontal: 13,
+        // marginHorizontal: 13,
         width: '100%',
     },
     body_container: {

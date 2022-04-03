@@ -25,7 +25,9 @@ const TravelInterest = (props) => {
     // <ScrollView>
     // <SafeAreaView>
     <View style={styles.body}>
-      <Card style={{ width: '100%' }}>
+      <Card style={{ 
+        width: '100%' 
+        }}>
         <View style={styles.body_container}>
           <View style={{ alignItems: 'center' }}>
             <Text style={styles.question}>
@@ -66,7 +68,7 @@ const styles = StyleSheet.create({
     // marginHorizontal: '8%',
     marginBottom: 20,
     marginTop: 30,
-    marginHorizontal: '8%',
+    // marginHorizontal: '1%',
     width: '100%',
     //this is to format the dropdown box, it fix this issue => when click more than 2, the card will become fat
   },
