@@ -6,6 +6,7 @@ import {
   Image,
   SafeAreaView,
   ScrollView,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import MultiSelectExample from '../component/dropdown/interest';
 import Card from '../component/card/card';
@@ -24,35 +25,39 @@ const TravelInterest = (props) => {
   return (
     // <ScrollView>
     // <SafeAreaView>
-    <View style={styles.body}>
-      <Card style={{ 
-        width: '100%' 
-        }}>
-        <View style={styles.body_container}>
-          <View style={{ alignItems: 'center' }}>
-            <Text style={styles.question}>
-              {props.quest}
-            </Text>
-          </View>
-          <MultiSelectExample />
+    <TouchableWithoutFeedback>
 
-          <View style={{ marginTop: 10, }}>
-            <Image
-              source={require('../assets/Travel_interest.png')}
-              style={{
-                padding: 1,
-                aspectRatio: 1,
-                width: '100%',
-                resizeMode: 'contain',
-                // justifyContent: 'flex-end',
-                alignItems: 'flex-end',
-                height: undefined
-              }}
-            />
+
+      <View style={styles.body}>
+        <Card style={{
+          width: '100%'
+        }}>
+          <View style={styles.body_container}>
+            <View style={{ alignItems: 'center' }}>
+              <Text style={styles.question}>
+                {props.quest}
+              </Text>
+            </View>
+            <MultiSelectExample />
+
+            <View style={{ marginTop: 10, }}>
+              <Image
+                source={require('../assets/Travel_interest.png')}
+                style={{
+                  padding: 1,
+                  aspectRatio: 1,
+                  width: '100%',
+                  resizeMode: 'contain',
+                  // justifyContent: 'flex-end',
+                  alignItems: 'flex-end',
+                  height: undefined
+                }}
+              />
+            </View>
           </View>
-        </View>
-      </Card>
-    </View>
+        </Card>
+      </View>
+    </TouchableWithoutFeedback>
     // </SafeAreaView>
     // </ScrollView>
   );
