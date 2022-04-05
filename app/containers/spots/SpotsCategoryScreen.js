@@ -17,7 +17,7 @@ export default function NearByCategoryScreen({navigation}) {
           mt="1"
           marginRight="2"
           onPress={() => navigation.goBack()}></ChevronLeftIcon>
-        <BlueSubtitle text1={''} text2={'Hotels'}></BlueSubtitle>
+        <BlueSubtitle text1={''} text2={'Hotels'} style={{marginBottom: 20}}></BlueSubtitle>
       </View>
       <View>
         <Card style={{height: 150, flexDirection: 'row'}}>

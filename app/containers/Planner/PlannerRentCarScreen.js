@@ -6,9 +6,9 @@ import {
     Image,
 } from 'react-native';
 // import SelectPax from '../component/dropdown/Pax';
-import Card from '../component/card/card';
+import Card from '../../components/card/card';
 // import RadioGroup from 'react-native-radio-button-group';
-import RadioButtonRN from '../component/multiple_choice/multiplechoice'
+import RadioButtonRN from '../../components/multiple_choice/multiplechoice'
 
 const option = [
     { id: 'Yes', label: 'Yes' },
@@ -43,7 +43,7 @@ const Withkids = (props) => {
                 </View>
                 <View style={{ marginTop: 10 }}>
                     <Image
-                        source={require('../assets/kids.png')}
+                        source={require('../../assets/kids.png')}
                         style={{
                             padding: 1,
                             aspectRatio: 1,
