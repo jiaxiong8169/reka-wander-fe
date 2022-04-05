@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
-import {
-    StyleSheet,
-    View,
-    Text,
-} from 'react-native';
+import { StyleSheet, View, Text, } from 'react-native';
+import Modal from "react-native-modal";
+
 import Calendar from '../../components/CalenderPicker/CalenderPicker';
 import Card from '../../components/card/card';
 
 const ChooseDays = (props) => {
-
+    const [isModalVisible, setModalVisible] = useState(true);
     return (
 
         <View style={styles.body}>
@@ -20,9 +18,18 @@ const ChooseDays = (props) => {
                         </Text>
                     </View>
                     <Calendar />
+                    <Modal
+                        isVisible={isModalVisible}
+                        onBackdropPress={() => setModalVisible(false)}
+                    >
+                        <View>
+                            <Text>I am the modal content!</Text>
+                        </View>
+                    </Modal>
+
                 </View>
-            </Card>
-        </View>
+            </Card >
+        </View >
 
     );
 };

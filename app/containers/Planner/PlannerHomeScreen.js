@@ -1,11 +1,7 @@
-import React, { useState } from 'react';
-import {
-    StyleSheet,
-    View,
-    Text,
-    ScrollView,
-} from 'react-native';
+import React from 'react';
+import { StyleSheet, View, Text, } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+
 
 const HomePage = () => {
     return (
