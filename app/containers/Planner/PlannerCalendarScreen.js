@@ -4,9 +4,8 @@ import {
     View,
     Text,
 } from 'react-native';
-import Calendar from '../component/CalenderPicker/CalenderPicker';
-import Card from '../component/card/card';
-
+import Calendar from '../../components/CalenderPicker/CalenderPicker';
+import Card from '../../components/card/card';
 
 const ChooseDays = (props) => {
 

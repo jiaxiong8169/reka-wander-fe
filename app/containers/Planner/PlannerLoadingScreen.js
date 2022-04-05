@@ -4,9 +4,8 @@ import {
     View,
     Text,
 } from 'react-native';
-import Card from '../component/card/card';
-import Indicator from '../component/Indicator/Indicator';
-
+import Card from '../../components/card/card';
+import Indicator from '../../components/Indicator/Indicator';
 const Loading = (props) => {
     return (
         <View style={styles.body}>

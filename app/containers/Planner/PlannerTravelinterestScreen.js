@@ -8,8 +8,8 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
 } from 'react-native';
-import MultiSelectExample from '../component/dropdown/interest';
-import Card from '../component/card/card';
+import MultiSelectExample from '../../components/dropdown/interest';
+import Card from '../../components/card/card';
 // import Multiselect from 'multiselect-react-dropdown';
 // import { LogBox } from 'react-native'
 
@@ -26,8 +26,6 @@ const TravelInterest = (props) => {
     // <ScrollView>
     // <SafeAreaView>
     <TouchableWithoutFeedback>
-
-
       <View style={styles.body}>
         <Card style={{
           width: '100%'
@@ -42,7 +40,7 @@ const TravelInterest = (props) => {
 
             <View style={{ marginTop: 10, }}>
               <Image
-                source={require('../assets/Travel_interest.png')}
+                source={require('../../assets/Travel_interest.png')}
                 style={{
                   padding: 1,
                   aspectRatio: 1,

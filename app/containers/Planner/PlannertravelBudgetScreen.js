@@ -5,24 +5,21 @@ import {
   Text,
   Image,
 } from 'react-native';
-import SelectPax from '../component/dropdown/Pax';
-import Card from '../component/card/card';
+import SelectBudget from '../../components/dropdown/budget';
+import Card from '../../components/card/card';
 
-const PaxPage = (props) => {
+const TravelBudget = (props) => {
   return (
     <View style={styles.body}>
-      <Card style={{ 
-        width: '100%'
-         }}>
+      <Card style={{ width: '100%' }}>
         <View style={styles.body_container}>
           <Text style={styles.question}>
             {props.quest}
           </Text>
-          <SelectPax />
-
+          <SelectBudget />
           <View style={{ marginTop: 10 }}>
             <Image
-              source={require('../assets/People.png')}
+              source={require('../../assets/budget.png')}
               style={{
                 padding: 1,
                 aspectRatio: 1,
@@ -84,4 +81,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PaxPage;
+export default TravelBudget;

@@ -3,7 +3,6 @@ import { View, ScrollView, TouchableOpacity, Text } from 'react-native';
 import PropTypes from 'prop-types';
 
 import ProgressButtons from './ProgressButtons';
-
 class ProgressStep extends Component {
   onNextStep = async () => {
     this.props.onNext && (await this.props.onNext());
