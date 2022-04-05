@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, Text, ScrollView} from 'react-native';
+import { StyleSheet, View, Text, ScrollView } from 'react-native';
 
 import PaxPage from './PlannerPaxScreen';
 import ChooseDays from './PlannerCalendarScreen';
@@ -13,7 +13,7 @@ import ProgressStep from '../../components/stepper/ProgressStep';
 import ProgressSteps from '../../components/stepper/ProgressSteps';
 import GradientBackground from '../../components/GradientBackground';
 
-export default function PlannerSteps({navigation}) {
+export default function PlannerSteps({ navigation }) {
   const onPressHandler = () => {
     navigation.navigate('FinishPage');
   };
@@ -65,7 +65,7 @@ export default function PlannerSteps({navigation}) {
     <GradientBackground>
       <ScrollView
         nestedScrollEnabled={true}
-        contentContainerStyle={{flexGrow: 1}}
+        contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <View>
@@ -86,11 +86,12 @@ export default function PlannerSteps({navigation}) {
               paddingHorizontal: 20,
             }}>
             <ProgressSteps {...progressStepsStyle}>
+
               <ProgressStep
-                nextBtnTextStyle={nextbuttonTextStyle}
-              >
-                <TravelInterest quest="Travel interest" />
+                nextBtnTextStyle={nextbuttonTextStyle}>
+                <ChooseDays quest="How many days?" />
               </ProgressStep>
+
               <ProgressStep
                 nextBtnTextStyle={nextbuttonTextStyle}
                 previousBtnTextStyle={previousbuttonTextStyle}>
@@ -100,7 +101,7 @@ export default function PlannerSteps({navigation}) {
               <ProgressStep
                 nextBtnTextStyle={nextbuttonTextStyle}
                 previousBtnTextStyle={previousbuttonTextStyle}>
-                <ChooseDays quest="How many days?" />
+                <TravelInterest quest="Travel interest" />
               </ProgressStep>
 
               <ProgressStep
@@ -138,7 +139,7 @@ export default function PlannerSteps({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    // padding: 20,
   },
   title: {
     fontWeight: '300',
