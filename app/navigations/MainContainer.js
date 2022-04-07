@@ -204,7 +204,7 @@ function MainContainer() {
             headerShown: false
           }}
         />
-        <Tab.Screen name='Agency' component={NearByCategoryScreen} options={{
+        <Tab.Screen name='Agency' component={Temp} options={{
           headerShown: false
         }} />
         <Tab.Screen name='Store' component={Temp} options={{

@@ -28,7 +28,7 @@ const HomePage = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 20,
+        // padding: 20,
         // alignContent: 'center',
         alignItems: 'center',
         justifyContent: 'center',
