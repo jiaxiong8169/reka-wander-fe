@@ -17,7 +17,8 @@ import NearByDetailsScreen from '../containers/spots/nearby/NearByDetailsScreen'
 
 import PlannerSteps from '../containers/Planner/PlannerProgressSteps';
 import HomePage from '../containers/Planner/PlannerHomeScreen';
-import Loading from '../containers/Planner/PlannerLoadingScreen';
+import Recommended from '../containers/Planner/RecommendedPlaceScreen';
+import LoadingScreen from '../containers/Planner/PlannerLoadingScreen';
 import BlueSubtitle from '../components/BlueSubtitle';
 
 //Screen names
@@ -33,25 +34,10 @@ const Temp = () => (
 );
 
 
-function Finish() {
-  return (
-    <GradientBackground>
-      <BlueSubtitle text1="Hi" text2="Melvin," >
-
-      </BlueSubtitle>
-      <Text style={styles.subtitle}>
-          Create your destiny
-        </Text>
-      <Loading
-          quest='We are preparing your holiday.'
-        />
-    </GradientBackground>
-  )
-};
-
 function Home({ navigation }) {
   const onPressHandler = () => {
-    navigation.navigate('Planner_Question');
+    // navigation.navigate('Planner_Question');
+    navigation.navigate('Recomendation');
   };
   return (
     <TouchableOpacity
@@ -130,12 +116,20 @@ function PlannerHomeStack() {
         />
         <Stack.Screen
           name="FinishPage"
-          component={Finish}
+          component={LoadingScreen}
           options={{
             header: () => null
           }}
-        >
-        </Stack.Screen>
+        />
+        <Stack.Screen
+        name="Recomendation"
+        component={Recommended}
+        options={{
+          header:() => null
+        }}
+        
+        />
+
       </Stack.Navigator>
   );
 }

@@ -8,6 +8,7 @@ import TravelInterest from './PlannerTravelinterestScreen';
 import Withkids from './PlannerWithkidsScreen';
 import RentHomeStay from './PlannerRentHomeStayScreen';
 import RentCar from './PlannerRentCarScreen';
+import Recommended from './RecommendedPlaceScreen';
 
 import ProgressStep from '../../components/stepper/ProgressStep';
 import ProgressSteps from '../../components/stepper/ProgressSteps';
@@ -16,6 +17,7 @@ import GradientBackground from '../../components/GradientBackground';
 export default function PlannerSteps({ navigation }) {
   const onPressHandler = () => {
     navigation.navigate('FinishPage');
+    
   };
 
   const nextbuttonTextStyle = {

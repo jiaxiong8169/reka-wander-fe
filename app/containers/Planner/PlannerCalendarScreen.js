@@ -18,20 +18,15 @@ const ChooseDays = (props) => {
                         </Text>
                     </View>
                     <Calendar />
-
-
                     <Model>
-
                         <Image
                             source={require('../../assets/calender.gif')}
                             style={{ width: 220, height: 200 }} />
 
                     </Model>
-
-
                 </View>
             </Card >
-            <Button testID={'close-button'} onPress={props.onPress} title="Instructions" />
+            {/* <Button testID={'close-button'} onPress={props.onPress} title="Instructions" /> */}
         </View >
 
     );

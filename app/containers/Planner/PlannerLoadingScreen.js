@@ -6,26 +6,41 @@ import {
 } from 'react-native';
 import Card from '../../components/card/card';
 import Indicator from '../../components/Indicator/Indicator';
-const Loading = (props) => {
+import GradientBackground from '../../components/GradientBackground';
+import BlueSubtitle from '../../components/BlueSubtitle';
+
+export default function LoadingScreen({ navigation }) {
+    const onPressHandler = () => {
+        navigation.navigate('FinishPage');
+    };
+    
     return (
-        <View style={styles.body}>
-            <Card>
-                <View style={{
-                    alignItems: 'center',
-                    justifyContent: 'space-between'
-                }}>
-                    <Text style={styles.title}>
-                        {props.quest}</Text>
-                    <Text style={styles.subtitle}>
-                        Please wait
-                    </Text>
-                    <Indicator />
-                </View>
-                
-                    
-                
-            </Card>
-        </View>
+        <GradientBackground>
+            <BlueSubtitle text1="Hi" text2="Melvin," >
+
+            </BlueSubtitle>
+            <Text style={styles.subtitle}>
+                Create your destiny
+            </Text>
+            <View style={styles.body}>
+                <Card>
+                    <View style={{
+                        alignItems: 'center',
+                        justifyContent: 'space-between'
+                    }}>
+                        <Text style={styles.title}>
+                            We are preparing your holiday</Text>
+                        <Text style={styles.content}>
+                            Please wait
+                        </Text>
+                        <Indicator />
+                    </View>
+
+
+
+                </Card>
+            </View>
+        </GradientBackground>
 
     );
 };
@@ -50,13 +65,14 @@ const styles = StyleSheet.create({
         padding: 20,
         textAlign: 'center',
     },
-    subtitle: {
+    content: {
         color: '#000000',
         fontWeight: '400',
         fontSize: 23,
         // marginBottom: 30,
-
+    },
+    subtitle: {
+        fontSize: 15,
+        color: `#4169E1`,
     },
 });
-
-export default Loading;
