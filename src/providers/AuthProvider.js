@@ -15,7 +15,7 @@ const AuthProvider = ({ children }) => {
     }, []);
 
     useEffect(() => {
-        if (!!authError) setTimeout(() => { setAuthError('') }, 5000)
+        if (!!authError) setTimeout(() => { setAuthError('') }, 2000)
     }, [authError])
 
     async function loadStorageData() {
@@ -35,11 +35,13 @@ const AuthProvider = ({ children }) => {
     }
 
     const signUp = async (userRegInfo) => {
+        const { email, password } = userRegInfo;
         setLoading(true);
-        AuthService.signUp(userRegInfo).then((_authData) => {
+        return AuthService.signUp(userRegInfo).then((_authData) => {
             setLoading(false);
             return true;
         })
+            .then(() => signIn(email, password))
             .catch((err) => {
                 err.response.json().then(data => {
                     setAuthError(data.message);
@@ -51,11 +53,11 @@ const AuthProvider = ({ children }) => {
 
     const signIn = async (email, password) => {
         setLoading(true);
-        AuthService.signIn(email, password).then((_authData) => {
-            console.log(_authData);
+        return AuthService.signIn(email, password).then((_authData) => {
             setAuthData(_authData);
             EncryptedStorage.setItem('auth_data', JSON.stringify(_authData))
             setLoading(false);
+            return _authData;
         })
             .catch((err) => {
                 err.response.json().then(data => {
@@ -66,13 +68,28 @@ const AuthProvider = ({ children }) => {
             });
     }
 
+    const signInWithGoogle = async (email, idToken) => {
+        return AuthService.signInWithGoogle(email, idToken).then((_authData) => {
+            setAuthData(_authData);
+            EncryptedStorage.setItem('auth_data', JSON.stringify(_authData))
+            setLoading(false);
+        })
+            .catch((err) => {
+                err.response.json().then(data => {
+                    console.log(data);
+                    setAuthError(data.message);
+                });
+                throw err;
+            });
+    }
+
     const signOut = async () => {
         setAuthData(undefined);
         EncryptedStorage.removeItem('auth_data');
     }
 
     return (
-        <AuthContext.Provider value={{ authData, authError, loading, signIn, signOut, signUp }}>
+        <AuthContext.Provider value={{ authData, authError, loading, signIn, signOut, signUp, setAuthError, signInWithGoogle, setAuthData }}>
             {children}
         </AuthContext.Provider>
     )

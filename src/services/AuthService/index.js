@@ -11,8 +11,8 @@ const signIn = (email, password) => {
         })
 }
 
-const signUp = (userRegInfo) => {
-    return post("/auth/register", userRegInfo)
+const signInWithGoogle = (email, idToken) => {
+    return post("/auth/login/google", { email }, { "Authorization": `Bearer ${idToken}` })
         .then(data => {
             const { user, tokens } = data.data;
             return {
@@ -22,9 +22,18 @@ const signUp = (userRegInfo) => {
         })
 }
 
+const signUp = (userRegInfo) => {
+    return post("/auth/register", userRegInfo)
+        .then(data => {
+            const { user } = data.data;
+            return user
+        })
+}
+
 export const AuthService = {
     signIn,
     signUp,
+    signInWithGoogle,
 }
 
 export default AuthService;

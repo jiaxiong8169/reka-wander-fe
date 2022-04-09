@@ -1,19 +1,34 @@
 import React, { useState } from 'react';
 import { NavigationContainer } from "@react-navigation/native"
-import { AppStack, AuthStack } from "../stacks"
 import { useAuth } from '../hooks/useAuth';
 import { Text, Modal, View, StyleSheet } from 'react-native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import SignInScreen from '../scenes/auth';
+import { HomeScreen } from '../scenes/home';
+import { SpotsScreen } from '../scenes/spots';
+import { ConfirmPhoneScreen } from '../scenes/auth/confirm-phone';
+
+const Stack = createNativeStackNavigator();
 
 export const Router = () => {
 
-    const { authData, loading, authError } = useAuth();
-    const [modalVisible, setModalVisible] = useState(false);
+    const { loading, authError } = useAuth();
+    const [setModalVisible] = useState(false);
     if (loading) {
         return <Text>Loading</Text>
     }
     return (
         <NavigationContainer>
-            {authData ? <AppStack /> : <AuthStack />}
+            <Stack.Navigator>
+                <Stack.Group>
+                    <Stack.Screen options={{ headerShown: false }} name="Home Screen" component={HomeScreen} />
+                    <Stack.Screen options={{ headerShown: false }} name="Spot Screen" component={SpotsScreen} />
+                </Stack.Group>
+                <Stack.Group screenOptions={{ presentation: 'modal' }}>
+                    <Stack.Screen options={{ headerShown: false }} name="Sign In Screen" component={SignInScreen} />
+                    <Stack.Screen options={{ headerShown: false }} name="Confirm Phone" component={ConfirmPhoneScreen} />
+                </Stack.Group>
+            </Stack.Navigator>
             <Modal animationType="slide" transparent visible={!!authError} onRequestClose={() => setModalVisible(false)}>
                 <View style={styles.modalView}>
                     <Text style={styles.modalText}>

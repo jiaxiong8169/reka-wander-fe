@@ -28,6 +28,7 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import { Router } from './src/navigations';
 import AuthProvider from './src/providers/AuthProvider';
+import HttpProvider from './src/providers/HttpProvider';
 
 const Section = ({ children, title }) => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -64,7 +65,9 @@ const App = () => {
 
   return (
     <AuthProvider>
-      <Router />
+      <HttpProvider>
+        <Router />
+      </HttpProvider>
     </AuthProvider>
   );
 };
