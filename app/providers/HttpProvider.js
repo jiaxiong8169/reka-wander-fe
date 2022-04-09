@@ -13,7 +13,8 @@ const HttpProvider = ({ children }) => {
         return fetch(`http://10.0.2.2:9000${urlPath}`, {
             method,
             headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify(body)
         })
@@ -55,6 +56,9 @@ const HttpProvider = ({ children }) => {
     const fetchWithoutAuth = () => (urlPath, method, body) => {
         return fetch(`http://10.0.2.2:9000${urlPath}`, {
             method,
+            headers: {
+                'Content-Type': 'application/json',
+            },
             body: JSON.stringify(body),
         })
             .then(res => {
