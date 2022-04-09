@@ -57,7 +57,7 @@ export default function NearByHomeScreen({navigation}) {
             <Text underline mt="2" fontSize={15} color="blue.600"
              onPress={() => navigation.navigate('NearByCategory')}
              >
-              View More>>
+              {"View More>>"}
             </Text>
           </Text>
           <FlatList
@@ -91,7 +91,7 @@ export default function NearByHomeScreen({navigation}) {
             Nearby Places {'  '}
             <Text underline mt="2" fontSize={15} color="blue.600"
              onPress={() => navigation.navigate('NearByCategory')}>
-              View More>>
+              {"View More>>"}
             </Text>
           </Text>
           <FlatList
@@ -125,7 +125,7 @@ export default function NearByHomeScreen({navigation}) {
             Nearby Hotels {'  '}
             <Text underline mt="2" fontSize={15} color="blue.600"
              onPress={() => navigation.navigate('NearByCategory')}>
-              View More>>
+              {"View More>>"}
             </Text>
           </Text>
           <FlatList

@@ -52,7 +52,7 @@ export default function SpotsHomeScreen_Places({navigation}) {
             <Text underline mt="2" fontSize={15} color="blue.600"
              onPress={() => navigation.navigate('SpotsCategory')}
              >
-              View More>>
+              {"View More>>"}
             </Text>
           </Text>
           <FlatList
@@ -86,7 +86,7 @@ export default function SpotsHomeScreen_Places({navigation}) {
             Places {'  '}
             <Text underline mt="2" fontSize={15} color="blue.600"
              onPress={() => navigation.navigate('SpotsCategory')}>
-              View More>>
+              {"View More>>"}
             </Text>
           </Text>
           <FlatList
@@ -120,7 +120,7 @@ export default function SpotsHomeScreen_Places({navigation}) {
             Hotels {'  '}
             <Text underline mt="2" fontSize={15} color="blue.600"
              onPress={() => navigation.navigate('SpotsCategory')}>
-              View More>>
+              {"View More>>"}
             </Text>
           </Text>
           <FlatList
