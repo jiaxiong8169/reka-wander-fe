@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "397979276552",
+    "project_id": "reka-wander",
+    "storage_bucket": "reka-wander.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:397979276552:android:0f8ed8633de5b8f6a508bd",
+        "android_client_info": {
+          "package_name": "com.rekawander"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "397979276552-flpl59ssfbfrun832rnvr9u0re6eagti.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rekawander",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "397979276552-mo6gk7r4n54k8tr5hglolld9eo6n8peb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXSWKmbPhx7H2ZH_EzgCU3jkFt1eaHj3I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "397979276552-mo6gk7r4n54k8tr5hglolld9eo6n8peb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
