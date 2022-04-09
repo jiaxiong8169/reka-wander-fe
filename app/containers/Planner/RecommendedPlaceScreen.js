@@ -10,7 +10,7 @@ const data = [
 export default function Recommended({ navigation }) {
     return (
         <GradientBackground>
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
                 <View>
                     <Text style={{ margin: 10 }}>
                         Your Searhing Details
@@ -54,24 +54,27 @@ export default function Recommended({ navigation }) {
                                     // height: 25,
                                     padding: 3,
                                     flexDirection: 'row',
-                                    alignContent: 'flex-e',
+                                    // alignContent: 'flex-e',
                                     // justifyContent: 'space-between',
                                     // alignItems: 'flex-start',
                                 }}>
 
                                     <Text style={{
-                                        flex: 2,
+                                        flex: 3,
                                         paddingLeft: 5,
-                                        fontSize: 15,
+                                        fontSize: 14,
                                         // color: '#000',
                                     }}>
                                         4
                                     </Text>
-                                    <Text style={{ flex: 1, fontSize: 15, }}>
+                                    <Text style={{
+                                        flex: 2,
+                                        fontSize: 14,
+                                    }}>
                                         RM250/pax
                                     </Text>
-                                    <TouchableOpacity style={{marginTop: 10}}>
-                                        <Text style={{ fontSize: 11, color:'#00BFFF' }}>
+                                    <TouchableOpacity style={{ marginTop: 4 }}>
+                                        <Text style={{ fontSize: 10, color: '#00BFFF', }}>
                                             Edit
                                         </Text>
                                     </TouchableOpacity>
@@ -89,7 +92,7 @@ export default function Recommended({ navigation }) {
                                     // backgroundColor: '#000'
                                 }}>
                                     <View style={{
-                                        height: 23,
+                                        // height: 23,
                                         flexDirection: 'row',
                                         // alignContent: 'flex-start',
                                         // justifyContent:'flex-start',
@@ -106,7 +109,7 @@ export default function Recommended({ navigation }) {
                                         <Text
                                             style={{
                                                 flex: 7,
-                                                fontSize: 17,
+                                                fontSize: 16,
                                                 color: '#000',
                                             }}
                                         >
@@ -114,26 +117,33 @@ export default function Recommended({ navigation }) {
                                         </Text>
                                     </View>
                                     <View style={{
-                                        height: 25,
+                                        // height: 25,
                                         flexDirection: 'row',
+                                        padding: 3,
                                         // alignContent: 'flex-start',
                                         // justifyContent: 'space-between',
                                         // alignItems: 'flex-start',
                                     }}>
 
                                         <Text style={{
-                                            flex: 2,
+                                            flex: 3,
                                             paddingLeft: 5,
-                                            fontSize: 15,
+                                            fontSize: 14,
                                             // color: '#000',
                                         }}>
                                             22 July - 25 July 2021
                                         </Text>
-                                        <Text style={{ flex: 1, }}>
+                                        <Text style={{
+                                            flex: 2,
+                                            fontSize: 14,
+                                        }}>
                                             RM400/night
                                         </Text>
-                                        <TouchableOpacity>
-                                            <Text>
+                                        <TouchableOpacity style={{ marginTop: 4 }}>
+                                            <Text style={{
+                                                fontSize: 10, color: '#00BFFF',
+                                                // paddingLeft: 10 
+                                            }}>
                                                 Edit
                                             </Text>
                                         </TouchableOpacity>
@@ -155,7 +165,7 @@ export default function Recommended({ navigation }) {
                                     // backgroundColor: '#000'
                                 }}>
                                     <View style={{
-                                        height: 23,
+                                        // height: 23,
                                         flexDirection: 'row',
                                         // alignContent: 'flex-start',
                                         // justifyContent:'flex-start',
@@ -172,7 +182,7 @@ export default function Recommended({ navigation }) {
                                         <Text
                                             style={{
                                                 flex: 7,
-                                                fontSize: 17,
+                                                fontSize: 16,
                                                 color: '#000',
                                             }}
                                         >
@@ -180,24 +190,25 @@ export default function Recommended({ navigation }) {
                                         </Text>
                                     </View>
                                     <View style={{
-                                        height: 25,
+                                        // height: 25,
                                         flexDirection: 'row',
+                                        padding: 3,
                                         // alignContent: 'flex-start',
                                         // justifyContent: 'space-between',
                                         // alignItems: 'flex-start',
                                     }}>
 
                                         <Text style={{
-                                            flex: 2,
+                                            flex: 3,
                                             paddingLeft: 5,
-                                            fontSize: 15,
+                                            fontSize: 14,
                                             // color: '#000',
                                         }}>
                                             RM5,000
                                         </Text>
 
-                                        <TouchableOpacity>
-                                            <Text>
+                                        <TouchableOpacity style={{ marginTop: 4 }}>
+                                            <Text style={{ fontSize: 10, color: '#00BFFF' }}>
                                                 Edit
                                             </Text>
                                         </TouchableOpacity>
@@ -219,7 +230,7 @@ export default function Recommended({ navigation }) {
                                     // backgroundColor: '#000'
                                 }}>
                                     <View style={{
-                                        height: 23,
+                                        // height: 23,
                                         flexDirection: 'row',
                                         // alignContent: 'flex-start',
                                         // justifyContent:'flex-start',
@@ -236,7 +247,7 @@ export default function Recommended({ navigation }) {
                                         <Text
                                             style={{
                                                 flex: 7,
-                                                fontSize: 17,
+                                                fontSize: 16,
                                                 color: '#000',
                                             }}
                                         >
@@ -244,26 +255,27 @@ export default function Recommended({ navigation }) {
                                         </Text>
                                     </View>
                                     <View style={{
-                                        height: 25,
+                                        // height: 25,
                                         flexDirection: 'row',
+                                        padding: 3,
                                         // alignContent: 'flex-start',
                                         // justifyContent: 'space-between',
                                         // alignItems: 'flex-start',
                                     }}>
 
                                         <Text style={{
-                                            flex: 2,
+                                            flex: 3,
                                             paddingLeft: 5,
-                                            fontSize: 15,
+                                            fontSize: 14,
                                             // color: '#000',
                                         }}>
                                             Entertainment, Leisure
                                         </Text>
-                                        <Text style={{ flex: 1, }}>
+                                        <Text style={{ flex: 2, fontSize: 14, }}>
                                             Depends
                                         </Text>
-                                        <TouchableOpacity>
-                                            <Text>
+                                        <TouchableOpacity style={{ marginTop: 4 }}>
+                                            <Text style={{ fontSize: 10, color: '#00BFFF' }}>
                                                 Edit
                                             </Text>
                                         </TouchableOpacity>
@@ -273,7 +285,7 @@ export default function Recommended({ navigation }) {
 
 
                             </View>
-                            <View style={{ flexDirection: 'column', borderBottomColor: '#000' }}>
+                            <View style={{ flexDirection: 'column' }}>
                                 <View style={{
                                     flexDirection: 'column',
                                     // height: 50, 
@@ -284,7 +296,7 @@ export default function Recommended({ navigation }) {
                                     // backgroundColor: '#000'
                                 }}>
                                     <View style={{
-                                        height: 23,
+                                        // height: 23,
                                         flexDirection: 'row',
                                         // alignContent: 'flex-start',
                                         // justifyContent:'flex-start',
@@ -301,7 +313,7 @@ export default function Recommended({ navigation }) {
                                         <Text
                                             style={{
                                                 flex: 7,
-                                                fontSize: 17,
+                                                fontSize: 16,
                                                 color: '#000',
                                             }}
                                         >
@@ -309,26 +321,27 @@ export default function Recommended({ navigation }) {
                                         </Text>
                                     </View>
                                     <View style={{
-                                        height: 25,
+                                        // height: 25,
                                         flexDirection: 'row',
+                                        padding: 3,
                                         // alignContent: 'flex-start',
                                         // justifyContent: 'space-between',
                                         // alignItems: 'flex-start',
                                     }}>
 
                                         <Text style={{
-                                            flex: 2,
+                                            flex: 3,
                                             paddingLeft: 5,
                                             fontSize: 15,
                                             // color: '#000',
                                         }}>
                                             Yes
                                         </Text>
-                                        <Text style={{ flex: 1, }}>
+                                        <Text style={{ flex: 2, fontSize: 15, }}>
                                             Free
                                         </Text>
-                                        <TouchableOpacity>
-                                            <Text>
+                                        <TouchableOpacity style={{ marginTop: 4 }}>
+                                            <Text style={{ fontSize: 10, color: '#00BFFF' }}>
                                                 Edit
                                             </Text>
                                         </TouchableOpacity>
@@ -338,22 +351,181 @@ export default function Recommended({ navigation }) {
 
 
                             </View>
+                            <View style={{
+                                flexDirection: 'row',
+                                marginTop: 20,
+                            }}>
+                                <Text style={{ flex: 1, fontSize: 16, marginLeft: 50, color: '#000', }}>
+                                    Total
+                                </Text>
+                                <Text style={{ flex: 1, fontSize: 18, color: '#000', }}>
+                                    RM2,600
+                                </Text>
+                            </View>
                         </View>
                     </Card>
                     <Text style={{ margin: 10 }}>
                         Recommended Spots
                     </Text>
                     <Card style={{ marginVertical: 10, }}>
-                        <View style={{ height: 150, flexDirection: 'row' }}>
-                            <Image
-                                style={{ flex: 1, height: undefined, borderRadius: 5 }}
-                                source={require('../../assets/home.jpg')}
-                            />
+                        <View style={{ flexDirection: 'column' }}>
+                            <TouchableOpacity style={{ margin: 4 }}>
+                                <View style={{
+                                    // height: 80,
+                                    flex: 1,
+                                    flexDirection: 'row',
+                                    borderColor: '#000',
+                                    borderBottomWidth: 1,
+                                    paddingBottom: 10,
+                                }}>
 
+                                    <Image
+                                        style={{
+                                            flex: 1,
+                                            height: 60,
+                                            // width: 150,
+                                            resizeMode: 'contain',
+                                            borderRadius: 5,
+                                            paddingRight: 8,
+                                        }}
+                                        source={require('../../assets/home.jpg')}
+                                    />
 
+                                    <View style={{ flex: 3, flexDirection: 'column', marginLeft: 3, paddingLeft: 10, }}>
+                                        <Text
+                                            style={{
+                                                // flex: 100,
+                                                fontSize: 16,
+                                                color: '#000',
+
+                                            }}
+                                        >
+                                            Cock & Bull
+                                        </Text>
+                                        <Text style={{
+                                            fontSize: 11,
+                                            color: '#000',
+                                            // paddingBottom: 4,
+
+                                        }}>
+                                            This is a small introduction about the spot
+                                        </Text>
+                                        <View style={{ alignItems: 'flex-end', justifyContent: 'flex-end' }}>
+                                            <Text style={{
+                                                fontSize: 11,
+                                                color: '#000',
+
+                                                // paddingBottom: 4,
+
+                                            }}>
+                                                Free Entry
+                                            </Text>
+                                        </View>
+
+                                    </View>
+
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ alignItems: 'flex-end', justifyContent: 'flex-end' }}>
+                            <Text style={{
+                                fontSize: 11,
+                                color: '#00BFFF',
+                                paddingTop: 5,
+                            }}>
+                                Edit
+                            </Text>
                         </View>
                     </Card>
+
+                    <Text style={{ margin: 10 }}>
+                        Recommended Car
+                    </Text>
+                    <Card style={{ marginVertical: 10, }}>
+                        <View style={{ flexDirection: 'column' }}>
+                            <TouchableOpacity style={{ margin: 4 }}>
+                                <View style={{
+                                    // height: 80,
+                                    flex: 1,
+                                    flexDirection: 'row',
+                                    borderColor: '#000',
+                                    borderBottomWidth: 1,
+                                    paddingBottom: 10,
+                                }}>
+
+                                    <Image
+                                        style={{
+                                            flex: 1,
+                                            height: 60,
+                                            // width: 150,
+                                            resizeMode: 'contain',
+                                            borderRadius: 5,
+                                            paddingRight: 8,
+                                        }}
+                                        source={require('../../assets/toyotaExample.png')}
+                                    />
+
+                                    <View style={{ flex: 3, flexDirection: 'column', marginLeft: 3, paddingLeft: 10, }}>
+                                        <Text
+                                            style={{
+                                                // flex: 100,
+                                                fontSize: 16,
+                                                color: '#000',
+
+                                            }}
+                                        >
+                                            Toyota
+                                        </Text>
+                                        <Text style={{
+                                            fontSize: 11,
+                                            color: '#000',
+                                            // paddingBottom: 4,
+
+                                        }}>
+                                            This is a small introduction about the spot
+                                        </Text>
+                                        <View style={{ alignItems: 'flex-end', justifyContent: 'flex-end' }}>
+                                            <Text style={{
+                                                fontSize: 11,
+                                                color: '#000',
+
+                                                // paddingBottom: 4,
+
+                                            }}>
+                                                4 seater
+                                            </Text>
+                                        </View>
+
+                                    </View>
+
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ alignItems: 'flex-end', justifyContent: 'flex-end', paddingTop: 5, }}>
+                            <Text style={{
+                                fontSize: 11,
+                                color: '#00BFFF'
+                            }}>
+                                Edit
+                            </Text>
+                        </View>
+                    </Card>
+                    
                 </View>
+                <TouchableOpacity>
+                    <Text style={{
+                        color: 'white', 
+                        padding: 12, 
+                        backgroundColor: '#4169E1',
+                        // minWidth: '15%',
+                        borderRadius: 50, 
+                        textAlign: 'center',
+                         marginHorizontal: 80,
+                    }}>
+                        Confirm
+                    </Text>
+
+                </TouchableOpacity>
             </ScrollView>
         </GradientBackground>
     );
