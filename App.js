@@ -1,13 +1,16 @@
-import * as React from 'react';
 import MainContainer from './app/navigations/MainContainer';
-import { NativeBaseProvider, Text, Box } from 'native-base';
+import { NativeBaseProvider } from 'native-base';
+import React from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
 
-function App() {
+const Stack = createStackNavigator();
+
+const App = () => {
   return (
     <NativeBaseProvider>
-      <MainContainer/>
+       <MainContainer/>
     </NativeBaseProvider>
-  );
-}
+  )
+};;
 
 export default App;

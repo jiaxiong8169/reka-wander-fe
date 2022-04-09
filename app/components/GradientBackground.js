@@ -8,7 +8,7 @@ const GradientBackground = props => {
       start={{x: 0, y: 0}}
       end={{x: 0, y: 0.5}}
       style={{height: '100%', width: '100%'}}>
-      <View style={{padding: 20}}>{props.children}</View>
+      <View style={{padding: '3%'}}>{props.children}</View>
     </LinearGradient>
   );
 };

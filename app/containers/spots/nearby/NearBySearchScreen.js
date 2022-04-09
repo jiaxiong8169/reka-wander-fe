@@ -9,7 +9,7 @@ import GradientBackground from '../../../components/GradientBackground';
 export default function NearBySearchScreen({navigation}) {
   return (
     <GradientBackground>
-        <BlueSubtitle text1={'Hi'} text2={'Melvin,'}></BlueSubtitle>
+        <BlueSubtitle text1={'Hi'} text2={'Melvin,'} style={{marginBottom: 20}}></BlueSubtitle>
         <Card style={styles.card}>
           <Image
           style={styles.image}
