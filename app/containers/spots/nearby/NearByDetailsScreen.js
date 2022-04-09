@@ -1,6 +1,6 @@
 import * as React from 'react';
-import {View, StyleSheet, Dimensions} from 'react-native';
-import {Image} from 'react-native';
+import { View, StyleSheet, Dimensions } from 'react-native';
+import { Image } from 'react-native';
 import {
   Box,
   Heading,
@@ -8,21 +8,28 @@ import {
   ArrowBackIcon,
   Pressable,
 } from 'native-base';
-import {Rating} from 'react-native-ratings';
-import {ScrollView, SafeAreaView} from 'react-native';
+import { Rating } from 'react-native-ratings';
+import { ScrollView, SafeAreaView } from 'react-native';
 import RoundButton from '../../../components/RoundButton';
+import { useHttpCall } from '../../../hooks/useHttpCall';
+import { TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
-export default function NearByDetailsScreen({navigation}) {
+export default function NearByDetailsScreen({ navigation }) {
+  const { postWithAuth } = useHttpCall();
+
+  const handleLike = async () => {
+    await postWithAuth('/hotels/like', {}, () => navigation.navigate('Sign In Screen'))
+  }
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
         <Image
           style={styles.image}
           source={require('../../../assets/home.jpg')}></Image>
-        <View style={{flex: 1}}></View>
+        <View style={{ flex: 1 }}></View>
         <Box style={styles.backButton}>
           <Pressable onPress={() => navigation.goBack()}>
             <ArrowBackIcon size="8" color="white" m="1" />
@@ -65,10 +72,12 @@ export default function NearByDetailsScreen({navigation}) {
           <RoundButton title="Direction" backgroundColor="#dc2626" />
         </View>
         <View style={styles.buttonContainer}>
-          <View style={{flexDirection: 'row'}}>
-            <Image
-              style={styles.icon}
-              source={require('../../../assets/love.png')}></Image>
+          <View style={{ flexDirection: 'row' }}>
+            <TouchableOpacity onPress={() => handleLike()} style={{ flex: 1, justifyContent: 'center' }}>
+              <Image
+                style={styles.icon}
+                source={require('../../../assets/love.png')}></Image>
+            </TouchableOpacity>
             <Text
               ml={'2'}
               bold
@@ -78,7 +87,7 @@ export default function NearByDetailsScreen({navigation}) {
               10.5k
             </Text>
           </View>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{ flexDirection: 'row' }}>
             <Image
               style={styles.icon}
               source={require('../../../assets/message.png')}
@@ -92,7 +101,7 @@ export default function NearByDetailsScreen({navigation}) {
               633
             </Text>
           </View>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{ flexDirection: 'row' }}>
             <Image
               style={styles.icon}
               source={require('../../../assets/share.png')}></Image>

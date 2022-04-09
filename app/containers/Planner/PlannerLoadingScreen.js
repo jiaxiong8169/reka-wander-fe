@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
         fontFamily: 'sans-serif-medium',
         fontWeight: '500',
         // marginBottom: 40,
-        padding: 20,
+        // padding: 20,
         textAlign: 'center',
     },
     content: {
