@@ -3,9 +3,6 @@ import { StyleSheet, View, Text, Image, Button, TouchableOpacity, ScrollView } f
 import Card from '../../components/card/card';
 import GradientBackground from '../../components/GradientBackground';
 
-const data = [
-    {}
-];
 
 export default function Recommended({ navigation }) {
     return (

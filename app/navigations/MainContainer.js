@@ -27,43 +27,10 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 //temporary
-// const Home = () => (
-//   <GradientBackground></GradientBackground>
-// );
 const Temp = () => (
   <GradientBackground></GradientBackground>
 );
 
-
-function Finish() {
-  return (
-    <GradientBackground>
-      <BlueSubtitle text1="Hi" text2="Melvin," >
-
-      </BlueSubtitle>
-      <Text style={styles.subtitle}>
-        Create your destiny
-      </Text>
-      <Loading
-        quest='We are preparing your holiday.'
-      />
-    </GradientBackground>
-  )
-};
-
-function Home({ navigation }) {
-  const onPressHandler = () => {
-    // navigation.navigate('Planner_Question');
-    navigation.navigate('Recomendation');
-  };
-  return (
-    <TouchableOpacity
-      onPress={onPressHandler}
-    >
-      <HomePage />
-    </TouchableOpacity>
-  )
-};
 
 function SpotsHomeStack() {
   return (
@@ -119,7 +86,7 @@ function PlannerHomeStack() {
     <Stack.Navigator>
         <Stack.Screen
           name="HomePage"
-          component={Home}
+          component={HomePage}
           options={{
             header: () => null
           }}

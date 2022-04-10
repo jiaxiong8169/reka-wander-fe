@@ -1,10 +1,22 @@
 import React from 'react';
 import { StyleSheet, View, Text, } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
+import { useAuth } from '../../hooks/useAuth';
 
 
-const HomePage = () => {
+export default function PlannerSteps({ navigation }) {
+    const onPressHandler = () => {
+        navigation.navigate('Planner_Question');
+        // navigation.navigate('Recomendation');
+    };
+
+    const { authData } = useAuth();
+
     return (
+        <TouchableOpacity
+      onPress={onPressHandler}
+    >
         <View>
             <LinearGradient
                 colors={['#CFDDFC', 'white', 'white', '#CFDDFC']}
@@ -14,7 +26,7 @@ const HomePage = () => {
                         Hi <Text style={{
                             fontWeight: 'bold',
                             fontFamily: 'sans-serif-light',
-                        }}>Melvin,</Text>
+                        }}>{authData?.name ?? ""}</Text>
                     </Text>
                     <Text style={styles.subtitle}>
                         Let's create your destiny
@@ -22,29 +34,23 @@ const HomePage = () => {
                 </View>
             </LinearGradient>
         </View>
+        </TouchableOpacity>
     )
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        // padding: 20,
-        // alignContent: 'center',
         alignItems: 'center',
         justifyContent: 'center',
     },
     title: {
         fontWeight: '300',
         fontSize: 60,
-        // marginHorizontal: 10,
-        // marginTop: 10,
         color: `#4169E1`,
     },
     subtitle: {
         fontSize: 20,
-        // marginLeft: 10,
         color: `#4169E1`,
     },
 });
-
-export default HomePage;

@@ -7,7 +7,9 @@ import Card from '../../components/card/card';
 import Model from '../../components/Modal/Modal'
 
 const ChooseDays = (props) => {
+
     const [isModalVisible, setModalVisible] = useState(true);
+
     return (
         <View style={styles.body}>
             <Card>
@@ -26,7 +28,9 @@ const ChooseDays = (props) => {
                     </Model>
                 </View>
             </Card >
-            {/* <Button testID={'close-button'} onPress={props.onPress} title="Instructions" /> */}
+           <Text>
+               
+           </Text>
         </View >
 
     );
