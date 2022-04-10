@@ -26,7 +26,7 @@ export default function PlannerSteps({ navigation }) {
                         Hi <Text style={{
                             fontWeight: 'bold',
                             fontFamily: 'sans-serif-light',
-                        }}>{authData?.name ?? ""}</Text>
+                        }}>{authData?.name ?? "Welcome"}</Text>
                     </Text>
                     <Text style={styles.subtitle}>
                         Let's create your destiny

@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, View, Text, ScrollView } from 'react-native';
+import { useAuth } from '../../hooks/useAuth';
 
+import TripName from './PlannerTripNameScreen';
 import PaxPage from './PlannerPaxScreen';
 import ChooseDays from './PlannerCalendarScreen';
 import TravelBudget from './PlannertravelBudgetScreen';
@@ -14,9 +16,12 @@ import ProgressSteps from '../../components/stepper/ProgressSteps';
 import GradientBackground from '../../components/GradientBackground';
 
 export default function PlannerSteps({ navigation }) {
+
+  const { authData } = useAuth();
+
   const onPressHandler = () => {
     navigation.navigate('FinishPage');
-    
+
   };
 
   const nextbuttonTextStyle = {
@@ -77,7 +82,7 @@ export default function PlannerSteps({ navigation }) {
                   fontWeight: 'bold',
                   fontFamily: 'sans-serif-light',
                 }}>
-                Melvin,
+                {authData?.name ?? "Welcome,"}
               </Text>
             </Text>
             <Text style={styles.subtitle}>Create your destiny</Text>
@@ -90,13 +95,19 @@ export default function PlannerSteps({ navigation }) {
 
               <ProgressStep
                 nextBtnTextStyle={nextbuttonTextStyle}>
-                <ChooseDays quest="How many days?" />
+                <TripName quest="Give Your Trip a name!" />
               </ProgressStep>
 
               <ProgressStep
                 nextBtnTextStyle={nextbuttonTextStyle}
                 previousBtnTextStyle={previousbuttonTextStyle}>
                 <PaxPage quest="How many Pax?" />
+              </ProgressStep>
+
+              <ProgressStep
+                nextBtnTextStyle={nextbuttonTextStyle}
+                previousBtnTextStyle={previousbuttonTextStyle}>
+                <ChooseDays quest="How many days?" />
               </ProgressStep>
 
               <ProgressStep

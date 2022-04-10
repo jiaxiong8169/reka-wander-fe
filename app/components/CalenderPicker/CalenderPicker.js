@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
+import { useHttpCall } from '../../hooks/useHttpCall';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -28,7 +29,14 @@ export default class Calendar extends Component {
         }
     }
 
+
     render() {
+        // const { postWithoutAuth } = useHttpCall();
+
+        // const postDate = () => {
+        //     return postWithoutAuth('/trips', { startDate, endDate }).then()
+        // }
+
         const { selectedStartDate, selectedEndDate } = this.state;
         const minDate = new Date(); // Today
         const year = minDate.getFullYear();
@@ -39,6 +47,9 @@ export default class Calendar extends Component {
         const formattedEndDate = selectedEndDate
             ? selectedEndDate.format('YYYY-MM-DD')
             : '';
+
+
+
         return (
             <View style={styles.container}>
                 {/* calendar size controlled in makeStyles.js 36 -> index.js 144
@@ -67,7 +78,7 @@ export default class Calendar extends Component {
                 </View>
                 <View
                     style={
-                       { flexDirection: 'row', justifyContent: 'space-between' }
+                        { flexDirection: 'row', justifyContent: 'space-between' }
                     }>
                     <Text style={{ fontSize: 14, fontWeight: '400' }}>
                         {formattedStartDate}

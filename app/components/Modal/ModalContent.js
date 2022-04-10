@@ -1,9 +1,6 @@
 import React from 'react';
 import { Button, View, Text, StyleSheet, Dimensions} from 'react-native';
 
-const width = Dimensions.get('window').width;
-const height = Dimensions.get('window').height;
-
 const ModelContent = (props) => {
     return (
         <View style={styles.content}>
