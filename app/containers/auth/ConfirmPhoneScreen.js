@@ -19,8 +19,12 @@ export const ConfirmPhoneScreen = ({ navigation, route }) => {
     }
 
     async function signInWithPhoneNumber() {
-        const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
-        setConfirm(confirmation);
+        try {
+            const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+            setConfirm(confirmation);
+        } catch (e) {
+            authProvider.setAuthError(e.message);
+        }
     }
 
     async function confirmCode() {
