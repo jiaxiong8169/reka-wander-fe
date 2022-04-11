@@ -39,7 +39,7 @@ const ChooseDays = (props) => {
                         animationOutTiming={700}
                         backdropTransitionInTiming={700}
                         backdropTransitionOutTiming={700}>
-                        <ModelContent title='Instruction' onPress={close}>
+                        <ModelContent title='Please watch this instruction' onPress={close}>
                             <Image
                                 source={require('../../assets/calender.gif')}
                                 style={{ width: 220, height: 200 }} />

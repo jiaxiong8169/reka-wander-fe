@@ -7,8 +7,8 @@ import { useAuth } from '../../hooks/useAuth';
 
 export default function PlannerSteps({ navigation }) {
     const onPressHandler = () => {
+        // navigation.navigate('Loading');
         navigation.navigate('Planner_Question');
-        // navigation.navigate('Recomendation');
     };
 
     const { authData } = useAuth();

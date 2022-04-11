@@ -5,6 +5,11 @@ import GradientBackground from '../../components/GradientBackground';
 
 
 export default function Recommended({ navigation }) {
+
+    const onPressHandler = () => {
+        navigation.navigate('Success');
+    };
+
     return (
         <GradientBackground>
             <ScrollView showsVerticalScrollIndicator={false}>
@@ -507,22 +512,24 @@ export default function Recommended({ navigation }) {
                             </Text>
                         </View>
                     </Card>
-                    
-                </View>
-                <TouchableOpacity>
-                    <Text style={{
-                        color: 'white', 
-                        padding: 12, 
-                        backgroundColor: '#4169E1',
-                        // minWidth: '15%',
-                        borderRadius: 50, 
-                        textAlign: 'center',
-                         marginHorizontal: 80,
-                    }}>
-                        Confirm
-                    </Text>
 
-                </TouchableOpacity>
+                </View>
+                <View style={{ marginTop: 20, }}>
+
+                    <TouchableOpacity onPress={onPressHandler}>
+                        <Text style={{
+                            color: 'white',
+                            padding: 12,
+                            backgroundColor: '#4169E1',
+                            borderRadius: 50,
+                            textAlign: 'center',
+                            marginHorizontal: 80,
+                        }}>
+                            Confirm
+                        </Text>
+
+                    </TouchableOpacity>
+                </View>
             </ScrollView>
         </GradientBackground>
     );

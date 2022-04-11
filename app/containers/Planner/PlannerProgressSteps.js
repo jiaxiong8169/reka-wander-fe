@@ -20,7 +20,8 @@ export default function PlannerSteps({ navigation }) {
   const { authData } = useAuth();
 
   const onPressHandler = () => {
-    navigation.navigate('FinishPage');
+    // navigation.navigate('Recomendation');
+    navigation.navigate('Loading');
 
   };
 
@@ -94,7 +95,9 @@ export default function PlannerSteps({ navigation }) {
             <ProgressSteps {...progressStepsStyle}>
 
               <ProgressStep
-                nextBtnTextStyle={nextbuttonTextStyle}>
+                nextBtnTextStyle={nextbuttonTextStyle}
+                // onNext={onPressHandler}
+                >
                 <TripName quest="Give Your Trip a name!" />
               </ProgressStep>
 

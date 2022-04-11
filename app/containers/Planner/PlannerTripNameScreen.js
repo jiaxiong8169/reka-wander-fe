@@ -24,6 +24,7 @@ const TripName = (props) => {
                     </Text>
                     <TextInput
                         style={styles.input}
+                        value={tripName}
                         onChangeText={setTripName}
                         placeholder="Type Your trip name here..."
 

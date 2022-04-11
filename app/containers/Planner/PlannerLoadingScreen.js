@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     StyleSheet,
     View,
@@ -10,10 +10,14 @@ import GradientBackground from '../../components/GradientBackground';
 import BlueSubtitle from '../../components/BlueSubtitle';
 
 export default function LoadingScreen({ navigation }) {
-    const onPressHandler = () => {
-        navigation.navigate('FinishPage');
-    };
-    
+
+    useEffect(() => {
+        //temporary
+        setTimeout(() => {
+            navigation.navigate('Recommended');
+        }, 2000);
+    })
+
     return (
         <GradientBackground>
             <BlueSubtitle text1="Hi" text2="Melvin," >
@@ -43,6 +47,8 @@ export default function LoadingScreen({ navigation }) {
         </GradientBackground>
 
     );
+
+
 };
 
 const styles = StyleSheet.create({

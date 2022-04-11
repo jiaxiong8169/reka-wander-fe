@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
 import { useHttpCall } from '../../hooks/useHttpCall';
+import moment from 'moment';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -12,6 +13,7 @@ export default class Calendar extends Component {
         this.state = {
             selectedStartDate: null,
             selectedEndDate: null,
+            dateRange: null,
         };
         this.onDateChange = this.onDateChange.bind(this);
     }
@@ -20,7 +22,9 @@ export default class Calendar extends Component {
         if (type === 'END_DATE') {
             this.setState({
                 selectedEndDate: date,
+                dateRange: selectedEndDate.from(selectedStartDate, true),
             });
+            console.log(dateRange);
         } else {
             this.setState({
                 selectedStartDate: date,
@@ -31,11 +35,6 @@ export default class Calendar extends Component {
 
 
     render() {
-        // const { postWithoutAuth } = useHttpCall();
-
-        // const postDate = () => {
-        //     return postWithoutAuth('/trips', { startDate, endDate }).then()
-        // }
 
         const { selectedStartDate, selectedEndDate } = this.state;
         const minDate = new Date(); // Today
@@ -52,10 +51,6 @@ export default class Calendar extends Component {
 
         return (
             <View style={styles.container}>
-                {/* calendar size controlled in makeStyles.js 36 -> index.js 144
-                day,month,year size in makeStyles.js
-
-                */}
                 <CalendarPicker
                     width={width - 100}
                     style={styles.container}
@@ -72,9 +67,7 @@ export default class Calendar extends Component {
                         { flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }
                     }>
                     <Text style={{ fontSize: 14, fontWeight: '400' }}>Start Date</Text>
-                    {/* <Text style={{ fontSize: 14, fontWeight: 400,}}>Start Date{formattedStartDate}</Text> */}
                     <Text style={{ fontSize: 14, fontWeight: '400' }}>End Date</Text>
-                    {/* <Text style={{ fontSize: 14, fontWeight: 400,}}>End Date{formattedEndDate}</Text> */}
                 </View>
                 <View
                     style={

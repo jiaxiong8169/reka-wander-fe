@@ -17,6 +17,7 @@ import NearByDetailsScreen from '../containers/spots/nearby/NearByDetailsScreen'
 
 import PlannerSteps from '../containers/Planner/PlannerProgressSteps';
 import HomePage from '../containers/Planner/PlannerHomeScreen';
+import SuccessConfirmScreen from '../containers/Planner/PlannerSuccessCreateTrip';
 import Recommended from '../containers/Planner/RecommendedPlaceScreen';
 import LoadingScreen from '../containers/Planner/PlannerLoadingScreen';
 import BlueSubtitle from '../components/BlueSubtitle';
@@ -84,37 +85,44 @@ function SpotsHomeStack() {
 function PlannerHomeStack() {
   return (
     <Stack.Navigator>
-        <Stack.Screen
-          name="HomePage"
-          component={HomePage}
-          options={{
-            header: () => null
-          }}
-        />
-        <Stack.Screen
-          name="Planner_Question"
-          component={PlannerSteps}
-          options={{
-            header: () => null
-          }}
-        />
-        <Stack.Screen
-          name="FinishPage"
-          component={LoadingScreen}
-          options={{
-            header: () => null
-          }}
-        />
-        <Stack.Screen
-        name="Recomendation"
+      <Stack.Screen
+        name="HomePage"
+        component={HomePage}
+        options={{
+          header: () => null
+        }}
+      />
+      <Stack.Screen
+        name="Planner_Question"
+        component={PlannerSteps}
+        options={{
+          header: () => null
+        }}
+      />
+      <Stack.Screen
+        name="Loading"
+        component={LoadingScreen}
+        options={{
+          header: () => null
+        }}
+      />
+      <Stack.Screen
+        name="Recommended"
         component={Recommended}
         options={{
-          header:() => null
+          header: () => null
         }}
-        
-        />
+      />
+      <Stack.Screen
+        name="Success"
+        component={SuccessConfirmScreen}
+        options={{
+          header: () => null
+        }}
+      />
 
-      </Stack.Navigator>
+
+    </Stack.Navigator>
   );
 }
 
