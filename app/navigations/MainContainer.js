@@ -1,15 +1,12 @@
 import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Image, View, StyleSheet, Text } from 'react-native';
+import {createStackNavigator} from '@react-navigation/stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {Image, StyleSheet} from 'react-native';
 import GradientBackground from '../components/GradientBackground';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import LinearGradient from 'react-native-linear-gradient';
 
 // Screens
 import SpotsHomeScreen from '../containers/spots/SpotsHomeScreen';
-import SpotsCategoryScreen from '../containers/spots/SpotsCategoryScreen'
+import SpotsCategoryScreen from '../containers/spots/SpotsCategoryScreen';
 import NearByHomeScreen from '../containers/spots/nearby/NearByHomeScreen';
 import NearByCategoryScreen from '../containers/spots/nearby/NearByCategoryScreen';
 import NearBySearchScreen from '../containers/spots/nearby/NearBySearchScreen';
@@ -20,18 +17,14 @@ import HomePage from '../containers/Planner/PlannerHomeScreen';
 import SuccessConfirmScreen from '../containers/Planner/PlannerSuccessCreateTrip';
 import Recommended from '../containers/Planner/RecommendedPlaceScreen';
 import LoadingScreen from '../containers/Planner/PlannerLoadingScreen';
-import BlueSubtitle from '../components/BlueSubtitle';
-import { SettingsScreen } from '../containers/settings';
+import {SettingsScreen} from '../containers/settings';
 
 //Screen names
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 //temporary
-const Temp = () => (
-  <GradientBackground></GradientBackground>
-);
-
+const Temp = () => <GradientBackground></GradientBackground>;
 
 function SpotsHomeStack() {
   return (
@@ -40,42 +33,42 @@ function SpotsHomeStack() {
         name="SpotsHome"
         component={SpotsHomeScreen}
         options={{
-          headerShown: false
+          headerShown: false,
         }}
       />
       <Stack.Screen
         name="SpotsCategory"
         component={SpotsCategoryScreen}
         options={{
-          headerShown: false
+          headerShown: false,
         }}
       />
       <Stack.Screen
         name="NearByHome"
         component={NearByHomeScreen}
         options={{
-          headerShown: false
+          headerShown: false,
         }}
       />
       <Stack.Screen
         name="NearBySearch"
         component={NearBySearchScreen}
         options={{
-          headerShown: false
+          headerShown: false,
         }}
       />
       <Stack.Screen
         name="NearByDetails"
         component={NearByDetailsScreen}
         options={{
-          headerShown: false
+          headerShown: false,
         }}
       />
       <Stack.Screen
         name="NearByCategory"
         component={NearByCategoryScreen}
         options={{
-          headerShown: false
+          headerShown: false,
         }}
       />
     </Stack.Navigator>
@@ -89,74 +82,71 @@ function PlannerHomeStack() {
         name="HomePage"
         component={HomePage}
         options={{
-          header: () => null
+          header: () => null,
         }}
       />
       <Stack.Screen
         name="Planner_Question"
         component={PlannerSteps}
         options={{
-          header: () => null
+          header: () => null,
         }}
       />
       <Stack.Screen
         name="Loading"
         component={LoadingScreen}
         options={{
-          header: () => null
+          header: () => null,
         }}
       />
       <Stack.Screen
         name="Recommended"
         component={Recommended}
         options={{
-          header: () => null
+          header: () => null,
         }}
       />
       <Stack.Screen
         name="Success"
         component={SuccessConfirmScreen}
         options={{
-          header: () => null
+          header: () => null,
         }}
       />
-
-
     </Stack.Navigator>
   );
 }
 
 function MainContainer() {
   return (
-    // <NavigationContainer>
     <Tab.Navigator
       initialRouteName={'Home'}
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
+      screenOptions={({route}) => ({
+        tabBarIcon: ({focused, color, size}) => {
           let tabIconSource;
           let iconName;
           let rn = route.name;
 
           if (rn === 'Spots') {
-            tabIconSource = "spots.png";
+            tabIconSource = 'spots.png';
             iconName = 'spots';
           } else if (rn === 'Agency') {
-            tabIconSource = "agency.png";
+            tabIconSource = 'agency.png';
             iconName = 'agency';
           } else if (rn === 'Store') {
-            tabIconSource = "store.png";
+            tabIconSource = 'store.png';
             iconName = 'store';
           } else if (rn === 'Settings') {
-            tabIconSource = "setting.png";
+            tabIconSource = 'setting.png';
             iconName = 'setting';
           } else if (rn === 'Payment') {
-            tabIconSource = "payment.png";
+            tabIconSource = 'payment.png';
             iconName = 'payment';
           } else if (rn === 'News') {
-            tabIconSource = "news.png";
+            tabIconSource = 'news.png';
             iconName = 'news';
           } else if (rn === 'Home') {
-            tabIconSource = "home.png";
+            tabIconSource = 'home.png';
             iconName = 'home';
           }
 
@@ -168,48 +158,73 @@ function MainContainer() {
             'setting.png': require('../assets/Setting.png'),
             'spots.png': require('../assets/Spots.png'),
             'store.png': require('../assets/Store.png'),
-          }
-
+          };
 
           // You can return any component that you like here!
-          return <Image
-            name={iconName} style={{ width: 20, height: 20 }}
-            source={tabIcons[tabIconSource]}
-            tintColor={color} />
+          return (
+            <Image
+              name={iconName}
+              style={{width: 20, height: 20}}
+              source={tabIcons[tabIconSource]}
+              tintColor={color}
+            />
+          );
         },
         activeTintColor: '#0061FF',
         inactiveTintColor: 'grey',
-        labelStyle: { paddingBottom: 10, fontSize: 10 },
-        style: { padding: 20, height: 100 }
+        labelStyle: {paddingBottom: 10, fontSize: 10},
+        style: {padding: 20, height: 100},
       })}>
-
       <Tab.Screen
         name="Spots"
         component={SpotsHomeStack}
         options={{
-          headerShown: false
+          headerShown: false,
         }}
       />
-      <Tab.Screen name='Agency' component={Temp} options={{
-        headerShown: false
-      }} />
-      <Tab.Screen name='Store' component={Temp} options={{
-        headerShown: false
-      }} />
-      <Tab.Screen name='Home' component={PlannerHomeStack} options={{
-        headerShown: false
-      }} />
-      <Tab.Screen name='Settings' component={SettingsScreen} options={{
-        headerShown: false
-      }} />
-      <Tab.Screen name='Payment' component={Temp} options={{
-        headerShown: false
-      }} />
-      <Tab.Screen name='News' component={Temp} options={{
-        headerShown: false
-      }} />
+      <Tab.Screen
+        name="Agency"
+        component={Temp}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="Store"
+        component={Temp}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="Home"
+        component={PlannerHomeStack}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="Payment"
+        component={Temp}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="News"
+        component={Temp}
+        options={{
+          headerShown: false,
+        }}
+      />
     </Tab.Navigator>
-    // </NavigationContainer>
   );
 }
 
