@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
-import { fetchWithAuth, fetchWithoutAuth } from '../utils/fetchInstance';
+import { BACKEND_URL } from '@env';
 
 export const HttpContext = createContext({});
 const HttpProvider = ({ children }) => {
@@ -10,7 +10,7 @@ const HttpProvider = ({ children }) => {
         const access_token = authData?.token?.access_token;
         const refresh_token = authData?.token?.refresh_token;
         if (!token) token = access_token;
-        return fetch(`http://10.0.2.2:9000${urlPath}`, {
+        return fetch(`${BACKEND_URL}${urlPath}`, {
             method,
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -54,7 +54,7 @@ const HttpProvider = ({ children }) => {
     }
 
     const fetchWithoutAuth = () => (urlPath, method, body) => {
-        return fetch(`http://10.0.2.2:9000${urlPath}`, {
+        return fetch(`${BACKEND_URL}${urlPath}`, {
             method,
             headers: {
                 'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ const HttpProvider = ({ children }) => {
 
     const refreshAccessToken = (refreshToken) => {
         console.log("refresh");
-        return fetch(`http://10.0.2.2:9000/auth/refresh`, {
+        return fetch(`${BACKEND_URL}/auth/refresh`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
