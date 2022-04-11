@@ -3,18 +3,20 @@ import {StyleSheet, View, Text} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import {useAuth} from '../../hooks/useAuth';
-import {post} from '../../utils/fetch-instance';
 
 export default function PlannerSteps({navigation}) {
   const onPressHandler = () => {
     navigation.navigate('Planner_Question');
   };
 
+<<<<<<< HEAD
   useEffect(() => {
     // TODO: incomplete post request
     // post();
   }, []);
 
+=======
+>>>>>>> a0cad8d (Refactored auth flow)
   const {authData} = useAuth();
 
   return (

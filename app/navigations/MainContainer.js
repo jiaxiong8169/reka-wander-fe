@@ -17,7 +17,7 @@ import HomePage from '../containers/Planner/PlannerHomeScreen';
 import SuccessConfirmScreen from '../containers/Planner/PlannerSuccessCreateTrip';
 import Recommended from '../containers/Planner/RecommendedPlaceScreen';
 import LoadingScreen from '../containers/Planner/PlannerLoadingScreen';
-import {SettingsScreen} from '../containers/settings';
+import {SettingsScreen} from '../containers/settings/SettingsScreen';
 
 //Screen names
 const Stack = createStackNavigator();

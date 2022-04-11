@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {useAuth} from '../hooks/useAuth';
 import {Text, Modal, View, StyleSheet} from 'react-native';
@@ -12,29 +12,32 @@ const Stack = createNativeStackNavigator();
 export const Router = () => {
   const {loading, authError} = useAuth();
   const [setModalVisible] = useState(false);
-  if (loading) {
-    return <Text>Loading</Text>;
-  }
+
+  // TODO: Implement Loading Screen / Overlay
+  // if (loading) {
+  //   return <Text>Loading</Text>;
+  // }
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Group>
-          <Stack.Screen
-            options={{headerShown: false}}
-            name="Main Screens"
-            component={MainContainer}
-          />
-        </Stack.Group>
         <Stack.Group screenOptions={{presentation: 'modal'}}>
           <Stack.Screen
             options={{headerShown: false}}
-            name="Sign In Screen"
+            name="SignInScreen"
             component={SignInScreen}
           />
           <Stack.Screen
             options={{headerShown: false}}
-            name="Confirm Phone"
+            name="ConfirmPhone"
             component={ConfirmPhoneScreen}
+          />
+        </Stack.Group>
+        <Stack.Group>
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="MainScreen"
+            component={MainContainer}
           />
         </Stack.Group>
       </Stack.Navigator>
