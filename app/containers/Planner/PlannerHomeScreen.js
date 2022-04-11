@@ -11,7 +11,8 @@ export default function PlannerSteps({navigation}) {
   };
 
   useEffect(() => {
-    post();
+    // TODO: incomplete post request
+    // post();
   }, []);
 
   const {authData} = useAuth();
