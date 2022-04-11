@@ -8,6 +8,7 @@ import {
 import SelectPax from '../../components/dropdown/Pax';
 import Card from '../../components/card/card';
 
+
 const PaxPage = (props) => {
   return (
     <View style={styles.body}>
@@ -28,7 +29,6 @@ const PaxPage = (props) => {
                 aspectRatio: 1,
                 width: '100%',
                 resizeMode: 'contain',
-                // justifyContent: 'flex-end',
                 alignItems: 'flex-end',
                 height: undefined
               }}

@@ -1,49 +1,102 @@
-import React, {useState} from 'react';
-import {StyleSheet, View, Text, Image} from 'react-native';
-// import SelectPax from '../component/dropdown/Pax';
+import React from 'react';
+import {
+    StyleSheet,
+    View,
+    Text,
+    Image,
+} from 'react-native';
 import Card from '../../components/card/card';
-// import RadioGroup from 'react-native-radio-button-group';
-import RadioButtonRN from '../../components/multiple_choice/multiplechoice';
+import RadioButtonRN from '../../components/multiple_choice/multiplechoice'
+import { useSelector, useDispatch } from 'react-redux';
+import { setRentHomeStay } from '../../redux/Planner/actions';
 
-const option = [
-  {id: 'Yes', label: 'Yes'},
-  {id: 'No', label: 'No'},
+const data = [
+    { label: 'Yes', value: 'true', index: 1 },
+    { label: 'No', value: 'false', index: 2 },
 ];
 
-const data = [{label: 'Yes'}, {label: 'No'}];
+const RentHomeStay = (props) => {
+    const { rentHomeStay } = useSelector(state => state.plannerReducer);
+    const dispatch = useDispatch();
+    // const [view, setview] = useState(1);
 
-const Withkids = props => {
-  return (
-    <View style={styles.body}>
-      <Card style={{width: '100%'}}>
-        <View style={{alignItems: 'center'}}>
-          <Text style={styles.question}>{props.quest}</Text>
+    const onPressHandler = (e) => {
+        if (e === 'Yes') {
+
+            // getInitial();
+            dispatch(setRentHomeStay(true));
+            // console.log(rentHomeStay);
+            // console.log('hi');
+
+        } else {
+            // console.log('no');
+            // getInitial();
+            dispatch(setRentHomeStay(false));
+            // console.log(rentHomeStay);
+        }
+        // console.log(rentHomeStay);
+    }
+
+    return (
+        <View style={styles.body}>
+            <Card style={{ width: '100%' }}>
+                <View style={{ alignItems: 'center' }}>
+                    <Text style={styles.question}>
+                        {props.quest}
+                    </Text>
+                </View>
+                <View style={{ marginHorizontal: '15%' }}>
+                    <RadioButtonRN
+                        data={data}
+                        box={false}
+                        animationTypes={['pulse']}
+                        circleSize={18}
+                        textColor={'black'}
+                        selectedBtn={onPressHandler}
+                    >
+                    </RadioButtonRN>
+                </View>
+                <View style={{ marginTop: 10 }}>
+                    <Image
+                        source={require('../../assets/kids.png')}
+                        style={{
+                            padding: 1,
+                            aspectRatio: 1,
+                            width: '100%',
+                            resizeMode: 'contain',
+                            // justifyContent: 'flex-end',
+                            alignItems: 'flex-end',
+                            height: undefined
+                        }}
+                    />
+                </View>
+            </Card>
         </View>
-        <View style={{marginHorizontal: '15%'}}>
-          <RadioButtonRN
-            data={data}
-            box={false}
-            animationTypes={['pulse']}
-            circleSize={18}
-            textColor={'black'}
-            selectedBtn={e => console.log(e)}></RadioButtonRN>
-        </View>
-        <View style={{marginTop: 10}}>
-          <Image
-            source={require('../../assets/kids.png')}
-            style={{
-              padding: 1,
-              aspectRatio: 1,
-              width: '100%',
-              resizeMode: 'contain',
-              // justifyContent: 'flex-end',
-              alignItems: 'flex-end',
-              height: undefined,
-            }}
-          />
-        </View>
-      </Card>
-    </View>
+    //     <View style={{marginHorizontal: '15%'}}>
+    //       <RadioButtonRN
+    //         data={data}
+    //         box={false}
+    //         animationTypes={['pulse']}
+    //         circleSize={18}
+    //         textColor={'black'}
+    //         selectedBtn={e => console.log(e)}></RadioButtonRN>
+    //     </View>
+    //     <View style={{marginTop: 10}}>
+    //       <Image
+    //         source={require('../../assets/kids.png')}
+    //         style={{
+    //           padding: 1,
+    //           aspectRatio: 1,
+    //           width: '100%',
+    //           resizeMode: 'contain',
+    //           // justifyContent: 'flex-end',
+    //           alignItems: 'flex-end',
+    //           height: undefined,
+    //         }}
+    //       />
+    //     </View>
+    //   </Card>
+    // </View>
   );
 };
 
@@ -95,4 +148,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Withkids;
+export default RentHomeStay;

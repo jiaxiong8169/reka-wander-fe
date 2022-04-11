@@ -1,114 +1,7 @@
-// import React from 'react';
-// import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-// import RadioButtonRN from 'radio-buttons-react-native';
-
-// const data = [
-//     {
-//         label: 'Yes'
-//     },
-//     {
-//         label: 'No'
-//     }
-// ];
-
-// const Radio = () => {
-
-//     return (
-//         <View style={{alignItems:'center'}}>
-//             <RadioButtonRN
-//                 data={data}
-//                 box={false}
-//                 animationTypes={['pulse']}
-//                 boxStyle={{flexDirection: 'row'}}
-//                 circleSize={10}
-//                 textColor={'black'}
-//                 selectedBtn={(e) => console.log(e)}
-//             >
-//             </RadioButtonRN>
-//         </View>
-//     );
-// };
-
-// export default Radio;
-
-// import React, { PureComponent } from 'react';
-// import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-// import PropTypes from 'prop-types';
-// import Circle from './Circle';
-
-// class RadioGroup extends PureComponent {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       selectedOptionId: props.activeButtonId,
-//     };
-//   }
-
-//   static propTypes = {
-//     options: PropTypes.arrayOf({
-//       id: PropTypes.string.isRequired,
-//       label: PropTypes.string,
-//       labelView: PropTypes.element,
-//     }).isRequired,
-//     horizontal: PropTypes.bool,
-//     circleStyle: PropTypes.object,
-//     activeButtonId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-//     onChange: PropTypes.func,
-//   };
-
-//   static defaultProps = {
-//     horizontal: false,
-//   };
-
-//   onPress = option => () => {
-//     if (option.id === this.state.selectedOptionId) {
-//       return;
-//     }
-
-//     this.setState({ selectedOptionId: option.id });
-//     this.props.onChange && this.props.onChange(option);
-//   };
-
-//   render() {
-//     const { options, horizontal, circleStyle } = this.props;
-//     return (
-//       <View style={[styles.container, horizontal && { flexDirection: 'row' }]}>
-//         {options.map(option => (
-//           <TouchableOpacity
-//             key={option.id}
-//             style={styles.radio}
-//             onPress={this.onPress(option)}
-//           >
-//             <Circle
-//               active={this.state.selectedOptionId === option.id}
-//               circleStyle={circleStyle}
-//             />
-//             {option.label && <Text>{option.label}</Text>}
-//             {!option.label && option.labelView}
-//           </TouchableOpacity>
-//         ))}
-//       </View>
-//     );
-//   }
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flexWrap: 'wrap',
-//   },
-//   radio: {
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//     marginBottom: 10,
-//     marginRight: 10,
-//   },
-// });
-
-// export default RadioGroup;
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {StyleSheet, View, Text, Animated, TouchableOpacity} from 'react-native';
+import { StyleSheet, View, Text, Animated, TouchableOpacity } from 'react-native';
 
 class RadioButtonRN extends React.Component {
   constructor(props) {
@@ -201,6 +94,7 @@ class RadioButtonRN extends React.Component {
     this.setState({activeIndex});
     if (activeIndex !== this.state.activeIndex) {
       this.fadeInAnimation();
+        this.props.selectedBtn(item.label);
     }
     this.props.selectedBtn(item);
   }
@@ -396,22 +290,23 @@ RadioButtonRN.propTypes = {
 };
 
 RadioButtonRN.defaultProps = {
-  style: {},
-  boxStyle: {},
-  textStyle: {},
-  initial: -1,
-  circleSize: 18,
-  duration: 500,
-  data: [],
-  animationTypes: [],
-  selectedBtn: () => {},
-  // activeColor: 'black',
-  activeColor: `#4169E1`,
-  deactiveColor: '#e2e2e2',
-  boxActiveBgColor: '#e1f5fe33',
-  boxDeactiveBgColor: '#fff',
-  textColor: 'black',
-  box: true,
+    style: {},
+    boxStyle: {},
+    textStyle: {},
+    initial: -1,
+    circleSize: 18,
+    duration: 500,
+    data: [],
+    animationTypes: [],
+    selectedBtn: () => { },
+    // selectedBtn: () => { },
+    // activeColor: 'black',
+    activeColor: `#4169E1`,
+    deactiveColor: '#e2e2e2',
+    boxActiveBgColor: '#e1f5fe33',
+    boxDeactiveBgColor: '#fff',
+    textColor: 'black',
+    box: true,
 };
 
 /* Export Component ============================ */

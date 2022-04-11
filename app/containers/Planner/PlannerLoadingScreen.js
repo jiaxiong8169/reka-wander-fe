@@ -6,33 +6,55 @@ import GradientBackground from '../../components/GradientBackground';
 import BlueSubtitle from '../../components/BlueSubtitle';
 
 export default function LoadingScreen({navigation}) {
-  useEffect(() => {
-    //temporary
-    setTimeout(() => {
-      navigation.navigate('Recommended');
-    }, 2000);
-  });
+  // useEffect(() => {
+  //   //temporary
+  //   setTimeout(() => {
+  //     navigation.navigate('Recommended');
+  //   }, 2000);
+  // });
 
-  return (
-    <GradientBackground>
-      <BlueSubtitle text1="Hi" text2="Melvin,"></BlueSubtitle>
-      <Text style={styles.subtitle}>Create your destiny</Text>
-      <View style={styles.body}>
-        <Card>
-          <View
-            style={{
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}>
-            <Text style={styles.title}>We are preparing your holiday</Text>
-            <Text style={styles.content}>Please wait</Text>
-            <Indicator />
-          </View>
-        </Card>
-      </View>
-    </GradientBackground>
-  );
-}
+    const [Loading, setLoading] = useState(false)
+
+    useEffect(() => {
+        //temporary
+         
+        setTimeout(() => {
+            navigation.navigate('Recommended');
+        }, 2000);
+    })
+
+    return (
+        <GradientBackground>
+            <BlueSubtitle text1="Hi" text2="Melvin," >
+
+            </BlueSubtitle>
+            <Text style={styles.subtitle}>
+                Create your destiny
+            </Text>
+            <View style={styles.body}>
+                <Card>
+                    <View style={{
+                        alignItems: 'center',
+                        justifyContent: 'space-between'
+                    }}>
+                        <Text style={styles.title}>
+                            We are preparing your holiday</Text>
+                        <Text style={styles.content}>
+                            Please wait
+                        </Text>
+                        <Indicator />
+                    </View>
+
+
+
+                </Card>
+            </View>
+        </GradientBackground>
+
+    );
+
+
+};
 
 const styles = StyleSheet.create({
   body: {

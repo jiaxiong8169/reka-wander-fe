@@ -15,6 +15,8 @@ export const setTripName = tripName => dispatch => {
         type: SET_USER_STARTDATE,
         payload: tripName,
     });
+    console.log("tripName")
+    console.log(tripName)
 }
 
 export const setStartDate = startDate => dispatch => {
@@ -22,6 +24,8 @@ export const setStartDate = startDate => dispatch => {
         type: SET_USER_TRIPNAME,
         payload: startDate,
     });
+    console.log("startDate")
+    console.log(startDate)
 }
 
 export const setEndDate = endDate => dispatch => {
@@ -29,6 +33,8 @@ export const setEndDate = endDate => dispatch => {
         type: SET_USER_ENDDATE,
         payload: endDate,
     });
+    console.log("endDate")
+    console.log(endDate)
 }
 
 export const setPax = pax => dispatch => {
@@ -36,6 +42,8 @@ export const setPax = pax => dispatch => {
         type: SET_USER_PAX,
         payload: pax,
     });
+    console.log("pax")
+    console.log(pax)
 }
 
 export const setBudget = budget => dispatch => {
@@ -43,6 +51,8 @@ export const setBudget = budget => dispatch => {
         type: SET_USER_BUDGET,
         payload: budget,
     });
+    console.log("budget")
+    console.log(budget)
 }
 
 export const setInterest = interest => dispatch => {
@@ -50,6 +60,8 @@ export const setInterest = interest => dispatch => {
         type: SET_USER_INTEREST,
         payload: interest,
     });
+    console.log("interest")
+    console.log(interest)
 }
 
 export const setKids = kids => dispatch => {
@@ -57,6 +69,8 @@ export const setKids = kids => dispatch => {
         type: SET_USER_KIDS,
         payload: kids,
     });
+    console.log("kids")
+    console.log(kids)
 }
 
 export const setRentCar = rentCar => dispatch => {
@@ -64,6 +78,8 @@ export const setRentCar = rentCar => dispatch => {
         type: SET_USER_RENTCAR,
         payload: rentCar,
     });
+    console.log("rentCar")
+    console.log(rentCar)
 }
 
 export const setRentHomeStay = rentHomeStay => dispatch => {
@@ -71,6 +87,8 @@ export const setRentHomeStay = rentHomeStay => dispatch => {
         type: SET_USER_RENTHOMESTAY,
         payload: rentHomeStay,
     });
+    console.log("rentHomeStay")
+    console.log(rentHomeStay)
 }
 
 export const setLongitude = longitude => dispatch => {
@@ -78,6 +96,8 @@ export const setLongitude = longitude => dispatch => {
         type: SET_USER_LONGITUDE,
         payload: longitude,
     });
+    console.log("longitude")
+    console.log(longitude)
 }
 
 export const setLatitude = latitude => dispatch => {
@@ -85,4 +105,6 @@ export const setLatitude = latitude => dispatch => {
         type: SET_USER_LATITUDE,
         payload: latitude,
     });
+    console.log("latitude")
+    console.log(latitude)
 }

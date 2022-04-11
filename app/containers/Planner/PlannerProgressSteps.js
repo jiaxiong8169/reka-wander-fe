@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, ScrollView } from 'react-native';
 import { useAuth } from '../../hooks/useAuth';
+import { useSelector, useDispatch } from 'react-redux';
 
 import TripName from './PlannerTripNameScreen';
 import PaxPage from './PlannerPaxScreen';
@@ -18,12 +19,16 @@ import GradientBackground from '../../components/GradientBackground';
 export default function PlannerSteps({ navigation }) {
 
   const { authData } = useAuth();
+  // const { rentCar } = useSelector(state => state.plannerReducer);
 
   const onPressHandler = () => {
     // navigation.navigate('Recomendation');
     navigation.navigate('Loading');
-
   };
+
+  const check =()=>{
+
+  }
 
   const nextbuttonTextStyle = {
     backgroundColor: '#4169E1',
@@ -96,7 +101,7 @@ export default function PlannerSteps({ navigation }) {
 
               <ProgressStep
                 nextBtnTextStyle={nextbuttonTextStyle}
-                // onNext={onPressHandler}
+                // onNext={check}
                 >
                 <TripName quest="Give Your Trip a name!" />
               </ProgressStep>
@@ -134,14 +139,14 @@ export default function PlannerSteps({ navigation }) {
               <ProgressStep
                 nextBtnTextStyle={nextbuttonTextStyle}
                 previousBtnTextStyle={previousbuttonTextStyle}>
-                <RentCar quest="Rent Car?" />
+               <TravelBudget quest="Travel budget" />
               </ProgressStep>
 
               <ProgressStep
                 onSubmit={onPressHandler}
                 nextBtnTextStyle={nextbuttonTextStyle}
                 previousBtnTextStyle={previousbuttonTextStyle}>
-                <TravelBudget quest="Travel budget" />
+                 <RentCar quest="Rent Car?" />
               </ProgressStep>
             </ProgressSteps>
           </View>

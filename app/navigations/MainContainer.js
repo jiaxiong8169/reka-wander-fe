@@ -11,13 +11,17 @@ import NearByHomeScreen from '../containers/spots/nearby/NearByHomeScreen';
 import NearByCategoryScreen from '../containers/spots/nearby/NearByCategoryScreen';
 import NearBySearchScreen from '../containers/spots/nearby/NearBySearchScreen';
 import NearByDetailsScreen from '../containers/spots/nearby/NearByDetailsScreen';
-
-import PlannerSteps from '../containers/Planner/PlannerProgressSteps';
+//Planner
 import HomePage from '../containers/Planner/PlannerHomeScreen';
-import SuccessConfirmScreen from '../containers/Planner/PlannerSuccessCreateTrip';
-import Recommended from '../containers/Planner/RecommendedPlaceScreen';
+import PlannerSteps from '../containers/Planner/PlannerProgressSteps';
 import LoadingScreen from '../containers/Planner/PlannerLoadingScreen';
-import {SettingsScreen} from '../containers/settings/SettingsScreen';
+import Recommended from '../containers/Planner/RecommendedPlaceScreen';
+import SuccessConfirmScreen from '../containers/Planner/PlannerSuccessCreateTrip';
+import { Provider } from 'react-redux';
+import { Store } from '../redux/Planner/store';
+
+import BlueSubtitle from '../components/BlueSubtitle';
+import { SettingsScreen } from '../containers/settings';
 
 //Screen names
 const Stack = createStackNavigator();
@@ -77,43 +81,47 @@ function SpotsHomeStack() {
 
 function PlannerHomeStack() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="HomePage"
-        component={HomePage}
-        options={{
-          header: () => null,
-        }}
-      />
-      <Stack.Screen
-        name="Planner_Question"
-        component={PlannerSteps}
-        options={{
-          header: () => null,
-        }}
-      />
-      <Stack.Screen
-        name="Loading"
-        component={LoadingScreen}
-        options={{
-          header: () => null,
-        }}
-      />
-      <Stack.Screen
-        name="Recommended"
-        component={Recommended}
-        options={{
-          header: () => null,
-        }}
-      />
-      <Stack.Screen
-        name="Success"
-        component={SuccessConfirmScreen}
-        options={{
-          header: () => null,
-        }}
-      />
-    </Stack.Navigator>
+    <Provider store={Store}>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="HomePage"
+          component={HomePage}
+          options={{
+            header: () => null
+          }}
+        />
+        <Stack.Screen
+          name="Planner_Question"
+          component={PlannerSteps}
+          options={{
+            header: () => null
+          }}
+        />
+        <Stack.Screen
+          name="Loading"
+          component={LoadingScreen}
+          options={{
+            header: () => null
+          }}
+        />
+        <Stack.Screen
+          name="Recommended"
+          component={Recommended}
+          options={{
+            header: () => null
+          }}
+        />
+        <Stack.Screen
+          name="Success"
+          component={SuccessConfirmScreen}
+          options={{
+            header: () => null
+          }}
+        />
+
+
+      </Stack.Navigator>
+    </Provider>
   );
 }
 
