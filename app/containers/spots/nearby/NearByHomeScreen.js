@@ -11,10 +11,8 @@ import {FlatList, Image} from 'react-native';
 import {SearchIcon, Text} from 'native-base';
 import GradientBackground from '../../../components/GradientBackground';
 import {TabView, SceneMap} from 'react-native-tab-view';
-import { TabBar } from 'react-native-tab-view';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-
-
+import {TabBar} from 'react-native-tab-view';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const {width} = Dimensions.get('window');
 //you need to preview n items.
@@ -41,7 +39,7 @@ export default function NearByHomeScreen({navigation}) {
   const snapToOffsets = data.map((x, i) => {
     return i * itemWidth + startScroll;
   });
-  
+
   const Nearby_Spots = () => (
     <GradientBackground>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -54,10 +52,13 @@ export default function NearByHomeScreen({navigation}) {
         <View style={{marginBottom: 10}}>
           <Text bold fontSize={18} marginLeft={2}>
             Nearby Restaurants {'  '}
-            <Text underline mt="2" fontSize={15} color="blue.600"
-             onPress={() => navigation.navigate('NearByCategory')}
-             >
-              {"View More>>"}
+            <Text
+              underline
+              mt="2"
+              fontSize={15}
+              color="blue.600"
+              onPress={() => navigation.navigate('NearByCategory')}>
+              {'View More>>'}
             </Text>
           </Text>
           <FlatList
@@ -69,8 +70,9 @@ export default function NearByHomeScreen({navigation}) {
             showsHorizontalScrollIndicator={false}
             data={data}
             renderItem={({item, index}) => (
-              <TouchableOpacity style={styles.view}
-              onPress={() => navigation.navigate('NearByDetails')}>
+              <TouchableOpacity
+                style={styles.view}
+                onPress={() => navigation.navigate('NearByDetails')}>
                 <Image
                   source={require('../../../assets/restaurant.jpg')}
                   style={{
@@ -87,11 +89,15 @@ export default function NearByHomeScreen({navigation}) {
         </View>
 
         <View style={{marginBottom: 10}}>
-        <Text bold fontSize={18} marginLeft={2}>
+          <Text bold fontSize={18} marginLeft={2}>
             Nearby Places {'  '}
-            <Text underline mt="2" fontSize={15} color="blue.600"
-             onPress={() => navigation.navigate('NearByCategory')}>
-              {"View More>>"}
+            <Text
+              underline
+              mt="2"
+              fontSize={15}
+              color="blue.600"
+              onPress={() => navigation.navigate('NearByCategory')}>
+              {'View More>>'}
             </Text>
           </Text>
           <FlatList
@@ -103,8 +109,9 @@ export default function NearByHomeScreen({navigation}) {
             showsHorizontalScrollIndicator={false}
             data={data}
             renderItem={({item, index}) => (
-              <TouchableOpacity style={styles.view}
-              onPress={() => navigation.navigate('NearByDetails')}>
+              <TouchableOpacity
+                style={styles.view}
+                onPress={() => navigation.navigate('NearByDetails')}>
                 <Image
                   source={require('../../../assets/experiences.jpg')}
                   style={{
@@ -121,11 +128,15 @@ export default function NearByHomeScreen({navigation}) {
         </View>
 
         <View style={{marginBottom: 20}}>
-        <Text bold fontSize={18} marginLeft={2}>
+          <Text bold fontSize={18} marginLeft={2}>
             Nearby Hotels {'  '}
-            <Text underline mt="2" fontSize={15} color="blue.600"
-             onPress={() => navigation.navigate('NearByCategory')}>
-              {"View More>>"}
+            <Text
+              underline
+              mt="2"
+              fontSize={15}
+              color="blue.600"
+              onPress={() => navigation.navigate('NearByCategory')}>
+              {'View More>>'}
             </Text>
           </Text>
           <FlatList
@@ -137,8 +148,9 @@ export default function NearByHomeScreen({navigation}) {
             showsHorizontalScrollIndicator={false}
             data={data}
             renderItem={({item, index}) => (
-              <TouchableOpacity style={styles.view}
-              onPress={() => navigation.navigate('NearByDetails')}>
+              <TouchableOpacity
+                style={styles.view}
+                onPress={() => navigation.navigate('NearByDetails')}>
                 <Image
                   source={require('../../../assets/home.jpg')}
                   style={{
@@ -156,7 +168,7 @@ export default function NearByHomeScreen({navigation}) {
       </ScrollView>
     </GradientBackground>
   );
-  
+
   const renderScene = SceneMap({
     first: Nearby_Spots,
   });
@@ -164,9 +176,7 @@ export default function NearByHomeScreen({navigation}) {
   const layout = useWindowDimensions();
 
   const [index, setIndex] = React.useState(0);
-  const [routes] = React.useState([
-    {key: 'first', title: 'Nearby Spots'},
-  ]);
+  const [routes] = React.useState([{key: 'first', title: 'Nearby Spots'}]);
 
   return (
     <TabView
@@ -174,8 +184,9 @@ export default function NearByHomeScreen({navigation}) {
       renderScene={renderScene}
       onIndexChange={setIndex}
       initialLayout={{width: layout.width}}
-      renderTabBar={props => <TabBar {...props} indicatorStyle={styles.noIndicator}></TabBar>}>
-      </TabView>
+      renderTabBar={props => (
+        <TabBar {...props} indicatorStyle={styles.noIndicator}></TabBar>
+      )}></TabView>
   );
 }
 const styles = StyleSheet.create({
@@ -191,7 +202,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#aaa',
   },
-  noIndicator:{
-    backgroundColor: 'transparent'
-  }
+  noIndicator: {
+    backgroundColor: 'transparent',
+  },
 });
