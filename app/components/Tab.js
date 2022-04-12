@@ -9,7 +9,7 @@ import {TabView, SceneMap} from 'react-native-tab-view';
 import GradientBackground from './GradientBackground';
 import React from 'react';
 import {FlatList, Text} from 'react-native';
-import { TabBar } from 'react-native-tab-view';
+import {TabBar} from 'react-native-tab-view';
 import SpotsHomeScreen_Places from '../containers/spots/SpotsHomeScreen_Places';
 
 const {width} = Dimensions.get('window');
@@ -24,18 +24,12 @@ const itemWidth = width / (previewCount + 0.5);
 const startScroll = (itemWidth * 3) / 4;
 
 export default function Tab({navigation}) {
-  const Event = () => (
-    <GradientBackground></GradientBackground>
-  );
-  
-  const Reward = () => (
-    <GradientBackground></GradientBackground>
-  );
-  
-  const Places = () => (
-    <SpotsHomeScreen_Places navigation={navigation}/>
-  );
-  
+  const Event = () => <GradientBackground></GradientBackground>;
+
+  const Reward = () => <GradientBackground></GradientBackground>;
+
+  const Places = () => <SpotsHomeScreen_Places navigation={navigation} />;
+
   const renderScene = SceneMap({
     first: Event,
     second: Reward,
@@ -44,12 +38,12 @@ export default function Tab({navigation}) {
 
   const layout = useWindowDimensions();
 
-  const [index, setIndex] = React.useState(0);
-  const [routes] = React.useState([
+  const [index, setIndex] = React.useState(2);
+  const routes = [
     {key: 'first', title: 'Event'},
     {key: 'second', title: 'Reward'},
     {key: 'third', title: 'Places'},
-  ]);
+  ];
 
   return (
     <TabView
@@ -57,8 +51,9 @@ export default function Tab({navigation}) {
       renderScene={renderScene}
       onIndexChange={setIndex}
       initialLayout={{width: layout.width}}
-      renderTabBar={props => <TabBar {...props} indicatorStyle={styles.noIndicator}></TabBar>}>
-      </TabView>
+      renderTabBar={props => (
+        <TabBar {...props} indicatorStyle={styles.noIndicator}></TabBar>
+      )}></TabView>
   );
 }
 
@@ -78,7 +73,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#aaa',
   },
-  noIndicator:{
-    backgroundColor: 'transparent'
-  }
+  noIndicator: {
+    backgroundColor: 'transparent',
+  },
 });
