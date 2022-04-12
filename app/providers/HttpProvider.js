@@ -71,7 +71,7 @@ const HttpProvider = ({children}) => {
       });
   };
 
-  const fetchWithoutAuth = () => (urlPath, method, body) => {
+  const fetchWithoutAuth = (urlPath, method, body) => {
     return fetch(`${BACKEND_URL}/${urlPath}`, {
       method,
       headers: {
@@ -80,6 +80,7 @@ const HttpProvider = ({children}) => {
       body: JSON.stringify(body),
     })
       .then(res => {
+        console.log(res);
         if (!res.ok) {
           let err = new Error('HTTP status code: ' + res.status);
           err.response = res;
