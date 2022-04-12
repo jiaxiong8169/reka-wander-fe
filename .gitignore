@@ -60,3 +60,6 @@ buck-out/
 /ios/Pods/
 
 .env
+
+# google service json
+android/app/google-services.json
