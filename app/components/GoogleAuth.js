@@ -24,7 +24,6 @@ const GoogleAuth = ({navigation, setEmail}) => {
     try {
       const {idToken} = await GoogleSignin.signIn();
       const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-      console.log(googleCredential);
       auth()
         .signInWithCredential(googleCredential)
         .then(data => {
@@ -36,7 +35,6 @@ const GoogleAuth = ({navigation, setEmail}) => {
   };
 
   const completeRegistration = async currentUser => {
-    console.log({currentUser});
     // this is to get the firebase id token, not the google id token
     const idToken = await auth().currentUser.getIdToken(
       /* forceRefresh */ true,
@@ -47,14 +45,13 @@ const GoogleAuth = ({navigation, setEmail}) => {
     signInWithGoogle(email, idToken)
       // sign out immmediately after sign in to remove the access on firebase
       .then(() => {
-        console.log('sign out');
         return GoogleSignin.revokeAccess();
       })
       .then(() => {
         return GoogleSignin.signOut();
       })
       .then(() => {
-        navigation.navigate({name: 'SignInScreen'});
+        navigation.navigate({name: 'MainScreen'});
       })
       .catch(err => {
         navigation.navigate('ConfirmPhone', {email, password: uid});

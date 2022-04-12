@@ -42,6 +42,7 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
         password,
         phoneNumber,
       };
+      console.log(regInfo);
       authProvider.signUp(regInfo).then(success => {
         if (success)
           authProvider
@@ -50,7 +51,7 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
               return auth().signOut();
             })
             .then(() => {
-              navigation.goBack();
+              navigation.navigate({name: 'MainScreen'});
             });
         // it is not necessary to use `signInWithGoogle`
         // because we use the same email and password to sign up and sign in

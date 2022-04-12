@@ -42,6 +42,7 @@ const AuthProvider = ({children}) => {
     setLoading(true);
     return AuthService.signUp(userRegInfo)
       .then(_authData => {
+        console.log(_authData);
         setLoading(false);
         return true;
       })

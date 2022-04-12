@@ -10,9 +10,12 @@ export const SettingsScreen = ({navigation}) => {
   const {getWithAuth} = useHttpCall();
 
   const getProfile = () => {
-    return getWithAuth('/profile', () =>
+    return getWithAuth('profile', () =>
       navigation.navigate({name: 'SignInScreen'}),
-    ).then(data => console.log(data));
+    ).then(data => {
+      // TODO: Implement Profile Container
+      console.log(data);
+    });
   };
 
   return (
@@ -34,7 +37,12 @@ export const SettingsScreen = ({navigation}) => {
             <Button style={styles.button} onPress={() => getProfile()}>
               Profile
             </Button>
-            <Button style={styles.button} onPress={() => signOut()}>
+            <Button
+              style={styles.button}
+              onPress={() => {
+                signOut();
+                navigation.navigate('SignInScreen');
+              }}>
               Logout
             </Button>
           </>

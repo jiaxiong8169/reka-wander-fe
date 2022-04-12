@@ -1,7 +1,7 @@
 import {post} from '../utils/fetch-instance';
 
 const signIn = (email, password) => {
-  return post('/auth/login', {email, password})
+  return post('auth/login', {email, password})
     .then(data => {
       const {user, tokens} = data.data;
       return {
@@ -16,7 +16,7 @@ const signIn = (email, password) => {
 
 const signInWithGoogle = (email, idToken) => {
   return post(
-    '/auth/login/google',
+    'auth/login/google',
     {email},
     {Authorization: `Bearer ${idToken}`},
   )
@@ -34,12 +34,13 @@ const signInWithGoogle = (email, idToken) => {
 };
 
 const signUp = userRegInfo => {
-  return post('/auth/register', userRegInfo)
+  return post('auth/register', userRegInfo)
     .then(data => {
       const {user} = data.data;
       return user;
     })
-    .catch(() => {
+    .catch(err => {
+      console.log(err);
       throw 'Invalid signup';
     });
 };

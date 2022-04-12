@@ -103,7 +103,6 @@ const HttpProvider = ({children}) => {
   const getWithoutAuth = urlPath => fetchWithoutAuth(urlPath, 'GET');
 
   const refreshAccessToken = refreshToken => {
-    console.log('refresh');
     return fetch(`${BACKEND_URL}/auth/refresh`, {
       method: 'POST',
       headers: {
