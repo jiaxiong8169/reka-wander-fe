@@ -1,15 +1,10 @@
-import {
-  View,
-  useWindowDimensions,
-  StyleSheet,
-  ScrollView,
-  Dimensions,
-} from 'react-native';
-import React from 'react';
+import {View, StyleSheet, ScrollView, Dimensions} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {FlatList, Image} from 'react-native';
 import {SearchIcon, Text} from 'native-base';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import GradientBackground from '../../components/GradientBackground';
+import {useHttpCall} from '../../hooks/useHttpCall';
 
 const {width} = Dimensions.get('window');
 //you need to preview n items.
@@ -22,8 +17,23 @@ const itemWidth = width / (previewCount + 0.5);
 const startScroll = 0;
 
 export default function SpotsHomeScreen_Places({navigation}) {
-  const data = [...Array(10).keys()];
   const flatlistRef = React.useRef();
+  const {getWithoutAuth} = useHttpCall();
+  const [restaurantData, setRestaurantData] = useState([]);
+  const [attractionData, setAttractionData] = useState([]);
+  const [hotelData, setHotelData] = useState([]);
+
+  useEffect(() => {
+    getWithoutAuth('restaurants?sort=avgRating').then(({data}) => {
+      if (!!data) setRestaurantData(data);
+    });
+    getWithoutAuth('attractions?sort=avgRating').then(({data}) => {
+      if (!!data) setAttractionData(data);
+    });
+    getWithoutAuth('hotels?sort=avgRating').then(({data}) => {
+      if (!!data) setHotelData(data);
+    });
+  }, []);
 
   React.useEffect(() => {
     if (flatlistRef.current)
@@ -32,10 +42,6 @@ export default function SpotsHomeScreen_Places({navigation}) {
         animated: false,
       });
   }, [flatlistRef]);
-
-  const snapToOffsets = data.map((x, i) => {
-    return i * itemWidth + startScroll;
-  });
 
   return (
     <GradientBackground>
@@ -49,25 +55,31 @@ export default function SpotsHomeScreen_Places({navigation}) {
         <View style={{marginBottom: 10}}>
           <Text bold fontSize={18} marginLeft={2}>
             Restaurants {'  '}
-            <Text underline mt="2" fontSize={15} color="blue.600"
-             onPress={() => navigation.navigate('SpotsCategory')}
-             >
-              {"View More>>"}
+            <Text
+              underline
+              mt="2"
+              fontSize={15}
+              color="blue.600"
+              onPress={() => navigation.navigate('SpotsCategory')}>
+              {'View More>>'}
             </Text>
           </Text>
           <FlatList
             ref={flatlistRef}
             horizontal={true}
             decelerationRate={0}
-            snapToOffsets={snapToOffsets}
+            snapToOffsets={restaurantData.map(
+              (x, i) => i * itemWidth * startScroll,
+            )}
             snapToAlignment={'center'}
             showsHorizontalScrollIndicator={false}
-            data={data}
+            data={restaurantData}
             renderItem={({item, index}) => (
-              <TouchableOpacity style={styles.view}
-              onPress={() => navigation.navigate('NearByDetails')}>
+              <TouchableOpacity
+                style={styles.view}
+                onPress={() => navigation.navigate('NearByDetails')}>
                 <Image
-                  source={require('../../assets/restaurant.jpg')}
+                  source={{uri: item.thumbnailSrc}}
                   style={{
                     flex: 1,
                     width: null,
@@ -82,26 +94,33 @@ export default function SpotsHomeScreen_Places({navigation}) {
         </View>
 
         <View style={{marginBottom: 10}}>
-        <Text bold fontSize={18} marginLeft={2}>
-            Places {'  '}
-            <Text underline mt="2" fontSize={15} color="blue.600"
-             onPress={() => navigation.navigate('SpotsCategory')}>
-              {"View More>>"}
+          <Text bold fontSize={18} marginLeft={2}>
+            Attractions {'  '}
+            <Text
+              underline
+              mt="2"
+              fontSize={15}
+              color="blue.600"
+              onPress={() => navigation.navigate('SpotsCategory')}>
+              {'View More>>'}
             </Text>
           </Text>
           <FlatList
             ref={flatlistRef}
             horizontal={true}
             decelerationRate={0}
-            snapToOffsets={snapToOffsets}
+            snapToOffsets={attractionData.map(
+              (x, i) => i * itemWidth * startScroll,
+            )}
             snapToAlignment={'center'}
             showsHorizontalScrollIndicator={false}
-            data={data}
+            data={attractionData}
             renderItem={({item, index}) => (
-              <TouchableOpacity style={styles.view}
-              onPress={() => navigation.navigate('NearByDetails')}>
+              <TouchableOpacity
+                style={styles.view}
+                onPress={() => navigation.navigate('NearByDetails')}>
                 <Image
-                  source={require('../../assets/experiences.jpg')}
+                  source={{uri: item.thumbnailSrc}}
                   style={{
                     flex: 1,
                     width: null,
@@ -116,26 +135,31 @@ export default function SpotsHomeScreen_Places({navigation}) {
         </View>
 
         <View style={{marginBottom: 20}}>
-        <Text bold fontSize={18} marginLeft={2}>
+          <Text bold fontSize={18} marginLeft={2}>
             Hotels {'  '}
-            <Text underline mt="2" fontSize={15} color="blue.600"
-             onPress={() => navigation.navigate('SpotsCategory')}>
-              {"View More>>"}
+            <Text
+              underline
+              mt="2"
+              fontSize={15}
+              color="blue.600"
+              onPress={() => navigation.navigate('SpotsCategory')}>
+              {'View More>>'}
             </Text>
           </Text>
           <FlatList
             ref={flatlistRef}
             horizontal={true}
             decelerationRate={0}
-            snapToOffsets={snapToOffsets}
+            snapToOffsets={hotelData.map((x, i) => i * itemWidth * startScroll)}
             snapToAlignment={'center'}
             showsHorizontalScrollIndicator={false}
-            data={data}
+            data={hotelData}
             renderItem={({item, index}) => (
-              <TouchableOpacity style={styles.view}
-              onPress={() => navigation.navigate('NearByDetails')}>
+              <TouchableOpacity
+                style={styles.view}
+                onPress={() => navigation.navigate('NearByDetails')}>
                 <Image
-                  source={require('../../assets/home.jpg')}
+                  source={{uri: item.thumbnailSrc}}
                   style={{
                     flex: 1,
                     width: null,
