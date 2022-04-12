@@ -1,7 +1,6 @@
 import * as React from 'react';
-import {View, Text, StyleSheet, Image, Dimensions} from 'react-native';
+import {Text, StyleSheet, Image} from 'react-native';
 import Card from '../../../components/Card';
-import LinearGradient from 'react-native-linear-gradient';
 import {Button} from 'native-base';
 import BlueSubtitle from '../../../components/BlueSubtitle';
 import GradientBackground from '../../../components/GradientBackground';
@@ -49,8 +48,6 @@ const styles = StyleSheet.create({
   card: {
     height: '85%',
     width: '100%',
-    // flex: 1,
-    // // backgroundColor: 'white',
     justifyContent: 'center', //Centered vertically
     alignItems: 'center', // Centered horizontally
     flexDirection: 'column',
@@ -61,7 +58,6 @@ const styles = StyleSheet.create({
   image: {
     resizeMode: 'contain',
     flex: 1,
-    // aspectRatio: 1, // Your aspect ratio
   },
   h2: {
     fontWeight: 'bold',

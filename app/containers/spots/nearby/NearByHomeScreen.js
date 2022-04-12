@@ -5,14 +5,14 @@ import {
   ScrollView,
   Dimensions,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {FlatList, Image} from 'react-native';
-import {SearchIcon, Text} from 'native-base';
+import {Text} from 'native-base';
 import GradientBackground from '../../../components/GradientBackground';
 import {TabView, SceneMap} from 'react-native-tab-view';
 import {TabBar} from 'react-native-tab-view';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {useHttpCall} from '../../../hooks/useHttpCall';
 
 const {width} = Dimensions.get('window');
 //you need to preview n items.
@@ -25,8 +25,30 @@ const itemWidth = width / (previewCount + 0.5);
 const startScroll = 0;
 
 export default function NearByHomeScreen({navigation}) {
-  const data = [...Array(10).keys()];
   const flatlistRef = React.useRef();
+  const {getWithoutAuth} = useHttpCall();
+  const [restaurantData, setRestaurantData] = useState([]);
+  const [attractionData, setAttractionData] = useState([]);
+  const [hotelData, setHotelData] = useState([]);
+
+  // TODO: Get actual location
+  useEffect(() => {
+    getWithoutAuth(
+      'restaurants/nearby?long=101.825410&lat=2.699420&distance=300000&sort=-avgRating',
+    ).then(({data}) => {
+      if (!!data) setRestaurantData(data);
+    });
+    getWithoutAuth(
+      'attractions/nearby?long=101.825410&lat=2.699420&distance=300000&sort=-avgRating',
+    ).then(({data}) => {
+      if (!!data) setAttractionData(data);
+    });
+    getWithoutAuth(
+      'hotels/nearby?long=101.825410&lat=2.699420&distance=300000&sort=-avgRating',
+    ).then(({data}) => {
+      if (!!data) setHotelData(data);
+    });
+  }, []);
 
   React.useEffect(() => {
     if (flatlistRef.current)
@@ -36,19 +58,9 @@ export default function NearByHomeScreen({navigation}) {
       });
   }, [flatlistRef]);
 
-  const snapToOffsets = data.map((x, i) => {
-    return i * itemWidth + startScroll;
-  });
-
   const Nearby_Spots = () => (
     <GradientBackground>
       <ScrollView showsVerticalScrollIndicator={false}>
-        {/* <SearchIcon
-          size="6"
-          mx={2}
-          style={{alignSelf: 'flex-end'}}
-          onPress={() => navigation.navigate('NearBySearch')}
-        /> */}
         <View style={{marginBottom: 10}}>
           <Text bold fontSize={18} marginLeft={2}>
             Nearby Restaurants {'  '}
@@ -57,7 +69,9 @@ export default function NearByHomeScreen({navigation}) {
               mt="2"
               fontSize={15}
               color="blue.600"
-              onPress={() => navigation.navigate('NearByCategory')}>
+              onPress={() =>
+                navigation.navigate('NearByCategory', {type: 'restaurants'})
+              }>
               {'View More>>'}
             </Text>
           </Text>
@@ -65,16 +79,23 @@ export default function NearByHomeScreen({navigation}) {
             ref={flatlistRef}
             horizontal={true}
             decelerationRate={0}
-            snapToOffsets={snapToOffsets}
+            snapToOffsets={restaurantData.map(
+              (x, i) => i * itemWidth * startScroll,
+            )}
             snapToAlignment={'center'}
             showsHorizontalScrollIndicator={false}
-            data={data}
+            data={restaurantData}
             renderItem={({item, index}) => (
               <TouchableOpacity
                 style={styles.view}
-                onPress={() => navigation.navigate('NearByDetails')}>
+                onPress={() =>
+                  navigation.navigate('NearByDetails', {
+                    type: 'restaurants',
+                    id: item.id,
+                  })
+                }>
                 <Image
-                  source={require('../../../assets/restaurant.jpg')}
+                  source={{uri: item.thumbnailSrc}}
                   style={{
                     flex: 1,
                     width: null,
@@ -90,13 +111,15 @@ export default function NearByHomeScreen({navigation}) {
 
         <View style={{marginBottom: 10}}>
           <Text bold fontSize={18} marginLeft={2}>
-            Nearby Places {'  '}
+            Nearby Attractions {'  '}
             <Text
               underline
               mt="2"
               fontSize={15}
               color="blue.600"
-              onPress={() => navigation.navigate('NearByCategory')}>
+              onPress={() =>
+                navigation.navigate('NearByCategory', {type: 'attractions'})
+              }>
               {'View More>>'}
             </Text>
           </Text>
@@ -104,16 +127,23 @@ export default function NearByHomeScreen({navigation}) {
             ref={flatlistRef}
             horizontal={true}
             decelerationRate={0}
-            snapToOffsets={snapToOffsets}
+            snapToOffsets={attractionData.map(
+              (x, i) => i * itemWidth * startScroll,
+            )}
             snapToAlignment={'center'}
             showsHorizontalScrollIndicator={false}
-            data={data}
+            data={attractionData}
             renderItem={({item, index}) => (
               <TouchableOpacity
                 style={styles.view}
-                onPress={() => navigation.navigate('NearByDetails')}>
+                onPress={() =>
+                  navigation.navigate('NearByDetails', {
+                    type: 'attractions',
+                    id: item.id,
+                  })
+                }>
                 <Image
-                  source={require('../../../assets/experiences.jpg')}
+                  source={{uri: item.thumbnailSrc}}
                   style={{
                     flex: 1,
                     width: null,
@@ -135,7 +165,9 @@ export default function NearByHomeScreen({navigation}) {
               mt="2"
               fontSize={15}
               color="blue.600"
-              onPress={() => navigation.navigate('NearByCategory')}>
+              onPress={() =>
+                navigation.navigate('NearByCategory', {type: 'hotels'})
+              }>
               {'View More>>'}
             </Text>
           </Text>
@@ -143,16 +175,21 @@ export default function NearByHomeScreen({navigation}) {
             ref={flatlistRef}
             horizontal={true}
             decelerationRate={0}
-            snapToOffsets={snapToOffsets}
+            snapToOffsets={hotelData.map((x, i) => i * itemWidth * startScroll)}
             snapToAlignment={'center'}
             showsHorizontalScrollIndicator={false}
-            data={data}
+            data={hotelData}
             renderItem={({item, index}) => (
               <TouchableOpacity
                 style={styles.view}
-                onPress={() => navigation.navigate('NearByDetails')}>
+                onPress={() =>
+                  navigation.navigate('NearByDetails', {
+                    type: 'hotels',
+                    id: item.id,
+                  })
+                }>
                 <Image
-                  source={require('../../../assets/home.jpg')}
+                  source={{uri: item.thumbnailSrc}}
                   style={{
                     flex: 1,
                     width: null,

@@ -8,7 +8,7 @@ import {Rating} from 'react-native-ratings';
 import {StyleSheet} from 'react-native';
 import {useHttpCall} from '../../hooks/useHttpCall';
 
-export default function NearByCategoryScreen({navigation, route}) {
+export default function SpotsCategoryScreen({navigation, route}) {
   const {type} = route.params;
   const {getWithoutAuth} = useHttpCall();
   const [items, setItems] = React.useState([]);

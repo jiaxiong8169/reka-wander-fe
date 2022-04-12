@@ -5,13 +5,17 @@ const BlueSubtitle = props => {
   return (
     <Text
       style={[
-        {fontSize: 40, color: 'rgb(117,157,246)', fontWeight: '300'},
+        {
+          fontSize: props.small ? 30 : 40,
+          color: 'rgb(117,157,246)',
+          fontWeight: '300',
+        },
         props.style,
       ]}>
       {props.text1}
       <Text
         style={{
-          fontSize: 40,
+          fontSize: props.small ? 30 : 40,
           fontWeight: 'bold',
           color: 'rgb(117,157,246)',
         }}>
