@@ -1,7 +1,7 @@
 import React from 'react';
-import { StyleSheet, View, Text, ScrollView } from 'react-native';
-import { useAuth } from '../../hooks/useAuth';
-import { useSelector, useDispatch } from 'react-redux';
+import {StyleSheet, View, Text, ScrollView} from 'react-native';
+import {useAuth} from '../../hooks/useAuth';
+import {useSelector, useDispatch} from 'react-redux';
 
 import TripName from './PlannerTripNameScreen';
 import PaxPage from './PlannerPaxScreen';
@@ -16,9 +16,8 @@ import ProgressStep from '../../components/stepper/ProgressStep';
 import ProgressSteps from '../../components/stepper/ProgressSteps';
 import GradientBackground from '../../components/GradientBackground';
 
-export default function PlannerSteps({ navigation }) {
-
-  const { authData } = useAuth();
+export default function PlannerSteps({navigation}) {
+  const {authData} = useAuth();
   // const { rentCar } = useSelector(state => state.plannerReducer);
 
   const onPressHandler = () => {
@@ -26,9 +25,7 @@ export default function PlannerSteps({ navigation }) {
     navigation.navigate('Loading');
   };
 
-  const check =()=>{
-
-  }
+  const check = () => {};
 
   const nextbuttonTextStyle = {
     backgroundColor: '#4169E1',
@@ -77,7 +74,7 @@ export default function PlannerSteps({ navigation }) {
     <GradientBackground>
       <ScrollView
         nestedScrollEnabled={true}
-        contentContainerStyle={{ flexGrow: 1 }}
+        contentContainerStyle={{flexGrow: 1}}
         showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <View>
@@ -88,7 +85,7 @@ export default function PlannerSteps({ navigation }) {
                   fontWeight: 'bold',
                   fontFamily: 'sans-serif-light',
                 }}>
-                {authData?.name ?? "Welcome,"}
+                {authData?.name ?? 'Welcome,'}
               </Text>
             </Text>
             <Text style={styles.subtitle}>Create your destiny</Text>
@@ -98,11 +95,10 @@ export default function PlannerSteps({ navigation }) {
               paddingHorizontal: 20,
             }}>
             <ProgressSteps {...progressStepsStyle}>
-
               <ProgressStep
                 nextBtnTextStyle={nextbuttonTextStyle}
                 // onNext={check}
-                >
+              >
                 <TripName quest="Give Your Trip a name!" />
               </ProgressStep>
 
@@ -139,14 +135,14 @@ export default function PlannerSteps({ navigation }) {
               <ProgressStep
                 nextBtnTextStyle={nextbuttonTextStyle}
                 previousBtnTextStyle={previousbuttonTextStyle}>
-               <TravelBudget quest="Travel budget" />
+                <TravelBudget quest="Travel budget" />
               </ProgressStep>
 
               <ProgressStep
                 onSubmit={onPressHandler}
                 nextBtnTextStyle={nextbuttonTextStyle}
                 previousBtnTextStyle={previousbuttonTextStyle}>
-                 <RentCar quest="Rent Car?" />
+                <RentCar quest="Rent Car?" />
               </ProgressStep>
             </ProgressSteps>
           </View>

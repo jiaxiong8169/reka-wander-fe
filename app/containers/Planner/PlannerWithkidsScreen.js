@@ -1,110 +1,58 @@
-import React, {useState} from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  ScrollView,
-  Pressable,
-} from 'react-native';
+import React from 'react';
+import {StyleSheet, View, Text, Image} from 'react-native';
 import Card from '../../components/card/card';
-import RadioButtonRN from '../../components/multiple_choice/multiplechoice'
-import { useSelector, useDispatch } from 'react-redux';
-import { setKids } from '../../redux/Planner/actions';
-
+import RadioButtonRN from '../../components/multiple_choice/multiplechoice';
+import {useSelector, useDispatch} from 'react-redux';
+import {setKids} from '../../redux/Planner/actions';
 
 const data = [
-    { label: 'Yes', value: 'true', index: 1 },
-    { label: 'No', value: 'false', index: 2 },
+  {label: 'Yes', value: 'true', index: 1},
+  {label: 'No', value: 'false', index: 2},
 ];
 
-const Withkids = (props) => {
-    const { kids } = useSelector(state => state.plannerReducer);
-    const dispatch = useDispatch();
+const Withkids = props => {
+  const {kids} = useSelector(state => state.plannerReducer);
+  const dispatch = useDispatch();
 
-    // const [view, setview] = useState(1);
-
-    const onPressHandler = (e) => {
-        if (e === 'Yes') {
-            
-            // getInitial();
-            dispatch(setKids(true));
-            // console.log(kids);
-            // console.log('hi');
-
-        } else {
-            // console.log('no');
-            // getInitial();
-            dispatch(setKids(false));
-            // console.log(kids);
-        }
-
+  const onPressHandler = e => {
+    if (e.value === 'true') {
+      dispatch(setKids(true));
+    } else {
+      dispatch(setKids(false));
     }
+  };
 
-// const containerWidth = (Dimensions.get('window').width) * 0.7;
-// const containerHeight = (Dimensions.get('window').height) * 0.7;
-    return (
-        // <ScrollView>
-        <View style={styles.body}>
-            <Card style={{width: '100%'}}>
-                <View style={{ alignItems: 'center' }}>
-                    <Text style={styles.question}>
-                        {props.quest}
-                    </Text>
-                </View>
-                <View style={{ marginHorizontal: '15%' }}>
-                    <RadioButtonRN
-                        data={data}
-                        box={false}
-                        animationTypes={['pulse']}
-                        circleSize={18}
-                        textColor={'black'}
-                        selectedBtn={onPressHandler}
-                    >
-                    </RadioButtonRN>
-                </View>
-                <View style={{ marginTop: 10 }}>
-                    <Image
-                        source={require('../../assets/kids.png')}
-                        style={{
-                            padding: 1,
-                            aspectRatio: 1,
-                            width: '100%',
-                            resizeMode: 'contain',
-                            // justifyContent: 'flex-end',
-                            alignItems: 'flex-end',
-                            height: undefined
-                        }}
-                    />
-                </View>
-            </Card>
+  return (
+    <View style={styles.body}>
+      <Card style={{width: '100%'}}>
+        <View style={{alignItems: 'center'}}>
+          <Text style={styles.question}>{props.quest}</Text>
         </View>
-    //     <View style={{marginHorizontal: '15%'}}>
-    //       <RadioButtonRN
-    //         data={data}
-    //         box={false}
-    //         animationTypes={['pulse']}
-    //         circleSize={18}
-    //         textColor={'black'}
-    //         selectedBtn={e => console.log(e)}></RadioButtonRN>
-    //     </View>
-    //     <View style={{marginTop: 10}}>
-    //       <Image
-    //         source={require('../../assets/kids.png')}
-    //         style={{
-    //           padding: 1,
-    //           aspectRatio: 1,
-    //           width: '100%',
-    //           resizeMode: 'contain',
-    //           // justifyContent: 'flex-end',
-    //           alignItems: 'flex-end',
-    //           height: undefined,
-    //         }}
-    //       />
-    //     </View>
-    //   </Card>
-    // </View>
-    // </ScrollView>
+        <View style={{marginHorizontal: '15%'}}>
+          <RadioButtonRN
+            data={data}
+            box={false}
+            initial={kids ? 1 : 2}
+            animationTypes={['pulse']}
+            circleSize={18}
+            textColor={'black'}
+            selectedBtn={onPressHandler}></RadioButtonRN>
+        </View>
+        <View style={{marginTop: 10}}>
+          <Image
+            source={require('../../assets/kids.png')}
+            style={{
+              padding: 1,
+              aspectRatio: 1,
+              width: '100%',
+              resizeMode: 'contain',
+              alignItems: 'flex-end',
+              height: undefined,
+            }}
+          />
+        </View>
+      </Card>
+    </View>
   );
 };
 
@@ -113,12 +61,9 @@ const styles = StyleSheet.create({
     fontSize: 40,
   },
   body: {
-    // marginBottom: '10%',
     marginBottom: 20,
     marginTop: 30,
-    // marginHorizontal: '8%',
     width: '100%',
-    // padding: 10,
   },
   body_container: {
     alignItems: 'center',

@@ -1,70 +1,33 @@
-import React, {useState} from 'react';
+import React, {Component} from 'react';
 import {StyleSheet, Text, View, Dimensions} from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
+import {connect} from 'react-redux';
+import {setStartDate, setEndDate} from '../../redux/Planner/actions';
 
 const width = Dimensions.get('window').width;
 
-// import {useSelector, useDispatch} from 'react-redux';
-// import {setStartDate, setEndDate} from '../../redux/Planner/actions';
-
-export default class Calendar extends Component {
-  // const Calender = () => {
-  //   const {startDate} = useSelector(state => state.plannerReducer);
-  //   const dispatch_startDate = useDispatch();
-
-  //   const {endDate} = useSelector(state => state.plannerReducer);
-  //   const dispatch_endDate = useDispatch();
-
-  //   const [selectedEndDate, setSelectedEndDate] = useState(endDate);
-  //   const [selectedStartDate, setSelectedStartDate] = useState(startDate);
-
-  //   const onDateChange = (date, type) => {
-  //     if (type === 'END_DATE') {
-  //       setSelectedEndDate(date);
-  //       dispatch_endDate(setEndDate(selectedEndDate.format()));
-  //     } else {
-  //       setSelectedStartDate(date);
-  //       dispatch_startDate(setStartDate(selectedStartDate.format()));
-  //     }
-  //   };
+class Calendar extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      selectedStartDate: null,
-      selectedEndDate: null,
-    };
     this.onDateChange = this.onDateChange.bind(this);
   }
 
   onDateChange(date, type) {
     if (type === 'END_DATE') {
-      this.setState({
-        selectedEndDate: date,
-
-        // dateRange: selectedEndDate.from(selectedStartDate, true),
-      });
-      // console.log(typeof selectedEndDate);
-      //   console.log(dateRange);
+      this.props.handleSetEndDate(date);
     } else {
-      this.setState({
-        selectedStartDate: date,
-        selectedEndDate: null,
-      });
-      // console.log(typeof selectedStartDate);
+      this.props.handleSetStartDate(date);
+      this.props.handleSetEndDate(null);
     }
   }
 
   render() {
-    const {selectedStartDate, selectedEndDate} = this.state;
+    const {startDate, endDate} = this.props;
     const minDate = new Date(); // Today
     const year = minDate.getFullYear();
     const maxDate = new Date(year + 2, 12, 31);
-    const formattedStartDate = selectedStartDate
-      ? selectedStartDate.format('YYYY-MM-DD')
-      : '';
-    const formattedEndDate = selectedEndDate
-      ? selectedEndDate.format('YYYY-MM-DD')
-      : '';
+    const formattedStartDate = startDate ? startDate.format('YYYY-MM-DD') : '';
+    const formattedEndDate = endDate ? endDate.format('YYYY-MM-DD') : '';
 
     return (
       <View style={styles.container}>
@@ -77,6 +40,8 @@ export default class Calendar extends Component {
           selectedDayTextColor="#FFFFFF"
           allowRangeSelection={true}
           onDateChange={this.onDateChange}
+          selectedStartDate={formattedStartDate}
+          selectedEndDate={formattedEndDate}
         />
 
         <View
@@ -108,3 +73,21 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+function mapStateToProps(state) {
+  const {startDate, endDate} = state.plannerReducer;
+  return {startDate, endDate};
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    handleSetStartDate: v => {
+      dispatch(setStartDate(v));
+    },
+    handleSetEndDate: v => {
+      dispatch(setEndDate(v));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Calendar);

@@ -11,100 +11,78 @@ export const SET_USER_LONGITUDE = 'SET_USER_LONGITUDE';
 export const SET_USER_LATITUDE = 'SET_USER_LATITUDE';
 
 export const setTripName = tripName => dispatch => {
-    dispatch({
-        type: SET_USER_STARTDATE,
-        payload: tripName,
-    });
-    console.log("tripName")
-    console.log(tripName)
-}
+  dispatch({
+    type: SET_USER_TRIPNAME,
+    payload: tripName,
+  });
+};
 
 export const setStartDate = startDate => dispatch => {
-    dispatch({
-        type: SET_USER_TRIPNAME,
-        payload: startDate,
-    });
-    console.log("startDate")
-    console.log(startDate)
-}
+  dispatch({
+    type: SET_USER_STARTDATE,
+    payload: startDate,
+  });
+};
 
 export const setEndDate = endDate => dispatch => {
-    dispatch({
-        type: SET_USER_ENDDATE,
-        payload: endDate,
-    });
-    console.log("endDate")
-    console.log(endDate)
-}
+  dispatch({
+    type: SET_USER_ENDDATE,
+    payload: endDate,
+  });
+};
 
 export const setPax = pax => dispatch => {
-    dispatch({
-        type: SET_USER_PAX,
-        payload: pax,
-    });
-    console.log("pax")
-    console.log(pax)
-}
+  dispatch({
+    type: SET_USER_PAX,
+    payload: pax,
+  });
+};
 
 export const setBudget = budget => dispatch => {
-    dispatch({
-        type: SET_USER_BUDGET,
-        payload: budget,
-    });
-    console.log("budget")
-    console.log(budget)
-}
+  dispatch({
+    type: SET_USER_BUDGET,
+    payload: budget,
+  });
+};
 
 export const setInterest = interest => dispatch => {
-    dispatch({
-        type: SET_USER_INTEREST,
-        payload: interest,
-    });
-    console.log("interest")
-    console.log(interest)
-}
+  dispatch({
+    type: SET_USER_INTEREST,
+    payload: interest,
+  });
+};
 
 export const setKids = kids => dispatch => {
-    dispatch({
-        type: SET_USER_KIDS,
-        payload: kids,
-    });
-    console.log("kids")
-    console.log(kids)
-}
+  dispatch({
+    type: SET_USER_KIDS,
+    payload: kids,
+  });
+};
 
 export const setRentCar = rentCar => dispatch => {
-    dispatch({
-        type: SET_USER_RENTCAR,
-        payload: rentCar,
-    });
-    console.log("rentCar")
-    console.log(rentCar)
-}
+  dispatch({
+    type: SET_USER_RENTCAR,
+    payload: rentCar,
+  });
+};
 
 export const setRentHomeStay = rentHomeStay => dispatch => {
-    dispatch({
-        type: SET_USER_RENTHOMESTAY,
-        payload: rentHomeStay,
-    });
-    console.log("rentHomeStay")
-    console.log(rentHomeStay)
-}
+  dispatch({
+    type: SET_USER_RENTHOMESTAY,
+    payload: rentHomeStay,
+  });
+};
 
 export const setLongitude = longitude => dispatch => {
-    dispatch({
-        type: SET_USER_LONGITUDE,
-        payload: longitude,
-    });
-    console.log("longitude")
-    console.log(longitude)
-}
+  dispatch({
+    type: SET_USER_LONGITUDE,
+    payload: longitude,
+  });
+};
 
 export const setLatitude = latitude => dispatch => {
-    dispatch({
-        type: SET_USER_LATITUDE,
-        payload: latitude,
-    });
-    console.log("latitude")
-    console.log(latitude)
-}
+  dispatch({
+    type: SET_USER_LATITUDE,
+    payload: latitude,
+  });
+};

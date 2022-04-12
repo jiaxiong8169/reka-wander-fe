@@ -4470,28 +4470,15 @@
   dependencies:
     "is-obj" "^1.0.0"
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 "dotenv@^10.0.0":
   "integrity" "sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q=="
   "resolved" "https://registry.npmjs.org/dotenv/-/dotenv-10.0.0.tgz"
   "version" "10.0.0"
 
-=======
->>>>>>> WIP_Frontend_Planner22
 "duplexer3@^0.1.4":
   "integrity" "sha1-7gHdHKwO08vH/b6jfcCo8c4ALOI="
   "resolved" "https://registry.npmjs.org/duplexer3/-/duplexer3-0.1.4.tgz"
   "version" "0.1.4"
-<<<<<<< HEAD
-=======
-duplexer3@^0.1.4:
-  version "0.1.4"
-  resolved "https://registry.npmjs.org/duplexer3/-/duplexer3-0.1.4.tgz"
-  integrity sha1-7gHdHKwO08vH/b6jfcCo8c4ALOI=
->>>>>>> WIP_Fronted_Planner_21
-=======
->>>>>>> WIP_Frontend_Planner22
 
 "ee-first@1.1.1":
   "integrity" "sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0="
@@ -9053,8 +9040,6 @@ duplexer3@^0.1.4:
     "jscodeshift" "^0.11.0"
     "nullthrows" "^1.1.1"
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 "react-native-dotenv@^3.3.1":
   "integrity" "sha512-gAKXout1XCwCqJ3QPGoQAF2eRzOHgOnwg3x19z+ssow8bDIksJeKBqvoHDyGziVilAIP1J0bEC9Jf+VF8nFang=="
   "resolved" "https://registry.npmjs.org/react-native-dotenv/-/react-native-dotenv-3.3.1.tgz"
@@ -9062,21 +9047,10 @@ duplexer3@^0.1.4:
   dependencies:
     "dotenv" "^10.0.0"
 
-=======
->>>>>>> WIP_Frontend_Planner22
 "react-native-drawer@2.5.1":
   "integrity" "sha512-cxcQNbSWy5sbGi7anSVp6EDr6JarOBMY9lbFOeLFeVYbONiudoqRKbgEsSDgSw3/LFCLvUXK5zdjXCOedeytxQ=="
   "resolved" "https://registry.npmjs.org/react-native-drawer/-/react-native-drawer-2.5.1.tgz"
   "version" "2.5.1"
-<<<<<<< HEAD
-=======
-react-native-drawer@2.5.1:
-  version "2.5.1"
-  resolved "https://registry.npmjs.org/react-native-drawer/-/react-native-drawer-2.5.1.tgz"
-  integrity sha512-cxcQNbSWy5sbGi7anSVp6EDr6JarOBMY9lbFOeLFeVYbONiudoqRKbgEsSDgSw3/LFCLvUXK5zdjXCOedeytxQ==
->>>>>>> WIP_Fronted_Planner_21
-=======
->>>>>>> WIP_Frontend_Planner22
   dependencies:
     "prop-types" "^15.5.8"
     "tween-functions" "^1.0.1"

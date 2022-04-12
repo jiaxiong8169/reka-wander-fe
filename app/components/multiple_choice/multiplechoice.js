@@ -1,7 +1,6 @@
-
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View, Text, Animated, TouchableOpacity } from 'react-native';
+import {StyleSheet, View, Text, Animated, TouchableOpacity} from 'react-native';
 
 class RadioButtonRN extends React.Component {
   constructor(props) {
@@ -94,7 +93,7 @@ class RadioButtonRN extends React.Component {
     this.setState({activeIndex});
     if (activeIndex !== this.state.activeIndex) {
       this.fadeInAnimation();
-        this.props.selectedBtn(item.label);
+      this.props.selectedBtn(item.label);
     }
     this.props.selectedBtn(item);
   }
@@ -133,7 +132,6 @@ class RadioButtonRN extends React.Component {
     } = this.props;
 
     return (
-      //horizontal -> flexDirection: 'row'
       <View
         style={
           (style = {flexDirection: 'row', justifyContent: 'space-between'})
@@ -290,23 +288,23 @@ RadioButtonRN.propTypes = {
 };
 
 RadioButtonRN.defaultProps = {
-    style: {},
-    boxStyle: {},
-    textStyle: {},
-    initial: -1,
-    circleSize: 18,
-    duration: 500,
-    data: [],
-    animationTypes: [],
-    selectedBtn: () => { },
-    // selectedBtn: () => { },
-    // activeColor: 'black',
-    activeColor: `#4169E1`,
-    deactiveColor: '#e2e2e2',
-    boxActiveBgColor: '#e1f5fe33',
-    boxDeactiveBgColor: '#fff',
-    textColor: 'black',
-    box: true,
+  style: {},
+  boxStyle: {},
+  textStyle: {},
+  initial: -1,
+  circleSize: 18,
+  duration: 500,
+  data: [],
+  animationTypes: [],
+  selectedBtn: () => {},
+  // selectedBtn: () => { },
+  // activeColor: 'black',
+  activeColor: `#4169E1`,
+  deactiveColor: '#e2e2e2',
+  boxActiveBgColor: '#e1f5fe33',
+  boxDeactiveBgColor: '#fff',
+  textColor: 'black',
+  box: true,
 };
 
 /* Export Component ============================ */

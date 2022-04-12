@@ -1,20 +1,10 @@
 import React, {useState} from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  Button,
-  TouchableOpacity,
-} from 'react-native';
+import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
 
 import Calendar from '../../components/CalenderPicker/CalenderPicker';
 import Card from '../../components/card/card';
 import Modal from 'react-native-modal';
 import ModelContent from '../../components/Modal/ModalContent';
-
-import {useSelector, useDispatch} from 'react-redux';
-import {setStartDate, setEndDate} from '../../redux/Planner/actions';
 
 const ChooseDays = props => {
   const [isModalVisible, setModalVisible] = useState(true);
@@ -27,12 +17,6 @@ const ChooseDays = props => {
     setIsModalPopUp(false);
   };
 
-  const {startDate} = useSelector(state => state.plannerReducer);
-  const dispatch_startDate = useDispatch();
-
-  const {endDate} = useSelector(state => state.plannerReducer);
-  const dispatch_endDate = useDispatch();
-
   return (
     <View style={styles.body}>
       <Card>
@@ -41,25 +25,25 @@ const ChooseDays = props => {
             <Text style={styles.question}>{props.quest}</Text>
           </View>
           <Calendar />
-          {/* <Modal
-                        isVisible={isModalVisible}
-                        onBackdropPress={close}
-                        onSwipeComplete={close}
-                        useNativeDriverForBackdrop
-                        // backdropOpacity={0.2}
-                        swipeDirection={['left', 'right', 'up', 'down']}
-                        animationIn="zoomInDown"
-                        animationOut="zoomOutUp"
-                        animationInTiming={700}
-                        animationOutTiming={700}
-                        backdropTransitionInTiming={700}
-                        backdropTransitionOutTiming={700}>
-                        <ModelContent title='Please watch this instruction' onPress={close}>
-                            <Image
-                                source={require('../../assets/calender.gif')}
-                                style={{ width: 220, height: 200 }} />
-                        </ModelContent>
-                    </Modal> */}
+          <Modal
+            isVisible={isModalVisible}
+            onBackdropPress={close}
+            onSwipeComplete={close}
+            useNativeDriverForBackdrop
+            swipeDirection={['left', 'right', 'up', 'down']}
+            animationIn="zoomInDown"
+            animationOut="zoomOutUp"
+            animationInTiming={700}
+            animationOutTiming={700}
+            backdropTransitionInTiming={700}
+            backdropTransitionOutTiming={700}>
+            <ModelContent title="Please watch this instruction" onPress={close}>
+              <Image
+                source={require('../../assets/calender.gif')}
+                style={{width: 220, height: 200}}
+              />
+            </ModelContent>
+          </Modal>
         </View>
       </Card>
       <TouchableOpacity onPress={() => setIsModalPopUp(true)}>
@@ -98,7 +82,6 @@ const styles = StyleSheet.create({
   body: {
     marginBottom: 20,
     marginTop: 30,
-    // marginHorizontal: 13,
     width: '100%',
   },
   body_container: {},
@@ -109,20 +92,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 10,
   },
-  // button: {
-  //     backgroundColor: 'red',
-  //     width: 150,
-  //     height: 40,
-  //     borderRadius: 50,
-  //     alignItems: 'center',
-  //     justifyContent: 'center',
-  // },
-  // next: {
-  //     color: 'white',
-  //     fontSize: 20,
-  //     fontWeight: 'bold',
-  //     textAlignVertical: 'center'
-  // },
 });
 
 export default ChooseDays;

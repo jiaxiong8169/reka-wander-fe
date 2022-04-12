@@ -8,8 +8,6 @@ const TripName = props => {
   const {tripName} = useSelector(state => state.plannerReducer);
   const dispatch = useDispatch();
 
-  // const [tripName, setTripName] = useState('My Trip')
-
   return (
     <View style={styles.body}>
       <Card
@@ -20,11 +18,9 @@ const TripName = props => {
           <Text style={styles.question}>{props.quest}</Text>
           <TextInput
             style={styles.input}
-            onChangeText={tripName => dispatch(setTripName(tripName))}
-            // onEndEditing = {(value) => dispatch(setTripName(value))}
-            // maxLength = {1000}
+            onChangeText={v => dispatch(setTripName(v))}
             placeholder="Type Your trip name here..."
-            // value={tripName}
+            value={tripName}
           />
 
           <View style={{marginTop: 10}}>
@@ -73,7 +69,6 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     borderColor: '#ccc',
-    // textAlign: "center"
   },
 });
 

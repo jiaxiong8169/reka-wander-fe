@@ -11,7 +11,6 @@ import {
   SET_USER_LONGITUDE,
   SET_USER_LATITUDE,
 } from './actions';
-import moment from 'moment';
 
 const initialState = {
   tripName: 'My trip',

@@ -18,23 +18,13 @@ const data = [
 const RentHomeStay = (props) => {
     const { rentHomeStay } = useSelector(state => state.plannerReducer);
     const dispatch = useDispatch();
-    // const [view, setview] = useState(1);
 
     const onPressHandler = (e) => {
-        if (e === 'Yes') {
-
-            // getInitial();
+        if (e.value === 'true') {
             dispatch(setRentHomeStay(true));
-            // console.log(rentHomeStay);
-            // console.log('hi');
-
         } else {
-            // console.log('no');
-            // getInitial();
             dispatch(setRentHomeStay(false));
-            // console.log(rentHomeStay);
         }
-        // console.log(rentHomeStay);
     }
 
     return (
@@ -49,6 +39,7 @@ const RentHomeStay = (props) => {
                     <RadioButtonRN
                         data={data}
                         box={false}
+                        initial={rentHomeStay ? 1 : 2}
                         animationTypes={['pulse']}
                         circleSize={18}
                         textColor={'black'}
@@ -64,7 +55,6 @@ const RentHomeStay = (props) => {
                             aspectRatio: 1,
                             width: '100%',
                             resizeMode: 'contain',
-                            // justifyContent: 'flex-end',
                             alignItems: 'flex-end',
                             height: undefined
                         }}
@@ -72,54 +62,17 @@ const RentHomeStay = (props) => {
                 </View>
             </Card>
         </View>
-    //     <View style={{marginHorizontal: '15%'}}>
-    //       <RadioButtonRN
-    //         data={data}
-    //         box={false}
-    //         animationTypes={['pulse']}
-    //         circleSize={18}
-    //         textColor={'black'}
-    //         selectedBtn={e => console.log(e)}></RadioButtonRN>
-    //     </View>
-    //     <View style={{marginTop: 10}}>
-    //       <Image
-    //         source={require('../../assets/kids.png')}
-    //         style={{
-    //           padding: 1,
-    //           aspectRatio: 1,
-    //           width: '100%',
-    //           resizeMode: 'contain',
-    //           // justifyContent: 'flex-end',
-    //           alignItems: 'flex-end',
-    //           height: undefined,
-    //         }}
-    //       />
-    //     </View>
-    //   </Card>
-    // </View>
   );
 };
 
 const styles = StyleSheet.create({
   title: {
     fontSize: 40,
-    // margin: 10,
   },
   body: {
-    // marginBottom: '10%',
     marginBottom: 20,
     marginTop: 30,
-    // marginHorizontal: '8%',
     width: '100%',
-    // padding: 10,
-    // marginLeft: 20,
-    // marginRight:20,
-    // margin: '8%',
-    // flex: 1,
-    // alignItems: 'center',
-    // backgroundColor: '#ffffff',
-    // borderRadius: 20,
-    // textAlign: 'center',
   },
   body_container: {
     alignItems: 'center',

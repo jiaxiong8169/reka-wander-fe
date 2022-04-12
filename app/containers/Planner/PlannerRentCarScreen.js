@@ -15,29 +15,13 @@ const RentCar = props => {
   const {rentCar} = useSelector(state => state.plannerReducer);
   const dispatch = useDispatch();
 
-  // const [view, setview] = useState(1);
-
   const onPressHandler = e => {
-    if (e === 'Yes') {
-      // getInitial();
+    if (e.value === 'true') {
       dispatch(setRentCar(true));
-      // console.log(rentCar);
-      // console.log('hi');
     } else {
-      // console.log('no');
-      // getInitial();
       dispatch(setRentCar(false));
-      // console.log(rentCar);
     }
   };
-
-  // const getInitial = () => {
-  //     if (rentCar == true) {
-  //         return setview(1)
-  //     } else {
-  //         return setview(2)
-  //     }
-  // }
 
   return (
     <View style={styles.body}>
@@ -49,7 +33,7 @@ const RentCar = props => {
           <RadioButtonRN
             data={data}
             box={false}
-            // initial={view}
+            initial={rentCar ? 1 : 2}
             animationTypes={['pulse']}
             circleSize={18}
             textColor={'black'}
@@ -63,7 +47,6 @@ const RentCar = props => {
               aspectRatio: 1,
               width: '100%',
               resizeMode: 'contain',
-              // justifyContent: 'flex-end',
               alignItems: 'flex-end',
               height: undefined,
             }}
@@ -77,23 +60,11 @@ const RentCar = props => {
 const styles = StyleSheet.create({
   title: {
     fontSize: 40,
-    // margin: 10,
   },
   body: {
-    // marginBottom: '10%',
     marginBottom: 20,
     marginTop: 30,
-    // marginHorizontal: '8%',
     width: '100%',
-    // padding: 10,
-    // marginLeft: 20,
-    // marginRight:20,
-    // margin: '8%',
-    // flex: 1,
-    // alignItems: 'center',
-    // backgroundColor: '#ffffff',
-    // borderRadius: 20,
-    // textAlign: 'center',
   },
   body_container: {
     alignItems: 'center',

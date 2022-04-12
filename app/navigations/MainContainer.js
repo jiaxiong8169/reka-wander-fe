@@ -17,11 +17,9 @@ import PlannerSteps from '../containers/Planner/PlannerProgressSteps';
 import LoadingScreen from '../containers/Planner/PlannerLoadingScreen';
 import Recommended from '../containers/Planner/RecommendedPlaceScreen';
 import SuccessConfirmScreen from '../containers/Planner/PlannerSuccessCreateTrip';
-import { Provider } from 'react-redux';
-import { Store } from '../redux/Planner/store';
-
-import BlueSubtitle from '../components/BlueSubtitle';
-import { SettingsScreen } from '../containers/settings';
+import {Provider} from 'react-redux';
+import {Store} from '../redux/Planner/store';
+import {SettingsScreen} from '../containers/settings/SettingsScreen';
 
 //Screen names
 const Stack = createStackNavigator();
@@ -87,39 +85,37 @@ function PlannerHomeStack() {
           name="HomePage"
           component={HomePage}
           options={{
-            header: () => null
+            header: () => null,
           }}
         />
         <Stack.Screen
           name="Planner_Question"
           component={PlannerSteps}
           options={{
-            header: () => null
+            header: () => null,
           }}
         />
         <Stack.Screen
           name="Loading"
           component={LoadingScreen}
           options={{
-            header: () => null
+            header: () => null,
           }}
         />
         <Stack.Screen
           name="Recommended"
           component={Recommended}
           options={{
-            header: () => null
+            header: () => null,
           }}
         />
         <Stack.Screen
           name="Success"
           component={SuccessConfirmScreen}
           options={{
-            header: () => null
+            header: () => null,
           }}
         />
-
-
       </Stack.Navigator>
     </Provider>
   );
