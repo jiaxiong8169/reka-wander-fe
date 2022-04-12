@@ -14,7 +14,7 @@ const MultiSelectExample = () => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    getWithoutAuth('interests').then(({data}) => {
+    getWithoutAuth('interests?sort=name').then(({data}) => {
       if (!!data) setItems(data);
     });
   }, []);
