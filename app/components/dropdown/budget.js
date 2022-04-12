@@ -1,28 +1,36 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import {Picker} from '@react-native-picker/picker';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet } from "react-native";
+import { Picker } from "@react-native-picker/picker";
+import { useSelector, useDispatch } from 'react-redux';
+import { setBudget } from '../../redux/Planner/actions';
 
 const SelectBudget = () => {
-  const [Budget, SetBudget] = useState('100');
+    const { budget } = useSelector(state => state.plannerReducer);
+    const dispatch = useDispatch();
+    // const [Budget, SetBudget] = useState('100');
 
-  return (
-    <View>
-      <Picker
-        selectedValue={Budget}
-        onValueChange={(value, index) => SetBudget(value)}
-        // mode="dropdown" // Android only
-        mode="dialog"
-        style={styles.picker}>
-        <Picker.Item label="100" value="100" />
-        <Picker.Item label="200" value="200" />
-        <Picker.Item label="300" value="300" />
-        <Picker.Item label="400" value="400" />
-        <Picker.Item label="500" value="500" />
-        <Picker.Item label="600" value="600" />
-        <Picker.Item label="700" value="700" />
-      </Picker>
-    </View>
-  );
+    return (
+        <View>
+            <Picker
+                // selectedValue={Budget}
+                selectedValue={budget}
+                // onValueChange={(value) => SetBudget(value)}
+                onValueChange={(value) => dispatch(setBudget(value))}
+                // mode="dropdown" // Android only
+                mode="dialog"
+                style={styles.picker}
+            >
+                <Picker.Item label="100" value="100" />
+                <Picker.Item label="200" value="200" />
+                <Picker.Item label="300" value="300" />
+                <Picker.Item label="400" value="400" />
+                <Picker.Item label="500" value="500" />
+                <Picker.Item label="600" value="600" />
+                <Picker.Item label="700" value="700" />
+
+            </Picker>
+        </View>
+    );
 };
 
 const styles = StyleSheet.create({

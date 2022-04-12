@@ -1,15 +1,20 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import React from 'react';
+import {View, StyleSheet} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
+import {useSelector, useDispatch} from 'react-redux';
+import {setPax} from '../../redux/Planner/actions';
 
 const SelectPax = () => {
-  const [Pax, SetPax] = useState('1');
+  const {pax} = useSelector(state => state.plannerReducer);
+  const dispatch = useDispatch();
+
+  // const [Pax, SetPax] = useState('1');
 
   return (
     <View>
       <Picker
-        selectedValue={Pax}
-        onValueChange={value => SetPax(value)}
+        selectedValue={pax}
+        onValueChange={value => dispatch(setPax(value))}
         mode="dialog" // Android only
         style={styles.picker}>
         <Picker.Item label="1" value="1" />
@@ -34,7 +39,6 @@ const styles = StyleSheet.create({
     width: 110,
     height: 30,
     borderWidth: 0.1,
-    // borderColor: "#666",
     borderColor: '#000',
   },
 });

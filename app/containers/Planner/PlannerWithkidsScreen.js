@@ -1,30 +1,28 @@
-import React, {useState} from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  ScrollView,
-  Pressable,
-} from 'react-native';
+import React from 'react';
+import {StyleSheet, View, Text, Image} from 'react-native';
 import Card from '../../components/card/card';
 import RadioButtonRN from '../../components/multiple_choice/multiplechoice';
+import {useSelector, useDispatch} from 'react-redux';
+import {setKids} from '../../redux/Planner/actions';
 
-const option = [
-  {id: 'Yes', label: 'Yes'},
-  {id: 'No', label: 'No'},
+const data = [
+  {label: 'Yes', value: 'true', index: 1},
+  {label: 'No', value: 'false', index: 2},
 ];
 
-const data = [{label: 'Yes'}, {label: 'No'}];
-
 const Withkids = props => {
-  const onPressHandler = () => {
-    console.log(formattedEndDate);
+  const {kids} = useSelector(state => state.plannerReducer);
+  const dispatch = useDispatch();
+
+  const onPressHandler = e => {
+    if (e.value === 'true') {
+      dispatch(setKids(true));
+    } else {
+      dispatch(setKids(false));
+    }
   };
-  // const containerWidth = (Dimensions.get('window').width) * 0.7;
-  // const containerHeight = (Dimensions.get('window').height) * 0.7;
+
   return (
-    // <ScrollView>
     <View style={styles.body}>
       <Card style={{width: '100%'}}>
         <View style={{alignItems: 'center'}}>
@@ -34,10 +32,11 @@ const Withkids = props => {
           <RadioButtonRN
             data={data}
             box={false}
+            initial={kids ? 1 : 2}
             animationTypes={['pulse']}
             circleSize={18}
             textColor={'black'}
-            selectedBtn={e => console.log(e)}></RadioButtonRN>
+            selectedBtn={onPressHandler}></RadioButtonRN>
         </View>
         <View style={{marginTop: 10}}>
           <Image
@@ -47,7 +46,6 @@ const Withkids = props => {
               aspectRatio: 1,
               width: '100%',
               resizeMode: 'contain',
-              // justifyContent: 'flex-end',
               alignItems: 'flex-end',
               height: undefined,
             }}
@@ -55,7 +53,6 @@ const Withkids = props => {
         </View>
       </Card>
     </View>
-    // </ScrollView>
   );
 };
 
@@ -64,12 +61,9 @@ const styles = StyleSheet.create({
     fontSize: 40,
   },
   body: {
-    // marginBottom: '10%',
     marginBottom: 20,
     marginTop: 30,
-    // marginHorizontal: '8%',
     width: '100%',
-    // padding: 10,
   },
   body_container: {
     alignItems: 'center',

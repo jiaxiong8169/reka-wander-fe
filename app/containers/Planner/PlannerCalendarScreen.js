@@ -1,16 +1,8 @@
 import React, {useState} from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  Button,
-  TouchableOpacity,
-} from 'react-native';
+import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
 
 import Calendar from '../../components/CalenderPicker/CalenderPicker';
 import Card from '../../components/card/card';
-
 import Modal from 'react-native-modal';
 import ModelContent from '../../components/Modal/ModalContent';
 
@@ -38,7 +30,6 @@ const ChooseDays = props => {
             onBackdropPress={close}
             onSwipeComplete={close}
             useNativeDriverForBackdrop
-            // backdropOpacity={0.2}
             swipeDirection={['left', 'right', 'up', 'down']}
             animationIn="zoomInDown"
             animationOut="zoomOutUp"
@@ -91,7 +82,6 @@ const styles = StyleSheet.create({
   body: {
     marginBottom: 20,
     marginTop: 30,
-    // marginHorizontal: 13,
     width: '100%',
   },
   body_container: {},
@@ -102,20 +92,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 10,
   },
-  // button: {
-  //     backgroundColor: 'red',
-  //     width: 150,
-  //     height: 40,
-  //     borderRadius: 50,
-  //     alignItems: 'center',
-  //     justifyContent: 'center',
-  // },
-  // next: {
-  //     color: 'white',
-  //     fontSize: 20,
-  //     fontWeight: 'bold',
-  //     textAlignVertical: 'center'
-  // },
 });
 
 export default ChooseDays;

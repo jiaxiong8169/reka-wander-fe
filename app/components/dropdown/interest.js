@@ -275,10 +275,12 @@
 
 
 
-import React, { Component } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
+import { useSelector, useDispatch } from 'react-redux';
+import { setInterest } from '../../redux/Planner/actions';
 
 const items = [{
   name: 'Travel Interest',
@@ -336,50 +338,48 @@ const items = [{
 }
 ];
 
-export default class MultiSelectExample extends Component {
-  constructor() {
-    super();
-    this.state = {
-      selectedItems: [],
-    };
+const MultiSelectExample = () => {
+  const { interest } = useSelector(state => state.plannerReducer);
+  const dispatch = useDispatch();
+
+  const onSelect=(selectedItems)=>{
+    dispatch(setInterest(selectedItems))
   }
-  onSelectedItemsChange = (selectedItems) => {
-    this.setState({ selectedItems });
-  };
+  
+  return (
+    <View>
+      <SectionedMultiSelect
+        items={items}
+        IconRenderer={Icon}
+        uniqueKey="id"
 
-  render() {
-    return (
-      <View>
-        <SectionedMultiSelect
-          items={items}
-          IconRenderer={Icon}
-          uniqueKey="id"
+        subKey="children"
+        selectText="Choose your interest"
+        searchPlaceholderText="Search your interest"
+        showDropDowns={false}
+        readOnlyHeadings={true}
+        onSelectedItemsChange={onSelect}
+        selectedItems={interest}
+        styles={{
+          button: { backgroundColor: "#4169E1" },
+          chipText: { color: "red" },
+          chipsWrapper: { color: "red" },
+          chipContainer: { borderColor: "#6fbae8" },
+          parentChipContainer: { color: "red" },
+          chipText: { color: "#483D8B" },
+          chipIcon: { color: "#6fbae8" }
 
-          subKey="children"
-          selectText="Choose your interest"
-          searchPlaceholderText="Search your interest"
-          showDropDowns={false}
-          readOnlyHeadings={true}
-          onSelectedItemsChange={this.onSelectedItemsChange}
-          selectedItems={this.state.selectedItems}
-          styles={{
-            button: { backgroundColor: "#4169E1" },
-            chipText: { color: "red" },
-            chipsWrapper: { color: "red" },
-            chipContainer: { borderColor: "#6fbae8" },
-            parentChipContainer: { color: "red" },
-            chipText: { color: "#483D8B" },
-            chipIcon: { color: "#6fbae8" }
+        }}
+        // function component
+        onPress={() => ref && ref.current && ref.current._toggleSelector()}
+        modalWithTouchable={true}
+      // class component
+      // onPress={() => this.SectionedMultiSelect._toggleSelector()}
 
-          }}
-          // function component
-          onPress={() => ref && ref.current && ref.current._toggleSelector()}
-          modalWithTouchable={true}
-          // class component
-          // onPress={() => this.SectionedMultiSelect._toggleSelector()}
-
-        />
-      </View>
-    );
-  }
+      />
+    </View>
+  );
+  // }
 }
+
+export default MultiSelectExample;
