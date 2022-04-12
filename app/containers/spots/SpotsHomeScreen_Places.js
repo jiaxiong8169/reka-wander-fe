@@ -24,13 +24,13 @@ export default function SpotsHomeScreen_Places({navigation}) {
   const [hotelData, setHotelData] = useState([]);
 
   useEffect(() => {
-    getWithoutAuth('restaurants?sort=avgRating').then(({data}) => {
+    getWithoutAuth('restaurants?sort=-avgRating').then(({data}) => {
       if (!!data) setRestaurantData(data);
     });
-    getWithoutAuth('attractions?sort=avgRating').then(({data}) => {
+    getWithoutAuth('attractions?sort=-avgRating').then(({data}) => {
       if (!!data) setAttractionData(data);
     });
-    getWithoutAuth('hotels?sort=avgRating').then(({data}) => {
+    getWithoutAuth('hotels?sort=-avgRating').then(({data}) => {
       if (!!data) setHotelData(data);
     });
   }, []);
@@ -60,7 +60,9 @@ export default function SpotsHomeScreen_Places({navigation}) {
               mt="2"
               fontSize={15}
               color="blue.600"
-              onPress={() => navigation.navigate('SpotsCategory')}>
+              onPress={() =>
+                navigation.navigate('SpotsCategory', {type: 'restaurants'})
+              }>
               {'View More>>'}
             </Text>
           </Text>
@@ -101,7 +103,9 @@ export default function SpotsHomeScreen_Places({navigation}) {
               mt="2"
               fontSize={15}
               color="blue.600"
-              onPress={() => navigation.navigate('SpotsCategory')}>
+              onPress={() =>
+                navigation.navigate('SpotsCategory', {type: 'attractions'})
+              }>
               {'View More>>'}
             </Text>
           </Text>
@@ -142,7 +146,9 @@ export default function SpotsHomeScreen_Places({navigation}) {
               mt="2"
               fontSize={15}
               color="blue.600"
-              onPress={() => navigation.navigate('SpotsCategory')}>
+              onPress={() =>
+                navigation.navigate('SpotsCategory', {type: 'hotels'})
+              }>
               {'View More>>'}
             </Text>
           </Text>
