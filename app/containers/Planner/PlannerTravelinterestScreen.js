@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   View,
@@ -13,32 +13,27 @@ import Card from '../../components/card/card';
 // import Multiselect from 'multiselect-react-dropdown';
 // import { LogBox } from 'react-native'
 
-
-
 // LogBox.ignoreWarnings([
 //   'VirtualizedLists should never be nested', // TODO: Remove when fixed
 // ])
 
-
-const TravelInterest = (props) => {
-
+const TravelInterest = props => {
   return (
     // <ScrollView>
     // <SafeAreaView>
     <TouchableWithoutFeedback>
       <View style={styles.body}>
-        <Card style={{
-          width: '100%'
-        }}>
+        <Card
+          style={{
+            width: '100%',
+          }}>
           <View style={styles.body_container}>
-            <View style={{ alignItems: 'center' }}>
-              <Text style={styles.question}>
-                {props.quest}
-              </Text>
+            <View style={{alignItems: 'center'}}>
+              <Text style={styles.question}>{props.quest}</Text>
             </View>
             <MultiSelectExample />
 
-            <View style={{ marginTop: 10, }}>
+            <View style={{marginTop: 10}}>
               <Image
                 source={require('../../assets/Travel_interest.png')}
                 style={{
@@ -48,7 +43,7 @@ const TravelInterest = (props) => {
                   resizeMode: 'contain',
                   // justifyContent: 'flex-end',
                   alignItems: 'flex-end',
-                  height: undefined
+                  height: undefined,
                 }}
               />
             </View>
@@ -75,8 +70,7 @@ const styles = StyleSheet.create({
     width: '100%',
     //this is to format the dropdown box, it fix this issue => when click more than 2, the card will become fat
   },
-  body_container: {
-  },
+  body_container: {},
   question: {
     color: '#000000',
     fontSize: 24,
@@ -96,7 +90,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 20,
     fontWeight: 'bold',
-    textAlignVertical: 'center'
+    textAlignVertical: 'center',
   },
 });
 

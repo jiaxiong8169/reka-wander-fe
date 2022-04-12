@@ -1,27 +1,20 @@
-import React, { useState } from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-} from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet, View, Text, Image} from 'react-native';
 import SelectPax from '../../components/dropdown/Pax';
 import Card from '../../components/card/card';
 
-
-const PaxPage = (props) => {
+const PaxPage = props => {
   return (
     <View style={styles.body}>
-      <Card style={{ 
-        width: '100%'
-         }}>
+      <Card
+        style={{
+          width: '100%',
+        }}>
         <View style={styles.body_container}>
-          <Text style={styles.question}>
-            {props.quest}
-          </Text>
+          <Text style={styles.question}>{props.quest}</Text>
           <SelectPax />
 
-          <View style={{ marginTop: 10 }}>
+          <View style={{marginTop: 10}}>
             <Image
               source={require('../../assets/People.png')}
               style={{
@@ -30,14 +23,13 @@ const PaxPage = (props) => {
                 width: '100%',
                 resizeMode: 'contain',
                 alignItems: 'flex-end',
-                height: undefined
+                height: undefined,
               }}
             />
           </View>
         </View>
       </Card>
     </View>
-
   );
 };
 
@@ -80,7 +72,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 20,
     fontWeight: 'bold',
-    textAlignVertical: 'center'
+    textAlignVertical: 'center',
   },
 });
 

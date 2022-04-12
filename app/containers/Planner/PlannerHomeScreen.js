@@ -1,11 +1,12 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import {useAuth} from '../../hooks/useAuth';
 
-export default function PlannerSteps({navigation}) {
+export default function HomePage({navigation}) {
   const onPressHandler = () => {
+    // navigation.navigate('Loading');
     navigation.navigate('Planner_Question');
   };
 

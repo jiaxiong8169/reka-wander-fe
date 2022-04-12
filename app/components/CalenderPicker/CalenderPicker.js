@@ -1,16 +1,37 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, Text, View, Dimensions} from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
 
 const width = Dimensions.get('window').width;
 
+// import {useSelector, useDispatch} from 'react-redux';
+// import {setStartDate, setEndDate} from '../../redux/Planner/actions';
+
 export default class Calendar extends Component {
+  // const Calender = () => {
+  //   const {startDate} = useSelector(state => state.plannerReducer);
+  //   const dispatch_startDate = useDispatch();
+
+  //   const {endDate} = useSelector(state => state.plannerReducer);
+  //   const dispatch_endDate = useDispatch();
+
+  //   const [selectedEndDate, setSelectedEndDate] = useState(endDate);
+  //   const [selectedStartDate, setSelectedStartDate] = useState(startDate);
+
+  //   const onDateChange = (date, type) => {
+  //     if (type === 'END_DATE') {
+  //       setSelectedEndDate(date);
+  //       dispatch_endDate(setEndDate(selectedEndDate.format()));
+  //     } else {
+  //       setSelectedStartDate(date);
+  //       dispatch_startDate(setStartDate(selectedStartDate.format()));
+  //     }
+  //   };
   constructor(props) {
     super(props);
     this.state = {
       selectedStartDate: null,
       selectedEndDate: null,
-      dateRange: null,
     };
     this.onDateChange = this.onDateChange.bind(this);
   }
@@ -19,14 +40,17 @@ export default class Calendar extends Component {
     if (type === 'END_DATE') {
       this.setState({
         selectedEndDate: date,
-        dateRange: selectedEndDate.from(selectedStartDate, true),
+
+        // dateRange: selectedEndDate.from(selectedStartDate, true),
       });
-      console.log(dateRange);
+      // console.log(typeof selectedEndDate);
+      //   console.log(dateRange);
     } else {
       this.setState({
         selectedStartDate: date,
         selectedEndDate: null,
       });
+      // console.log(typeof selectedStartDate);
     }
   }
 
