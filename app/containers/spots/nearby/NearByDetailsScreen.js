@@ -3,31 +3,51 @@ import {View, StyleSheet, Dimensions} from 'react-native';
 import {Image} from 'react-native';
 import {Box, Heading, Text, ArrowBackIcon, Pressable} from 'native-base';
 import {Rating} from 'react-native-ratings';
-import {ScrollView, SafeAreaView} from 'react-native';
+import {ScrollView} from 'react-native';
 import RoundButton from '../../../components/RoundButton';
 import {useHttpCall} from '../../../hooks/useHttpCall';
-import {
-  TouchableHighlight,
-  TouchableOpacity,
-} from 'react-native-gesture-handler';
+import {useAuth} from '../../../hooks/useAuth';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
-export default function NearByDetailsScreen({navigation}) {
-  const {postWithAuth} = useHttpCall();
+export default function NearByDetailsScreen({navigation, route}) {
+  const {authData} = useAuth();
+  const {postWithAuth, getWithoutAuth} = useHttpCall();
+  const {type, id} = route.params;
+  const [item, setItem] = React.useState({}); // TODO: Put initial values
+  const [reload, setReload] = React.useState(false);
+
+  React.useEffect(() => {
+    getWithoutAuth(`${type}/${id}`).then(({data}) => {
+      if (!!data) setItem(data);
+    });
+  }, [reload]);
 
   const handleLike = async () => {
-    await postWithAuth('hotels/like', {}, () =>
-      navigation.navigate('Sign In Screen'),
-    );
+    await postWithAuth(`${type}/like`, {
+      targetId: id,
+      userId: authData && authData.id ? authData.id : 'temporaryDeviceId', // TODO: Implement device ID
+    });
+    // reload the data
+    setReload(!reload);
   };
+
+  // TODO: Copy into clipboard when sharing maybe
+  const handleShare = async () => {
+    await postWithAuth(`${type}/share`, {
+      targetId: id,
+      userId: authData && authData.id ? authData.id : 'temporaryDeviceId', // TODO: Implement device ID
+    });
+    // reload the data
+    setReload(!reload);
+  };
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
-        <Image
-          style={styles.image}
-          source={require('../../../assets/home.jpg')}></Image>
+        <Image style={styles.image} source={{uri: item.thumbnailSrc}}></Image>
         <View style={{flex: 1}}></View>
         <Box style={styles.backButton}>
           <Pressable onPress={() => navigation.goBack()}>
@@ -37,18 +57,18 @@ export default function NearByDetailsScreen({navigation}) {
 
         <View style={styles.textContainer}>
           <Heading size="2xl" color={'white'}>
-            Hotel 1234
+            {item.name}
           </Heading>
 
           <Text fontSize={14} color="white">
-            Kota Kinabalu
+            {item.city}
           </Text>
           <View
             style={{
               flexDirection: 'row',
             }}>
             <Text bold fontSize={14} color="white">
-              Western Food
+              {item.category}
             </Text>
           </View>
           <Rating
@@ -58,15 +78,12 @@ export default function NearByDetailsScreen({navigation}) {
             }}
             imageSize={15}
             ratingCount={5}
-            startingValue={4}
+            startingValue={item.avgRating}
             tintColor={'#414141'}
             readonly
           />
           <Text mt="3" mb="10" color={'white'}>
-            adsalksjdklasjdklaslkjdaklslasjdlaskjdasdasdsadsadsadasdasdasdasdsadasdasdasdasdasda
-            adsalksjdklasjdklaslkjdaklslasjdlaskjdasdasdsadsadsadasdasdasdasdsadasdasdasdasdasda
-            adsalksjdklasjdklaslkjdaklslasjdlaskjdasdasdsadsadsadasdasdasdasdsadasdasdasdasdasda
-            adsalksjdklasjdklaslkjdaklslasjdlaskjdasdasdsadsadsadasdasdasdasdsadasdasdasdasdasda
+            {item.description}
           </Text>
           <RoundButton title="Direction" backgroundColor="#dc2626" />
         </View>
@@ -77,15 +94,30 @@ export default function NearByDetailsScreen({navigation}) {
               style={{flex: 1, justifyContent: 'center'}}>
               <Image
                 style={styles.icon}
-                source={require('../../../assets/love.png')}></Image>
+                source={require('../../../assets/love.png')}
+                tintColor={
+                  item.likes &&
+                  item.likes.includes(
+                    authData?.id ? authData.id : 'temporaryDeviceId',
+                  )
+                    ? 'red'
+                    : 'gray'
+                }></Image>
             </TouchableOpacity>
             <Text
               ml={'2'}
               bold
               fontSize={12}
-              color="gray.500"
+              color={
+                item.likes &&
+                item.likes.includes(
+                  authData?.id ? authData.id : 'temporaryDeviceId',
+                )
+                  ? 'red.500'
+                  : 'gray.500'
+              }
               style={styles.iconText}>
-              10.5k
+              {item.likes ? item.likes.length : 0}
             </Text>
           </View>
           <View style={{flexDirection: 'row'}}>
@@ -99,20 +131,39 @@ export default function NearByDetailsScreen({navigation}) {
               fontSize={12}
               color="red.500"
               style={styles.iconText}>
-              633
+              {item.reviews ? item.reviews.length : 0}
             </Text>
           </View>
           <View style={{flexDirection: 'row'}}>
-            <Image
-              style={styles.icon}
-              source={require('../../../assets/share.png')}></Image>
+            <TouchableOpacity
+              onPress={() => handleShare()}
+              style={{flex: 1, justifyContent: 'center'}}>
+              <Image
+                style={styles.icon}
+                source={require('../../../assets/share.png')}
+                tintColor={
+                  item.shares &&
+                  item.shares.includes(
+                    authData?.id ? authData.id : 'temporaryDeviceId',
+                  )
+                    ? 'red'
+                    : 'gray'
+                }></Image>
+            </TouchableOpacity>
             <Text
               ml={'2'}
               bold
               fontSize={12}
-              color="gray.500"
+              color={
+                item.shares &&
+                item.shares.includes(
+                  authData?.id ? authData.id : 'temporaryDeviceId',
+                )
+                  ? 'red.500'
+                  : 'gray.500'
+              }
               style={styles.iconText}>
-              87
+              {item.shares ? item.shares.length : 0}
             </Text>
           </View>
         </View>

@@ -79,7 +79,12 @@ export default function SpotsHomeScreen_Places({navigation}) {
             renderItem={({item, index}) => (
               <TouchableOpacity
                 style={styles.view}
-                onPress={() => navigation.navigate('NearByDetails')}>
+                onPress={() =>
+                  navigation.navigate('NearByDetails', {
+                    type: 'restaurants',
+                    id: item.id,
+                  })
+                }>
                 <Image
                   source={{uri: item.thumbnailSrc}}
                   style={{
@@ -122,7 +127,12 @@ export default function SpotsHomeScreen_Places({navigation}) {
             renderItem={({item, index}) => (
               <TouchableOpacity
                 style={styles.view}
-                onPress={() => navigation.navigate('NearByDetails')}>
+                onPress={() =>
+                  navigation.navigate('NearByDetails', {
+                    type: 'attractions',
+                    id: item.id,
+                  })
+                }>
                 <Image
                   source={{uri: item.thumbnailSrc}}
                   style={{
@@ -163,7 +173,12 @@ export default function SpotsHomeScreen_Places({navigation}) {
             renderItem={({item, index}) => (
               <TouchableOpacity
                 style={styles.view}
-                onPress={() => navigation.navigate('NearByDetails')}>
+                onPress={() =>
+                  navigation.navigate('NearByDetails', {
+                    type: 'hotels',
+                    id: item.id,
+                  })
+                }>
                 <Image
                   source={{uri: item.thumbnailSrc}}
                   style={{
