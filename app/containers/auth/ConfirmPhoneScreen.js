@@ -29,8 +29,7 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
       const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
       setConfirm(confirmation);
     } catch (err) {
-      console.log(JSON.stringify(err));
-      authProvider.setAuthError(JSON.stringify(err));
+      authProvider.setAuthError(err.message);
       setPhoneNumberEditable(true);
     }
   }

@@ -9,14 +9,6 @@ export default function PlannerSteps({navigation}) {
     navigation.navigate('Planner_Question');
   };
 
-<<<<<<< HEAD
-  useEffect(() => {
-    // TODO: incomplete post request
-    // post();
-  }, []);
-
-=======
->>>>>>> a0cad8d (Refactored auth flow)
   const {authData} = useAuth();
 
   return (

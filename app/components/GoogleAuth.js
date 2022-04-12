@@ -45,12 +45,7 @@ const GoogleAuth = ({navigation, setEmail}) => {
     const uid = await auth().currentUser.uid;
     const {email} = currentUser;
     signInWithGoogle(email, idToken)
-      .then(() => {
-        console.log('go back first');
-      })
       // sign out immmediately after sign in to remove the access on firebase
-      // by doing this, in the next google login, user is able to choose which account to login with
-      // otherwise the user will be automatically log into the previous gmail in the second login
       .then(() => {
         console.log('sign out');
         return GoogleSignin.revokeAccess();
@@ -58,11 +53,11 @@ const GoogleAuth = ({navigation, setEmail}) => {
       .then(() => {
         return GoogleSignin.signOut();
       })
-      .then(async () => {
-        navigation.goBack();
+      .then(() => {
+        navigation.navigate({name: 'SignInScreen'});
       })
       .catch(err => {
-        navigation.navigate('Confirm Phone', {email, password: uid});
+        navigation.navigate('ConfirmPhone', {email, password: uid});
       });
   };
 

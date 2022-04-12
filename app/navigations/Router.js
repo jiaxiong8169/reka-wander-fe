@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {useAuth} from '../hooks/useAuth';
 import {Text, Modal, View, StyleSheet} from 'react-native';

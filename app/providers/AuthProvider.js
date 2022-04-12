@@ -18,7 +18,7 @@ const AuthProvider = ({children}) => {
     if (!!authError)
       setTimeout(() => {
         setAuthError('');
-      }, 2000);
+      }, 5000);
   }, [authError]);
 
   async function loadStorageData() {

@@ -27,7 +27,8 @@ const signInWithGoogle = (email, idToken) => {
         token: tokens,
       };
     })
-    .catch(() => {
+    .catch(err => {
+      console.log(err);
       throw 'Invalid Google signin';
     });
 };
