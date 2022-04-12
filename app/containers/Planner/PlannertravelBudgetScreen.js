@@ -8,13 +8,13 @@ import {
 import SelectBudget from '../../components/dropdown/budget';
 import Card from '../../components/card/card';
 
-const TravelBudget = (props) => {
+const TravelBudget = () => {
   return (
     <View style={styles.body}>
       <Card style={{ width: '100%' }}>
         <View style={styles.body_container}>
           <Text style={styles.question}>
-            {props.quest}
+          Travel budget
           </Text>
           <SelectBudget />
           <View style={{ marginTop: 10 }}>

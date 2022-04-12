@@ -6,7 +6,7 @@ import {useAuth} from '../../hooks/useAuth';
 
 export default function HomePage({navigation}) {
   const onPressHandler = () => {
-    // navigation.navigate('Loading');
+    // navigation.navigate('Recommended');
     navigation.navigate('Planner_Question');
   };
 
