@@ -1,23 +1,37 @@
 import * as React from 'react';
-import {View, Image} from 'react-native';
-import GradientBackground from '../../../components/GradientBackground';
+import {View, Image, RefreshControl, ScrollView} from 'react-native';
+import GradientBackground from '../../components/GradientBackground';
 import {Button, ChevronLeftIcon, Text} from 'native-base';
-import BlueSubtitle from '../../../components/BlueSubtitle';
-import Card from '../../../components/Card';
+import BlueSubtitle from '../../components/BlueSubtitle';
+import Card from '../../components/Card';
 import {Rating} from 'react-native-ratings';
 import {StyleSheet} from 'react-native';
-import {useHttpCall} from '../../../hooks/useHttpCall';
+import {useHttpCall} from '../../hooks/useHttpCall';
+import FastImage from 'react-native-fast-image';
 
-export default function NearByCategoryScreen({navigation, route}) {
-  const {type} = route.params;
+export default function SpotsListScreen({navigation, route}) {
+  const {type, isNearby} = route.params;
   const {getWithoutAuth} = useHttpCall();
   const [items, setItems] = React.useState([]);
+  const [reload, setReload] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
 
   React.useEffect(() => {
-    getWithoutAuth(`${type}?sort=-avgRating`).then(({data}) => {
-      if (!!data) setItems(data);
-    });
-  }, [type]);
+    setLoading(true);
+    if (!isNearby) {
+      getWithoutAuth(`${type}?sort=-avgRating`).then(({data}) => {
+        if (!!data) setItems(data);
+        setLoading(false);
+      });
+    } else {
+      getWithoutAuth(
+        `${type}/nearby?long=101.825410&lat=2.699420&distance=300000&sort=-avgRating`,
+      ).then(({data}) => {
+        if (!!data) setItems(data);
+        setLoading(false);
+      });
+    }
+  }, [type, reload]);
 
   return (
     <GradientBackground>
@@ -29,17 +43,33 @@ export default function NearByCategoryScreen({navigation, route}) {
           marginRight="2"
           onPress={() => navigation.goBack()}></ChevronLeftIcon>
         <BlueSubtitle
-          text1={'Nearby'}
+          text1={isNearby ? 'Nearby' : ''}
           text2={type[0].toUpperCase() + type.substring(1)}
-          small
+          small={isNearby}
           style={{marginBottom: 20}}></BlueSubtitle>
       </View>
-      <View>
-        {items.map(item => (
-          <Card style={{height: 150, flexDirection: 'row'}}>
-            <Image
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={loading}
+            onRefresh={() => {
+              setReload(!reload);
+            }}
+          />
+        }>
+        {items.map((item, index) => (
+          <Card
+            style={{
+              height: 150,
+              flexDirection: 'row',
+              margin: 10,
+              marginBottom: index === items.length - 1 ? 80 : 10,
+            }}
+            key={item.id}>
+            <FastImage
               style={{flex: 1, height: undefined, borderRadius: 5}}
-              source={{uri: item.thumbnailSrc}}></Image>
+              source={{uri: item.thumbnailSrc}}
+            />
             <View style={{flex: 3, flexDirection: 'column', marginLeft: 10}}>
               <View style={{flexDirection: 'row', flex: 2}}>
                 <View style={{flex: 1}}>
@@ -67,7 +97,7 @@ export default function NearByCategoryScreen({navigation, route}) {
                     }}>
                     <Image
                       style={{width: 15, height: 15}}
-                      source={require('../../../assets/pin.png')}
+                      source={require('../../assets/pin.png')}
                       tintColor={'#52525b'}
                     />
                     <Text marginLeft="1" fontSize={10} color="gray.600">
@@ -142,7 +172,7 @@ export default function NearByCategoryScreen({navigation, route}) {
                       fontSize="25"
                       color="blue.600"
                       style={{textAlign: 'right'}}>
-                      RM 266
+                      RM {item.price}
                     </Text>
                   </View>
                 </View>
@@ -163,7 +193,7 @@ export default function NearByCategoryScreen({navigation, route}) {
             </View>
           </Card>
         ))}
-      </View>
+      </ScrollView>
     </GradientBackground>
   );
 }

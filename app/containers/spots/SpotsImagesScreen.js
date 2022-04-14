@@ -1,18 +1,18 @@
 import {
   View,
-  useWindowDimensions,
   StyleSheet,
   ScrollView,
   Dimensions,
+  RefreshControl,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {FlatList, Image} from 'react-native';
-import {Text} from 'native-base';
-import GradientBackground from '../../../components/GradientBackground';
-import {TabView, SceneMap} from 'react-native-tab-view';
-import {TabBar} from 'react-native-tab-view';
+import {FlatList} from 'react-native';
+import {SearchIcon, Text, ChevronLeftIcon} from 'native-base';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {useHttpCall} from '../../../hooks/useHttpCall';
+import GradientBackground from '../../components/GradientBackground';
+import {useHttpCall} from '../../hooks/useHttpCall';
+import FastImage from 'react-native-fast-image';
+import BlueSubtitle from '../../components/BlueSubtitle';
 
 const {width} = Dimensions.get('window');
 //you need to preview n items.
@@ -24,31 +24,59 @@ const previewCount = 3;
 const itemWidth = width / (previewCount + 0.5);
 const startScroll = 0;
 
-export default function NearByHomeScreen({navigation}) {
+export default function SpotsImagesScreen({navigation, route}) {
   const flatlistRef = React.useRef();
   const {getWithoutAuth} = useHttpCall();
   const [restaurantData, setRestaurantData] = useState([]);
   const [attractionData, setAttractionData] = useState([]);
   const [hotelData, setHotelData] = useState([]);
+  const [reload, setReload] = useState(false);
+  const [loading1, setLoading1] = useState(false);
+  const [loading2, setLoading2] = useState(false);
+  const [loading3, setLoading3] = useState(false);
+  const isNearby = route.params ? route.params.isNearby : false;
 
-  // TODO: Get actual location
   useEffect(() => {
-    getWithoutAuth(
-      'restaurants/nearby?long=101.825410&lat=2.699420&distance=300000&sort=-avgRating',
-    ).then(({data}) => {
-      if (!!data) setRestaurantData(data);
-    });
-    getWithoutAuth(
-      'attractions/nearby?long=101.825410&lat=2.699420&distance=300000&sort=-avgRating',
-    ).then(({data}) => {
-      if (!!data) setAttractionData(data);
-    });
-    getWithoutAuth(
-      'hotels/nearby?long=101.825410&lat=2.699420&distance=300000&sort=-avgRating',
-    ).then(({data}) => {
-      if (!!data) setHotelData(data);
-    });
-  }, []);
+    setLoading1(true);
+    setLoading2(true);
+    setLoading3(true);
+    if (!isNearby) {
+      getWithoutAuth('restaurants?sort=-avgRating').then(({data}) => {
+        if (!!data) setRestaurantData(data);
+        setLoading1(false);
+      });
+      getWithoutAuth('attractions?sort=-avgRating').then(({data}) => {
+        if (!!data) setAttractionData(data);
+        setLoading2(false);
+      });
+      getWithoutAuth('hotels?sort=-avgRating').then(({data}) => {
+        if (!!data) setHotelData(data);
+        setLoading3(false);
+      });
+    } else {
+      setLoading1(true);
+      setLoading2(true);
+      setLoading3(true);
+      getWithoutAuth(
+        'restaurants/nearby?long=101.825410&lat=2.699420&distance=300000&sort=-avgRating',
+      ).then(({data}) => {
+        if (!!data) setRestaurantData(data);
+        setLoading1(false);
+      });
+      getWithoutAuth(
+        'attractions/nearby?long=101.825410&lat=2.699420&distance=300000&sort=-avgRating',
+      ).then(({data}) => {
+        if (!!data) setAttractionData(data);
+        setLoading2(false);
+      });
+      getWithoutAuth(
+        'hotels/nearby?long=101.825410&lat=2.699420&distance=300000&sort=-avgRating',
+      ).then(({data}) => {
+        if (!!data) setHotelData(data);
+        setLoading3(false);
+      });
+    }
+  }, [reload]);
 
   React.useEffect(() => {
     if (flatlistRef.current)
@@ -58,21 +86,53 @@ export default function NearByHomeScreen({navigation}) {
       });
   }, [flatlistRef]);
 
-  const Nearby_Spots = () => (
+  return (
     <GradientBackground>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={loading1 || loading2 || loading3}
+            onRefresh={() => setReload(!reload)}
+          />
+        }>
+        {!isNearby && (
+          <SearchIcon
+            size="6"
+            mx={2}
+            style={{alignSelf: 'flex-end'}}
+            onPress={() => navigation.navigate('NearBySearch')}
+          />
+        )}
+        {isNearby && (
+          <View style={{flexDirection: 'row'}}>
+            <ChevronLeftIcon
+              color="gray.500"
+              size="xl"
+              mt="1"
+              marginRight="2"
+              onPress={() => navigation.goBack()}></ChevronLeftIcon>
+            <BlueSubtitle
+              text1={isNearby ? 'Nearby Spots' : ''}
+              text2={''}
+              style={{marginBottom: 20}}></BlueSubtitle>
+          </View>
+        )}
         <View style={{marginBottom: 10}}>
           <Text bold fontSize={18} marginLeft={2}>
-            Nearby Restaurants {'  '}
+            {isNearby ? 'Nearby ' : ''} Restaurants {'  '}
             <Text
               underline
               mt="2"
               fontSize={15}
               color="blue.600"
               onPress={() =>
-                navigation.navigate('NearByCategory', {type: 'restaurants'})
+                navigation.navigate('SpotsList', {
+                  type: 'restaurants',
+                  isNearby: isNearby,
+                })
               }>
-              {'View More>>'}
+              {'View More'}
             </Text>
           </Text>
           <FlatList
@@ -89,12 +149,12 @@ export default function NearByHomeScreen({navigation}) {
               <TouchableOpacity
                 style={styles.view}
                 onPress={() =>
-                  navigation.navigate('NearByDetails', {
+                  navigation.navigate('SpotDetails', {
                     type: 'restaurants',
                     id: item.id,
                   })
                 }>
-                <Image
+                <FastImage
                   source={{uri: item.thumbnailSrc}}
                   style={{
                     flex: 1,
@@ -111,16 +171,19 @@ export default function NearByHomeScreen({navigation}) {
 
         <View style={{marginBottom: 10}}>
           <Text bold fontSize={18} marginLeft={2}>
-            Nearby Attractions {'  '}
+            {isNearby ? 'Nearby ' : ''}Attractions {'  '}
             <Text
               underline
               mt="2"
               fontSize={15}
               color="blue.600"
               onPress={() =>
-                navigation.navigate('NearByCategory', {type: 'attractions'})
+                navigation.navigate('SpotsList', {
+                  type: 'attractions',
+                  isNearby: isNearby,
+                })
               }>
-              {'View More>>'}
+              {'View More'}
             </Text>
           </Text>
           <FlatList
@@ -137,12 +200,12 @@ export default function NearByHomeScreen({navigation}) {
               <TouchableOpacity
                 style={styles.view}
                 onPress={() =>
-                  navigation.navigate('NearByDetails', {
+                  navigation.navigate('SpotDetails', {
                     type: 'attractions',
                     id: item.id,
                   })
                 }>
-                <Image
+                <FastImage
                   source={{uri: item.thumbnailSrc}}
                   style={{
                     flex: 1,
@@ -159,16 +222,19 @@ export default function NearByHomeScreen({navigation}) {
 
         <View style={{marginBottom: 20}}>
           <Text bold fontSize={18} marginLeft={2}>
-            Nearby Hotels {'  '}
+            {isNearby ? 'Nearby ' : ''}Hotels {'  '}
             <Text
               underline
               mt="2"
               fontSize={15}
               color="blue.600"
               onPress={() =>
-                navigation.navigate('NearByCategory', {type: 'hotels'})
+                navigation.navigate('SpotsList', {
+                  type: 'hotels',
+                  isNearby: isNearby,
+                })
               }>
-              {'View More>>'}
+              {'View More'}
             </Text>
           </Text>
           <FlatList
@@ -183,12 +249,12 @@ export default function NearByHomeScreen({navigation}) {
               <TouchableOpacity
                 style={styles.view}
                 onPress={() =>
-                  navigation.navigate('NearByDetails', {
+                  navigation.navigate('SpotDetails', {
                     type: 'hotels',
                     id: item.id,
                   })
                 }>
-                <Image
+                <FastImage
                   source={{uri: item.thumbnailSrc}}
                   style={{
                     flex: 1,
@@ -205,26 +271,6 @@ export default function NearByHomeScreen({navigation}) {
       </ScrollView>
     </GradientBackground>
   );
-
-  const renderScene = SceneMap({
-    first: Nearby_Spots,
-  });
-
-  const layout = useWindowDimensions();
-
-  const [index, setIndex] = React.useState(0);
-  const [routes] = React.useState([{key: 'first', title: 'Nearby Spots'}]);
-
-  return (
-    <TabView
-      navigationState={{index, routes}}
-      renderScene={renderScene}
-      onIndexChange={setIndex}
-      initialLayout={{width: layout.width}}
-      renderTabBar={props => (
-        <TabBar {...props} indicatorStyle={styles.noIndicator}></TabBar>
-      )}></TabView>
-  );
 }
 const styles = StyleSheet.create({
   view: {
@@ -238,8 +284,5 @@ const styles = StyleSheet.create({
     fontSize: 60,
     fontWeight: 'bold',
     color: '#aaa',
-  },
-  noIndicator: {
-    backgroundColor: 'transparent',
   },
 });

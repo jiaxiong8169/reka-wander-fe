@@ -6,11 +6,9 @@ import GradientBackground from '../components/GradientBackground';
 
 // Screens
 import SpotsHomeScreen from '../containers/spots/SpotsHomeScreen';
-import SpotsCategoryScreen from '../containers/spots/SpotsCategoryScreen';
-import NearByHomeScreen from '../containers/spots/nearby/NearByHomeScreen';
-import NearByCategoryScreen from '../containers/spots/nearby/NearByCategoryScreen';
-import NearBySearchScreen from '../containers/spots/nearby/NearBySearchScreen';
-import NearByDetailsScreen from '../containers/spots/nearby/NearByDetailsScreen';
+import SpotsListScreen from '../containers/spots/SpotsListScreen';
+import NearBySearchScreen from '../containers/spots/NearBySearchScreen';
+import SpotDetailsScreen from '../containers/spots/SpotDetailsScreen';
 //Planner
 import HomePage from '../containers/Planner/PlannerHomeScreen';
 import PlannerSteps from '../containers/Planner/PlannerProgressSteps';
@@ -20,6 +18,7 @@ import SuccessConfirmScreen from '../containers/Planner/PlannerSuccessCreateTrip
 import {Provider} from 'react-redux';
 import {Store} from '../redux/Planner/store';
 import {SettingsScreen} from '../containers/settings/SettingsScreen';
+import SpotsImagesScreen from '../containers/spots/SpotsImagesScreen';
 
 //Screen names
 const Stack = createStackNavigator();
@@ -39,15 +38,8 @@ function SpotsHomeStack() {
         }}
       />
       <Stack.Screen
-        name="SpotsCategory"
-        component={SpotsCategoryScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="NearByHome"
-        component={NearByHomeScreen}
+        name="SpotsList"
+        component={SpotsListScreen}
         options={{
           headerShown: false,
         }}
@@ -60,15 +52,15 @@ function SpotsHomeStack() {
         }}
       />
       <Stack.Screen
-        name="NearByDetails"
-        component={NearByDetailsScreen}
+        name="SpotDetails"
+        component={SpotDetailsScreen}
         options={{
           headerShown: false,
         }}
       />
       <Stack.Screen
-        name="NearByCategory"
-        component={NearByCategoryScreen}
+        name="SpotsImages"
+        component={SpotsImagesScreen}
         options={{
           headerShown: false,
         }}

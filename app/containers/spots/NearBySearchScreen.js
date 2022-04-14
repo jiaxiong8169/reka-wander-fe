@@ -1,10 +1,10 @@
 import * as React from 'react';
 import {Text, StyleSheet, Image} from 'react-native';
-import Card from '../../../components/Card';
+import Card from '../../components/Card';
 import {Button} from 'native-base';
-import BlueSubtitle from '../../../components/BlueSubtitle';
-import GradientBackground from '../../../components/GradientBackground';
-import {useAuth} from '../../../hooks/useAuth';
+import BlueSubtitle from '../../components/BlueSubtitle';
+import GradientBackground from '../../components/GradientBackground';
+import {useAuth} from '../../hooks/useAuth';
 
 export default function NearBySearchScreen({navigation}) {
   const {authData} = useAuth();
@@ -13,19 +13,22 @@ export default function NearBySearchScreen({navigation}) {
     <GradientBackground>
       <BlueSubtitle
         text1={'Hi'}
-        text2={authData?.token ? authData.name + ',' : 'Visitor,'}
+        text2={
+          authData?.token
+            ? authData.name
+              ? authData.name + ','
+              : 'User,'
+            : 'Visitor,'
+        }
         style={{marginBottom: 20}}></BlueSubtitle>
       <Card style={styles.card}>
-        <Image
-          style={styles.image}
-          source={require('../../../assets/map.png')}
-        />
+        <Image style={styles.image} source={require('../../assets/map.png')} />
         <Button
           w="50%"
           m="3"
           size="lg"
           bg="blue.500"
-          onPress={() => navigation.navigate('NearByHome')}
+          onPress={() => navigation.navigate('SpotsImages', {isNearby: true})}
           _pressed={{bg: 'blue.300', _text: {color: 'white'}}}>
           Find Nearby
         </Button>
@@ -37,7 +40,7 @@ export default function NearBySearchScreen({navigation}) {
 
         <Image
           style={styles.image}
-          source={require('../../../assets/search.png')}
+          source={require('../../assets/search.png')}
         />
       </Card>
     </GradientBackground>

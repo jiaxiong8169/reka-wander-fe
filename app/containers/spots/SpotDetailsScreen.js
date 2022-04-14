@@ -4,15 +4,16 @@ import {Image} from 'react-native';
 import {Box, Heading, Text, ArrowBackIcon, Pressable} from 'native-base';
 import {Rating} from 'react-native-ratings';
 import {ScrollView} from 'react-native';
-import RoundButton from '../../../components/RoundButton';
-import {useHttpCall} from '../../../hooks/useHttpCall';
-import {useAuth} from '../../../hooks/useAuth';
+import RoundButton from '../../components/RoundButton';
+import {useHttpCall} from '../../hooks/useHttpCall';
+import {useAuth} from '../../hooks/useAuth';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import FastImage from 'react-native-fast-image';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
-export default function NearByDetailsScreen({navigation, route}) {
+export default function SpotDetailsScreen({navigation, route}) {
   const {authData} = useAuth();
   const {postWithAuth, getWithoutAuth} = useHttpCall();
   const {type, id} = route.params;
@@ -47,7 +48,7 @@ export default function NearByDetailsScreen({navigation, route}) {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
-        <Image style={styles.image} source={{uri: item.thumbnailSrc}}></Image>
+        <FastImage style={styles.image} source={{uri: item.thumbnailSrc}} />
         <View style={{flex: 1}}></View>
         <Box style={styles.backButton}>
           <Pressable onPress={() => navigation.goBack()}>
@@ -94,7 +95,7 @@ export default function NearByDetailsScreen({navigation, route}) {
               style={{flex: 1, justifyContent: 'center'}}>
               <Image
                 style={styles.icon}
-                source={require('../../../assets/love.png')}
+                source={require('../../assets/love.png')}
                 tintColor={
                   item.likes &&
                   item.likes.includes(
@@ -123,7 +124,7 @@ export default function NearByDetailsScreen({navigation, route}) {
           <View style={{flexDirection: 'row'}}>
             <Image
               style={styles.icon}
-              source={require('../../../assets/message.png')}
+              source={require('../../assets/message.png')}
               tintColor="red"></Image>
             <Text
               ml={'2'}
@@ -140,7 +141,7 @@ export default function NearByDetailsScreen({navigation, route}) {
               style={{flex: 1, justifyContent: 'center'}}>
               <Image
                 style={styles.icon}
-                source={require('../../../assets/share.png')}
+                source={require('../../assets/share.png')}
                 tintColor={
                   item.shares &&
                   item.shares.includes(
