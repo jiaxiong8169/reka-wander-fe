@@ -17,6 +17,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fortawesome/react-native-fontawesome": "^0.2.7",
+    "@react-native-async-storage/async-storage": "^1.17.3",
     "@react-native-community/datetimepicker": "^6.1.0",
     "@react-native-community/geolocation": "^2.0.2",
     "@react-native-community/masked-view": "^0.1.11",
@@ -47,6 +48,7 @@
     "react-native-calendars": "^1.1280.0",
     "react-native-dotenv": "^3.3.1",
     "react-native-encrypted-storage": "^4.0.2",
+    "react-native-fast-image": "^8.5.11",
     "react-native-gesture-handler": "^2.3.2",
     "react-native-indicators": "^0.17.0",
     "react-native-linear-gradient": "^2.5.6",
@@ -73,6 +75,7 @@
     "react-select": "^5.2.2",
     "react-stepper-horizontal": "^1.0.11",
     "redux": "^4.1.2",
+    "redux-persist": "^6.0.0",
     "redux-thunk": "^2.4.1"
   },
   "devDependencies": {

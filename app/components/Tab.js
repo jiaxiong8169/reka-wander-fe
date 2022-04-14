@@ -1,16 +1,9 @@
-import {
-  View,
-  useWindowDimensions,
-  StyleSheet,
-  ScrollView,
-  Dimensions,
-} from 'react-native';
+import {useWindowDimensions, StyleSheet, Dimensions} from 'react-native';
 import {TabView, SceneMap} from 'react-native-tab-view';
 import GradientBackground from './GradientBackground';
 import React from 'react';
-import {FlatList, Text} from 'react-native';
 import {TabBar} from 'react-native-tab-view';
-import SpotsHomeScreen_Places from '../containers/spots/SpotsHomeScreen_Places';
+import SpotsImagesScreen from '../containers/spots/SpotsImagesScreen';
 
 const {width} = Dimensions.get('window');
 //you need to preview n items.
@@ -20,15 +13,15 @@ const previewCount = 3;
 //so for example if previewCount = 3
 //itemWidth will be =>>> itemWidth = screenWidth / (3 + 1/4 + 1/4)
 const itemWidth = width / (previewCount + 0.5);
-//to center items you start from 3/4 firstItemWidth
-const startScroll = (itemWidth * 3) / 4;
 
-export default function Tab({navigation}) {
+export default function Tab({navigation, route}) {
   const Event = () => <GradientBackground></GradientBackground>;
 
   const Reward = () => <GradientBackground></GradientBackground>;
 
-  const Places = () => <SpotsHomeScreen_Places navigation={navigation} />;
+  const Places = () => (
+    <SpotsImagesScreen navigation={navigation} route={route} />
+  );
 
   const renderScene = SceneMap({
     first: Event,
@@ -50,6 +43,7 @@ export default function Tab({navigation}) {
       navigationState={{index, routes}}
       renderScene={renderScene}
       onIndexChange={setIndex}
+      swipeEnabled={false}
       initialLayout={{width: layout.width}}
       renderTabBar={props => (
         <TabBar {...props} indicatorStyle={styles.noIndicator}></TabBar>
