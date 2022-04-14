@@ -9946,6 +9946,11 @@
   "resolved" "https://registry.npmjs.org/react-native-encrypted-storage/-/react-native-encrypted-storage-4.0.2.tgz"
   "version" "4.0.2"
 
+"react-native-fade-loading@^0.1.3":
+  "integrity" "sha512-EIv4IRrovmLGcdMmXVczyRlfcRVythwyls9yohbqhXtc4n+V8rL9Tb0TM01PV5+opA+bot+yZn3jpv+EKqstHw=="
+  "resolved" "https://registry.npmjs.org/react-native-fade-loading/-/react-native-fade-loading-0.1.3.tgz"
+  "version" "0.1.3"
+
 "react-native-fast-image@^8.5.11":
   "integrity" "sha512-cNW4bIJg3nvKaheG8vGMfqCt5LMWX9MS5+wMudgKIHbGO51spRr4sgnlhVgwHLcZ5aeNOVJ8CPRxDIWKRq/0QA=="
   "resolved" "https://registry.npmjs.org/react-native-fast-image/-/react-native-fast-image-8.5.11.tgz"
