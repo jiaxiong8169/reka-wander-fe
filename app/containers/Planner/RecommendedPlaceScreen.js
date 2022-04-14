@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -11,7 +11,7 @@ import {
 import Card from '../../components/card/card';
 import GradientBackground from '../../components/GradientBackground';
 
-export default function Recommended({navigation}) {
+export default function Recommended({ navigation }) {
   const onPressHandler = () => {
     navigation.navigate('Success');
   };
@@ -20,8 +20,8 @@ export default function Recommended({navigation}) {
     <GradientBackground>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View>
-          <Text style={{margin: 10}}>Your Searhing Details</Text>
-          <Card style={{marginVertical: 10}}>
+          <Text style={{ margin: 10 }}>Your Searhing Details</Text>
+          <Card style={{ marginVertical: 10 }}>
             <View>
               <View
                 style={{
@@ -83,14 +83,14 @@ export default function Recommended({navigation}) {
                     }}>
                     RM250/pax
                   </Text>
-                  <TouchableOpacity style={{marginTop: 4}}>
-                    <Text style={{fontSize: 10, color: '#00BFFF'}}>Edit</Text>
+                  <TouchableOpacity style={{ marginTop: 4 }}>
+                    <Text style={{ fontSize: 10, color: '#00BFFF' }}>Edit</Text>
                   </TouchableOpacity>
                 </View>
               </View>
 
               <View
-                style={{flexDirection: 'column', borderBottomColor: '#000'}}>
+                style={{ flexDirection: 'column', borderBottomColor: '#000' }}>
                 <View
                   style={{
                     flexDirection: 'column',
@@ -152,7 +152,7 @@ export default function Recommended({navigation}) {
                       }}>
                       RM400/night
                     </Text>
-                    <TouchableOpacity style={{marginTop: 4}}>
+                    <TouchableOpacity style={{ marginTop: 4 }}>
                       <Text
                         style={{
                           fontSize: 10,
@@ -167,7 +167,7 @@ export default function Recommended({navigation}) {
               </View>
 
               <View
-                style={{flexDirection: 'column', borderBottomColor: '#000'}}>
+                style={{ flexDirection: 'column', borderBottomColor: '#000' }}>
                 <View
                   style={{
                     flexDirection: 'column',
@@ -223,15 +223,15 @@ export default function Recommended({navigation}) {
                       RM5,000
                     </Text>
 
-                    <TouchableOpacity style={{marginTop: 4}}>
-                      <Text style={{fontSize: 10, color: '#00BFFF'}}>Edit</Text>
+                    <TouchableOpacity style={{ marginTop: 4 }}>
+                      <Text style={{ fontSize: 10, color: '#00BFFF' }}>Edit</Text>
                     </TouchableOpacity>
                   </View>
                 </View>
               </View>
 
               <View
-                style={{flexDirection: 'column', borderBottomColor: '#000'}}>
+                style={{ flexDirection: 'column', borderBottomColor: '#000' }}>
                 <View
                   style={{
                     flexDirection: 'column',
@@ -286,14 +286,14 @@ export default function Recommended({navigation}) {
                       }}>
                       Entertainment, Leisure
                     </Text>
-                    <Text style={{flex: 2, fontSize: 14}}>Depends</Text>
-                    <TouchableOpacity style={{marginTop: 4}}>
-                      <Text style={{fontSize: 10, color: '#00BFFF'}}>Edit</Text>
+                    <Text style={{ flex: 2, fontSize: 14 }}>Depends</Text>
+                    <TouchableOpacity style={{ marginTop: 4 }}>
+                      <Text style={{ fontSize: 10, color: '#00BFFF' }}>Edit</Text>
                     </TouchableOpacity>
                   </View>
                 </View>
               </View>
-              <View style={{flexDirection: 'column'}}>
+              <View style={{ flexDirection: 'column' }}>
                 <View
                   style={{
                     flexDirection: 'column',
@@ -348,9 +348,9 @@ export default function Recommended({navigation}) {
                       }}>
                       Yes
                     </Text>
-                    <Text style={{flex: 2, fontSize: 15}}>Free</Text>
-                    <TouchableOpacity style={{marginTop: 4}}>
-                      <Text style={{fontSize: 10, color: '#00BFFF'}}>Edit</Text>
+                    <Text style={{ flex: 2, fontSize: 15 }}>Free</Text>
+                    <TouchableOpacity style={{ marginTop: 4 }}>
+                      <Text style={{ fontSize: 10, color: '#00BFFF' }}>Edit</Text>
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -369,16 +369,16 @@ export default function Recommended({navigation}) {
                   }}>
                   Total
                 </Text>
-                <Text style={{flex: 1, fontSize: 18, color: '#000'}}>
+                <Text style={{ flex: 1, fontSize: 18, color: '#000' }}>
                   RM2,600
                 </Text>
               </View>
             </View>
           </Card>
-          <Text style={{margin: 10}}>Recommended Spots</Text>
-          <Card style={{marginVertical: 10}}>
-            <View style={{flexDirection: 'column'}}>
-              <TouchableOpacity style={{margin: 4}}>
+          <Text style={{ margin: 10 }}>Recommended Spots</Text>
+          <Card style={{ marginVertical: 10 }}>
+            <View style={{ flexDirection: 'column' }}>
+              <TouchableOpacity style={{ margin: 4 }}>
                 <View
                   style={{
                     // height: 80,
@@ -397,7 +397,7 @@ export default function Recommended({navigation}) {
                       borderRadius: 5,
                       paddingRight: 8,
                     }}
-                    source={require('../../assets/home.jpg')}
+                    source={require('../../assets/home_2.jpg')}
                   />
 
                   <View
@@ -442,7 +442,7 @@ export default function Recommended({navigation}) {
                 </View>
               </TouchableOpacity>
             </View>
-            <View style={{alignItems: 'flex-end', justifyContent: 'flex-end'}}>
+            <View style={{ alignItems: 'flex-end', justifyContent: 'flex-end' }}>
               <Text
                 style={{
                   fontSize: 11,
@@ -454,10 +454,10 @@ export default function Recommended({navigation}) {
             </View>
           </Card>
 
-          <Text style={{margin: 10}}>Recommended Car</Text>
-          <Card style={{marginVertical: 10}}>
-            <View style={{flexDirection: 'column'}}>
-              <TouchableOpacity style={{margin: 4}}>
+          <Text style={{ margin: 10 }}>Recommended Car</Text>
+          <Card style={{ marginVertical: 10 }}>
+            <View style={{ flexDirection: 'column' }}>
+              <TouchableOpacity style={{ margin: 4 }}>
                 <View
                   style={{
                     // height: 80,
@@ -537,7 +537,7 @@ export default function Recommended({navigation}) {
             </View>
           </Card>
         </View>
-        <View style={{marginTop: 20}}>
+        <View style={{ marginTop: 20 }}>
           <TouchableOpacity onPress={onPressHandler}>
             <Text
               style={{
