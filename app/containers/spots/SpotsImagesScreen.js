@@ -13,6 +13,15 @@ import GradientBackground from '../../components/GradientBackground';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import FastImage from 'react-native-fast-image';
 import BlueSubtitle from '../../components/BlueSubtitle';
+import {useSelector, useDispatch} from 'react-redux';
+import {
+  setRestaurants,
+  setAttractions,
+  setHotels,
+  setNearbyAttractions,
+  setNearbyRestaurants,
+  setNearbyHotels,
+} from '../../redux/Nearby/actions';
 
 const {width} = Dimensions.get('window');
 //you need to preview n items.
@@ -25,55 +34,100 @@ const itemWidth = width / (previewCount + 0.5);
 const startScroll = 0;
 
 export default function SpotsImagesScreen({navigation, route}) {
+  const {
+    hotels,
+    restaurants,
+    attractions,
+    nearbyHotels,
+    nearbyRestaurants,
+    nearbyAttractions,
+  } = useSelector(state => state.nearbyReducer);
+  const dispatch = useDispatch();
   const flatlistRef = React.useRef();
   const {getWithoutAuth} = useHttpCall();
-  const [restaurantData, setRestaurantData] = useState([]);
-  const [attractionData, setAttractionData] = useState([]);
-  const [hotelData, setHotelData] = useState([]);
   const [reload, setReload] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const [loading3, setLoading3] = useState(false);
   const isNearby = route.params ? route.params.isNearby : false;
+  const [firstLoad, setFirstLoad] = useState(true);
 
   useEffect(() => {
+    if (!firstLoad) return;
+    // if first time loading, skip if cached data exists
+    if (
+      (!isNearby &&
+        restaurants.length > 0 &&
+        hotels.length > 0 &&
+        attractions.length > 0) ||
+      (isNearby &&
+        nearbyRestaurants.length > 0 &&
+        nearbyHotels.length > 0 &&
+        nearbyAttractions.length > 0)
+    ) {
+      setFirstLoad(false);
+      return;
+    }
+    // else, trigger reload
+    setReload(true);
+    setFirstLoad(false);
+  }, [firstLoad]);
+
+  useEffect(() => {
+    if (!reload) return;
     setLoading1(true);
     setLoading2(true);
     setLoading3(true);
+    // TODO: Implement pagination
     if (!isNearby) {
       getWithoutAuth('restaurants?sort=-avgRating').then(({data}) => {
-        if (!!data) setRestaurantData(data);
+        if (!!data) {
+          dispatch(setRestaurants(data));
+        }
         setLoading1(false);
+        setReload(false);
       });
       getWithoutAuth('attractions?sort=-avgRating').then(({data}) => {
-        if (!!data) setAttractionData(data);
+        if (!!data) {
+          dispatch(setAttractions(data));
+        }
         setLoading2(false);
+        setReload(false);
       });
       getWithoutAuth('hotels?sort=-avgRating').then(({data}) => {
-        if (!!data) setHotelData(data);
+        if (!!data) {
+          dispatch(setHotels(data));
+        }
         setLoading3(false);
+        setReload(false);
       });
     } else {
-      setLoading1(true);
-      setLoading2(true);
-      setLoading3(true);
       getWithoutAuth(
         'restaurants/nearby?long=101.825410&lat=2.699420&distance=300000&sort=-avgRating',
       ).then(({data}) => {
-        if (!!data) setRestaurantData(data);
+        if (!!data) {
+          dispatch(setNearbyRestaurants(data));
+        }
         setLoading1(false);
+        setReload(false);
       });
       getWithoutAuth(
         'attractions/nearby?long=101.825410&lat=2.699420&distance=300000&sort=-avgRating',
       ).then(({data}) => {
-        if (!!data) setAttractionData(data);
+        if (!!data) {
+          dispatch(setNearbyAttractions(data));
+        }
         setLoading2(false);
+        setReload(false);
       });
       getWithoutAuth(
         'hotels/nearby?long=101.825410&lat=2.699420&distance=300000&sort=-avgRating',
       ).then(({data}) => {
-        if (!!data) setHotelData(data);
+        if (!!data) {
+          dispatch(setNearbyHotels(data));
+        }
         setLoading3(false);
+        setReload(false);
       });
     }
   }, [reload]);
@@ -93,7 +147,7 @@ export default function SpotsImagesScreen({navigation, route}) {
         refreshControl={
           <RefreshControl
             refreshing={loading1 || loading2 || loading3}
-            onRefresh={() => setReload(!reload)}
+            onRefresh={() => setReload(true)}
           />
         }>
         {!isNearby && (
@@ -139,18 +193,18 @@ export default function SpotsImagesScreen({navigation, route}) {
             ref={flatlistRef}
             horizontal={true}
             decelerationRate={0}
-            snapToOffsets={restaurantData.map(
+            snapToOffsets={(isNearby ? nearbyRestaurants : restaurants).map(
               (x, i) => i * itemWidth * startScroll,
             )}
             snapToAlignment={'center'}
             showsHorizontalScrollIndicator={false}
-            data={restaurantData}
+            data={isNearby ? nearbyRestaurants : restaurants}
             renderItem={({item, index}) => (
               <TouchableOpacity
                 style={styles.view}
                 onPress={() =>
                   navigation.navigate('SpotDetails', {
-                    type: 'restaurants',
+                    type: isNearby ? 'nearbyRestaurants' : 'restaurants',
                     id: item.id,
                   })
                 }>
@@ -190,18 +244,18 @@ export default function SpotsImagesScreen({navigation, route}) {
             ref={flatlistRef}
             horizontal={true}
             decelerationRate={0}
-            snapToOffsets={attractionData.map(
+            snapToOffsets={(isNearby ? nearbyAttractions : attractions).map(
               (x, i) => i * itemWidth * startScroll,
             )}
             snapToAlignment={'center'}
             showsHorizontalScrollIndicator={false}
-            data={attractionData}
+            data={isNearby ? nearbyAttractions : attractions}
             renderItem={({item, index}) => (
               <TouchableOpacity
                 style={styles.view}
                 onPress={() =>
                   navigation.navigate('SpotDetails', {
-                    type: 'attractions',
+                    type: isNearby ? 'nearbyAttractions' : 'attractions',
                     id: item.id,
                   })
                 }>
@@ -241,16 +295,18 @@ export default function SpotsImagesScreen({navigation, route}) {
             ref={flatlistRef}
             horizontal={true}
             decelerationRate={0}
-            snapToOffsets={hotelData.map((x, i) => i * itemWidth * startScroll)}
+            snapToOffsets={(isNearby ? nearbyHotels : hotels).map(
+              (x, i) => i * itemWidth * startScroll,
+            )}
             snapToAlignment={'center'}
             showsHorizontalScrollIndicator={false}
-            data={hotelData}
+            data={isNearby ? nearbyHotels : hotels}
             renderItem={({item, index}) => (
               <TouchableOpacity
                 style={styles.view}
                 onPress={() =>
                   navigation.navigate('SpotDetails', {
-                    type: 'hotels',
+                    type: isNearby ? 'nearbyHotels' : 'hotels',
                     id: item.id,
                   })
                 }>

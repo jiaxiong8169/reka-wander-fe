@@ -1,9 +1,19 @@
-import {SET_ATTRACTIONS, SET_HOTELS, SET_RESTAURANTS} from './actions';
+import {
+  SET_ATTRACTIONS,
+  SET_HOTELS,
+  SET_NEARBY_ATTRACTIONS,
+  SET_NEARBY_HOTELS,
+  SET_NEARBY_RESTAURANTS,
+  SET_RESTAURANTS,
+} from './actions';
 
 export const initialState = {
   attractions: [],
   hotels: [],
   restaurants: [],
+  nearbyAttractions: [],
+  nearbyHotels: [],
+  nearbyRestaurants: [],
 };
 
 function nearbyReducer(state = initialState, action) {
@@ -14,6 +24,12 @@ function nearbyReducer(state = initialState, action) {
       return {...state, hotels: action.payload};
     case SET_RESTAURANTS:
       return {...state, restaurants: action.payload};
+    case SET_NEARBY_ATTRACTIONS:
+      return {...state, nearbyAttractions: action.payload};
+    case SET_NEARBY_HOTELS:
+      return {...state, nearbyHotels: action.payload};
+    case SET_NEARBY_RESTAURANTS:
+      return {...state, nearbyRestaurants: action.payload};
     default:
       return state;
   }
