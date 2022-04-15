@@ -8,27 +8,123 @@ import {Rating} from 'react-native-ratings';
 import {StyleSheet} from 'react-native';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import FastImage from 'react-native-fast-image';
+import {useSelector, useDispatch} from 'react-redux';
+import {
+  setRestaurants,
+  setAttractions,
+  setHotels,
+  setNearbyAttractions,
+  setNearbyRestaurants,
+  setNearbyHotels,
+} from '../../redux/Nearby/actions';
 
 export default function SpotsListScreen({navigation, route}) {
+  const dispatch = useDispatch();
+  const {
+    hotels,
+    restaurants,
+    attractions,
+    nearbyHotels,
+    nearbyRestaurants,
+    nearbyAttractions,
+  } = useSelector(state => state.nearbyReducer);
   const {type, isNearby} = route.params;
   const {getWithoutAuth} = useHttpCall();
   const [items, setItems] = React.useState([]);
   const [reload, setReload] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
+  const [firstLoad, setFirstLoad] = React.useState(true);
 
   React.useEffect(() => {
+    if (!firstLoad) return;
+    // if first time loading, skip if cached data exists
+    if (
+      (!isNearby &&
+        restaurants.length > 0 &&
+        hotels.length > 0 &&
+        attractions.length > 0) ||
+      (isNearby &&
+        nearbyRestaurants.length > 0 &&
+        nearbyHotels.length > 0 &&
+        nearbyAttractions.length > 0)
+    ) {
+      // set items
+      if (!isNearby) {
+        switch (type) {
+          case 'restaurants':
+            setItems(restaurants);
+            break;
+          case 'attractions':
+            setItems(attractions);
+            break;
+          case 'hotels':
+            setItems(hotels);
+            break;
+        }
+      } else {
+        switch (type) {
+          case 'restaurants':
+            setItems(nearbyRestaurants);
+            break;
+          case 'attractions':
+            setItems(nearbyAttractions);
+            break;
+          case 'hotels':
+            setItems(nearbyHotels);
+            break;
+        }
+      }
+      setFirstLoad(false);
+      return;
+    }
+    // else, trigger reload
+    setReload(true);
+    setFirstLoad(false);
+  }, [firstLoad]);
+
+  React.useEffect(() => {
+    if (!reload) return;
     setLoading(true);
     if (!isNearby) {
       getWithoutAuth(`${type}?sort=-avgRating`).then(({data}) => {
-        if (!!data) setItems(data);
+        if (!!data) {
+          setItems(data);
+          // set cache
+          switch (type) {
+            case 'restaurants':
+              dispatch(setRestaurants(data));
+              break;
+            case 'attractions':
+              dispatch(setAttractions(data));
+              break;
+            case 'hotels':
+              dispatch(setHotels(data));
+              break;
+          }
+        }
         setLoading(false);
+        setReload(false);
       });
     } else {
       getWithoutAuth(
         `${type}/nearby?long=101.825410&lat=2.699420&distance=300000&sort=-avgRating`,
       ).then(({data}) => {
-        if (!!data) setItems(data);
+        if (!!data) {
+          setItems(data);
+          switch (type) {
+            case 'restaurants':
+              dispatch(setNearbyRestaurants(data));
+              break;
+            case 'attractions':
+              dispatch(setNearbyAttractions(data));
+              break;
+            case 'hotels':
+              dispatch(setNearbyHotels(data));
+              break;
+          }
+        }
         setLoading(false);
+        setReload(false);
       });
     }
   }, [type, reload]);
@@ -109,21 +205,6 @@ export default function SpotsListScreen({navigation, route}) {
                       flexDirection: 'row',
                       marginTop: 4,
                     }}>
-                    {/* <Badge
-                      _text={{
-                        fontSize: 6,
-                      }}
-                      colorScheme="danger"
-                      variant="solid"
-                      style={{borderRadius: 100}}>
-                      8.3
-                    </Badge>
-                    <Text bold marginLeft="1" fontSize={8} color="gray.600">
-                      Excellent{' '}
-                      <Text marginLeft="1" fontSize={8} color="gray.400">
-                        (1199 reviews)
-                      </Text>
-                    </Text> */}
                     <Text marginLeft="1" fontSize={8} color="gray.400">
                       {item.reviews.length} reviews
                     </Text>
@@ -139,26 +220,6 @@ export default function SpotsListScreen({navigation, route}) {
                     justifyContent: 'center',
                     padding: 8,
                   }}>
-                  {/* <Text bg="blue.600" style={{padding: 2, textAlign: 'right'}}>
-                    <Text
-                      bold
-                      fontSize={10}
-                      color="white"
-                      bg="blue.600"
-                      px="3"
-                      style={{padding: 3, textAlign: 'right'}}>
-                      100% {'  '}
-                      <Text
-                        color="blue.600"
-                        bg="white"
-                        p="10"
-                        m="20"
-                        style={{padding: 3, margin: 10, textAlign: 'right'}}>
-                        {' '}
-                        Less than usual{' '}
-                      </Text>
-                    </Text>
-                  </Text> */}
                   <View>
                     <Text
                       fontSize="12"
@@ -183,7 +244,7 @@ export default function SpotsListScreen({navigation, route}) {
                 bg="blue.600"
                 _pressed={{bg: 'blue.300', _text: {color: 'white'}}}
                 onPress={() => {
-                  navigation.navigate('NearByDetails', {
+                  navigation.navigate('SpotDetails', {
                     type: type,
                     id: item.id,
                   });

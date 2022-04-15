@@ -26,7 +26,6 @@ const HttpProvider = ({children}) => {
       body: JSON.stringify(body),
     })
       .then(res => {
-        console.log(res.ok);
         if (!res.ok) {
           if (res.status === 401) {
             if (disableRetry && unauthorizedAction) {
@@ -80,7 +79,6 @@ const HttpProvider = ({children}) => {
       body: JSON.stringify(body),
     })
       .then(res => {
-        console.log(res);
         if (!res.ok) {
           let err = new Error('HTTP status code: ' + res.status);
           err.response = res;

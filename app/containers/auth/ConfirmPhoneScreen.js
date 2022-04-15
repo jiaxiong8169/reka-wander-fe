@@ -42,7 +42,6 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
         password,
         phoneNumber,
       };
-      console.log(regInfo);
       authProvider.signUp(regInfo).then(success => {
         if (success)
           authProvider

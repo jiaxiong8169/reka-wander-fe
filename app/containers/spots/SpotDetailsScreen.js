@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {View, StyleSheet, Dimensions} from 'react-native';
+import {View, StyleSheet, Dimensions, RefreshControl} from 'react-native';
 import {Image} from 'react-native';
 import {Box, Heading, Text, ArrowBackIcon, Pressable} from 'native-base';
 import {Rating} from 'react-native-ratings';
@@ -9,44 +9,159 @@ import {useHttpCall} from '../../hooks/useHttpCall';
 import {useAuth} from '../../hooks/useAuth';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import FastImage from 'react-native-fast-image';
+import {useSelector, useDispatch} from 'react-redux';
+import {
+  setNearbyAttractions,
+  setNearbyHotels,
+  setNearbyRestaurants,
+  setRestaurants,
+} from '../../redux/Nearby/actions';
 
-const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 export default function SpotDetailsScreen({navigation, route}) {
   const {authData} = useAuth();
-  const {postWithAuth, getWithoutAuth} = useHttpCall();
+  const dispatch = useDispatch();
   const {type, id} = route.params;
-  const [item, setItem] = React.useState({}); // TODO: Put initial values
+  const listData = useSelector(state => state.nearbyReducer[type]);
+  const {postWithAuth, getWithAuth} = useHttpCall();
+  const [item, setItem] = React.useState({});
   const [reload, setReload] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+  const [firstLoad, setFirstLoad] = React.useState(true);
 
   React.useEffect(() => {
-    getWithoutAuth(`${type}/${id}`).then(({data}) => {
-      if (!!data) setItem(data);
-    });
+    if (!firstLoad) return;
+    // if first time loading, setItem if cached data exists
+    const foundData = listData.find(ld => ld.id === id);
+    if (foundData) {
+      setItem(foundData);
+      setFirstLoad(false);
+      return;
+    }
+    // if not found, trigger reload
+    setReload(true);
+    setFirstLoad(false);
+  }, [firstLoad]);
+
+  React.useEffect(() => {
+    if (!reload) return;
+    setLoading(true);
+    // convert type to without the word nearby
+    let currentType = type;
+    switch (currentType) {
+      case 'nearbyAttractions':
+        currentType = 'attractions';
+        break;
+      case 'nearbyRestaurants':
+        currentType = 'restaurants';
+        break;
+      case 'nearbyHotels':
+        currentType = 'hotels';
+        break;
+    }
+    // try to fetch the data
+    getWithAuth(`${currentType}/${id}`)
+      .then(({data}) => {
+        if (!!data) {
+          setItem(data);
+          // update the cached data
+          let clonedListData = JSON.parse(JSON.stringify(listData));
+          for (let i = 0; i < clonedListData.length; i++) {
+            if (clonedListData[i].id === id) {
+              clonedListData[i] = data;
+              break;
+            }
+          }
+          switch (type) {
+            case 'restaurants':
+              dispatch(setRestaurants(clonedListData));
+              break;
+            case 'attractions':
+              dispatch(setAttractions(clonedListData));
+              break;
+            case 'hotels':
+              dispatch(setHotels(clonedListData));
+              break;
+            case 'nearbyRestaurants':
+              dispatch(setNearbyRestaurants(clonedListData));
+              break;
+            case 'nearbyAttractions':
+              dispatch(setNearbyAttractions(clonedListData));
+              break;
+            case 'nearbyHotels':
+              dispatch(setNearbyHotels(clonedListData));
+              break;
+            default:
+          }
+        }
+        // set loading and reload to false indicating finished loading
+        setLoading(false);
+        setReload(false);
+      })
+      .catch(err => {
+        console.log(err);
+        // set loading and reload to false indicating finished loading
+        setLoading(false);
+        setReload(false);
+      });
   }, [reload]);
 
   const handleLike = async () => {
-    await postWithAuth(`${type}/like`, {
+    // convert type to without the word nearby
+    let currentType = type;
+    switch (currentType) {
+      case 'nearbyAttractions':
+        currentType = 'attractions';
+        break;
+      case 'nearbyRestaurants':
+        currentType = 'restaurants';
+        break;
+      case 'nearbyHotels':
+        currentType = 'hotels';
+        break;
+    }
+    // POST like API
+    await postWithAuth(`${currentType}/like`, {
       targetId: id,
       userId: authData && authData.id ? authData.id : 'temporaryDeviceId', // TODO: Implement device ID
     });
     // reload the data
-    setReload(!reload);
+    setReload(true);
   };
 
-  // TODO: Copy into clipboard when sharing maybe
   const handleShare = async () => {
-    await postWithAuth(`${type}/share`, {
+    // convert type to without the word nearby
+    let currentType = type;
+    switch (currentType) {
+      case 'nearbyAttractions':
+        currentType = 'attractions';
+        break;
+      case 'nearbyRestaurants':
+        currentType = 'restaurants';
+        break;
+      case 'nearbyHotels':
+        currentType = 'hotels';
+        break;
+    }
+    // POST share API
+    await postWithAuth(`${currentType}/share`, {
       targetId: id,
       userId: authData && authData.id ? authData.id : 'temporaryDeviceId', // TODO: Implement device ID
     });
     // reload the data
-    setReload(!reload);
+    setReload(true);
   };
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      refreshControl={
+        <RefreshControl
+          refreshing={loading}
+          onRefresh={() => setReload(true)}
+        />
+      }>
       <View style={styles.container}>
         <FastImage style={styles.image} source={{uri: item.thumbnailSrc}} />
         <View style={{flex: 1}}></View>
