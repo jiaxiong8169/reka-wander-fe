@@ -108,6 +108,8 @@ export default function SpotDetailsScreen({navigation, route}) {
   }, [reload]);
 
   const handleLike = async () => {
+    if (loading) return; // do not proceed when loading is true
+    setLoading(true);
     // convert type to without the word nearby
     let currentType = type;
     switch (currentType) {
@@ -122,15 +124,23 @@ export default function SpotDetailsScreen({navigation, route}) {
         break;
     }
     // POST like API
-    await postWithAuth(`${currentType}/like`, {
-      targetId: id,
-      userId: authData && authData.id ? authData.id : 'temporaryDeviceId', // TODO: Implement device ID
-    });
+    try {
+      await postWithAuth(`${currentType}/like`, {
+        targetId: id,
+        userId: authData && authData.id ? authData.id : 'temporaryDeviceId', // TODO: Implement device ID
+      });
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+    }
     // reload the data
     setReload(true);
+    setLoading(false);
   };
 
   const handleShare = async () => {
+    if (loading) return; // do not proceed when loading is true
+    setLoading(true);
     // convert type to without the word nearby
     let currentType = type;
     switch (currentType) {
@@ -145,12 +155,18 @@ export default function SpotDetailsScreen({navigation, route}) {
         break;
     }
     // POST share API
-    await postWithAuth(`${currentType}/share`, {
-      targetId: id,
-      userId: authData && authData.id ? authData.id : 'temporaryDeviceId', // TODO: Implement device ID
-    });
+    try {
+      await postWithAuth(`${currentType}/share`, {
+        targetId: id,
+        userId: authData && authData.id ? authData.id : 'temporaryDeviceId', // TODO: Implement device ID
+      });
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+    }
     // reload the data
     setReload(true);
+    setLoading(false);
   };
 
   return (
