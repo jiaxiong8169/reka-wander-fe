@@ -1,5 +1,11 @@
 import * as React from 'react';
-import {View, StyleSheet, Dimensions, RefreshControl} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  RefreshControl,
+  Share,
+} from 'react-native';
 import {Image} from 'react-native';
 import {Box, Heading, Text, ArrowBackIcon, Pressable} from 'native-base';
 import {Rating} from 'react-native-ratings';
@@ -154,18 +160,30 @@ export default function SpotDetailsScreen({navigation, route}) {
         currentType = 'hotels';
         break;
     }
-    // POST share API
+    // open the share component
     try {
-      await postWithAuth(`${currentType}/share`, {
-        targetId: id,
-        userId: authData && authData.id ? authData.id : 'temporaryDeviceId', // TODO: Implement device ID
+      const result = await Share.share({
+        title: `Reka Wander - ${item.name}`,
+        url: item.link,
+        message: `Please check out ${item.name} via: ${item.link}`,
       });
-    } catch (err) {
-      console.log(err);
-      setLoading(false);
+      if (result.action === Share.sharedAction) {
+        // POST share API
+        try {
+          await postWithAuth(`${currentType}/share`, {
+            targetId: id,
+            userId: authData && authData.id ? authData.id : 'temporaryDeviceId', // TODO: Implement device ID
+          });
+          // reload the data
+          setReload(true);
+        } catch (err) {
+          console.log(err);
+          setLoading(false);
+        }
+      }
+    } catch (error) {
+      console.log(error.message);
     }
-    // reload the data
-    setReload(true);
     setLoading(false);
   };
 
