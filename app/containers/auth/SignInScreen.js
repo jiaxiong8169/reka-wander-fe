@@ -12,6 +12,7 @@ import GoogleAuth from '../../components/GoogleAuth';
 import GradientBackground from '../../components/GradientBackground';
 import LinearGradient from 'react-native-linear-gradient';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import PasswordInput from '../../components/PasswordInput/PasswordInput';
 
 const SignInScreen = ({navigation, route}) => {
   const {authData, signIn, setAuthError} = useAuth();
@@ -90,22 +91,7 @@ const SignInScreen = ({navigation, route}) => {
                 </View>
               </View>
               <View style={styles.inputField}>
-                <View
-                  style={{
-                    backgroundColor: 'rgba(255,255,255,0.3)',
-                    padding: 5,
-                  }}>
-                  <TextInput
-                    textContentType="password"
-                    secureTextEntry={true}
-                    placeholder="Password"
-                    value={password}
-                    onChangeText={setPassword}
-                    placeholderTextColor="black"
-                    selectionColor={'black'}
-                    style={{color: 'black'}}
-                  />
-                </View>
+                <PasswordInput password={password} setPassword={setPassword} />
               </View>
             </View>
             <View styles={{flex: 1}}>
