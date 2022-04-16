@@ -78,6 +78,7 @@ const AuthProvider = ({children}) => {
       .catch(err => {
         setLoading(false);
         setAuthError(err);
+        throw err;
       });
   };
 
