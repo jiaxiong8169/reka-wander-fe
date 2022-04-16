@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Modal,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import {useAuth} from '../../hooks/useAuth';
 
@@ -63,6 +63,17 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
       console.log(error);
     }
   }
+
+  useEffect(() => {
+    const resetState = () => {
+      setConfirm(undefined);
+      setCode('');
+      setPhoneNumber('');
+      setPhoneNumberEditable(true);
+      setOTPModalVisible(false);
+    };
+    if (!otpModalVisible) resetState();
+  }, [otpModalVisible]);
 
   return (
     <View style={styles.container}>

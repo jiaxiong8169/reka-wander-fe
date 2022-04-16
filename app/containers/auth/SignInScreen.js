@@ -13,17 +13,28 @@ import GradientBackground from '../../components/GradientBackground';
 import LinearGradient from 'react-native-linear-gradient';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import PasswordInput from '../../components/PasswordInput/PasswordInput';
+import {useIsFocused} from '@react-navigation/native';
 
 const SignInScreen = ({navigation, route}) => {
   const {authData, signIn, setAuthError} = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     // navigate users to main page if authenticated
     if (!!authData) navigation.navigate({name: 'MainScreen'});
   }, [authData]);
+
+  useEffect(() => {
+    // clear all fields when user is redirected to this page
+    const clearLoginFields = () => {
+      setEmail('');
+      setPassword('');
+    };
+    if (isFocused) clearLoginFields();
+  }, [isFocused]);
 
   const checkBeforeRun = func => {
     if (!/^\S+@\S+.com$/.test(email)) {
