@@ -9,6 +9,7 @@ import {
 import React, {useEffect, useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import {useAuth} from '../../hooks/useAuth';
+import LinearGradient from 'react-native-linear-gradient';
 
 export const ConfirmPhoneScreen = ({navigation, route}) => {
   const [code, setCode] = useState('');
@@ -76,70 +77,84 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
   }, [otpModalVisible]);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.inputField}>
-        <View
-          style={{
-            backgroundColor: 'rgba(255,255,255,0.3)',
-            padding: 5,
-            fontSize: 40,
-          }}>
-          <View>
-            <TextInput
-              placeholder="Phone Number"
-              value={phoneNumber}
-              onChangeText={setPhoneNumber}
-              editable={phoneNumberEditable}
-              placeholderTextColor="white"
-              selectionColor={'white'}
-            />
-          </View>
-        </View>
-      </View>
-      <TouchableOpacity
-        style={
-          phoneNumberEditable ? styles.enabledButton : styles.disabledButton
-        }
-        onPress={handlePhoneNumberButtonPress}
-        disabled={!phoneNumberEditable}>
-        <Text style={styles.buttonText}>Send OTP</Text>
-      </TouchableOpacity>
-      <Modal
-        animationType="slide"
-        transparent={false}
-        visible={otpModalVisible}
-        onRequestClose={() => {
-          setOTPModalVisible(false);
-        }}>
-        <View style={styles.container}>
-          <View style={styles.inputField}>
-            <View
-              style={{
-                backgroundColor: 'rgba(255,255,255,0.3)',
-                padding: 5,
-                fontSize: 40,
-              }}>
-              <View>
-                <TextInput
-                  value={code}
-                  onChangeText={setCode}
-                  placeholder="OTP"
-                  editable={!!confirm}
-                  placeholderTextColor="white"
-                  selectionColor={'white'}
-                />
-              </View>
+    <LinearGradient
+      colors={['#CFDDFC', 'white']}
+      start={{x: 0, y: 0}}
+      end={{x: 0, y: 0.5}}
+      style={{height: '100%', width: '100%'}}>
+      <View style={styles.container}>
+        <View style={styles.inputField}>
+          <View
+            style={{
+              backgroundColor: 'rgba(255,255,255,0.3)',
+              padding: 5,
+              fontSize: 40,
+            }}>
+            <View>
+              <TextInput
+                placeholder="Phone Number"
+                value={phoneNumber}
+                onChangeText={setPhoneNumber}
+                editable={phoneNumberEditable}
+                placeholderTextColor="black"
+                selectionColor="black"
+              />
             </View>
           </View>
-          <TouchableOpacity
-            onPress={() => confirmCode()}
-            disabled={!!!confirm}
-            style={!!confirm ? styles.enabledButton : styles.disabledButton}>
-            <Text style={styles.buttonText}>Confirm</Text>
-          </TouchableOpacity>
         </View>
-      </Modal>
-    </View>
+        <TouchableOpacity
+          style={
+            phoneNumberEditable ? styles.enabledButton : styles.disabledButton
+          }
+          onPress={handlePhoneNumberButtonPress}
+          disabled={!phoneNumberEditable}>
+          <Text style={styles.buttonText}>Send OTP</Text>
+        </TouchableOpacity>
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={otpModalVisible}
+          onRequestClose={() => {
+            setOTPModalVisible(false);
+          }}>
+          <LinearGradient
+            colors={['#CFDDFC', 'white']}
+            start={{x: 0, y: 0}}
+            end={{x: 0, y: 0.5}}
+            style={{height: '100%', width: '100%'}}>
+            <View style={styles.container}>
+              <View style={styles.inputField}>
+                <View
+                  style={{
+                    backgroundColor: 'rgba(255,255,255,0.3)',
+                    padding: 5,
+                    fontSize: 40,
+                  }}>
+                  <View>
+                    <TextInput
+                      value={code}
+                      onChangeText={setCode}
+                      placeholder="OTP"
+                      editable={!!confirm}
+                      placeholderTextColor="black"
+                      selectionColor="black"
+                    />
+                  </View>
+                </View>
+              </View>
+              <TouchableOpacity
+                onPress={() => confirmCode()}
+                disabled={!!!confirm}
+                style={
+                  !!confirm ? styles.enabledButton : styles.disabledButton
+                }>
+                <Text style={styles.buttonText}>Confirm</Text>
+              </TouchableOpacity>
+            </View>
+          </LinearGradient>
+        </Modal>
+      </View>
+    </LinearGradient>
   );
 };
 
@@ -149,19 +164,16 @@ const styles = StyleSheet.create({
     padding: 30,
     paddingTop: 0,
     flexDirection: 'column',
-    backgroundColor: '#3986d4',
     justifyContent: 'center',
     alignItems: 'stretch',
   },
   inputField: {
-    borderColor: 'white',
     borderWidth: 4,
     marginBottom: 10,
     marginTop: 10,
     marginLeft: 5,
     marginRight: 5,
     borderRadius: 10,
-    textDecorationColor: 'white',
   },
   enabledButton: {
     borderRadius: 10,
