@@ -14,13 +14,6 @@ const AuthProvider = ({children}) => {
     loadStorageData();
   }, []);
 
-  useEffect(() => {
-    if (!!authError)
-      setTimeout(() => {
-        setAuthError('');
-      }, 5000);
-  }, [authError]);
-
   async function loadStorageData() {
     try {
       //Try get the data from Async Storage

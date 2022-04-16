@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {useAuth} from '../hooks/useAuth';
-import {Text, Modal, View, StyleSheet} from 'react-native';
+import {StyleSheet, Alert} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import SignInScreen from '../containers/auth/SignInScreen';
 import {ConfirmPhoneScreen} from '../containers/auth/ConfirmPhoneScreen';
@@ -10,13 +10,33 @@ import MainContainer from './MainContainer';
 const Stack = createNativeStackNavigator();
 
 export const Router = () => {
-  const {loading, authError} = useAuth();
+  const {loading, authError, setAuthError} = useAuth();
   const [setModalVisible] = useState(false);
 
   // TODO: Implement Loading Screen / Overlay
   // if (loading) {
   //   return <Text>Loading</Text>;
   // }
+
+  useEffect(() => {
+    if (authError) {
+      Alert.alert(
+        '',
+        authError,
+        [
+          {
+            text: 'Cancel',
+            style: 'cancel',
+            onPress: () => setAuthError(''),
+          },
+        ],
+        {
+          cancelable: true,
+          onDismiss: () => setAuthError(''),
+        },
+      );
+    }
+  }, [authError]);
 
   return (
     <NavigationContainer>
@@ -41,15 +61,6 @@ export const Router = () => {
           />
         </Stack.Group>
       </Stack.Navigator>
-      <Modal
-        animationType="slide"
-        transparent
-        visible={!!authError}
-        onRequestClose={() => setModalVisible(false)}>
-        <View style={styles.modalView}>
-          <Text style={styles.modalText}>{authError}</Text>
-        </View>
-      </Modal>
     </NavigationContainer>
   );
 };
