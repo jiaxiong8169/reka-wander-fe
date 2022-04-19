@@ -21,6 +21,8 @@ import {
   setNearbyHotels,
   setNearbyRestaurants,
   setRestaurants,
+  setAttractions,
+  setHotels,
 } from '../../redux/Nearby/actions';
 
 const height = Dimensions.get('window').height;

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View} from 'react-native';
+import {View, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import {useSelector, useDispatch} from 'react-redux';
@@ -20,40 +20,49 @@ const MultiSelectExample = () => {
   }, []);
 
   const onSelect = selectedItems => {
+    // check if selectedItems are within max range
+    if (selectedItems.length > 5) {
+      Alert.alert('Reminder', 'You can only select at most 5 interests.', [
+        {text: 'OK', onPress: () => {}},
+      ]);
+      return;
+    }
     dispatch(setInterest(selectedItems));
   };
 
   return (
     <View>
-      <SectionedMultiSelect
-        items={[
-          {
-            name: 'Travel Interest',
-            id: 0,
-            children: items,
-          },
-        ]}
-        IconRenderer={Icon}
-        uniqueKey="id"
-        subKey="children"
-        selectText="Choose your interest"
-        searchPlaceholderText="Search your interest"
-        showDropDowns={false}
-        readOnlyHeadings={true}
-        onSelectedItemsChange={onSelect}
-        selectedItems={interest}
-        styles={{
-          button: {backgroundColor: '#4169E1'},
-          chipText: {color: 'red'},
-          chipsWrapper: {color: 'red'},
-          chipContainer: {borderColor: '#6fbae8'},
-          parentChipContainer: {color: 'red'},
-          chipText: {color: '#483D8B'},
-          chipIcon: {color: '#6fbae8'},
-        }}
-        onPress={() => ref && ref.current && ref.current._toggleSelector()}
-        modalWithTouchable={true}
-      />
+      {!!items && items.length > 1 && (
+        <SectionedMultiSelect
+          items={[
+            {
+              name: 'Travel Interest',
+              id: 0,
+              children: items,
+            },
+          ]}
+          IconRenderer={Icon}
+          uniqueKey="id"
+          subKey="children"
+          selectText="Choose your interest"
+          searchPlaceholderText="Search your interest"
+          showDropDowns={false}
+          readOnlyHeadings={true}
+          onSelectedItemsChange={onSelect}
+          selectedItems={interest}
+          styles={{
+            button: {backgroundColor: '#4169E1'},
+            chipText: {color: 'red'},
+            chipsWrapper: {color: 'red'},
+            chipContainer: {borderColor: '#6fbae8'},
+            parentChipContainer: {color: 'red'},
+            chipText: {color: '#483D8B'},
+            chipIcon: {color: '#6fbae8'},
+          }}
+          onPress={() => ref && ref.current && ref.current._toggleSelector()}
+          modalWithTouchable={true}
+        />
+      )}
     </View>
   );
 };

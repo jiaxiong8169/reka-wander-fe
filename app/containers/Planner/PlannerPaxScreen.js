@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {StyleSheet, View, Text, Image} from 'react-native';
 import SelectPax from '../../components/dropdown/Pax';
 import Card from '../../components/card/card';
@@ -36,7 +36,6 @@ const PaxPage = props => {
 const styles = StyleSheet.create({
   title: {
     fontSize: 40,
-    // margin: 10,
   },
   body: {
     // marginBottom: '10%',
