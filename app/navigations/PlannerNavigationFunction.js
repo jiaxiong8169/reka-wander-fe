@@ -10,7 +10,7 @@ import LoadingScreen from '../containers/Planner/PlannerLoadingScreen';
 import Recommended from '../containers/Planner/RecommendedPlaceScreen';
 import SuccessConfirmScreen from '../containers/Planner/PlannerSuccessCreateTrip';
 import {Provider} from 'react-redux';
-import {Store} from '../redux/Planner/store';
+import {store} from '../redux/store';
 
 //Screen names
 const Stack = createStackNavigator();
@@ -18,7 +18,7 @@ const Tab = createBottomTabNavigator();
 
 export default function PlannerStack() {
   return (
-    <Provider store={Store}>
+    <Provider store={store}>
       <Stack.Navigator>
         <Stack.Screen
           name="HomePage"

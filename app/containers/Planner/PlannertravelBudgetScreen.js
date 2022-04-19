@@ -1,23 +1,28 @@
-import React, { useState } from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-} from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet, View, Text, TextInput, Image} from 'react-native';
 import SelectBudget from '../../components/dropdown/budget';
 import Card from '../../components/card/card';
+import {useSelector, useDispatch} from 'react-redux';
+import {setBudget} from '../../redux/Planner/actions';
 
 const TravelBudget = () => {
+  const {budget} = useSelector(state => state.plannerReducer);
+  const dispatch = useDispatch();
   return (
     <View style={styles.body}>
-      <Card style={{ width: '100%' }}>
+      <Card style={{width: '100%'}}>
         <View style={styles.body_container}>
-          <Text style={styles.question}>
-          Travel budget
-          </Text>
-          <SelectBudget />
-          <View style={{ marginTop: 10 }}>
+          <Text style={styles.question}>Travel budget</Text>
+
+          {/* <SelectBudget /> */}
+          <TextInput
+            style={styles.input}
+            keyboardType={'number-pad'}
+            onChangeText={v => dispatch(setBudget(v))}
+            placeholder="Type Your trip budget here..."
+            value={budget}
+          />
+          <View style={{marginTop: 10}}>
             <Image
               source={require('../../assets/budget.png')}
               style={{
@@ -27,14 +32,13 @@ const TravelBudget = () => {
                 resizeMode: 'contain',
                 // justifyContent: 'flex-end',
                 alignItems: 'flex-end',
-                height: undefined
+                height: undefined,
               }}
             />
           </View>
         </View>
       </Card>
     </View>
-
   );
 };
 
@@ -77,7 +81,15 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 20,
     fontWeight: 'bold',
-    textAlignVertical: 'center'
+    textAlignVertical: 'center',
+  },
+  input: {
+    width: '100%',
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 10,
+    borderColor: '#ccc',
   },
 });
 

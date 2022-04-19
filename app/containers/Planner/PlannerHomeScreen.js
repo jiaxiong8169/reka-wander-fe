@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
@@ -6,9 +6,18 @@ import {useAuth} from '../../hooks/useAuth';
 
 export default function HomePage({navigation}) {
   const onPressHandler = () => {
-    // navigation.navigate('Recommended');
     navigation.navigate('Planner_Question');
   };
+
+  useEffect(() => {
+    let timer1 = setTimeout(() => {
+      navigation.navigate('Planner_Question');
+    }, 2000);
+
+    return () => {
+      clearTimeout(timer1);
+    };
+  }, []);
 
   const {authData} = useAuth();
 

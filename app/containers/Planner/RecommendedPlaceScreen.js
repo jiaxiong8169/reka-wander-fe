@@ -1,38 +1,59 @@
-import React, { useState } from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  Button,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, Text, Image, TouchableOpacity, ScrollView} from 'react-native';
 import moment from 'moment';
 import {useSelector, useDispatch} from 'react-redux';
 import Card from '../../components/card/card';
 import GradientBackground from '../../components/GradientBackground';
 import Modal from 'react-native-modal';
+import TripName from './PlannerTripNameScreen';
 import PaxPage from './PlannerPaxScreen';
 import ChooseDays from './PlannerCalendarScreen';
 import TravelBudget from './PlannertravelBudgetScreen';
 import TravelInterest from './PlannerTravelinterestScreen';
 import Withkids from './PlannerWithkidsScreen';
+import RentHomeStay from './PlannerRentHomeStayScreen';
+import RentCar from './PlannerRentCarScreen';
+import {resetTrip} from '../../redux/Planner/actions';
+import {useRoute} from '@react-navigation/native';
 
 export default function Recommended({navigation}) {
+  const dispatch = useDispatch();
+  const route = useRoute();
+  const {tripName} = useSelector(state => state.plannerReducer);
   const {startDate} = useSelector(state => state.plannerReducer);
   const {endDate} = useSelector(state => state.plannerReducer);
   const {pax} = useSelector(state => state.plannerReducer);
   const {budget} = useSelector(state => state.plannerReducer);
   const {interest} = useSelector(state => state.plannerReducer);
   const {kids} = useSelector(state => state.plannerReducer);
+  const {rentHomeStay} = useSelector(state => state.plannerReducer);
+  const {rentCar} = useSelector(state => state.plannerReducer);
+  const {tripId} = useSelector(state => state.plannerReducer);
   const formattedStartDate = moment(startDate).format('YYYY-MM-DD');
   const formattedEndDate = moment(endDate).format('YYYY-MM-DD');
   const kid = kids == true ? 'Yes' : 'No';
+  const rentHomeStays = rentHomeStay == true ? 'Yes' : 'No';
+  const rentCars = rentCar == true ? 'Yes' : 'No';
+
+  // TODO: Fix the trip back prevent feature that caches route.name for all upcoming back actions regardless screens
+  // useEffect(() => {
+  //   navigation.addListener('beforeRemove', e => {
+  //     console.log(route.name);
+  //     if (route.name === 'Recommended') e.preventDefault();
+  //   });
+  // }, [route, navigation]);
 
   const onPressHandler = () => {
+    // clear trip fields
+    dispatch(resetTrip());
     navigation.navigate('Success');
   };
+
+  const [isNameModelPopUp, setIsNameModelPopUp] = useState(false);
+  const closeNameModel = () => {
+    setIsNameModelPopUp(false);
+  };
+
   const [isPaxModalPopUp, setIsPaxModalPopUp] = useState(false);
   const closePaxModal = () => {
     setIsPaxModalPopUp(false);
@@ -58,12 +79,22 @@ export default function Recommended({navigation}) {
     setIsKidsModalPopUp(false);
   };
 
+  const [isHomeStayModalPopUp, setIsHomeStayModalPopUp] = useState(false);
+  const closeHomeStayModal = () => {
+    setIsHomeStayModalPopUp(false);
+  };
+
+  const [isCarModalPopUp, setIsCarModalPopUp] = useState(false);
+  const closeCarModal = () => {
+    setIsCarModalPopUp(false);
+  };
+
   return (
     <GradientBackground>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View>
-          <Text style={{ margin: 10 }}>Your Searhing Details</Text>
-          <Card style={{ marginVertical: 10 }}>
+          <Text style={{margin: 10}}>Your Searching Details</Text>
+          <Card style={{marginVertical: 10}}>
             <View>
               <View
                 style={{
@@ -75,27 +106,27 @@ export default function Recommended({navigation}) {
                 <View style={{flexDirection: 'row'}}>
                   <Image
                     style={{flex: 1, height: undefined, resizeMode: 'contain'}}
-                    source={require('../../assets/pax_icon.png')}
+                    source={require('../../assets/kid_icon.png')}
                   />
                   <Text style={{flex: 7, fontSize: 16, color: '#000'}}>
-                    Pax
+                    Trip Name
                   </Text>
                 </View>
                 <View style={{padding: 3, flexDirection: 'row'}}>
                   <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
-                    {pax}
+                    {tripName}
                   </Text>
                   <Text style={{flex: 2, fontSize: 14, paddingLeft: 5}}>
-                    RM250/pax
+                    {/* RM250/pax */}
                   </Text>
                   <TouchableOpacity
                     style={{marginTop: 4}}
-                    onPress={() => setIsPaxModalPopUp(true)}>
+                    onPress={() => setIsNameModelPopUp(true)}>
                     <Text style={{fontSize: 10, color: '#00BFFF'}}>Edit</Text>
                     <Modal
-                      isVisible={isPaxModalPopUp}
-                      onBackdropPress={closePaxModal}
-                      onSwipeComplete={closePaxModal}
+                      isVisible={isNameModelPopUp}
+                      onBackdropPress={closeNameModel}
+                      onSwipeComplete={closeNameModel}
                       useNativeDriverForBackdrop
                       swipeDirection={['left', 'right', 'up', 'down']}
                       animationIn="zoomInDown"
@@ -104,14 +135,67 @@ export default function Recommended({navigation}) {
                       animationOutTiming={700}
                       backdropTransitionInTiming={700}
                       backdropTransitionOutTiming={700}>
-                      <PaxPage />
+                      <TripName />
                     </Modal>
                   </TouchableOpacity>
                 </View>
               </View>
 
               <View
-                style={{ flexDirection: 'column', borderBottomColor: '#000' }}>
+                style={{flexDirection: 'column', borderBottomColor: '#000'}}>
+                <View
+                  style={{
+                    flexDirection: 'column',
+                    paddingTop: 10,
+                    borderColor: '#000',
+                    borderBottomWidth: 1,
+                    justifyContent: 'space-between',
+                  }}>
+                  <View style={{flexDirection: 'row'}}>
+                    <Image
+                      style={{
+                        flex: 1,
+                        height: undefined,
+                        resizeMode: 'contain',
+                      }}
+                      source={require('../../assets/pax_icon.png')}
+                    />
+                    <Text style={{flex: 7, fontSize: 16, color: '#000'}}>
+                      Pax
+                    </Text>
+                  </View>
+                  <View style={{flexDirection: 'row', padding: 3}}>
+                    <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
+                      {pax}
+                    </Text>
+                    <Text style={{flex: 2, fontSize: 14, paddingLeft: 5}}>
+                      {/* RM400/night */}
+                    </Text>
+                    <TouchableOpacity
+                      style={{marginTop: 4}}
+                      onPress={() => setIsPaxModalPopUp(true)}>
+                      <Text style={{fontSize: 10, color: '#00BFFF'}}>Edit</Text>
+                      <Modal
+                        isVisible={isPaxModalPopUp}
+                        onBackdropPress={closePaxModal}
+                        onSwipeComplete={closePaxModal}
+                        useNativeDriverForBackdrop
+                        swipeDirection={['left', 'right', 'up', 'down']}
+                        animationIn="zoomInDown"
+                        animationOut="zoomOutUp"
+                        animationInTiming={700}
+                        animationOutTiming={700}
+                        backdropTransitionInTiming={700}
+                        backdropTransitionOutTiming={700}>
+                        <PaxPage />
+                      </Modal>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+
+              <View
+                style={{flexDirection: 'column', borderBottomColor: '#000'}}>
                 <View
                   style={{
                     flexDirection: 'column',
@@ -138,7 +222,7 @@ export default function Recommended({navigation}) {
                       {formattedStartDate} - {formattedEndDate}
                     </Text>
                     <Text style={{flex: 2, fontSize: 14, paddingLeft: 5}}>
-                      RM400/night
+                      {/* RM400/night */}
                     </Text>
                     <TouchableOpacity
                       style={{marginTop: 4}}
@@ -164,7 +248,180 @@ export default function Recommended({navigation}) {
               </View>
 
               <View
-                style={{ flexDirection: 'column', borderBottomColor: '#000' }}>
+                style={{flexDirection: 'column', borderBottomColor: '#000'}}>
+                <View
+                  style={{
+                    flexDirection: 'column',
+                    paddingTop: 10,
+                    borderColor: '#000',
+                    borderBottomWidth: 1,
+                    justifyContent: 'space-between',
+                  }}>
+                  <View style={{flexDirection: 'row'}}>
+                    <Image
+                      style={{
+                        flex: 1,
+                        height: undefined,
+                        resizeMode: 'contain',
+                      }}
+                      source={require('../../assets/travelInterest_icon.jpg')}
+                    />
+                    <Text style={{flex: 7, fontSize: 16, color: '#000'}}>
+                      Travel Interest
+                    </Text>
+                  </View>
+                  <View style={{flexDirection: 'row', padding: 3}}>
+                    <View style={{flex: 3, paddingLeft: 5}}>
+                      {interest.map(e => {
+                        return (
+                          <View key={e}>
+                            <Text style={{fontSize: 14}}>- {e}</Text>
+                          </View>
+                        );
+                      })}
+                    </View>
+                    <Text style={{flex: 2, fontSize: 14, paddingLeft: 5}}>
+                      {/* Depends */}
+                    </Text>
+                    <TouchableOpacity
+                      style={{marginTop: 4}}
+                      onPress={() => setIsInterestModalPopUp(true)}>
+                      <Text style={{fontSize: 10, color: '#00BFFF'}}>Edit</Text>
+                      <Modal
+                        isVisible={isInterestModalPopUp}
+                        onBackdropPress={closeInterestModal}
+                        onSwipeComplete={closeInterestModal}
+                        useNativeDriverForBackdrop
+                        swipeDirection={['left', 'right', 'up', 'down']}
+                        animationIn="zoomInDown"
+                        animationOut="zoomOutUp"
+                        animationInTiming={700}
+                        animationOutTiming={700}
+                        backdropTransitionInTiming={700}
+                        backdropTransitionOutTiming={700}>
+                        <TravelInterest />
+                      </Modal>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+
+              <View style={{flexDirection: 'column'}}>
+                <View
+                  style={{
+                    flexDirection: 'column',
+                    paddingTop: 10,
+                    borderColor: '#000',
+                    borderBottomWidth: 1,
+                    justifyContent: 'space-between',
+                  }}>
+                  <View style={{flexDirection: 'row'}}>
+                    <Image
+                      style={{
+                        flex: 1,
+                        height: undefined,
+                        resizeMode: 'contain',
+                      }}
+                      source={require('../../assets/child_icon.jpg')}
+                    />
+                    <Text style={{flex: 7, fontSize: 16, color: '#000'}}>
+                      Kids
+                    </Text>
+                  </View>
+                  <View style={{flexDirection: 'row', padding: 3}}>
+                    <Text
+                      style={{
+                        flex: 3,
+                        paddingLeft: 5,
+                        fontSize: 15,
+                      }}>
+                      {kid}
+                    </Text>
+                    <Text style={{flex: 2, fontSize: 15, paddingLeft: 5}}>
+                      {/* Free */}
+                    </Text>
+                    <TouchableOpacity
+                      style={{marginTop: 4}}
+                      onPress={() => setIsKidsModalPopUp(true)}>
+                      <Text style={{fontSize: 10, color: '#00BFFF'}}>Edit</Text>
+                      <Modal
+                        isVisible={isKidsModalPopUp}
+                        onBackdropPress={closeKidsModal}
+                        onSwipeComplete={closeKidsModal}
+                        useNativeDriverForBackdrop
+                        swipeDirection={['left', 'right', 'up', 'down']}
+                        animationIn="zoomInDown"
+                        animationOut="zoomOutUp"
+                        animationInTiming={700}
+                        animationOutTiming={700}
+                        backdropTransitionInTiming={700}
+                        backdropTransitionOutTiming={700}>
+                        <Withkids />
+                      </Modal>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+
+              <View style={{flexDirection: 'column'}}>
+                <View
+                  style={{
+                    flexDirection: 'column',
+                    paddingTop: 10,
+                    borderColor: '#000',
+                    borderBottomWidth: 1,
+                    justifyContent: 'space-between',
+                  }}>
+                  <View style={{flexDirection: 'row'}}>
+                    <Image
+                      style={{
+                        flex: 1,
+                        height: undefined,
+                        resizeMode: 'contain',
+                      }}
+                      source={require('../../assets/Home.png')}
+                    />
+                    <Text style={{flex: 7, fontSize: 16, color: '#000'}}>
+                      HomeStay
+                    </Text>
+                  </View>
+                  <View style={{flexDirection: 'row', padding: 3}}>
+                    <Text
+                      style={{
+                        flex: 3,
+                        paddingLeft: 5,
+                        fontSize: 15,
+                      }}>
+                      {rentHomeStays}
+                    </Text>
+                    <Text style={{flex: 2, fontSize: 15, paddingLeft: 5}}>
+                      {/* Free */}
+                    </Text>
+                    <TouchableOpacity
+                      style={{marginTop: 4}}
+                      onPress={() => setIsHomeStayModalPopUp(true)}>
+                      <Text style={{fontSize: 10, color: '#00BFFF'}}>Edit</Text>
+                      <Modal
+                        isVisible={isHomeStayModalPopUp}
+                        onBackdropPress={closeHomeStayModal}
+                        onSwipeComplete={closeHomeStayModal}
+                        useNativeDriverForBackdrop
+                        swipeDirection={['left', 'right', 'up', 'down']}
+                        animationIn="zoomInDown"
+                        animationOut="zoomOutUp"
+                        animationInTiming={700}
+                        animationOutTiming={700}
+                        backdropTransitionInTiming={700}
+                        backdropTransitionOutTiming={700}>
+                        <RentHomeStay />
+                      </Modal>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+
+              <View
+                style={{flexDirection: 'column', borderBottomColor: '#000'}}>
                 <View
                   style={{
                     flexDirection: 'column',
@@ -215,7 +472,7 @@ export default function Recommended({navigation}) {
               </View>
 
               <View
-                style={{ flexDirection: 'column', borderBottomColor: '#000' }}>
+                style={{flexDirection: 'column', borderBottomColor: '#000'}}>
                 <View
                   style={{
                     flexDirection: 'column',
@@ -229,69 +486,13 @@ export default function Recommended({navigation}) {
                       style={{
                         flex: 1,
                         height: undefined,
+                        margin: 2,
                         resizeMode: 'contain',
                       }}
-                      source={require('../../assets/travelInterest_icon.jpg')}
+                      source={require('../../assets/car_icon.png')}
                     />
                     <Text style={{flex: 7, fontSize: 16, color: '#000'}}>
-                      Travel Interest
-                    </Text>
-                  </View>
-                  <View style={{flexDirection: 'row', padding: 3}}>
-                    <View style={{flex: 3, paddingLeft: 5}}>
-                      {interest.map(e => {
-                        return (
-                          <View key={e}>
-                            <Text style={{fontSize: 14}}>- {e}</Text>
-                          </View>
-                        );
-                      })}
-                    </View>
-                    <Text style={{flex: 2, fontSize: 14, paddingLeft: 5}}>
-                      Depends
-                    </Text>
-                    <TouchableOpacity
-                      style={{marginTop: 4}}
-                      onPress={() => setIsInterestModalPopUp(true)}>
-                      <Text style={{fontSize: 10, color: '#00BFFF'}}>Edit</Text>
-                      <Modal
-                        isVisible={isInterestModalPopUp}
-                        onBackdropPress={closeInterestModal}
-                        onSwipeComplete={closeInterestModal}
-                        useNativeDriverForBackdrop
-                        swipeDirection={['left', 'right', 'up', 'down']}
-                        animationIn="zoomInDown"
-                        animationOut="zoomOutUp"
-                        animationInTiming={700}
-                        animationOutTiming={700}
-                        backdropTransitionInTiming={700}
-                        backdropTransitionOutTiming={700}>
-                        <TravelInterest />
-                      </Modal>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </View>
-              <View style={{ flexDirection: 'column' }}>
-                <View
-                  style={{
-                    flexDirection: 'column',
-                    paddingTop: 10,
-                    borderColor: '#000',
-                    borderBottomWidth: 1,
-                    justifyContent: 'space-between',
-                  }}>
-                  <View style={{flexDirection: 'row'}}>
-                    <Image
-                      style={{
-                        flex: 1,
-                        height: undefined,
-                        resizeMode: 'contain',
-                      }}
-                      source={require('../../assets/kid_icon.png')}
-                    />
-                    <Text style={{flex: 7, fontSize: 16, color: '#000'}}>
-                      Kids
+                      Car
                     </Text>
                   </View>
                   <View style={{flexDirection: 'row', padding: 3}}>
@@ -299,21 +500,21 @@ export default function Recommended({navigation}) {
                       style={{
                         flex: 3,
                         paddingLeft: 5,
-                        fontSize: 15,
+                        fontSize: 14,
                       }}>
-                      {kid}
+                      {rentCars}
                     </Text>
                     <Text style={{flex: 2, fontSize: 15, paddingLeft: 5}}>
-                      Free
+                      {/* Free */}
                     </Text>
                     <TouchableOpacity
                       style={{marginTop: 4}}
-                      onPress={() => setIsKidsModalPopUp(true)}>
+                      onPress={() => setIsCarModalPopUp(true)}>
                       <Text style={{fontSize: 10, color: '#00BFFF'}}>Edit</Text>
                       <Modal
-                        isVisible={isKidsModalPopUp}
-                        onBackdropPress={closeKidsModal}
-                        onSwipeComplete={closeKidsModal}
+                        isVisible={isCarModalPopUp}
+                        onBackdropPress={closeCarModal}
+                        onSwipeComplete={closeCarModal}
                         useNativeDriverForBackdrop
                         swipeDirection={['left', 'right', 'up', 'down']}
                         animationIn="zoomInDown"
@@ -322,12 +523,13 @@ export default function Recommended({navigation}) {
                         animationOutTiming={700}
                         backdropTransitionInTiming={700}
                         backdropTransitionOutTiming={700}>
-                        <Withkids />
+                        <RentCar />
                       </Modal>
                     </TouchableOpacity>
                   </View>
                 </View>
               </View>
+
               <View style={{flexDirection: 'row', marginTop: 20}}>
                 <Text
                   style={{
@@ -338,16 +540,16 @@ export default function Recommended({navigation}) {
                   }}>
                   Total
                 </Text>
-                <Text style={{ flex: 1, fontSize: 18, color: '#000' }}>
-                  RM2,600
+                <Text style={{flex: 1, fontSize: 18, color: '#000'}}>
+                  RM{budget}
                 </Text>
               </View>
             </View>
           </Card>
-          <Text style={{ margin: 10 }}>Recommended Spots</Text>
-          <Card style={{ marginVertical: 10 }}>
-            <View style={{ flexDirection: 'column' }}>
-              <TouchableOpacity style={{ margin: 4 }}>
+          <Text style={{margin: 10}}>Recommended Spots</Text>
+          <Card style={{marginVertical: 10}}>
+            <View style={{flexDirection: 'column'}}>
+              <TouchableOpacity style={{margin: 4}}>
                 <View
                   style={{
                     flex: 1,
@@ -405,7 +607,7 @@ export default function Recommended({navigation}) {
                 </View>
               </TouchableOpacity>
             </View>
-            <View style={{ alignItems: 'flex-end', justifyContent: 'flex-end' }}>
+            <View style={{alignItems: 'flex-end', justifyContent: 'flex-end'}}>
               <Text
                 style={{
                   fontSize: 11,
@@ -417,10 +619,10 @@ export default function Recommended({navigation}) {
             </View>
           </Card>
 
-          <Text style={{ margin: 10 }}>Recommended Car</Text>
-          <Card style={{ marginVertical: 10 }}>
-            <View style={{ flexDirection: 'column' }}>
-              <TouchableOpacity style={{ margin: 4 }}>
+          <Text style={{margin: 10}}>Recommended Car</Text>
+          <Card style={{marginVertical: 10}}>
+            <View style={{flexDirection: 'column'}}>
+              <TouchableOpacity style={{margin: 4}}>
                 <View
                   style={{
                     flex: 1,
@@ -494,7 +696,7 @@ export default function Recommended({navigation}) {
             </View>
           </Card>
         </View>
-        <View style={{ marginTop: 20 }}>
+        <View style={{marginTop: 20}}>
           <TouchableOpacity onPress={onPressHandler}>
             <Text
               style={{

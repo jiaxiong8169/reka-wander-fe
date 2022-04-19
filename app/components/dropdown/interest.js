@@ -15,7 +15,19 @@ const MultiSelectExample = () => {
 
   useEffect(() => {
     getWithoutAuth('interests?sort=name').then(({data}) => {
-      if (!!data) setItems(data);
+      if (!!data) {
+        // preprocess data to remove duplicates
+        let visited = new Set();
+        const result = [];
+        data.forEach(d => {
+          d.id = d.name;
+          if (!visited.has(d.id)) {
+            result.push(d);
+            visited.add(d.id);
+          }
+        });
+        setItems(result);
+      }
     });
   }, []);
 
@@ -32,37 +44,34 @@ const MultiSelectExample = () => {
 
   return (
     <View>
-      {!!items && items.length > 1 && (
-        <SectionedMultiSelect
-          items={[
-            {
-              name: 'Travel Interest',
-              id: 0,
-              children: items,
-            },
-          ]}
-          IconRenderer={Icon}
-          uniqueKey="id"
-          subKey="children"
-          selectText="Choose your interest"
-          searchPlaceholderText="Search your interest"
-          showDropDowns={false}
-          readOnlyHeadings={true}
-          onSelectedItemsChange={onSelect}
-          selectedItems={interest}
-          styles={{
-            button: {backgroundColor: '#4169E1'},
-            chipText: {color: 'red'},
-            chipsWrapper: {color: 'red'},
-            chipContainer: {borderColor: '#6fbae8'},
-            parentChipContainer: {color: 'red'},
-            chipText: {color: '#483D8B'},
-            chipIcon: {color: '#6fbae8'},
-          }}
-          onPress={() => ref && ref.current && ref.current._toggleSelector()}
-          modalWithTouchable={true}
-        />
-      )}
+      <SectionedMultiSelect
+        items={[
+          {
+            name: 'Travel Interest',
+            id: 0,
+            children: items,
+          },
+        ]}
+        IconRenderer={Icon}
+        uniqueKey="id"
+        subKey="children"
+        selectText="Choose your interest"
+        searchPlaceholderText="Search your interest"
+        showDropDowns={false}
+        readOnlyHeadings={true}
+        onSelectedItemsChange={onSelect}
+        selectedItems={interest}
+        styles={{
+          button: {backgroundColor: '#4169E1'},
+          chipText: {color: 'red'},
+          chipsWrapper: {color: 'red'},
+          chipContainer: {borderColor: '#6fbae8'},
+          parentChipContainer: {color: 'red'},
+          chipText: {color: '#483D8B'},
+          chipIcon: {color: '#6fbae8'},
+        }}
+        modalWithTouchable={true}
+      />
     </View>
   );
 };

@@ -114,7 +114,7 @@ function PlannerHomeStack() {
 function MainContainer() {
   return (
     <Tab.Navigator
-      initialRouteName={'Home'}
+      initialRouteName={'HomePage'}
       screenOptions={({route}) => ({
         tabBarIcon: ({focused, color, size}) => {
           let tabIconSource;

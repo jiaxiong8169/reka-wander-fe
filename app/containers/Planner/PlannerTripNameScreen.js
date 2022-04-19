@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, View, Text, Image, TextInput} from 'react-native';
 import Card from '../../components/card/card';
 import {useSelector, useDispatch} from 'react-redux';
