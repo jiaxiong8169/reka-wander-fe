@@ -5,22 +5,36 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import {useAuth} from '../../hooks/useAuth';
 import GoogleAuth from '../../components/GoogleAuth';
 import GradientBackground from '../../components/GradientBackground';
 import LinearGradient from 'react-native-linear-gradient';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import PasswordInput from '../../components/PasswordInput/PasswordInput';
+import {useIsFocused} from '@react-navigation/native';
 
 const SignInScreen = ({navigation, route}) => {
   const {authData, signIn, setAuthError} = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     // navigate users to main page if authenticated
     if (!!authData) navigation.navigate({name: 'MainScreen'});
   }, [authData]);
+
+  useEffect(() => {
+    // clear all fields when user is redirected to this page
+    const clearLoginFields = () => {
+      setEmail('');
+      setPassword('');
+    };
+    if (isFocused) clearLoginFields();
+  }, [isFocused]);
 
   const checkBeforeRun = func => {
     if (!/^\S+@\S+.com$/.test(email)) {
@@ -47,91 +61,84 @@ const SignInScreen = ({navigation, route}) => {
   };
 
   return (
-    <LinearGradient
-      colors={['#CFDDFC', 'white']}
-      start={{x: 0, y: 0}}
-      end={{x: 0, y: 0.5}}
-      style={{height: '100%', width: '100%'}}>
-      <View style={styles.container}>
-        <View style={{flex: 1, justifyContent: 'center'}}>
-          <Text style={styles.titleStyle}>Hello Traveller!</Text>
-        </View>
-        <View style={{flex: 1}}>
-          <Text style={styles.subtitleStyle}>
-            {"Welcome back.\nYou've been missed."}
-          </Text>
-        </View>
-        <View style={{flex: 2, justifyContent: 'center'}}>
-          <View style={styles.inputField}>
+    <SafeAreaView>
+      <LinearGradient
+        colors={['#CFDDFC', 'white']}
+        start={{x: 0, y: 0}}
+        end={{x: 0, y: 0.5}}
+        style={{height: '100%', width: '100%'}}>
+        <View style={styles.container}>
+          <ScrollView>
             <View
-              style={{
-                backgroundColor: 'rgba(255,255,255,0.3)',
-                padding: 5,
-                fontSize: 40,
-              }}>
-              <View>
-                <TextInput
-                  placeholder="E-mail"
-                  value={email}
-                  onChangeText={setEmail}
-                  placeholderTextColor="black"
-                  selectionColor={'black'}
-                  style={{color: 'black'}}
-                />
+              style={[
+                styles.containerMargin,
+                {flex: 1, justifyContent: 'center'},
+              ]}>
+              <Text style={styles.titleStyle}>Hello Traveller!</Text>
+            </View>
+            <View style={[styles.containerMargin, {flex: 1, marginBottom: 40}]}>
+              <Text style={styles.subtitleStyle}>
+                {"Welcome back.\nYou've been missed."}
+              </Text>
+            </View>
+            <View style={{flex: 2, justifyContent: 'center'}}>
+              <View style={styles.inputField}>
+                <View
+                  style={{
+                    backgroundColor: 'rgba(255,255,255,0.3)',
+                    padding: 5,
+                    fontSize: 40,
+                  }}>
+                  <View>
+                    <TextInput
+                      placeholder="E-mail"
+                      value={email}
+                      onChangeText={setEmail}
+                      placeholderTextColor="black"
+                      selectionColor={'black'}
+                      style={{color: 'black'}}
+                    />
+                  </View>
+                </View>
+              </View>
+              <View style={styles.inputField}>
+                <PasswordInput password={password} setPassword={setPassword} />
               </View>
             </View>
-          </View>
-          <View style={styles.inputField}>
-            <View
-              style={{
-                backgroundColor: 'rgba(255,255,255,0.3)',
-                padding: 5,
-              }}>
-              <TextInput
-                textContentType="password"
-                secureTextEntry={true}
-                placeholder="Password"
-                value={password}
-                onChangeText={setPassword}
-                placeholderTextColor="black"
-                selectionColor={'black'}
-                style={{color: 'black'}}
-              />
-            </View>
-          </View>
-        </View>
-        <View styles={{flex: 1}}>
-          <View style={[styles.buttonContainer]}>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={handleLoginButtonPress}>
-              <Text style={styles.buttonText}>Login</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={handleRegisterButtonPress}>
-              <Text style={styles.buttonText}>Register</Text>
-            </TouchableOpacity>
-            <View style={[styles.otherMethod, {marginTop: 20}]}>
-              <View style={styles.continueWithText}>
-                <Text>Continue with</Text>
-              </View>
-              <View>
-                <GoogleAuth navigation={navigation} />
+            <View styles={{flex: 1}}>
+              <View style={[styles.buttonContainer]}>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={handleLoginButtonPress}>
+                  <Text style={styles.buttonText}>Login</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={handleRegisterButtonPress}>
+                  <Text style={styles.buttonText}>Register</Text>
+                </TouchableOpacity>
+                <View style={[styles.otherMethod, {marginTop: 20}]}>
+                  <View style={styles.continueWithText}>
+                    <Text>Continue with</Text>
+                  </View>
+                  <View>
+                    <GoogleAuth navigation={navigation} />
+                  </View>
+                </View>
               </View>
             </View>
-          </View>
+            <View style={{flex: 1, alignSelf: 'center', marginTop: 20}}>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate({name: 'MainScreen'});
+                }}>
+                <Text>Continue as Visitor</Text>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
         </View>
-        <View style={{flex: 1, alignSelf: 'center', marginTop: 20}}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate({name: 'MainScreen'});
-            }}>
-            <Text>Continue as Visitor</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </LinearGradient>
+      </LinearGradient>
+    </SafeAreaView>
   );
 };
 
@@ -186,6 +193,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   placeholder: {color: 'black'},
+  containerMargin: {
+    marginBottom: 40,
+  },
 });
 
 export default SignInScreen;
