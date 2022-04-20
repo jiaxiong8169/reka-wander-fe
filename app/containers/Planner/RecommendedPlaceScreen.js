@@ -28,7 +28,10 @@ export default function Recommended({navigation}) {
   const {rentCar} = useSelector(state => state.plannerReducer);
   const {tripId} = useSelector(state => state.plannerReducer);
   const formattedStartDate = moment(startDate).format('YYYY-MM-DD');
-  const formattedEndDate = moment(endDate).format('YYYY-MM-DD');
+  // end date is start date if empty
+  const formattedEndDate = moment(endDate ? endDate : startDate).format(
+    'YYYY-MM-DD',
+  );
   const kid = kids == true ? 'Yes' : 'No';
   const rentHomeStays = rentHomeStay == true ? 'Yes' : 'No';
   const rentCars = rentCar == true ? 'Yes' : 'No';
