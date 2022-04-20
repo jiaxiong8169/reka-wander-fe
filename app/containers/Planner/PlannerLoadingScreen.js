@@ -8,7 +8,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {useAuth} from '../../hooks/useAuth';
 import Geolocation from '@react-native-community/geolocation';
-import {setTripId} from '../../redux/Planner/actions';
+import {setTripId, setTripPlan} from '../../redux/Planner/actions';
 
 export default function LoadingScreen({navigation}) {
   const dispatch = useDispatch();
@@ -36,12 +36,12 @@ export default function LoadingScreen({navigation}) {
       interests: interest,
       kids: kids,
       rentCar: rentCar,
-      rentHomeStay: rentHomeStay,
+      rentHomestay: rentHomeStay,
       long: long,
       lat: lat,
     })
       .then(({data}) => {
-        console.log(data);
+        dispatch(setTripPlan(data));
         dispatch(setTripId(data.id)); // set ID for updating later
         navigation.navigate('Recommended'); // navigate to Recommend page
       })
