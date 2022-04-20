@@ -14,6 +14,7 @@ import Withkids from './PlannerWithkidsScreen';
 import RentHomeStay from './PlannerRentHomeStayScreen';
 import RentCar from './PlannerRentCarScreen';
 import {resetTrip} from '../../redux/Planner/actions';
+import FastImage from 'react-native-fast-image';
 
 export default function Recommended({navigation}) {
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ export default function Recommended({navigation}) {
   const {rentHomeStay} = useSelector(state => state.plannerReducer);
   const {rentCar} = useSelector(state => state.plannerReducer);
   const {tripId} = useSelector(state => state.plannerReducer);
+  const {tripPlan} = useSelector(state => state.plannerReducer);
   const formattedStartDate = moment(startDate).format('YYYY-MM-DD');
   // end date is start date if empty
   const formattedEndDate = moment(endDate ? endDate : startDate).format(
@@ -539,173 +541,439 @@ export default function Recommended({navigation}) {
                   </View>
                 </View>
               </View>
-
-              <View style={{flexDirection: 'row', marginTop: 20}}>
-                <Text
-                  style={{
-                    flex: 1,
-                    fontSize: 16,
-                    marginLeft: 50,
-                    color: '#000',
-                  }}>
-                  Total
-                </Text>
-                <Text style={{flex: 1, fontSize: 18, color: '#000'}}>
-                  RM{budget}
-                </Text>
-              </View>
             </View>
           </Card>
-          <Text style={{margin: 10}}>Recommended Spots</Text>
-          <Card style={{marginVertical: 10}}>
-            <View style={{flexDirection: 'column'}}>
-              <TouchableOpacity style={{margin: 4}}>
+
+          {tripPlan.hotelObject && (
+            <View>
+              <Text style={{margin: 10}}>Recommended Hotel</Text>
+              <Card style={{marginVertical: 10}}>
+                <View style={{flexDirection: 'column'}}>
+                  <TouchableOpacity style={{margin: 4}}>
+                    <View
+                      style={{
+                        flex: 1,
+                        flexDirection: 'row',
+                        borderColor: '#000',
+                        borderBottomWidth: 1,
+                        paddingBottom: 10,
+                      }}>
+                      <FastImage
+                        style={{
+                          flex: 1,
+                          height: 60,
+                          resizeMode: 'contain',
+                          borderRadius: 5,
+                          paddingRight: 8,
+                        }}
+                        source={{uri: tripPlan.hotelObject.thumbnailSrc}}
+                      />
+
+                      <View
+                        style={{
+                          flex: 3,
+                          flexDirection: 'column',
+                          marginLeft: 3,
+                          paddingLeft: 10,
+                        }}>
+                        <Text
+                          style={{
+                            fontSize: 16,
+                            color: '#000',
+                          }}>
+                          {tripPlan.hotelObject.name}
+                        </Text>
+                        <Text
+                          style={{
+                            fontSize: 11,
+                            color: '#000',
+                          }}>
+                          {tripPlan.hotelObject.description.substring(0, 100) +
+                            '...'}
+                        </Text>
+                        <View
+                          style={{
+                            alignItems: 'flex-end',
+                            justifyContent: 'flex-end',
+                          }}>
+                          <Text
+                            style={{
+                              fontSize: 11,
+                              color: '#000',
+                            }}>
+                            {tripPlan.hotelObject.perks}
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+                </View>
                 <View
                   style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    borderColor: '#000',
-                    borderBottomWidth: 1,
-                    paddingBottom: 10,
+                    alignItems: 'flex-end',
+                    justifyContent: 'flex-end',
                   }}>
-                  <Image
+                  <Text
                     style={{
-                      flex: 1,
-                      height: 60,
-                      resizeMode: 'contain',
-                      borderRadius: 5,
-                      paddingRight: 8,
-                    }}
-                    source={require('../../assets/home_2.jpg')}
-                  />
+                      fontSize: 11,
+                      color: '#00BFFF',
+                      paddingTop: 5,
+                    }}>
+                    Edit
+                  </Text>
+                </View>
+              </Card>
+            </View>
+          )}
 
+          {tripPlan.homestayObject && (
+            <View>
+              <Text style={{margin: 10}}>Recommended Homestay</Text>
+              <Card style={{marginVertical: 10}}>
+                <View style={{flexDirection: 'column'}}>
+                  <TouchableOpacity style={{margin: 4}}>
+                    <View
+                      style={{
+                        flex: 1,
+                        flexDirection: 'row',
+                        borderColor: '#000',
+                        borderBottomWidth: 1,
+                        paddingBottom: 10,
+                      }}>
+                      <FastImage
+                        style={{
+                          flex: 1,
+                          height: 60,
+                          resizeMode: 'contain',
+                          borderRadius: 5,
+                          paddingRight: 8,
+                        }}
+                        source={{uri: tripPlan.homestayObject.thumbnailSrc}}
+                      />
+
+                      <View
+                        style={{
+                          flex: 3,
+                          flexDirection: 'column',
+                          marginLeft: 3,
+                          paddingLeft: 10,
+                        }}>
+                        <Text
+                          style={{
+                            fontSize: 16,
+                            color: '#000',
+                          }}>
+                          {tripPlan.homestayObject.name}
+                        </Text>
+                        <Text
+                          style={{
+                            fontSize: 11,
+                            color: '#000',
+                          }}>
+                          {tripPlan.homestayObject.description.substring(
+                            0,
+                            100,
+                          ) + '...'}
+                        </Text>
+                        <View
+                          style={{
+                            alignItems: 'flex-end',
+                            justifyContent: 'flex-end',
+                          }}>
+                          <Text
+                            style={{
+                              fontSize: 11,
+                              color: '#000',
+                            }}>
+                            {tripPlan.homestayObject.perks}
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+                <View
+                  style={{
+                    alignItems: 'flex-end',
+                    justifyContent: 'flex-end',
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: 11,
+                      color: '#00BFFF',
+                      paddingTop: 5,
+                    }}>
+                    Edit
+                  </Text>
+                </View>
+              </Card>
+            </View>
+          )}
+
+          {tripPlan.vehicleObject && (
+            <View>
+              <Text style={{margin: 10}}>Recommended Car</Text>
+              <Card style={{marginVertical: 10}}>
+                <View style={{flexDirection: 'column'}}>
+                  <TouchableOpacity style={{margin: 4}}>
+                    <View
+                      style={{
+                        flex: 1,
+                        flexDirection: 'row',
+                        borderColor: '#000',
+                        borderBottomWidth: 1,
+                        paddingBottom: 10,
+                      }}>
+                      <FastImage
+                        style={{
+                          flex: 1,
+                          height: 60,
+                          resizeMode: 'contain',
+                          borderRadius: 5,
+                          paddingRight: 8,
+                        }}
+                        source={{uri: tripPlan.vehicleObject.thumbnailSrc}}
+                      />
+
+                      <View
+                        style={{
+                          flex: 3,
+                          flexDirection: 'column',
+                          marginLeft: 3,
+                          paddingLeft: 10,
+                        }}>
+                        <Text
+                          style={{
+                            fontSize: 16,
+                            color: '#000',
+                          }}>
+                          {tripPlan.vehicleObject.name}
+                        </Text>
+                        <Text
+                          style={{
+                            fontSize: 11,
+                            color: '#000',
+                          }}>
+                          {tripPlan.vehicleObject.description.substring(
+                            0,
+                            100,
+                          ) + '...'}
+                        </Text>
+                        <View
+                          style={{
+                            alignItems: 'flex-end',
+                            justifyContent: 'flex-end',
+                          }}>
+                          <Text
+                            style={{
+                              fontSize: 11,
+                              color: '#000',
+                            }}>
+                            {tripPlan.vehicleObject.perks}
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+                <View
+                  style={{
+                    alignItems: 'flex-end',
+                    justifyContent: 'flex-end',
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: 11,
+                      color: '#00BFFF',
+                      paddingTop: 5,
+                    }}>
+                    Edit
+                  </Text>
+                </View>
+              </Card>
+            </View>
+          )}
+
+          {tripPlan.attractionObjects && tripPlan.attractionObjects.length > 0 && (
+            <View>
+              <Text style={{margin: 10}}>Recommended Attractions</Text>
+              {tripPlan.attractionObjects.map(item => (
+                <Card style={{marginVertical: 10}} key={item.id}>
+                  <View style={{flexDirection: 'column'}}>
+                    <TouchableOpacity style={{margin: 4}}>
+                      <View
+                        style={{
+                          flex: 1,
+                          flexDirection: 'row',
+                          borderColor: '#000',
+                          borderBottomWidth: 1,
+                          paddingBottom: 10,
+                        }}>
+                        <FastImage
+                          style={{
+                            flex: 1,
+                            height: 60,
+                            resizeMode: 'contain',
+                            borderRadius: 5,
+                            paddingRight: 8,
+                          }}
+                          source={{uri: item.thumbnailSrc}}
+                        />
+
+                        <View
+                          style={{
+                            flex: 3,
+                            flexDirection: 'column',
+                            marginLeft: 3,
+                            paddingLeft: 10,
+                          }}>
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              color: '#000',
+                            }}>
+                            {item.name}
+                          </Text>
+                          <Text
+                            style={{
+                              fontSize: 11,
+                              color: '#000',
+                            }}>
+                            {item.description.substring(0, 100) + '...'}
+                          </Text>
+                          <View
+                            style={{
+                              alignItems: 'flex-end',
+                              justifyContent: 'flex-end',
+                            }}>
+                            <Text
+                              style={{
+                                fontSize: 11,
+                                color: '#000',
+                              }}>
+                              {item.perks}
+                            </Text>
+                          </View>
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
                   <View
                     style={{
-                      flex: 3,
-                      flexDirection: 'column',
-                      marginLeft: 3,
-                      paddingLeft: 10,
+                      alignItems: 'flex-end',
+                      justifyContent: 'flex-end',
                     }}>
                     <Text
                       style={{
-                        fontSize: 16,
-                        color: '#000',
-                      }}>
-                      Cock & Bull
-                    </Text>
-                    <Text
-                      style={{
                         fontSize: 11,
-                        color: '#000',
+                        color: '#00BFFF',
+                        paddingTop: 5,
                       }}>
-                      This is a small introduction about the spot
+                      Edit
                     </Text>
-                    <View
-                      style={{
-                        alignItems: 'flex-end',
-                        justifyContent: 'flex-end',
-                      }}>
-                      <Text
-                        style={{
-                          fontSize: 11,
-                          color: '#000',
-                        }}>
-                        Free Entry
-                      </Text>
-                    </View>
                   </View>
-                </View>
-              </TouchableOpacity>
+                </Card>
+              ))}
             </View>
-            <View style={{alignItems: 'flex-end', justifyContent: 'flex-end'}}>
-              <Text
-                style={{
-                  fontSize: 11,
-                  color: '#00BFFF',
-                  paddingTop: 5,
-                }}>
-                Edit
-              </Text>
-            </View>
-          </Card>
+          )}
 
-          <Text style={{margin: 10}}>Recommended Car</Text>
-          <Card style={{marginVertical: 10}}>
-            <View style={{flexDirection: 'column'}}>
-              <TouchableOpacity style={{margin: 4}}>
-                <View
-                  style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    borderColor: '#000',
-                    borderBottomWidth: 1,
-                    paddingBottom: 10,
-                  }}>
-                  <Image
-                    style={{
-                      flex: 1,
-                      height: 60,
-                      resizeMode: 'contain',
-                      borderRadius: 5,
-                      paddingRight: 8,
-                    }}
-                    source={require('../../assets/toyotaExample.png')}
-                  />
+          {tripPlan.restaurantObjects && tripPlan.restaurantObjects.length > 0 && (
+            <View>
+              <Text style={{margin: 10}}>Recommended Restaurants</Text>
+              {tripPlan.restaurantObjects.map(item => (
+                <Card style={{marginVertical: 10}} key={item.id}>
+                  <View style={{flexDirection: 'column'}}>
+                    <TouchableOpacity style={{margin: 4}}>
+                      <View
+                        style={{
+                          flex: 1,
+                          flexDirection: 'row',
+                          borderColor: '#000',
+                          borderBottomWidth: 1,
+                          paddingBottom: 10,
+                        }}>
+                        <FastImage
+                          style={{
+                            flex: 1,
+                            height: 60,
+                            resizeMode: 'contain',
+                            borderRadius: 5,
+                            paddingRight: 8,
+                          }}
+                          source={{uri: item.thumbnailSrc}}
+                        />
 
+                        <View
+                          style={{
+                            flex: 3,
+                            flexDirection: 'column',
+                            marginLeft: 3,
+                            paddingLeft: 10,
+                          }}>
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              color: '#000',
+                            }}>
+                            {item.name}
+                          </Text>
+                          <Text
+                            style={{
+                              fontSize: 11,
+                              color: '#000',
+                            }}>
+                            {item.description.substring(0, 100) + '...'}
+                          </Text>
+                          <View
+                            style={{
+                              alignItems: 'flex-end',
+                              justifyContent: 'flex-end',
+                            }}>
+                            <Text
+                              style={{
+                                fontSize: 11,
+                                color: '#000',
+                              }}>
+                              {item.perks}
+                            </Text>
+                          </View>
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
                   <View
                     style={{
-                      flex: 3,
-                      flexDirection: 'column',
-                      marginLeft: 3,
-                      paddingLeft: 10,
+                      alignItems: 'flex-end',
+                      justifyContent: 'flex-end',
                     }}>
                     <Text
                       style={{
-                        fontSize: 16,
-                        color: '#000',
-                      }}>
-                      Toyota
-                    </Text>
-                    <Text
-                      style={{
                         fontSize: 11,
-                        color: '#000',
+                        color: '#00BFFF',
+                        paddingTop: 5,
                       }}>
-                      This is a small introduction about the spot
+                      Edit
                     </Text>
-                    <View
-                      style={{
-                        alignItems: 'flex-end',
-                        justifyContent: 'flex-end',
-                      }}>
-                      <Text
-                        style={{
-                          fontSize: 11,
-                          color: '#000',
-                        }}>
-                        4 seater
-                      </Text>
-                    </View>
                   </View>
-                </View>
-              </TouchableOpacity>
+                </Card>
+              ))}
             </View>
-            <View
-              style={{
-                alignItems: 'flex-end',
-                justifyContent: 'flex-end',
-                paddingTop: 5,
-              }}>
-              <Text
-                style={{
-                  fontSize: 11,
-                  color: '#00BFFF',
-                }}>
-                Edit
-              </Text>
-            </View>
-          </Card>
+          )}
         </View>
+        {/* <View style={{flexDirection: 'row', marginTop: 20}}>
+          <Text
+            style={{
+              flex: 1,
+              fontSize: 16,
+              marginLeft: 50,
+              color: '#000',
+            }}>
+            Total Estimated Costs
+          </Text>
+          <Text style={{flex: 1, fontSize: 18, color: '#000'}}>
+            RM {tripPlan.previousBudget - tripPlan.budget}
+          </Text>
+        </View> */}
         <View style={{marginTop: 20}}>
           <TouchableOpacity onPress={onPressHandler}>
             <Text
