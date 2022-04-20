@@ -13,8 +13,6 @@ const TravelBudget = () => {
       <Card style={{width: '100%'}}>
         <View style={styles.body_container}>
           <Text style={styles.question}>Travel budget</Text>
-
-          {/* <SelectBudget /> */}
           <TextInput
             style={styles.input}
             keyboardType={'number-pad'}
@@ -45,18 +43,11 @@ const TravelBudget = () => {
 const styles = StyleSheet.create({
   title: {
     fontSize: 40,
-    // margin: 10,
   },
   body: {
-    // marginBottom: '10%',
     marginBottom: 20,
     marginTop: 30,
-    // marginHorizontal: '8%',
     width: '100%',
-    // flex: 1,
-    // backgroundColor: '#ffffff',
-    // borderRadius: 20,
-    // alignItems: 'center',
   },
   body_container: {
     alignItems: 'center',

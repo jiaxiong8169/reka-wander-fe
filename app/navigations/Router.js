@@ -10,7 +10,8 @@ import MainContainer from './MainContainer';
 const Stack = createNativeStackNavigator();
 
 export const Router = () => {
-  const {loading, authError} = useAuth();
+  const {loading, authError, setAuthError} = useAuth();
+  const [setModalVisible] = useState(false);
 
   // TODO: Implement Loading Screen / Overlay
   // if (loading) {
@@ -60,16 +61,6 @@ export const Router = () => {
           />
         </Stack.Group>
       </Stack.Navigator>
-      <Modal
-        animationType="slide"
-        transparent
-        visible={!!authError}
-        // onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={styles.modalView}>
-          <Text style={styles.modalText}>{authError}</Text>
-        </View>
-      </Modal>
     </NavigationContainer>
   );
 };

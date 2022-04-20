@@ -16,11 +16,11 @@ import {
 
 const initialState = {
   tripId: '',
-  tripName: 'My trip',
+  tripName: '',
   startDate: '',
   endDate: '',
   pax: 0,
-  budget: '100.00',
+  budget: '',
   interest: [],
   kids: true,
   rentCar: true,

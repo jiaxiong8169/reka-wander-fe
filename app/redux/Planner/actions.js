@@ -18,7 +18,7 @@ export const setTripId = tripId => dispatch => {
     type: SET_TRIP_ID,
     payload: tripId,
   });
-  console.log(tripId);
+  // console.log(tripId);
 };
 
 export const setTripName = tripName => dispatch => {
