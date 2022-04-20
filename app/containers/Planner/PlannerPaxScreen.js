@@ -3,7 +3,7 @@ import {StyleSheet, View, Text, Image} from 'react-native';
 import SelectPax from '../../components/dropdown/Pax';
 import Card from '../../components/card/card';
 
-const PaxPage = props => {
+const PaxPage = ({navigation}) => {
   return (
     <View style={styles.body}>
       <Card
@@ -11,7 +11,7 @@ const PaxPage = props => {
           width: '100%',
         }}>
         <View style={styles.body_container}>
-          <Text style={styles.question}>{props.quest}</Text>
+          <Text style={styles.question}>How many Pax?</Text>
           <SelectPax />
 
           <View style={{marginTop: 10}}>

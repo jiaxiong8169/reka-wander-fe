@@ -11,7 +11,7 @@ const data = [
   {label: 'No', value: 'false', index: 2},
 ];
 
-const RentCar = props => {
+const RentCar = () => {
   const {rentCar} = useSelector(state => state.plannerReducer);
   const dispatch = useDispatch();
 
@@ -27,7 +27,7 @@ const RentCar = props => {
     <View style={styles.body}>
       <Card style={{width: '100%'}}>
         <View style={{alignItems: 'center'}}>
-          <Text style={styles.question}>{props.quest}</Text>
+          <Text style={styles.question}>Rent Car?</Text>
         </View>
         <View style={{marginHorizontal: '15%'}}>
           <RadioButtonRN

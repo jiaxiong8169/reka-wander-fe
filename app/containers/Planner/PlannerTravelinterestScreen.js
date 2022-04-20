@@ -9,7 +9,7 @@ import {
 import MultiSelectExample from '../../components/dropdown/interest';
 import Card from '../../components/card/card';
 
-const TravelInterest = props => {
+const TravelInterest = () => {
   return (
     <TouchableWithoutFeedback>
       <View style={styles.body}>
@@ -19,7 +19,7 @@ const TravelInterest = props => {
           }}>
           <View style={styles.body_container}>
             <View style={{alignItems: 'center'}}>
-              <Text style={styles.question}>{props.quest}</Text>
+              <Text style={styles.question}>Travel interest</Text>
             </View>
             <MultiSelectExample />
 

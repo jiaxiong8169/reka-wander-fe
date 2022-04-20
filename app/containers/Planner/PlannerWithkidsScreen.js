@@ -10,7 +10,7 @@ const data = [
   {label: 'No', value: 'false', index: 2},
 ];
 
-const Withkids = props => {
+const Withkids = () => {
   const {kids} = useSelector(state => state.plannerReducer);
   const dispatch = useDispatch();
 
@@ -26,7 +26,7 @@ const Withkids = props => {
     <View style={styles.body}>
       <Card style={{width: '100%'}}>
         <View style={{alignItems: 'center'}}>
-          <Text style={styles.question}>{props.quest}</Text>
+          <Text style={styles.question}>With kids?</Text>
         </View>
         <View style={{marginHorizontal: '15%'}}>
           <RadioButtonRN

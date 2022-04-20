@@ -1,18 +1,15 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   StyleSheet,
   View,
   Text,
   Image,
-  SafeAreaView,
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
 import Card from '../../components/card/card';
-import Indicator from '../../components/Indicator/Indicator';
 import GradientBackground from '../../components/GradientBackground';
 import BlueSubtitle from '../../components/BlueSubtitle';
-import Recommended from './RecommendedPlaceScreen';
 
 export default function SuccessConfirmScreen({navigation}) {
   const onPressHandler = () => {

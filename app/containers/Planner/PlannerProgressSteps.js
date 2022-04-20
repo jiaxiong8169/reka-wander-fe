@@ -1,7 +1,6 @@
 import React from 'react';
 import {StyleSheet, View, Text, ScrollView} from 'react-native';
 import {useAuth} from '../../hooks/useAuth';
-import {useSelector, useDispatch} from 'react-redux';
 
 import TripName from './PlannerTripNameScreen';
 import PaxPage from './PlannerPaxScreen';
@@ -18,14 +17,10 @@ import GradientBackground from '../../components/GradientBackground';
 
 export default function PlannerSteps({navigation}) {
   const {authData} = useAuth();
-  // const { rentCar } = useSelector(state => state.plannerReducer);
 
   const onPressHandler = () => {
-    // navigation.navigate('Recomendation');
     navigation.navigate('Loading');
   };
-
-  const check = () => {};
 
   const nextbuttonTextStyle = {
     backgroundColor: '#4169E1',
@@ -99,50 +94,66 @@ export default function PlannerSteps({navigation}) {
                 nextBtnTextStyle={nextbuttonTextStyle}
                 // onNext={check}
               >
-                <TripName quest="Give Your Trip a name!" />
+                <TripName
+                // quest="Give Your Trip a name!"
+                />
               </ProgressStep>
 
               <ProgressStep
                 nextBtnTextStyle={nextbuttonTextStyle}
                 previousBtnTextStyle={previousbuttonTextStyle}>
-                <PaxPage quest="How many Pax?" />
+                <PaxPage
+                // quest="How many Pax?"
+                />
               </ProgressStep>
 
               <ProgressStep
                 nextBtnTextStyle={nextbuttonTextStyle}
                 previousBtnTextStyle={previousbuttonTextStyle}>
-                <ChooseDays quest="How many days?" />
+                <ChooseDays
+                // quest="How many days?"
+                />
               </ProgressStep>
 
               <ProgressStep
                 nextBtnTextStyle={nextbuttonTextStyle}
                 previousBtnTextStyle={previousbuttonTextStyle}>
-                <TravelInterest quest="Travel interest" />
+                <TravelInterest
+                // quest="Travel interest"
+                />
               </ProgressStep>
 
               <ProgressStep
                 nextBtnTextStyle={nextbuttonTextStyle}
                 previousBtnTextStyle={previousbuttonTextStyle}>
-                <Withkids quest="With kids?" />
+                <Withkids
+                // quest="With kids?"
+                />
               </ProgressStep>
 
               <ProgressStep
                 nextBtnTextStyle={nextbuttonTextStyle}
                 previousBtnTextStyle={previousbuttonTextStyle}>
-                <RentHomeStay quest="Rent Homestay?" />
+                <RentHomeStay
+                // quest="Rent Homestay?"
+                />
               </ProgressStep>
 
               <ProgressStep
                 nextBtnTextStyle={nextbuttonTextStyle}
                 previousBtnTextStyle={previousbuttonTextStyle}>
-                <TravelBudget quest="Travel budget" />
+                <TravelBudget
+                // quest="Travel budget"
+                />
               </ProgressStep>
 
               <ProgressStep
                 onSubmit={onPressHandler}
                 nextBtnTextStyle={nextbuttonTextStyle}
                 previousBtnTextStyle={previousbuttonTextStyle}>
-                <RentCar quest="Rent Car?" />
+                <RentCar
+                // quest="Rent Car?"
+                />
               </ProgressStep>
             </ProgressSteps>
           </View>

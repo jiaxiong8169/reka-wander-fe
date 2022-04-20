@@ -11,6 +11,7 @@ import NearBySearchScreen from '../containers/spots/NearBySearchScreen';
 import SpotDetailsScreen from '../containers/spots/SpotDetailsScreen';
 
 //Planner
+import PlannerStack from './PlannerNavigationFunction';
 import HomePage from '../containers/Planner/PlannerHomeScreen';
 import PlannerSteps from '../containers/Planner/PlannerProgressSteps';
 import LoadingScreen from '../containers/Planner/PlannerLoadingScreen';
@@ -113,7 +114,7 @@ function PlannerHomeStack() {
 function MainContainer() {
   return (
     <Tab.Navigator
-      initialRouteName={'Home'}
+      initialRouteName={'HomePage'}
       screenOptions={({route}) => ({
         tabBarIcon: ({focused, color, size}) => {
           let tabIconSource;
@@ -191,7 +192,8 @@ function MainContainer() {
       />
       <Tab.Screen
         name="Home"
-        component={PlannerHomeStack}
+        component={PlannerStack}
+        // component={PlannerHomeStack}
         options={{
           headerShown: false,
         }}

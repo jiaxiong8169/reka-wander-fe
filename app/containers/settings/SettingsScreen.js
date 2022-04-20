@@ -16,6 +16,7 @@ export const SettingsScreen = ({navigation}) => {
       // TODO: Implement Profile Container
       console.log(data);
     });
+
   };
 
   return (
