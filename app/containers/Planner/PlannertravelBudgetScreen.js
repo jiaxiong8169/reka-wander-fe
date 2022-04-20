@@ -58,7 +58,6 @@ const styles = StyleSheet.create({
     fontFamily: 'sans-serif-medium',
     fontWeight: 'bold',
     marginBottom: 10,
-    // margin: 10,
   },
   button: {
     backgroundColor: 'red',

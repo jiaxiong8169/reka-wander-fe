@@ -5,6 +5,7 @@ import {
   SET_NEARBY_HOTELS,
   SET_NEARBY_RESTAURANTS,
   SET_RESTAURANTS,
+  SET_INTERESTS,
 } from './actions';
 
 export const initialState = {
@@ -14,6 +15,7 @@ export const initialState = {
   nearbyAttractions: [],
   nearbyHotels: [],
   nearbyRestaurants: [],
+  interests: [],
 };
 
 function nearbyReducer(state = initialState, action) {
@@ -30,6 +32,8 @@ function nearbyReducer(state = initialState, action) {
       return {...state, nearbyHotels: action.payload};
     case SET_NEARBY_RESTAURANTS:
       return {...state, nearbyRestaurants: action.payload};
+    case SET_INTERESTS:
+      return {...state, interests: action.payload};
     default:
       return state;
   }

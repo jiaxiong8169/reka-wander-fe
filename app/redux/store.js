@@ -9,14 +9,14 @@ import nearbyReducer from './Nearby/reducers';
 const MIGRATION_DEBUG = false;
 
 const migrations = {
-  3: state => {
+  4: state => {
     return {...state, nearbyReducer: initialState};
   },
 };
 
 const persistConfig = {
   key: 'root',
-  version: 3,
+  version: 4,
   migrate: createMigrate(migrations, {debug: MIGRATION_DEBUG}),
   storage: AsyncStorage,
   whitelist: ['nearbyReducer'], // which reducer want to store in async storage

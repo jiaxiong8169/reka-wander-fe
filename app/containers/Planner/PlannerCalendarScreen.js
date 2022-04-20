@@ -7,11 +7,6 @@ import Modal from 'react-native-modal';
 import ModelContent from '../../components/Modal/ModalContent';
 
 const ChooseDays = () => {
-  const [isModalVisible, setModalVisible] = useState(true);
-  const close = () => {
-    setModalVisible(false);
-  };
-
   const [isModalPopUp, setIsModalPopUp] = useState(false);
   const closeModal = () => {
     setIsModalPopUp(false);
@@ -19,33 +14,12 @@ const ChooseDays = () => {
 
   return (
     <View style={styles.body}>
-      <Card
-      // style={{flex: 1}}
-      >
-        <View style={styles.body_container}>
+      <Card>
+        <View>
           <View style={{alignItems: 'center'}}>
             <Text style={styles.question}>How many days?</Text>
           </View>
           <Calendar />
-          {/* <Modal
-            isVisible={isModalVisible}
-            onBackdropPress={close}
-            onSwipeComplete={close}
-            useNativeDriverForBackdrop
-            swipeDirection={['left', 'right', 'up', 'down']}
-            animationIn="zoomInDown"
-            animationOut="zoomOutUp"
-            animationInTiming={700}
-            animationOutTiming={700}
-            backdropTransitionInTiming={700}
-            backdropTransitionOutTiming={700}>
-            <ModelContent title="Please watch this instruction" onPress={close}>
-              <Image
-                source={require('../../assets/calender.gif')}
-                style={{width: 220, height: 200}}
-              />
-            </ModelContent>
-          </Modal> */}
         </View>
 
         <TouchableOpacity onPress={() => setIsModalPopUp(true)}>
@@ -87,9 +61,6 @@ const styles = StyleSheet.create({
     marginTop: 30,
     width: '100%',
     flex: 1,
-  },
-  body_container: {
-    // flex: 1
   },
   question: {
     color: '#000000',

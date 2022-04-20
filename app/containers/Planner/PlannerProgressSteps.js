@@ -1,7 +1,6 @@
 import React from 'react';
 import {StyleSheet, View, Text, ScrollView} from 'react-native';
 import {useAuth} from '../../hooks/useAuth';
-
 import TripName from './PlannerTripNameScreen';
 import PaxPage from './PlannerPaxScreen';
 import ChooseDays from './PlannerCalendarScreen';
@@ -10,7 +9,6 @@ import TravelInterest from './PlannerTravelinterestScreen';
 import Withkids from './PlannerWithkidsScreen';
 import RentHomeStay from './PlannerRentHomeStayScreen';
 import RentCar from './PlannerRentCarScreen';
-
 import ProgressStep from '../../components/stepper/ProgressStep';
 import ProgressSteps from '../../components/stepper/ProgressSteps';
 import GradientBackground from '../../components/GradientBackground';
@@ -25,7 +23,6 @@ export default function PlannerSteps({navigation}) {
   const nextbuttonTextStyle = {
     backgroundColor: '#4169E1',
     minWidth: '35%',
-    // height: "100%",
     borderRadius: 50,
     textAlign: 'center',
     color: 'white',
@@ -36,7 +33,6 @@ export default function PlannerSteps({navigation}) {
   const previousbuttonTextStyle = {
     backgroundColor: 'white',
     minWidth: '35%',
-    // height: "100%",
     borderRadius: 50,
     padding: 10,
     borderWidth: 1,
@@ -90,70 +86,51 @@ export default function PlannerSteps({navigation}) {
               paddingHorizontal: 20,
             }}>
             <ProgressSteps {...progressStepsStyle}>
-              <ProgressStep
-                nextBtnTextStyle={nextbuttonTextStyle}
-                // onNext={check}
-              >
-                <TripName
-                // quest="Give Your Trip a name!"
-                />
+              <ProgressStep nextBtnTextStyle={nextbuttonTextStyle}>
+                <TripName />
               </ProgressStep>
 
               <ProgressStep
                 nextBtnTextStyle={nextbuttonTextStyle}
                 previousBtnTextStyle={previousbuttonTextStyle}>
-                <PaxPage
-                // quest="How many Pax?"
-                />
+                <PaxPage />
               </ProgressStep>
 
               <ProgressStep
                 nextBtnTextStyle={nextbuttonTextStyle}
                 previousBtnTextStyle={previousbuttonTextStyle}>
-                <ChooseDays
-                // quest="How many days?"
-                />
+                <ChooseDays />
               </ProgressStep>
 
               <ProgressStep
                 nextBtnTextStyle={nextbuttonTextStyle}
                 previousBtnTextStyle={previousbuttonTextStyle}>
-                <TravelInterest
-                // quest="Travel interest"
-                />
+                <TravelInterest />
               </ProgressStep>
 
               <ProgressStep
                 nextBtnTextStyle={nextbuttonTextStyle}
                 previousBtnTextStyle={previousbuttonTextStyle}>
-                <Withkids
-                // quest="With kids?"
-                />
+                <Withkids />
               </ProgressStep>
 
               <ProgressStep
                 nextBtnTextStyle={nextbuttonTextStyle}
                 previousBtnTextStyle={previousbuttonTextStyle}>
-                <RentHomeStay
-                // quest="Rent Homestay?"
-                />
+                <RentHomeStay />
               </ProgressStep>
 
               <ProgressStep
                 nextBtnTextStyle={nextbuttonTextStyle}
                 previousBtnTextStyle={previousbuttonTextStyle}>
-                <TravelBudget
-                // quest="Travel budget"
-                />
+                <TravelBudget />
               </ProgressStep>
 
               <ProgressStep
                 onSubmit={onPressHandler}
                 nextBtnTextStyle={nextbuttonTextStyle}
                 previousBtnTextStyle={previousbuttonTextStyle}>
-                <RentCar
-                // quest="Rent Car?"
-                />
+                <RentCar />
               </ProgressStep>
             </ProgressSteps>
           </View>
@@ -166,18 +143,14 @@ export default function PlannerSteps({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // padding: 20,
   },
   title: {
     fontWeight: '300',
     fontSize: 40,
-    // marginHorizontal: 10,
-    // marginTop: 10,
     color: `#4169E1`,
   },
   subtitle: {
     fontSize: 15,
-    // marginLeft: 10,
     color: `#4169E1`,
   },
 });

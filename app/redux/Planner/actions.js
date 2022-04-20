@@ -8,8 +8,6 @@ export const SET_USER_INTEREST_NAME = 'SET_USER_INTEREST_NAME';
 export const SET_USER_KIDS = 'SET_USER_KIDS';
 export const SET_USER_RENTCAR = 'SET_USER_RENTCAR';
 export const SET_USER_RENTHOMESTAY = 'SET_USER_RENTHOMESTAY';
-export const SET_USER_LONGITUDE = 'SET_USER_LONGITUDE';
-export const SET_USER_LATITUDE = 'SET_USER_LATITUDE';
 export const SET_TRIP_ID = 'SET_TRIP_ID';
 export const RESET_TRIP = 'RESET_TRIP';
 
@@ -18,7 +16,6 @@ export const setTripId = tripId => dispatch => {
     type: SET_TRIP_ID,
     payload: tripId,
   });
-  // console.log(tripId);
 };
 
 export const setTripName = tripName => dispatch => {
@@ -66,8 +63,6 @@ export const setInterest = interest => dispatch => {
     type: SET_USER_INTEREST,
     payload: interest,
   });
-  // console.log(interest);
-  // console.log("interest");
 };
 
 export const setKids = kids => dispatch => {
@@ -89,25 +84,6 @@ export const setRentHomeStay = rentHomeStay => dispatch => {
     type: SET_USER_RENTHOMESTAY,
     payload: rentHomeStay,
   });
-};
-
-export const setLongitude = longitude => dispatch => {
-  dispatch({
-    type: SET_USER_LONGITUDE,
-    payload: longitude,
-  });
-  console.log(longitude);
-  console.log("longitudeAction");
-};
-
-export const setLatitude = latitude => dispatch => {
-  dispatch({
-    type: SET_USER_LATITUDE,
-    payload: latitude,
-  });
-  console.log(latitude);
-  console.log("latitudeAction");
-
 };
 
 export const resetTrip = () => dispatch => {

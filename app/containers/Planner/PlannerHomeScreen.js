@@ -9,6 +9,7 @@ export default function HomePage({navigation}) {
     navigation.navigate('Planner_Question');
   };
 
+  // redirect to the planner page after 2 seconds
   useEffect(() => {
     let timer1 = setTimeout(() => {
       navigation.navigate('Planner_Question');

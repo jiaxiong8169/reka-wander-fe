@@ -12,6 +12,14 @@ import GradientBackground from '../../components/GradientBackground';
 import BlueSubtitle from '../../components/BlueSubtitle';
 
 export default function SuccessConfirmScreen({navigation}) {
+  React.useEffect(() => {
+    navigation.addListener('beforeRemove', e => {
+      console.log(e);
+      if (e?.data?.action?.type === 'GO_BACK' && e.target.includes('Success'))
+        e.preventDefault();
+    });
+  }, [navigation]);
+
   const onPressHandler = () => {
     navigation.navigate('HomePage');
   };
