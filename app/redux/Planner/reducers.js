@@ -11,12 +11,13 @@ import {
   SET_TRIP_ID,
   RESET_TRIP,
 } from './actions';
+import moment from 'moment';
 
 const initialState = {
   tripId: '',
   tripName: 'My Trip',
-  startDate: '',
-  endDate: '',
+  startDate: moment(new Date()).format('YYYY-MM-DD[T00:00:00.000Z]'),
+  endDate: moment(new Date()).format('YYYY-MM-DD[T00:00:00.000Z]'),
   pax: 1,
   budget: '1000',
   interest: [],

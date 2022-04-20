@@ -33,13 +33,6 @@ const Interest = () => {
   }, [interests]);
 
   const onSelect = selectedItems => {
-    // check if selectedItems are within max range
-    if (selectedItems.length > 5) {
-      Alert.alert('Reminder', 'You can only select at most 5 interests.', [
-        {text: 'OK', onPress: () => {}},
-      ]);
-      return;
-    }
     dispatch(setInterest(selectedItems));
   };
 

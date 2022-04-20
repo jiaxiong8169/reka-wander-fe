@@ -1,3 +1,5 @@
+import {Alert} from 'react-native';
+
 export const SET_USER_TRIPNAME = 'SET_USER_TRIPNAME';
 export const SET_USER_STARTDATE = 'SET_USER_STARTDATE';
 export const SET_USER_ENDDATE = 'SET_USER_ENDDATE';
@@ -19,6 +21,13 @@ export const setTripId = tripId => dispatch => {
 };
 
 export const setTripName = tripName => dispatch => {
+  // check if trip name is not empty
+  if (!tripName) {
+    Alert.alert('Reminder', 'Trip name must not be empty.', [
+      {text: 'OK', onPress: () => {}},
+    ]);
+    return;
+  }
   dispatch({
     type: SET_USER_TRIPNAME,
     payload: tripName,
@@ -26,6 +35,13 @@ export const setTripName = tripName => dispatch => {
 };
 
 export const setStartDate = startDate => dispatch => {
+  // check if startDate is not empty
+  if (!startDate) {
+    Alert.alert('Reminder', 'You must select a start date.', [
+      {text: 'OK', onPress: () => {}},
+    ]);
+    return;
+  }
   dispatch({
     type: SET_USER_STARTDATE,
     payload: startDate,
@@ -59,6 +75,13 @@ export const setBudget = budget => dispatch => {
 };
 
 export const setInterest = interest => dispatch => {
+  // check if interests are within max range
+  if (interest.length > 5) {
+    Alert.alert('Reminder', 'You can only select at most 5 interests.', [
+      {text: 'OK', onPress: () => {}},
+    ]);
+    return;
+  }
   dispatch({
     type: SET_USER_INTEREST,
     payload: interest,
