@@ -274,6 +274,11 @@ export default function Recommended({navigation}) {
                   </View>
                   <View style={{flexDirection: 'row', padding: 3}}>
                     <View style={{flex: 3, paddingLeft: 5}}>
+                      {(!interest || interest.length === 0) && (
+                        <View key={'Everything'}>
+                          <Text style={{fontSize: 14}}>- Everything</Text>
+                        </View>
+                      )}
                       {interest.map(e => {
                         return (
                           <View key={e}>
