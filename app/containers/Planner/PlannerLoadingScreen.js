@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, View, Text, Alert} from 'react-native';
 import Card from '../../components/card/card';
 import Indicator from '../../components/Indicator/Indicator';
@@ -9,9 +9,6 @@ import {useHttpCall} from '../../hooks/useHttpCall';
 import {useAuth} from '../../hooks/useAuth';
 import Geolocation from '@react-native-community/geolocation';
 import {setTripId} from '../../redux/Planner/actions';
-// import {LogBox} from 'react-native';
-// LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
-// LogBox.ignoreAllLogs(); //Ignore all log notifications
 
 export default function LoadingScreen({navigation}) {
   const dispatch = useDispatch();
@@ -27,13 +24,8 @@ export default function LoadingScreen({navigation}) {
   const {kids} = useSelector(state => state.plannerReducer);
   const {rentCar} = useSelector(state => state.plannerReducer);
   const {rentHomeStay} = useSelector(state => state.plannerReducer);
-  const [lastPosition, setlastPosition] = useState();
-  const [WatchID, setWatchID] = useState(null | 0);
 
   const postAPI = (long, lat) => {
-    console.log('hihi');
-    console.log(long);
-    console.log(lat);
     postWithAuth('trips/recommend', {
       userId: authData && authData.id ? authData.id : 'temporaryDeviceId',
       name: tripName,
@@ -51,9 +43,11 @@ export default function LoadingScreen({navigation}) {
       .then(({data}) => {
         console.log(data);
         dispatch(setTripId(data.id)); // set ID for updating later
+        navigation.navigate('Recommended'); // navigate to Recommend page
       })
       .catch(err => {
-        console.log(err);
+        Alert.alert('Error', JSON.stringify(err));
+        navigation.navigate('HomePage');
       });
   };
 
@@ -61,10 +55,9 @@ export default function LoadingScreen({navigation}) {
     Geolocation.getCurrentPosition(
       position => {
         postAPI(position.coords.longitude, position.coords.latitude);
-        navigation.navigate('Recommended'); // navigate to Recommend page
       },
       error => {
-        Alert.alert('Error1', JSON.stringify(error));
+        Alert.alert('Error', JSON.stringify(error));
         navigation.navigate('HomePage');
       },
       {
@@ -76,6 +69,12 @@ export default function LoadingScreen({navigation}) {
   };
 
   useEffect(() => {
+    // add navigation listener to prevent back
+    navigation.addListener('beforeRemove', e => {
+      console.log(e);
+      if (e?.data?.action?.type === 'GO_BACK' && e.target.includes('Loading'))
+        e.preventDefault();
+    });
     getLocation();
   }, []);
 

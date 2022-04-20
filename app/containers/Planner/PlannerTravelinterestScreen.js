@@ -6,7 +6,7 @@ import {
   Image,
   TouchableWithoutFeedback,
 } from 'react-native';
-import MultiSelectExample from '../../components/dropdown/interest';
+import Interest from '../../components/dropdown/interest';
 import Card from '../../components/card/card';
 
 const TravelInterest = () => {
@@ -21,7 +21,7 @@ const TravelInterest = () => {
             <View style={{alignItems: 'center'}}>
               <Text style={styles.question}>Travel interest</Text>
             </View>
-            <MultiSelectExample />
+            <Interest />
 
             <View style={{marginTop: 10}}>
               <Image

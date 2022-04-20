@@ -4,6 +4,7 @@ export const SET_RESTAURANTS = 'SET_RESTAURANTS';
 export const SET_NEARBY_ATTRACTIONS = 'SET_NEARBY_ATTRACTIONS';
 export const SET_NEARBY_HOTELS = 'SET_NEARBY_HOTELS';
 export const SET_NEARBY_RESTAURANTS = 'SET_NEARBY_RESTAURANTS';
+export const SET_INTERESTS = 'SET_INTERESTS';
 
 export const setAttractions = attractions => dispatch => {
   dispatch({
@@ -44,5 +45,12 @@ export const setNearbyRestaurants = nearbyRestaurants => dispatch => {
   dispatch({
     type: SET_NEARBY_RESTAURANTS,
     payload: nearbyRestaurants,
+  });
+};
+
+export const setInterests = interests => dispatch => {
+  dispatch({
+    type: SET_INTERESTS,
+    payload: interests,
   });
 };

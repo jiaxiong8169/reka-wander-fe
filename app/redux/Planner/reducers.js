@@ -8,19 +8,17 @@ import {
   SET_USER_KIDS,
   SET_USER_RENTCAR,
   SET_USER_RENTHOMESTAY,
-  SET_USER_LONGITUDE,
-  SET_USER_LATITUDE,
   SET_TRIP_ID,
   RESET_TRIP,
 } from './actions';
 
 const initialState = {
   tripId: '',
-  tripName: '',
+  tripName: 'My Trip',
   startDate: '',
   endDate: '',
-  pax: 0,
-  budget: '',
+  pax: 1,
+  budget: '1000',
   interest: [],
   kids: true,
   rentCar: true,
@@ -51,10 +49,6 @@ function plannerReducer(state = initialState, action) {
       return {...state, rentCar: action.payload};
     case SET_USER_RENTHOMESTAY:
       return {...state, rentHomeStay: action.payload};
-    case SET_USER_LONGITUDE:
-      return {...state, longitude: action.payload};
-    case SET_USER_LATITUDE:
-      return {...state, latitude: action.payload};
     case RESET_TRIP:
       return initialState;
     default:

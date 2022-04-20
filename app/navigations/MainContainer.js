@@ -12,11 +12,6 @@ import SpotDetailsScreen from '../containers/spots/SpotDetailsScreen';
 
 //Planner
 import PlannerStack from './PlannerNavigationFunction';
-import HomePage from '../containers/Planner/PlannerHomeScreen';
-import PlannerSteps from '../containers/Planner/PlannerProgressSteps';
-import LoadingScreen from '../containers/Planner/PlannerLoadingScreen';
-import Recommended from '../containers/Planner/RecommendedPlaceScreen';
-import SuccessConfirmScreen from '../containers/Planner/PlannerSuccessCreateTrip';
 import {SettingsScreen} from '../containers/settings/SettingsScreen';
 import SpotsImagesScreen from '../containers/spots/SpotsImagesScreen';
 
@@ -63,48 +58,6 @@ function SpotsHomeStack() {
         component={SpotsImagesScreen}
         options={{
           headerShown: false,
-        }}
-      />
-    </Stack.Navigator>
-  );
-}
-
-function PlannerHomeStack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="HomePage"
-        component={HomePage}
-        options={{
-          header: () => null,
-        }}
-      />
-      <Stack.Screen
-        name="Planner_Question"
-        component={PlannerSteps}
-        options={{
-          header: () => null,
-        }}
-      />
-      <Stack.Screen
-        name="Loading"
-        component={LoadingScreen}
-        options={{
-          header: () => null,
-        }}
-      />
-      <Stack.Screen
-        name="Recommended"
-        component={Recommended}
-        options={{
-          header: () => null,
-        }}
-      />
-      <Stack.Screen
-        name="Success"
-        component={SuccessConfirmScreen}
-        options={{
-          header: () => null,
         }}
       />
     </Stack.Navigator>
@@ -193,7 +146,6 @@ function MainContainer() {
       <Tab.Screen
         name="Home"
         component={PlannerStack}
-        // component={PlannerHomeStack}
         options={{
           headerShown: false,
         }}

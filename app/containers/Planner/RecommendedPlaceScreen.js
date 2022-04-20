@@ -14,11 +14,9 @@ import Withkids from './PlannerWithkidsScreen';
 import RentHomeStay from './PlannerRentHomeStayScreen';
 import RentCar from './PlannerRentCarScreen';
 import {resetTrip} from '../../redux/Planner/actions';
-import {useRoute} from '@react-navigation/native';
 
 export default function Recommended({navigation}) {
   const dispatch = useDispatch();
-  const route = useRoute();
   const {tripName} = useSelector(state => state.plannerReducer);
   const {startDate} = useSelector(state => state.plannerReducer);
   const {endDate} = useSelector(state => state.plannerReducer);
@@ -35,13 +33,17 @@ export default function Recommended({navigation}) {
   const rentHomeStays = rentHomeStay == true ? 'Yes' : 'No';
   const rentCars = rentCar == true ? 'Yes' : 'No';
 
-  // TODO: Fix the trip back prevent feature that caches route.name for all upcoming back actions regardless screens
-  // useEffect(() => {
-  //   navigation.addListener('beforeRemove', e => {
-  //     console.log(route.name);
-  //     if (route.name === 'Recommended') e.preventDefault();
-  //   });
-  // }, [route, navigation]);
+  // add navigation listener to prevent back
+  useEffect(() => {
+    navigation.addListener('beforeRemove', e => {
+      console.log(e);
+      if (
+        e?.data?.action?.type === 'GO_BACK' &&
+        e.target.includes('Recommended')
+      )
+        e.preventDefault();
+    });
+  }, [navigation]);
 
   const onPressHandler = () => {
     // clear trip fields
@@ -267,7 +269,7 @@ export default function Recommended({navigation}) {
                       source={require('../../assets/travelInterest_icon.jpg')}
                     />
                     <Text style={{flex: 7, fontSize: 16, color: '#000'}}>
-                      Travel Interest
+                      Travel Interests
                     </Text>
                   </View>
                   <View style={{flexDirection: 'row', padding: 3}}>
@@ -382,7 +384,7 @@ export default function Recommended({navigation}) {
                       source={require('../../assets/Home.png')}
                     />
                     <Text style={{flex: 7, fontSize: 16, color: '#000'}}>
-                      HomeStay
+                      Homestay
                     </Text>
                   </View>
                   <View style={{flexDirection: 'row', padding: 3}}>

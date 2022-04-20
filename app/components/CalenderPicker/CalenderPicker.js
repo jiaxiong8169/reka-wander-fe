@@ -21,8 +21,6 @@ class Calendar extends Component {
     }
   }
 
-  
-
   render() {
     const {startDate, endDate} = this.props;
     const minDate = new Date(); // Today
@@ -72,7 +70,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#FFFFFF',
     width: '100%',
-    // flex: 1,
   },
 });
 
