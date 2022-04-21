@@ -74,7 +74,7 @@ const DATA = [
 const Item = ({itemName}) => {
   return (
       <CardItem
-    imageSrc={require('../assets/home.jpg')}
+    // imageSrc={require('../assets/home.jpg')}
     ratingPercentage={8.3}
     rating={'Good'}
     itemName={itemName}

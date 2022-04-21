@@ -286,6 +286,24 @@ export default function SpotDetailsScreen({navigation, route}) {
               {item.reviews ? item.reviews.length : 0}
             </Text>
           </View>
+          <TouchableOpacity
+            style={{flex: 1, alignSelf: 'center', justifyContent: 'center'}}
+            onPress={() => navigation.navigate('SpotsComment')}>
+            <View style={{flexDirection: 'row'}}>
+              <Image
+                style={styles.icon}
+                source={require('../../assets/message.png')}
+                tintColor="red"></Image>
+              <Text
+                ml={'2'}
+                bold
+                fontSize={12}
+                color="red.500"
+                style={styles.iconText}>
+                633
+              </Text>
+            </View>
+          </TouchableOpacity>
           <View style={{flexDirection: 'row'}}>
             <TouchableOpacity
               onPress={() => handleShare()}

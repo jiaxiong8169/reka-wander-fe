@@ -5,6 +5,8 @@ import {Button} from 'native-base';
 import BlueSubtitle from '../../components/BlueSubtitle';
 import GradientBackground from '../../components/GradientBackground';
 import {useAuth} from '../../hooks/useAuth';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+
 
 export default function NearBySearchScreen({navigation}) {
   const {authData} = useAuth();
@@ -22,7 +24,18 @@ export default function NearBySearchScreen({navigation}) {
         }
         style={{marginBottom: 20}}></BlueSubtitle>
       <Card style={styles.card}>
-        <Image style={styles.image} source={require('../../assets/map.png')} />
+        <TouchableOpacity
+          style={{minHeight: 150 , height: undefined, width: '100%'}}
+          onPress={() => navigation.navigate('SpotsImages', {isNearby: true})}>
+          <Image
+            style={styles.image}
+            source={require('../../assets/map.png')}
+          />
+        </TouchableOpacity>
+        {/* <Image
+          style={styles.image}
+          source={require('../../../assets/map.png')}
+        /> */}
         <Button
           w="50%"
           m="3"
@@ -37,11 +50,14 @@ export default function NearBySearchScreen({navigation}) {
           Or {'\n'}
           Search Manually
         </Text>
-
-        <Image
+        <TouchableOpacity
+          style={{minHeight: 150 , height: undefined, width: '100%'}}
+          onPress={() => navigation.navigate('SpotsSearchManually')}>
+          <Image
           style={styles.image}
           source={require('../../assets/search.png')}
         />
+        </TouchableOpacity>
       </Card>
     </GradientBackground>
   );
@@ -51,16 +67,16 @@ const styles = StyleSheet.create({
   card: {
     height: '85%',
     width: '100%',
+    // flex: 1,
+    // // backgroundColor: 'white',
     justifyContent: 'center', //Centered vertically
     alignItems: 'center', // Centered horizontally
     flexDirection: 'column',
   },
-  imgContainer: {
-    flexDirection: 'row',
-  },
   image: {
     resizeMode: 'contain',
     flex: 1,
+    // aspectRatio: 1, // Your aspect ratio
   },
   h2: {
     fontWeight: 'bold',

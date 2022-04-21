@@ -43,45 +43,6 @@ const previewCount = 3;
 const itemWidth = width / (previewCount + 0.5);
 const startScroll = 0;
 
-const mockData = [
-  {
-    id: '1',
-    imageSrc: "require('../../assets/home.jpg')",
-    ratingPercentage: '8.3',
-    rating: 'Good',
-    itemName: 'testing',
-    location: 'Kinabalu',
-    category: 'Hotel',
-    totalReviews: '10',
-    price: '100',
-    lessThanUsualPercentage: '10',
-  },
-  {
-    id: '2',
-    imageSrc: "require('../../assets/home.jpg')",
-    ratingPercentage: '8.3',
-    rating: 'Execellent',
-    itemName: 'testing',
-    location: 'Sibu',
-    category: 'Hotel',
-    totalReviews: '100',
-    price: '1000',
-    lessThanUsualPercentage: '50',
-  },
-  {
-    id: '3',
-    imageSrc: "require('../../assets/home.jpg')",
-    ratingPercentage: '8.3',
-    rating: 'Good',
-    itemName: 'testing',
-    location: 'Kinabalu',
-    category: 'Hotel',
-    totalReviews: '10',
-    price: '100',
-    lessThanUsualPercentage: '10',
-  },
-];
-
 export default function SpotsSearchManually({navigation}) {
   return (
           <Search></Search>

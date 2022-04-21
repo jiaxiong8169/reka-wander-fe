@@ -26,7 +26,8 @@ export default function SpotsCommentScreen({navigation}) {
       <View style={styles.container}>
         <Image
           style={styles.image}
-          source={require('../../assets/home.jpg')}></Image>
+          // source={require('../../assets/home.jpg')}
+          ></Image>
         <View style={{flex: 1}}></View>
         <Box style={styles.backButton}>
           <Pressable onPress={() => navigation.goBack()}>
