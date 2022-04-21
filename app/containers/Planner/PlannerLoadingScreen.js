@@ -7,7 +7,7 @@ import BlueSubtitle from '../../components/BlueSubtitle';
 import {useSelector, useDispatch} from 'react-redux';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {useAuth} from '../../hooks/useAuth';
-import Geolocation from '@react-native-community/geolocation';
+import Geolocation from 'react-native-geolocation-service';
 import {setTripId, setTripPlan} from '../../redux/Planner/actions';
 
 export default function LoadingScreen({navigation}) {
