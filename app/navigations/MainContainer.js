@@ -9,12 +9,13 @@ import SpotsHomeScreen from '../containers/spots/SpotsHomeScreen';
 import SpotsListScreen from '../containers/spots/SpotsListScreen';
 import NearBySearchScreen from '../containers/spots/NearBySearchScreen';
 import SpotDetailsScreen from '../containers/spots/SpotDetailsScreen';
+import SpotsSearchManuallyScreen from '../containers/spots/SpotsSearchManuallyScreen';
 
 //Planner
 import PlannerStack from './PlannerNavigationFunction';
 import {SettingsScreen} from '../containers/settings/SettingsScreen';
 import SpotsImagesScreen from '../containers/spots/SpotsImagesScreen';
-
+import SpotsCommentScreen from '../containers/spots/SpotsCommentScreen';
 //Screen names
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -58,6 +59,20 @@ function SpotsHomeStack() {
         component={SpotsImagesScreen}
         options={{
           headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="SpotsSearchManually"
+        component={SpotsSearchManuallyScreen}
+        options={{
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        name="SpotsComment"
+        component={SpotsCommentScreen}
+        options={{
+          headerShown: false
         }}
       />
     </Stack.Navigator>
