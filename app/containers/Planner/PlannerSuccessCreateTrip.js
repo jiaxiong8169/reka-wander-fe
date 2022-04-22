@@ -21,7 +21,7 @@ export default function SuccessConfirmScreen({navigation}) {
   }, [navigation]);
 
   const onPressHandler = () => {
-    navigation.navigate('HomePage');
+    navigation.navigate('Planner_Question');
   };
   return (
     <ScrollView>
