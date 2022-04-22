@@ -121,7 +121,7 @@ export default function Recommended({navigation}) {
                 </View>
                 <View style={{padding: 3, flexDirection: 'row'}}>
                   <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
-                    {tripName}
+                    {tripName ? tripName : 'My Trip'}
                   </Text>
                   <Text style={{flex: 2, fontSize: 14, paddingLeft: 5}}>
                     {/* RM250/pax */}
