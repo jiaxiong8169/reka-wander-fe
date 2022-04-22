@@ -1,7 +1,5 @@
 import * as React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import HomePage from '../containers/Planner/PlannerHomeScreen';
-import ChooseDays from '../containers/Planner/PlannerCalendarScreen';
 import PlannerSteps from '../containers/Planner/PlannerProgressSteps';
 import LoadingScreen from '../containers/Planner/PlannerLoadingScreen';
 import Recommended from '../containers/Planner/RecommendedPlaceScreen';
@@ -40,21 +38,6 @@ export default function PlannerStack() {
   return (
     <Provider store={store}>
       <Stack.Navigator>
-        <Stack.Screen
-          name="HomePage"
-          component={HomePage}
-          options={{
-            header: () => null,
-          }}
-        />
-        <Stack.Screen
-          name="Calender"
-          component={ChooseDays}
-          options={{
-            header: () => null,
-          }}
-        />
-
         <Stack.Screen
           name="Planner_Question"
           component={PlannerSteps}
