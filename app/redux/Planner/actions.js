@@ -22,13 +22,6 @@ export const setTripId = tripId => dispatch => {
 };
 
 export const setTripName = tripName => dispatch => {
-  // check if trip name is not empty
-  if (!tripName) {
-    Alert.alert('Reminder', 'Trip name must not be empty.', [
-      {text: 'OK', onPress: () => {}},
-    ]);
-    return;
-  }
   dispatch({
     type: SET_USER_TRIPNAME,
     payload: tripName,
@@ -68,6 +61,7 @@ export const setBudget = budget => dispatch => {
   let input = budget.replace(/[^0-9.]/g, ''); // remove non numeric characters
   var output = input.split('.');
   output = output.shift() + (output.length ? '.' + output.join('') : '');
+  if (!output) output = '0';
 
   dispatch({
     type: SET_USER_BUDGET,
