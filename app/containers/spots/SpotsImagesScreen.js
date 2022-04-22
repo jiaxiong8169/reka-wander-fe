@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {FlatList} from 'react-native';
-import {SearchIcon, Text, ChevronLeftIcon} from 'native-base';
+import {SearchIcon, Text} from 'native-base';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import GradientBackground from '../../components/GradientBackground';
 import {useHttpCall} from '../../hooks/useHttpCall';
@@ -22,6 +22,8 @@ import {
   setNearbyRestaurants,
   setNearbyHotels,
 } from '../../redux/Nearby/actions';
+import {BackButton} from '../../components/BackButton';
+import Geolocation from 'react-native-geolocation-service';
 
 const {width} = Dimensions.get('window');
 //you need to preview n items.
@@ -78,23 +80,22 @@ export default function SpotsImagesScreen({navigation, route}) {
     setLoading1(true);
     setLoading2(true);
     setLoading3(true);
-    // TODO: Implement pagination
     if (!isNearby) {
-      getWithoutAuth('restaurants?sort=-avgRating').then(({data}) => {
+      getWithoutAuth('restaurants?sort=-avgRating&limit=10').then(({data}) => {
         if (!!data) {
           dispatch(setRestaurants(data));
         }
         setLoading1(false);
         setReload(false);
       });
-      getWithoutAuth('attractions?sort=-avgRating').then(({data}) => {
+      getWithoutAuth('attractions?sort=-avgRating&limit=10').then(({data}) => {
         if (!!data) {
           dispatch(setAttractions(data));
         }
         setLoading2(false);
         setReload(false);
       });
-      getWithoutAuth('hotels?sort=-avgRating').then(({data}) => {
+      getWithoutAuth('hotels?sort=-avgRating&limit=10').then(({data}) => {
         if (!!data) {
           dispatch(setHotels(data));
         }
@@ -102,33 +103,48 @@ export default function SpotsImagesScreen({navigation, route}) {
         setReload(false);
       });
     } else {
-      getWithoutAuth(
-        'restaurants/nearby?long=101.825410&lat=2.699420&distance=300000&sort=-avgRating',
-      ).then(({data}) => {
-        if (!!data) {
-          dispatch(setNearbyRestaurants(data));
-        }
-        setLoading1(false);
-        setReload(false);
-      });
-      getWithoutAuth(
-        'attractions/nearby?long=101.825410&lat=2.699420&distance=300000&sort=-avgRating',
-      ).then(({data}) => {
-        if (!!data) {
-          dispatch(setNearbyAttractions(data));
-        }
-        setLoading2(false);
-        setReload(false);
-      });
-      getWithoutAuth(
-        'hotels/nearby?long=101.825410&lat=2.699420&distance=300000&sort=-avgRating',
-      ).then(({data}) => {
-        if (!!data) {
-          dispatch(setNearbyHotels(data));
-        }
-        setLoading3(false);
-        setReload(false);
-      });
+      Geolocation.getCurrentPosition(
+        position => {
+          getWithoutAuth(
+            `restaurants/nearby?long=${position.coords.longitude}&lat=${position.coords.latitude}&distance=300000&sort=-avgRating&limit=10`,
+          ).then(({data}) => {
+            if (!!data) {
+              dispatch(setNearbyRestaurants(data));
+            }
+            setLoading1(false);
+            setReload(false);
+          });
+          getWithoutAuth(
+            `attractions/nearby?long=${position.coords.longitude}&lat=${position.coords.latitude}&distance=300000&sort=-avgRating&limit=10`,
+          ).then(({data}) => {
+            if (!!data) {
+              dispatch(setNearbyAttractions(data));
+            }
+            setLoading2(false);
+            setReload(false);
+          });
+          getWithoutAuth(
+            `hotels/nearby?long=${position.coords.longitude}&lat=${position.coords.latitude}&distance=300000&sort=-avgRating&limit=10`,
+          ).then(({data}) => {
+            if (!!data) {
+              dispatch(setNearbyHotels(data));
+            }
+            setLoading3(false);
+            setReload(false);
+          });
+        },
+        error => {
+          Alert.alert('Error', JSON.stringify(error));
+          setLoading1(false);
+          setLoading2(false);
+          setLoading3(false);
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 20000,
+          maximumAge: 1000,
+        },
+      );
     }
   }, [reload]);
 
@@ -159,17 +175,11 @@ export default function SpotsImagesScreen({navigation, route}) {
           />
         )}
         {isNearby && (
-          <View style={{flexDirection: 'row'}}>
-            <ChevronLeftIcon
-              color="gray.500"
-              size="xl"
-              mt="1"
-              marginRight="2"
-              onPress={() => navigation.goBack()}></ChevronLeftIcon>
-            <BlueSubtitle
-              text1={isNearby ? 'Nearby Spots' : ''}
-              text2={''}
-              style={{marginBottom: 20}}></BlueSubtitle>
+          <View style={{flexDirection: 'column', marginBottom: 10}}>
+            <View style={{flexDirection: 'row'}}>
+              <BackButton navigation={navigation} />
+              <BlueSubtitle text1={isNearby ? 'Nearby Spots' : ''} text2={''} />
+            </View>
           </View>
         )}
         <View style={{marginBottom: 10}}>

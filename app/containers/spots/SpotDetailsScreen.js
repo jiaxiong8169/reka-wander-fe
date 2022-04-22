@@ -7,7 +7,7 @@ import {
   Share,
 } from 'react-native';
 import {Image} from 'react-native';
-import {Box, Heading, Text, ArrowBackIcon, Pressable} from 'native-base';
+import {Box, Heading, Text} from 'native-base';
 import {Rating} from 'react-native-ratings';
 import {ScrollView} from 'react-native';
 import RoundButton from '../../components/RoundButton';
@@ -24,6 +24,7 @@ import {
   setAttractions,
   setHotels,
 } from '../../redux/Nearby/actions';
+import {BackButton} from '../../components/BackButton';
 
 const height = Dimensions.get('window').height;
 
@@ -201,11 +202,7 @@ export default function SpotDetailsScreen({navigation, route}) {
       <View style={styles.container}>
         <FastImage style={styles.image} source={{uri: item.thumbnailSrc}} />
         <View style={{flex: 1}}></View>
-        <Box style={styles.backButton}>
-          <Pressable onPress={() => navigation.goBack()}>
-            <ArrowBackIcon size="8" color="white" m="1" />
-          </Pressable>
-        </Box>
+        <BackButton navigation={navigation} absolute />
 
         <View style={styles.textContainer}>
           <Heading size="2xl" color={'white'}>
@@ -379,13 +376,5 @@ const styles = StyleSheet.create({
   },
   iconText: {
     alignSelf: 'center',
-  },
-  backButton: {
-    position: 'absolute',
-    left: 20,
-    top: 20,
-    alignSelf: 'flex-start',
-    backgroundColor: 'rgba(69, 69 , 69, 0.7)',
-    borderRadius: 5,
   },
 });

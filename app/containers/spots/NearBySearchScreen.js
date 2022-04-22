@@ -1,41 +1,38 @@
 import * as React from 'react';
 import {Text, StyleSheet, Image} from 'react-native';
 import Card from '../../components/Card';
-import {Button} from 'native-base';
+import {Button, View} from 'native-base';
 import BlueSubtitle from '../../components/BlueSubtitle';
 import GradientBackground from '../../components/GradientBackground';
 import {useAuth} from '../../hooks/useAuth';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-
+import {BackButton} from '../../components/BackButton';
 
 export default function NearBySearchScreen({navigation}) {
   const {authData} = useAuth();
 
   return (
     <GradientBackground>
-      <BlueSubtitle
-        text1={'Hi'}
-        text2={
-          authData?.token
-            ? authData.name
-              ? authData.name + ','
-              : 'User,'
-            : 'Visitor,'
-        }
-        style={{marginBottom: 20}}></BlueSubtitle>
+      <View style={{flexDirection: 'column', marginBottom: 10}}>
+        <View style={{flexDirection: 'row'}}>
+          <BackButton navigation={navigation} />
+          <BlueSubtitle
+            text1="Hi"
+            text2={`${
+              authData?.name ? name : authData?.token ? 'User' : 'Visitor'
+            }`}
+          />
+        </View>
+      </View>
       <Card style={styles.card}>
         <TouchableOpacity
-          style={{minHeight: 150 , height: undefined, width: '100%'}}
+          style={{minHeight: 150, height: undefined, width: '100%'}}
           onPress={() => navigation.navigate('SpotsImages', {isNearby: true})}>
           <Image
             style={styles.image}
             source={require('../../assets/map.png')}
           />
         </TouchableOpacity>
-        {/* <Image
-          style={styles.image}
-          source={require('../../../assets/map.png')}
-        /> */}
         <Button
           w="50%"
           m="3"
@@ -51,12 +48,12 @@ export default function NearBySearchScreen({navigation}) {
           Search Manually
         </Text>
         <TouchableOpacity
-          style={{minHeight: 150 , height: undefined, width: '100%'}}
+          style={{minHeight: 150, height: undefined, width: '100%'}}
           onPress={() => navigation.navigate('SpotsSearchManually')}>
           <Image
-          style={styles.image}
-          source={require('../../assets/search.png')}
-        />
+            style={styles.image}
+            source={require('../../assets/search.png')}
+          />
         </TouchableOpacity>
       </Card>
     </GradientBackground>
@@ -67,8 +64,6 @@ const styles = StyleSheet.create({
   card: {
     height: '85%',
     width: '100%',
-    // flex: 1,
-    // // backgroundColor: 'white',
     justifyContent: 'center', //Centered vertically
     alignItems: 'center', // Centered horizontally
     flexDirection: 'column',
@@ -76,7 +71,6 @@ const styles = StyleSheet.create({
   image: {
     resizeMode: 'contain',
     flex: 1,
-    // aspectRatio: 1, // Your aspect ratio
   },
   h2: {
     fontWeight: 'bold',
