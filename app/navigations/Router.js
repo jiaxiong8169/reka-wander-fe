@@ -6,6 +6,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import SignInScreen from '../containers/auth/SignInScreen';
 import {ConfirmPhoneScreen} from '../containers/auth/ConfirmPhoneScreen';
 import MainContainer from './MainContainer';
+import HomePage from '../containers/Planner/PlannerHomeScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -42,6 +43,11 @@ export const Router = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Group screenOptions={{presentation: 'modal'}}>
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="HomePage"
+            component={HomePage}
+          />
           <Stack.Screen
             options={{headerShown: false}}
             name="SignInScreen"

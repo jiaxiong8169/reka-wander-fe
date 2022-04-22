@@ -82,7 +82,7 @@ function SpotsHomeStack() {
 function MainContainer() {
   return (
     <Tab.Navigator
-      initialRouteName={'HomePage'}
+      initialRouteName={'Home'}
       screenOptions={({route}) => ({
         tabBarIcon: ({focused, color, size}) => {
           let tabIconSource;
