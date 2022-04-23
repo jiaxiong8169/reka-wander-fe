@@ -7,7 +7,7 @@ import {
   Share,
 } from 'react-native';
 import {Image} from 'react-native';
-import {Box, Heading, Text} from 'native-base';
+import {Heading, Text} from 'native-base';
 import {Rating} from 'react-native-ratings';
 import {ScrollView} from 'react-native';
 import RoundButton from '../../components/RoundButton';
@@ -35,23 +35,12 @@ export default function SpotDetailsScreen({navigation, route}) {
   const listData = useSelector(state => state.nearbyReducer[type]);
   const {postWithAuth, getWithAuth} = useHttpCall();
   const [item, setItem] = React.useState({});
-  const [reload, setReload] = React.useState(false);
+  const [reload, setReload] = React.useState(true);
   const [loading, setLoading] = React.useState(false);
-  const [firstLoad, setFirstLoad] = React.useState(true);
-
-  React.useEffect(() => {
-    if (!firstLoad) return;
-    // if first time loading, setItem if cached data exists
-    const foundData = listData.find(ld => ld.id === id);
-    if (foundData) {
-      setItem(foundData);
-      setFirstLoad(false);
-      return;
-    }
-    // if not found, trigger reload
-    setReload(true);
-    setFirstLoad(false);
-  }, [firstLoad]);
+  const [liked, setLiked] = React.useState(false);
+  const [shared, setShared] = React.useState(false);
+  const [likes, setLikes] = React.useState(0);
+  const [shares, setShares] = React.useState(0);
 
   React.useEffect(() => {
     if (!reload) return;
@@ -74,6 +63,19 @@ export default function SpotDetailsScreen({navigation, route}) {
       .then(({data}) => {
         if (!!data) {
           setItem(data);
+          // update like and share states
+          setLiked(
+            data.likes.includes(
+              authData?.id ? authData.id : 'temporaryDeviceId',
+            ),
+          );
+          setLikes(data.likes.length);
+          setShared(
+            data.shares.includes(
+              authData?.id ? authData.id : 'temporaryDeviceId',
+            ),
+          );
+          setShares(data.shares.length);
           // update the cached data
           let clonedListData = JSON.parse(JSON.stringify(listData));
           for (let i = 0; i < clonedListData.length; i++) {
@@ -118,7 +120,6 @@ export default function SpotDetailsScreen({navigation, route}) {
 
   const handleLike = async () => {
     if (loading) return; // do not proceed when loading is true
-    setLoading(true);
     // convert type to without the word nearby
     let currentType = type;
     switch (currentType) {
@@ -132,24 +133,22 @@ export default function SpotDetailsScreen({navigation, route}) {
         currentType = 'hotels';
         break;
     }
-    // POST like API
+    // POST like API: Allow stale data to increase responsiveness
     try {
-      await postWithAuth(`${currentType}/like`, {
+      postWithAuth(`${currentType}/like`, {
         targetId: id,
         userId: authData && authData.id ? authData.id : 'temporaryDeviceId', // TODO: Implement device ID
       });
     } catch (err) {
       console.log(err);
-      setLoading(false);
     }
-    // reload the data
-    setReload(true);
-    setLoading(false);
+    // set likes
+    setLikes(liked ? likes - 1 : likes + 1);
+    setLiked(!liked);
   };
 
   const handleShare = async () => {
     if (loading) return; // do not proceed when loading is true
-    setLoading(true);
     // convert type to without the word nearby
     let currentType = type;
     switch (currentType) {
@@ -173,12 +172,10 @@ export default function SpotDetailsScreen({navigation, route}) {
       if (result.action === Share.sharedAction) {
         // POST share API
         try {
-          await postWithAuth(`${currentType}/share`, {
+          postWithAuth(`${currentType}/share`, {
             targetId: id,
             userId: authData && authData.id ? authData.id : 'temporaryDeviceId', // TODO: Implement device ID
           });
-          // reload the data
-          setReload(true);
         } catch (err) {
           console.log(err);
           setLoading(false);
@@ -187,7 +184,8 @@ export default function SpotDetailsScreen({navigation, route}) {
     } catch (error) {
       console.log(error.message);
     }
-    setLoading(false);
+    setShares(shared ? shares : shares + 1);
+    setShared(true);
   };
 
   return (
@@ -244,29 +242,15 @@ export default function SpotDetailsScreen({navigation, route}) {
               <Image
                 style={styles.icon}
                 source={require('../../assets/love.png')}
-                tintColor={
-                  item.likes &&
-                  item.likes.includes(
-                    authData?.id ? authData.id : 'temporaryDeviceId',
-                  )
-                    ? 'red'
-                    : 'gray'
-                }></Image>
+                tintColor={liked ? 'red' : 'gray'}></Image>
             </TouchableOpacity>
             <Text
               ml={'2'}
               bold
               fontSize={12}
-              color={
-                item.likes &&
-                item.likes.includes(
-                  authData?.id ? authData.id : 'temporaryDeviceId',
-                )
-                  ? 'red.500'
-                  : 'gray.500'
-              }
+              color={liked ? 'red.500' : 'gray.500'}
               style={styles.iconText}>
-              {item.likes ? item.likes.length : 0}
+              {likes}
             </Text>
           </View>
           <TouchableOpacity
@@ -294,29 +278,15 @@ export default function SpotDetailsScreen({navigation, route}) {
               <Image
                 style={styles.icon}
                 source={require('../../assets/share.png')}
-                tintColor={
-                  item.shares &&
-                  item.shares.includes(
-                    authData?.id ? authData.id : 'temporaryDeviceId',
-                  )
-                    ? 'red'
-                    : 'gray'
-                }></Image>
+                tintColor={shared ? 'red' : 'gray'}></Image>
             </TouchableOpacity>
             <Text
               ml={'2'}
               bold
               fontSize={12}
-              color={
-                item.shares &&
-                item.shares.includes(
-                  authData?.id ? authData.id : 'temporaryDeviceId',
-                )
-                  ? 'red.500'
-                  : 'gray.500'
-              }
+              color={shared ? 'red.500' : 'gray.500'}
               style={styles.iconText}>
-              {item.shares ? item.shares.length : 0}
+              {shares}
             </Text>
           </View>
         </View>
@@ -334,7 +304,6 @@ const styles = StyleSheet.create({
     right: 0,
     left: 0,
     top: -16,
-    // height: height,
     minHeight: height * 0.5 + 20,
     width: '100%',
     paddingTop: '14%',
