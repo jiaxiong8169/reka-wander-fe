@@ -1,6 +1,5 @@
 import React from 'react';
 import {StyleSheet, View, Text, ScrollView} from 'react-native';
-import {useAuth} from '../../hooks/useAuth';
 import TripName from './PlannerTripNameScreen';
 import PaxPage from './PlannerPaxScreen';
 import ChooseDays from './PlannerCalendarScreen';
@@ -14,8 +13,6 @@ import ProgressSteps from '../../components/stepper/ProgressSteps';
 import GradientBackground from '../../components/GradientBackground';
 
 export default function PlannerSteps({navigation}) {
-  const {authData} = useAuth();
-
   const onPressHandler = () => {
     navigation.navigate('Loading');
   };
@@ -76,7 +73,7 @@ export default function PlannerSteps({navigation}) {
                   fontWeight: 'bold',
                   fontFamily: 'sans-serif-light',
                 }}>
-                {authData?.name ?? 'Welcome,'}
+                Welcome,
               </Text>
             </Text>
             <Text style={styles.subtitle}>Create your destiny</Text>

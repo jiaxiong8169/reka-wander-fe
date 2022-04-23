@@ -4,24 +4,16 @@ import Card from '../../components/Card';
 import {Button, View} from 'native-base';
 import BlueSubtitle from '../../components/BlueSubtitle';
 import GradientBackground from '../../components/GradientBackground';
-import {useAuth} from '../../hooks/useAuth';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {BackButton} from '../../components/BackButton';
 
 export default function NearBySearchScreen({navigation}) {
-  const {authData} = useAuth();
-
   return (
     <GradientBackground>
       <View style={{flexDirection: 'column', marginBottom: 10}}>
         <View style={{flexDirection: 'row'}}>
           <BackButton navigation={navigation} />
-          <BlueSubtitle
-            text1="Hi"
-            text2={`${
-              authData?.name ? name : authData?.token ? 'User' : 'Visitor'
-            }`}
-          />
+          <BlueSubtitle text1="Hi" text2={`Welcome,`} />
         </View>
       </View>
       <Card style={styles.card}>

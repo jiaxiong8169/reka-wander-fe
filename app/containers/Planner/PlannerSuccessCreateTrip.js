@@ -26,7 +26,7 @@ export default function SuccessConfirmScreen({navigation}) {
   return (
     <ScrollView>
       <GradientBackground>
-        <BlueSubtitle text1="Hi" text2="Melvin,"></BlueSubtitle>
+        <BlueSubtitle text1="Hi" text2="Welcome,"></BlueSubtitle>
         <Text style={styles.subtitle}>Create your destiny</Text>
         <View style={styles.body}>
           <Card
