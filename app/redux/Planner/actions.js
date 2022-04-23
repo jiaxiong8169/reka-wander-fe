@@ -61,7 +61,7 @@ export const setBudget = budget => dispatch => {
   let input = budget.replace(/[^0-9.]/g, ''); // remove non numeric characters
   var output = input.split('.');
   output = output.shift() + (output.length ? '.' + output.join('') : '');
-  if (!output) output = '0';
+  // if (!output) output = '0';
 
   dispatch({
     type: SET_USER_BUDGET,

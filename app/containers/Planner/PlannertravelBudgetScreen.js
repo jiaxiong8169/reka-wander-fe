@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, Text, TextInput, Image} from 'react-native';
-import SelectBudget from '../../components/dropdown/budget';
+import {StyleSheet, View, Text, TextInput, Image, Alert} from 'react-native';
 import Card from '../../components/card/card';
 import {useSelector, useDispatch} from 'react-redux';
 import {setBudget} from '../../redux/Planner/actions';
@@ -8,6 +7,7 @@ import {setBudget} from '../../redux/Planner/actions';
 const TravelBudget = () => {
   const {budget} = useSelector(state => state.plannerReducer);
   const dispatch = useDispatch();
+
   return (
     <View style={styles.body}>
       <Card style={{width: '100%'}}>
@@ -16,7 +16,9 @@ const TravelBudget = () => {
           <TextInput
             style={styles.input}
             keyboardType={'number-pad'}
-            onChangeText={v => dispatch(setBudget(v))}
+            onChangeText={v => {
+              dispatch(setBudget(v));
+            }}
             placeholder="Type Your trip budget here..."
             value={budget}
           />

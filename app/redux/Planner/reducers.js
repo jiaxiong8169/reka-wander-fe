@@ -20,7 +20,7 @@ const initialState = {
   startDate: moment(new Date()).format('YYYY-MM-DD[T00:00:00.000Z]'),
   endDate: moment(new Date()).format('YYYY-MM-DD[T00:00:00.000Z]'),
   pax: 1,
-  budget: '1000',
+  budget: '0.0',
   interest: [],
   kids: true,
   rentCar: true,
