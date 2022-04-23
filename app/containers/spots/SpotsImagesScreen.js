@@ -183,11 +183,17 @@ export default function SpotsImagesScreen({navigation, route}) {
           </View>
         )}
         <View style={{marginBottom: 10}}>
-          <Text bold fontSize={18} marginLeft={2}>
-            {isNearby ? 'Nearby ' : ''} Restaurants {'  '}
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}>
+            <Text bold fontSize={18} marginLeft={2}>
+              {isNearby ? 'Nearby ' : ''} Restaurants {'  '}
+            </Text>
             <Text
-              underline
-              mt="2"
               fontSize={15}
               color="blue.600"
               onPress={() =>
@@ -198,7 +204,8 @@ export default function SpotsImagesScreen({navigation, route}) {
               }>
               {'View More'}
             </Text>
-          </Text>
+          </View>
+
           <FlatList
             ref={flatlistRef}
             horizontal={true}
@@ -234,11 +241,17 @@ export default function SpotsImagesScreen({navigation, route}) {
         </View>
 
         <View style={{marginBottom: 10}}>
-          <Text bold fontSize={18} marginLeft={2}>
-            {isNearby ? 'Nearby ' : ''}Attractions {'  '}
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}>
+            <Text bold fontSize={18} marginLeft={2}>
+              {isNearby ? 'Nearby ' : ''}Attractions {'  '}
+            </Text>
             <Text
-              underline
-              mt="2"
               fontSize={15}
               color="blue.600"
               onPress={() =>
@@ -249,7 +262,8 @@ export default function SpotsImagesScreen({navigation, route}) {
               }>
               {'View More'}
             </Text>
-          </Text>
+          </View>
+
           <FlatList
             ref={flatlistRef}
             horizontal={true}
@@ -285,11 +299,17 @@ export default function SpotsImagesScreen({navigation, route}) {
         </View>
 
         <View style={{marginBottom: 20}}>
-          <Text bold fontSize={18} marginLeft={2}>
-            {isNearby ? 'Nearby ' : ''}Hotels {'  '}
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}>
+            <Text bold fontSize={18} marginLeft={2}>
+              {isNearby ? 'Nearby ' : ''}Hotels {'  '}
+            </Text>
             <Text
-              underline
-              mt="2"
               fontSize={15}
               color="blue.600"
               onPress={() =>
@@ -300,7 +320,8 @@ export default function SpotsImagesScreen({navigation, route}) {
               }>
               {'View More'}
             </Text>
-          </Text>
+          </View>
+
           <FlatList
             ref={flatlistRef}
             horizontal={true}
