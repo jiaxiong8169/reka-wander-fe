@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import {useAuth} from '../hooks/useAuth';
-import {StyleSheet, Alert} from 'react-native';
+import {StyleSheet, Alert, useColorScheme} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import SignInScreen from '../containers/auth/SignInScreen';
 import {ConfirmPhoneScreen} from '../containers/auth/ConfirmPhoneScreen';
@@ -12,6 +12,7 @@ const Stack = createNativeStackNavigator();
 
 export const Router = () => {
   const {authError, setAuthError} = useAuth();
+  const scheme = useColorScheme();
 
   useEffect(() => {
     if (authError) {
@@ -33,8 +34,10 @@ export const Router = () => {
     }
   }, [authError]);
 
+  // TODO: Handle Dark Theme Colors
   return (
-    <NavigationContainer>
+    <NavigationContainer
+      theme={scheme === 'dark' ? DefaultTheme : DefaultTheme}>
       <Stack.Navigator>
         <Stack.Group screenOptions={{presentation: 'modal'}}>
           <Stack.Screen
