@@ -27,7 +27,7 @@ export default function LoadingScreen({navigation}) {
 
   const postAPI = (long, lat) => {
     postWithAuth('trips/recommend', {
-      userId: authData && authData.id ? authData.id : 'temporaryDeviceId',
+      userId: authData && authData.id ? authData.id : '',
       name: tripName ? tripName : 'My Trip',
       startDate: startDate,
       endDate: endDate,

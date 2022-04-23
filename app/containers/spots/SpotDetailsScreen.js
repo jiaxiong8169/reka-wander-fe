@@ -25,6 +25,7 @@ import {
   setHotels,
 } from '../../redux/Nearby/actions';
 import {BackButton} from '../../components/BackButton';
+import DeviceInfo from 'react-native-device-info';
 
 const height = Dimensions.get('window').height;
 
@@ -66,13 +67,13 @@ export default function SpotDetailsScreen({navigation, route}) {
           // update like and share states
           setLiked(
             data.likes.includes(
-              authData?.id ? authData.id : 'temporaryDeviceId',
+              authData?.id ? authData.id : DeviceInfo.getUniqueId(),
             ),
           );
           setLikes(data.likes.length);
           setShared(
             data.shares.includes(
-              authData?.id ? authData.id : 'temporaryDeviceId',
+              authData?.id ? authData.id : DeviceInfo.getUniqueId(),
             ),
           );
           setShares(data.shares.length);
@@ -137,11 +138,13 @@ export default function SpotDetailsScreen({navigation, route}) {
     try {
       postWithAuth(`${currentType}/like`, {
         targetId: id,
-        userId: authData && authData.id ? authData.id : 'temporaryDeviceId', // TODO: Implement device ID
+        userId:
+          authData && authData.id ? authData.id : DeviceInfo.getUniqueId(),
       });
     } catch (err) {
       console.log(err);
     }
+
     // set likes
     setLikes(liked ? likes - 1 : likes + 1);
     setLiked(!liked);
@@ -174,7 +177,8 @@ export default function SpotDetailsScreen({navigation, route}) {
         try {
           postWithAuth(`${currentType}/share`, {
             targetId: id,
-            userId: authData && authData.id ? authData.id : 'temporaryDeviceId', // TODO: Implement device ID
+            userId:
+              authData && authData.id ? authData.id : DeviceInfo.getUniqueId(),
           });
         } catch (err) {
           console.log(err);
