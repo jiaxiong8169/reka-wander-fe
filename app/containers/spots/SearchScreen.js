@@ -4,7 +4,6 @@ import BlueSubtitle from '../../components/BlueSubtitle';
 import GradientBackground from '../../components/GradientBackground';
 import {Text, Input, View, ScrollView} from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {useAuth} from '../../hooks/useAuth';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {LoadMore} from '../../components/LoadMore';
 import {BackButton} from '../../components/BackButton';
@@ -14,7 +13,6 @@ export const SearchScreen = ({navigation}) => {
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState('');
   const [full, setFull] = useState(false);
-  const {authData} = useAuth();
   const {getWithoutAuth} = useHttpCall();
 
   // on load and on search, fetch new 10 records
@@ -50,12 +48,7 @@ export const SearchScreen = ({navigation}) => {
       <View style={{flexDirection: 'column', marginBottom: 10}}>
         <View style={{flexDirection: 'row'}}>
           <BackButton navigation={navigation} />
-          <BlueSubtitle
-            text1="Hi"
-            text2={`${
-              authData?.name ? name : authData?.token ? 'User' : 'Visitor'
-            }`}
-          />
+          <BlueSubtitle text1="Hi" text2={`Welcome,`} />
         </View>
         <Text fontSize={17} color="rgb(117,157,246)">
           Here there is some suggestion for you.

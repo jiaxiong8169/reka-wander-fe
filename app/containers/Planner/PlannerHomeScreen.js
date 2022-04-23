@@ -27,7 +27,7 @@ export default function HomePage({navigation}) {
                 fontWeight: 'bold',
                 fontFamily: 'sans-serif-light',
               }}>
-              Welcome
+              Welcome,
             </Text>
           </Text>
           <Text style={styles.subtitle}>Let's create your destiny</Text>
