@@ -10,6 +10,7 @@ import React, {useEffect, useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import {useAuth} from '../../hooks/useAuth';
 import LinearGradient from 'react-native-linear-gradient';
+import {LoadingOverlay} from '../../components/LoadingOverlay';
 
 export const ConfirmPhoneScreen = ({navigation, route}) => {
   const [code, setCode] = useState('');
@@ -33,7 +34,10 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
       setConfirm(confirmation);
       setOTPModalVisible(true);
     } catch (err) {
-      authProvider.setAuthError(err.message);
+      console.log(err);
+      authProvider.setAuthError(
+        'The format of the phone number provided is incorrect.',
+      );
       setPhoneNumberEditable(true);
     }
   }
@@ -82,6 +86,7 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
       start={{x: 0, y: 0}}
       end={{x: 0, y: 0.5}}
       style={{height: '100%', width: '100%'}}>
+      {authProvider.loading && <LoadingOverlay />}
       <View style={styles.container}>
         <View style={styles.inputField}>
           <View
