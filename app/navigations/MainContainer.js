@@ -20,7 +20,6 @@ import {SearchScreen} from '../containers/spots/SearchScreen';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-//temporary
 const Temp = () => <GradientBackground></GradientBackground>;
 
 function SpotsHomeStack() {
