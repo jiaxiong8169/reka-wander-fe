@@ -32,7 +32,7 @@ export default function PlannerSteps({navigation}) {
   const checkNumberInput = () => {
     try{
     //check for number input
-    if (budget === '0.0') {
+    if (parseFloat(budget) < 100) {
       console.log(budget);
       setIsModelPopUp(true);
       setErrors(true);
@@ -54,15 +54,15 @@ export default function PlannerSteps({navigation}) {
       backdropTransitionOutTiming={700}>
       <ModelContent title={'Opps!'}>
         <Text>
-          Please tell us your travel budget and do not leave it
-          blank!
+         Your travel budget must at least more than RM100! Please re-enter your travel budget.
         </Text>
       </ModelContent>
     </Modal>
     );
     }catch(err){
-      
-    }
+      console.log(err);
+    };
+    
   };
 
   const nextbuttonTextStyle = {

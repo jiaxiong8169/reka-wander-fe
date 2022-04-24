@@ -19,7 +19,7 @@ const TravelBudget = () => {
             onChangeText={v => {
               dispatch(setBudget(v));
             }}
-            placeholder="Type Your trip budget here..."
+            placeholder="RM..."
             value={budget}
           />
           <View style={{marginTop: 10}}>
