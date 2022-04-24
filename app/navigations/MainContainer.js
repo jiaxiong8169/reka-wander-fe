@@ -6,21 +6,20 @@ import GradientBackground from '../components/GradientBackground';
 
 // Screens
 import SpotsHomeScreen from '../containers/spots/SpotsHomeScreen';
-import SpotsListScreen from '../containers/spots/SpotsListScreen';
+import {SpotsListScreen} from '../containers/spots/SpotsListScreen';
 import NearBySearchScreen from '../containers/spots/NearBySearchScreen';
 import SpotDetailsScreen from '../containers/spots/SpotDetailsScreen';
-import SpotsSearchManuallyScreen from '../containers/spots/SpotsSearchManuallyScreen';
 
 //Planner
 import PlannerStack from './PlannerNavigationFunction';
 import {SettingsScreen} from '../containers/settings/SettingsScreen';
 import SpotsImagesScreen from '../containers/spots/SpotsImagesScreen';
 import SpotsCommentScreen from '../containers/spots/SpotsCommentScreen';
+import {SearchScreen} from '../containers/spots/SearchScreen';
 //Screen names
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-//temporary
 const Temp = () => <GradientBackground></GradientBackground>;
 
 function SpotsHomeStack() {
@@ -63,16 +62,16 @@ function SpotsHomeStack() {
       />
       <Stack.Screen
         name="SpotsSearchManually"
-        component={SpotsSearchManuallyScreen}
+        component={SearchScreen}
         options={{
-          headerShown: false
+          headerShown: false,
         }}
       />
       <Stack.Screen
         name="SpotsComment"
         component={SpotsCommentScreen}
         options={{
-          headerShown: false
+          headerShown: false,
         }}
       />
       <Stack.Screen
@@ -96,7 +95,7 @@ function SpotsHomeStack() {
 function MainContainer() {
   return (
     <Tab.Navigator
-      initialRouteName={'HomePage'}
+      initialRouteName={'Home'}
       screenOptions={({route}) => ({
         tabBarIcon: ({focused, color, size}) => {
           let tabIconSource;

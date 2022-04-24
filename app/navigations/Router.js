@@ -1,31 +1,27 @@
-import React, {useEffect, useState} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import React, {useEffect} from 'react';
+import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import {useAuth} from '../hooks/useAuth';
-import {StyleSheet, Alert} from 'react-native';
+import {StyleSheet, Alert, useColorScheme} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import SignInScreen from '../containers/auth/SignInScreen';
 import {ConfirmPhoneScreen} from '../containers/auth/ConfirmPhoneScreen';
 import MainContainer from './MainContainer';
+import HomePage from '../containers/Planner/PlannerHomeScreen';
 
 const Stack = createNativeStackNavigator();
 
 export const Router = () => {
-  const {loading, authError, setAuthError} = useAuth();
-  const [setModalVisible] = useState(false);
-
-  // TODO: Implement Loading Screen / Overlay
-  // if (loading) {
-  //   return <Text>Loading</Text>;
-  // }
+  const {authError, setAuthError} = useAuth();
+  const scheme = useColorScheme();
 
   useEffect(() => {
     if (authError) {
       Alert.alert(
-        '',
+        'Warning',
         authError,
         [
           {
-            text: 'Cancel',
+            text: 'OK',
             style: 'cancel',
             onPress: () => setAuthError(''),
           },
@@ -38,10 +34,17 @@ export const Router = () => {
     }
   }, [authError]);
 
+  // TODO: Handle Dark Theme Colors
   return (
-    <NavigationContainer>
+    <NavigationContainer
+      theme={scheme === 'dark' ? DefaultTheme : DefaultTheme}>
       <Stack.Navigator>
         <Stack.Group screenOptions={{presentation: 'modal'}}>
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="HomePage"
+            component={HomePage}
+          />
           <Stack.Screen
             options={{headerShown: false}}
             name="SignInScreen"

@@ -27,8 +27,8 @@ export default function LoadingScreen({navigation}) {
 
   const postAPI = (long, lat) => {
     postWithAuth('trips/recommend', {
-      userId: authData && authData.id ? authData.id : 'temporaryDeviceId',
-      name: tripName,
+      userId: authData && authData.id ? authData.id : '',
+      name: tripName ? tripName : 'My Trip',
       startDate: startDate,
       endDate: endDate,
       pax: pax,
@@ -47,7 +47,7 @@ export default function LoadingScreen({navigation}) {
       })
       .catch(err => {
         Alert.alert('Error', JSON.stringify(err));
-        navigation.navigate('HomePage');
+        navigation.navigate('Planner_Question');
       });
   };
 
@@ -58,7 +58,7 @@ export default function LoadingScreen({navigation}) {
       },
       error => {
         Alert.alert('Error', JSON.stringify(error));
-        navigation.navigate('HomePage');
+        navigation.navigate('Planner_Question');
       },
       {
         enableHighAccuracy: true,
@@ -80,7 +80,7 @@ export default function LoadingScreen({navigation}) {
 
   return (
     <GradientBackground>
-      <BlueSubtitle text1="Hi" text2="Melvin,"></BlueSubtitle>
+      <BlueSubtitle text1="Hi" text2="Welcome,"></BlueSubtitle>
       <Text style={styles.subtitle}>Create your destiny</Text>
       <View style={styles.body}>
         <Card>

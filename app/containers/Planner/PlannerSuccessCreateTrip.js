@@ -21,12 +21,12 @@ export default function SuccessConfirmScreen({navigation}) {
   }, [navigation]);
 
   const onPressHandler = () => {
-    navigation.navigate('HomePage');
+    navigation.navigate('Planner_Question');
   };
   return (
     <ScrollView>
       <GradientBackground>
-        <BlueSubtitle text1="Hi" text2="Melvin,"></BlueSubtitle>
+        <BlueSubtitle text1="Hi" text2="Welcome,"></BlueSubtitle>
         <Text style={styles.subtitle}>Create your destiny</Text>
         <View style={styles.body}>
           <Card
