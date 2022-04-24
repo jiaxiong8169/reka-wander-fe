@@ -30,6 +30,7 @@ export default function PlannerSteps({navigation}) {
   };
 
   const checkNumberInput = () => {
+    try{
     //check for number input
     if (budget === '0.0') {
       console.log(budget);
@@ -59,6 +60,9 @@ export default function PlannerSteps({navigation}) {
       </ModelContent>
     </Modal>
     );
+    }catch(err){
+      
+    }
   };
 
   const nextbuttonTextStyle = {
