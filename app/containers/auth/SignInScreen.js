@@ -37,18 +37,17 @@ const SignInScreen = ({navigation, route}) => {
   }, [isFocused]);
 
   const checkBeforeRun = func => {
-    // if (!/^\S+@\S+.com$/.test(email)) {
-    //   setAuthError('Make sure that email is in correct format');
-    // } else if (
-    //   !/(?:(?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/.test(password)
-    // ) {
-    //   setAuthError(
-    //     'Your password should contain at least 1 upper case letter, 1 lower case letter and 1 number or special character',
-    //   );
-    // } else {
-    //   func();
-    // }
-    func();
+    if (!/^\S+@\S+.com$/.test(email)) {
+      setAuthError('Make sure that email is in correct format');
+    } else if (
+      !/(?:(?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/.test(password)
+    ) {
+      setAuthError(
+        'Your password should contain at least 1 upper case letter, 1 lower case letter and 1 number or special character',
+      );
+    } else {
+      func();
+    }
   };
 
   const handleLoginButtonPress = () => {
