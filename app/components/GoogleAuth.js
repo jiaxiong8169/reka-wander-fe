@@ -70,9 +70,9 @@ const GoogleAuth = ({navigation, setEmail}) => {
 const styles = StyleSheet.create({
   otherMethod: {
     padding: 2,
-    height: 60,
-    borderColor: 'black',
-    borderWidth: 4,
+    height: 50,
+    borderColor: '#8c8c8c',
+    borderWidth: 1,
     borderRadius: 100,
     justifyContent: 'center',
     alignItems: 'center',

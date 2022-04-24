@@ -1,5 +1,4 @@
 import {
-  TextInput,
   View,
   Text,
   StyleSheet,
@@ -13,30 +12,16 @@ import auth from '@react-native-firebase/auth';
 import {useAuth} from '../../hooks/useAuth';
 import LinearGradient from 'react-native-linear-gradient';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {setStartDate} from '../../redux/Planner/actions';
+import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
+import OTPInput from './OTPInput';
 
 export const ConfirmPhoneScreen = ({navigation, route}) => {
-  const [code, setCode] = useState(['', '', '', '', '', '']);
-  const [confirm, setConfirm] = useState('object');
-  const [isFocus, setIsFocus] = useState([
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
+  const [code, setCode] = useState('');
+  const [confirm, setConfirm] = useState(undefined);
   const [phoneNumberPrefix, setPhoneNumberPrefix] = useState('60');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [phoneNumberEditable, setPhoneNumberEditable] = useState(true);
-  const [otpModalVisible, setOTPModalVisible] = useState(true);
-
-  const refInput0 = useRef();
-  const refInput1 = useRef();
-  const refInput2 = useRef();
-  const refInput3 = useRef();
-  const refInput4 = useRef();
-  const refInput5 = useRef();
+  const [otpModalVisible, setOTPModalVisible] = useState(false);
 
   const authProvider = useAuth();
 
@@ -86,34 +71,10 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
     }
   }
 
-  const codeOnChange = (text, index) => {
-    const refArr = [
-      refInput0,
-      refInput1,
-      refInput2,
-      refInput3,
-      refInput4,
-      refInput5,
-    ];
-    setCode(code => {
-      const newCode = [...code];
-      newCode[index] = text;
-      return newCode;
-    });
-    if (text !== '')
-      if (index < refArr.length - 1) refArr[index + 1].current.focus();
-      else refArr[index].current.blur();
-    else if (index > 0) refArr[index - 1].current.focus();
-  };
-  const focusOnCodeField = index => {
-    setIsFocus(isFocus => isFocus.map((_, idx) => idx === index));
-  };
-
   useEffect(() => {
     const resetState = () => {
       setConfirm(undefined);
-      setCode(['', '', '', '', '', '']);
-      setIsFocus([false, false, false, false, false, false]);
+      setCode('');
       setPhoneNumber('');
       setPhoneNumberEditable(true);
       setOTPModalVisible(false);
@@ -141,58 +102,22 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
             </View>
             <View style={{flex: 1, flexDirection: 'row'}}>
               <View style={{flex: 1}}>
-                <View style={[styles.inputField]}>
-                  <View
-                    style={{
-                      backgroundColor: 'rgba(255,255,255,0.3)',
-                      fontSize: 40,
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                    }}>
-                    <View
-                      style={[
-                        styles.inputAddOn,
-                        {
-                          height: '100%',
-                          justifyContent: 'center',
-                          paddingHorizontal: 8,
-                        },
-                      ]}>
-                      <Text>+</Text>
-                    </View>
-                    <TextInput
-                      placeholder="60"
-                      value={phoneNumberPrefix}
-                      onChangeText={setPhoneNumberPrefix}
-                      editable={phoneNumberEditable}
-                      placeholderTextColor="black"
-                      selectionColor="black"
-                      style={{margin: 5}}
-                      maxLength={3}
-                    />
-                  </View>
-                </View>
+                <CustomTextInput
+                  placeholder="60"
+                  value={phoneNumberPrefix}
+                  onChangeText={setPhoneNumberPrefix}
+                  editable={phoneNumberEditable}
+                  maxLength={3}
+                  startAdornment={'+'}
+                />
               </View>
               <View style={{flex: 2}}>
-                <View style={[styles.inputField]}>
-                  <View
-                    style={{
-                      backgroundColor: 'rgba(255,255,255,0.3)',
-                      fontSize: 40,
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                    }}>
-                    <TextInput
-                      placeholder="Phone Number"
-                      value={phoneNumber}
-                      onChangeText={setPhoneNumber}
-                      editable={phoneNumberEditable}
-                      placeholderTextColor="black"
-                      selectionColor="black"
-                      style={{margin: 5}}
-                    />
-                  </View>
-                </View>
+                <CustomTextInput
+                  placeholder="Phone Number"
+                  value={phoneNumber}
+                  onChangeText={setPhoneNumber}
+                  editable={phoneNumberEditable}
+                />
               </View>
             </View>
             <View>
@@ -234,182 +159,7 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
                   <Text>{`+${phoneNumberPrefix}${phoneNumber}`}</Text>
                 </View>
                 <View style={{flex: 4}}>
-                  <View style={{flexDirection: 'row'}}>
-                    <View
-                      style={[
-                        styles.inputField,
-                        {borderColor: isFocus[0] ? '#CFDDFC' : 'black'},
-                      ]}>
-                      <View
-                        style={{
-                          backgroundColor: 'rgba(255,255,255,0.3)',
-                          padding: 5,
-                          fontSize: 40,
-                        }}>
-                        <View>
-                          <TextInput
-                            value={code[0]}
-                            textAlign="center"
-                            onChangeText={e => codeOnChange(e, 0)}
-                            placeholder="*"
-                            editable={!!confirm}
-                            placeholderTextColor="black"
-                            selectionColor="black"
-                            maxLength={1}
-                            ref={refInput0}
-                            keyboardType={'number-pad'}
-                            caretHidden
-                            onFocus={() => focusOnCodeField(0)}
-                          />
-                        </View>
-                      </View>
-                    </View>
-                    <View
-                      style={[
-                        styles.inputField,
-                        {borderColor: isFocus[1] ? '#CFDDFC' : 'black'},
-                      ]}>
-                      <View
-                        style={{
-                          backgroundColor: 'rgba(255,255,255,0.3)',
-                          fontSize: 40,
-                          padding: 5,
-                        }}>
-                        <View>
-                          <TextInput
-                            textAlign="center"
-                            value={code[1]}
-                            onChangeText={e => codeOnChange(e, 1)}
-                            placeholder="*"
-                            editable={!!confirm}
-                            placeholderTextColor="black"
-                            selectionColor="black"
-                            maxLength={1}
-                            ref={refInput1}
-                            keyboardType={'number-pad'}
-                            caretHidden
-                            onFocus={() => focusOnCodeField(1)}
-                          />
-                        </View>
-                      </View>
-                    </View>
-                    <View
-                      style={[
-                        styles.inputField,
-                        {borderColor: isFocus[2] ? '#CFDDFC' : 'black'},
-                      ]}>
-                      <View
-                        style={{
-                          backgroundColor: 'rgba(255,255,255,0.3)',
-                          padding: 5,
-                          fontSize: 40,
-                        }}>
-                        <View>
-                          <TextInput
-                            value={code[2]}
-                            textAlign="center"
-                            onChangeText={e => codeOnChange(e, 2)}
-                            placeholder="*"
-                            editable={!!confirm}
-                            placeholderTextColor="black"
-                            selectionColor="black"
-                            maxLength={1}
-                            ref={refInput2}
-                            keyboardType={'number-pad'}
-                            caretHidden
-                            onFocus={() => focusOnCodeField(2)}
-                          />
-                        </View>
-                      </View>
-                    </View>
-                    <View
-                      style={[
-                        styles.inputField,
-                        {borderColor: isFocus[3] ? '#CFDDFC' : 'black'},
-                      ]}>
-                      <View
-                        style={{
-                          backgroundColor: 'rgba(255,255,255,0.3)',
-                          padding: 5,
-                          fontSize: 40,
-                        }}>
-                        <View>
-                          <TextInput
-                            value={code[3]}
-                            textAlign="center"
-                            onChangeText={e => codeOnChange(e, 3)}
-                            placeholder="*"
-                            editable={!!confirm}
-                            placeholderTextColor="black"
-                            selectionColor="black"
-                            maxLength={1}
-                            ref={refInput3}
-                            keyboardType={'number-pad'}
-                            caretHidden
-                            onFocus={() => focusOnCodeField(3)}
-                          />
-                        </View>
-                      </View>
-                    </View>
-                    <View
-                      style={[
-                        styles.inputField,
-                        {borderColor: isFocus[4] ? '#CFDDFC' : 'black'},
-                      ]}>
-                      <View
-                        style={{
-                          backgroundColor: 'rgba(255,255,255,0.3)',
-                          padding: 5,
-                          fontSize: 40,
-                        }}>
-                        <View>
-                          <TextInput
-                            value={code[4]}
-                            onChangeText={e => codeOnChange(e, 4)}
-                            textAlign="center"
-                            placeholder="*"
-                            editable={!!confirm}
-                            placeholderTextColor="black"
-                            selectionColor="black"
-                            maxLength={1}
-                            ref={refInput4}
-                            keyboardType={'number-pad'}
-                            caretHidden
-                            onFocus={() => focusOnCodeField(4)}
-                          />
-                        </View>
-                      </View>
-                    </View>
-                    <View
-                      style={[
-                        styles.inputField,
-                        {borderColor: isFocus[5] ? '#CFDDFC' : 'black'},
-                      ]}>
-                      <View
-                        style={{
-                          backgroundColor: 'rgba(255,255,255,0.3)',
-                          padding: 5,
-                          fontSize: 40,
-                        }}>
-                        <View>
-                          <TextInput
-                            value={code[5]}
-                            textAlign="center"
-                            onChangeText={e => codeOnChange(e, 5)}
-                            placeholder="*"
-                            editable={!!confirm}
-                            placeholderTextColor="black"
-                            selectionColor="black"
-                            maxLength={1}
-                            ref={refInput5}
-                            keyboardType={'number-pad'}
-                            caretHidden
-                            onFocus={() => focusOnCodeField(5)}
-                          />
-                        </View>
-                      </View>
-                    </View>
-                  </View>
+                  <OTPInput setCode={setCode} editable={!!confirm}></OTPInput>
                 </View>
                 <View style={{justifyContent: 'flex-end'}}>
                   <TouchableOpacity
@@ -437,14 +187,6 @@ const styles = StyleSheet.create({
     paddingTop: 0,
     flexDirection: 'column',
     justifyContent: 'center',
-  },
-  inputField: {
-    borderWidth: 4,
-    marginBottom: 10,
-    marginTop: 10,
-    marginLeft: 5,
-    marginRight: 5,
-    borderRadius: 10,
   },
   enabledButton: {
     borderRadius: 10,
