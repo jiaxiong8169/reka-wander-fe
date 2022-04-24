@@ -30,39 +30,39 @@ export default function PlannerSteps({navigation}) {
   };
 
   const checkNumberInput = () => {
-    try{
-    //check for number input
-    if (parseFloat(budget) < 100) {
-      console.log(budget);
-      setIsModelPopUp(true);
-      setErrors(true);
-    } else {
-      setErrors(false);
-    }
-    return(
-      <Modal
-      isVisible={true}
-      onBackdropPress={closeModel}
-      onSwipeComplete={closeModel}
-      useNativeDriverForBackdrop
-      swipeDirection={['left', 'right', 'up', 'down']}
-      animationIn="zoomInDown"
-      animationOut="zoomOutUp"
-      animationInTiming={700}
-      animationOutTiming={700}
-      backdropTransitionInTiming={700}
-      backdropTransitionOutTiming={700}>
-      <ModelContent title={'Opps!'}>
-        <Text>
-         Your travel budget must at least more than RM100! Please re-enter your travel budget.
-        </Text>
-      </ModelContent>
-    </Modal>
-    );
-    }catch(err){
+    try {
+      //check for number input
+      if (parseFloat(budget) < 100) {
+        console.log(budget);
+        setIsModelPopUp(true);
+        setErrors(true);
+      } else {
+        setErrors(false);
+      }
+      return (
+        <Modal
+          isVisible={true}
+          onBackdropPress={closeModel}
+          onSwipeComplete={closeModel}
+          useNativeDriverForBackdrop
+          swipeDirection={['left', 'right', 'up', 'down']}
+          animationIn="zoomInDown"
+          animationOut="zoomOutUp"
+          animationInTiming={700}
+          animationOutTiming={700}
+          backdropTransitionInTiming={700}
+          backdropTransitionOutTiming={700}>
+          <ModelContent title={'Opps!'}>
+            <Text>
+              Your travel budget must at least more than RM100! Please re-enter
+              your travel budget.
+            </Text>
+          </ModelContent>
+        </Modal>
+      );
+    } catch (err) {
       console.log(err);
-    };
-    
+    }
   };
 
   const nextbuttonTextStyle = {
