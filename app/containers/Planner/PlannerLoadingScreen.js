@@ -49,7 +49,7 @@ export default function LoadingScreen({navigation}) {
       })
       .catch(err => {
         Alert.alert('Error', JSON.stringify(err));
-        navigation.navigate('Planner_Question');
+        navigation.navigate('MyHome');
       });
   };
 
@@ -60,7 +60,7 @@ export default function LoadingScreen({navigation}) {
       },
       error => {
         Alert.alert('Error', JSON.stringify(error));
-        navigation.navigate('Planner_Question');
+        navigation.navigate('MyHome');
       },
       {
         enableHighAccuracy: true,

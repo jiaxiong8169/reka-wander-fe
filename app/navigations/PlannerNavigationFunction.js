@@ -8,6 +8,7 @@ import {Provider, useDispatch} from 'react-redux';
 import {store} from '../redux/store';
 import {useHttpCall} from '../hooks/useHttpCall';
 import {setInterests} from '../redux/Nearby/actions';
+import {MyHomeScreen} from '../containers/home/MyHomeScreen';
 
 //Screen names
 const Stack = createStackNavigator();
@@ -38,6 +39,13 @@ export default function PlannerStack() {
   return (
     <Provider store={store}>
       <Stack.Navigator>
+        <Stack.Screen
+          name="MyHome"
+          component={MyHomeScreen}
+          options={{
+            header: () => null,
+          }}
+        />
         <Stack.Screen
           name="Planner_Question"
           component={PlannerSteps}
