@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
-    marginBottom: 110,
   },
   loadMoreBtn: {
     borderRadius: 10,
