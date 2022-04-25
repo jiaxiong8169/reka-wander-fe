@@ -22,6 +22,7 @@ export default function PlannerSteps({navigation}) {
   const {budget} = useSelector(state => state.plannerReducer);
 
   const closeModel = () => {
+    console.log('toggled close');
     setIsModelPopUp(false);
   };
 
@@ -52,7 +53,7 @@ export default function PlannerSteps({navigation}) {
           animationOutTiming={700}
           backdropTransitionInTiming={700}
           backdropTransitionOutTiming={700}>
-          <ModelContent title={'Opps!'}>
+          <ModelContent title={'Opps!'} onPress={closeModel}>
             <Text>
               Your travel budget must at least more than RM100! Please re-enter
               your travel budget.
@@ -63,26 +64,25 @@ export default function PlannerSteps({navigation}) {
     } catch (err) {
       console.log(err);
     }
-    return(
+    return (
       <Modal
-      isVisible={true}
-      onBackdropPress={closeModel}
-      onSwipeComplete={closeModel}
-      useNativeDriverForBackdrop
-      swipeDirection={['left', 'right', 'up', 'down']}
-      animationIn="zoomInDown"
-      animationOut="zoomOutUp"
-      animationInTiming={700}
-      animationOutTiming={700}
-      backdropTransitionInTiming={700}
-      backdropTransitionOutTiming={700}>
-      <ModelContent title={'Opps!'}>
-        <Text>
-          Please tell us your travel budget and do not leave it
-          blank!
-        </Text>
-      </ModelContent>
-    </Modal>
+        isVisible={true}
+        onBackdropPress={closeModel}
+        onSwipeComplete={closeModel}
+        useNativeDriverForBackdrop
+        swipeDirection={['left', 'right', 'up', 'down']}
+        animationIn="zoomInDown"
+        animationOut="zoomOutUp"
+        animationInTiming={700}
+        animationOutTiming={700}
+        backdropTransitionInTiming={700}
+        backdropTransitionOutTiming={700}>
+        <ModelContent title={'Opps!'} onPress={closeModel}>
+          <Text>
+            Please tell us your travel budget and do not leave it blank!
+          </Text>
+        </ModelContent>
+      </Modal>
     );
   };
 
@@ -204,7 +204,7 @@ export default function PlannerSteps({navigation}) {
                   animationOutTiming={700}
                   backdropTransitionInTiming={700}
                   backdropTransitionOutTiming={700}>
-                  <ModelContent title={'Opps!'}>
+                  <ModelContent title={'Opps!'} onPress={closeModel}>
                     <Text>
                       Please tell us your travel budget and do not leave it
                       blank!

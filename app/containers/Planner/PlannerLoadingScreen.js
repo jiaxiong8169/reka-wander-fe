@@ -26,7 +26,7 @@ export default function LoadingScreen({navigation}) {
   const {rentHomeStay} = useSelector(state => state.plannerReducer);
 
   const postAPI = (long, lat) => {
-    postWithAuth('trips/recommend', {
+    const tmp = {
       userId: authData && authData.id ? authData.id : '',
       name: tripName ? tripName : 'My Trip',
       startDate: startDate,
@@ -39,7 +39,9 @@ export default function LoadingScreen({navigation}) {
       rentHomestay: rentHomeStay,
       long: long,
       lat: lat,
-    })
+    };
+    console.log(tmp);
+    postWithAuth('trips/recommend', tmp)
       .then(({data}) => {
         dispatch(setTripPlan(data));
         dispatch(setTripId(data.id)); // set ID for updating later
