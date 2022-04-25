@@ -1,6 +1,5 @@
-import {View} from 'native-base';
 import React from 'react';
-import {StyleSheet, Text} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
 TouchableOpacity.defaultProps = {activeOpacity: 0.7};
@@ -34,7 +33,6 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     backgroundColor: '#1E88E5',
     padding: 5,
-    color: '#fff',
   },
   inactiveTab: {
     padding: 5,
