@@ -18,7 +18,7 @@ const tabs = [
   {id: 'attractions', name: 'Tourist Spots'},
   {id: 'hotels', name: 'Hotels'},
   {id: 'restaurants', name: 'Food'},
-  {id: 'vehicles', name: 'Transport'},
+  // {id: 'vehicles', name: 'Transport'},
 ];
 
 export const SearchScreen = ({navigation}) => {
