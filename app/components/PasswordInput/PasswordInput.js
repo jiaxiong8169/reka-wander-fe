@@ -28,12 +28,16 @@ const PasswordInput = ({password, setPassword}) => {
           onChangeText={setPassword}
           placeholderTextColor="#a1a1a1"
           selectionColor={'black'}
-          style={[{color: 'black', width: '90%'}]}
+          style={[{color: 'black', width: '85%'}]}
         />
         <Pressable
           onPress={handlePasswordVisible}
-          style={{marginHorizontal: 10}}>
-          <FontAwesomeIcon icon={visible ? faEye : faEyeSlash} size={22} />
+          style={{marginHorizontal: 11}}>
+          <FontAwesomeIcon
+            icon={visible ? faEye : faEyeSlash}
+            size={27}
+            style={{color: '#0891B2'}}
+          />
         </Pressable>
       </View>
     </View>
