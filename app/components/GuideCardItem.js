@@ -6,8 +6,9 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {Text} from 'native-base';
-import {Rating} from 'react-native-ratings';
 import FastImage from 'react-native-fast-image';
+import Stars from 'react-native-stars';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export const GuideCardItem = ({item, navigation, marginBottom}) => {
   return (
@@ -51,10 +52,10 @@ export const GuideCardItem = ({item, navigation, marginBottom}) => {
             fontSize={30}
             letterSpacing="sm"
             lineHeight="xs"
-            style={{color: '#fff'}}>
+            style={{color: '#000'}}>
             {item.name.toUpperCase()}
           </Text>
-          <Text fontSize={12} color="gray.600">
+          <Text fontSize={12} color="#000">
             {item.city}
           </Text>
           <View
@@ -64,11 +65,21 @@ export const GuideCardItem = ({item, navigation, marginBottom}) => {
               marginTop: 2,
               marginBottom: 10,
             }}>
-            <Rating
-              imageSize={15}
-              ratingCount={5}
-              startingValue={item.avgRating}
-              readonly
+            <Stars
+              display={item.avgRating}
+              spacing={2}
+              count={5}
+              starSize={50}
+              fullStar={<Icon name={'star'} style={[styles.myStarStyle]} />}
+              emptyStar={
+                <Icon
+                  name={'star-outline'}
+                  style={[styles.myStarStyle, styles.myEmptyStarStyle]}
+                />
+              }
+              halfStar={
+                <Icon name={'star-half'} style={[styles.myStarStyle]} />
+              }
             />
           </View>
         </View>
@@ -83,46 +94,6 @@ export const GuideCardItem = ({item, navigation, marginBottom}) => {
           }}
         />
       </TouchableOpacity>
-      {/* <View style={{flexDirection: 'row', flex: 2}}>
-          
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: '#D0ECFA',
-              height: undefined,
-              margin: 5,
-              flexDirection: 'column',
-              justifyContent: 'center',
-              padding: 8,
-            }}>
-            <View>
-              <Text fontSize="12" color="blue.600" style={{textAlign: 'right'}}>
-                {item.perks}
-              </Text>
-              <Text
-                bold
-                lineHeight="xs"
-                fontSize="25"
-                color="blue.600"
-                style={{textAlign: 'right'}}>
-                RM {item.price ? item.price : item.minPrice}
-              </Text>
-            </View>
-          </View>
-        </View>
-        <Button
-          size="sm"
-          padding="1"
-          bg="blue.600"
-          _pressed={{bg: 'blue.300', _text: {color: 'white'}}}
-          onPress={() => {
-            navigation.navigate('SpotDetails', {
-              type: 'guides',
-              id: item.id,
-            });
-          }}>
-          View Details
-        </Button> */}
     </ImageBackground>
   );
 };
@@ -133,5 +104,15 @@ const styles = StyleSheet.create({
   },
   button: {
     borderRadius: 100,
+  },
+  myStarStyle: {
+    color: 'yellow',
+    backgroundColor: 'transparent',
+    textShadowColor: 'black',
+    textShadowOffset: {width: 1, height: 1},
+    textShadowRadius: 2,
+  },
+  myEmptyStarStyle: {
+    color: 'white',
   },
 });

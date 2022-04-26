@@ -10167,6 +10167,11 @@
     "lodash.isequal" "^4.5.0"
     "memoize-one" "^6.0.0"
 
+"react-native-stars@^1.2.2":
+  "integrity" "sha512-ROoluqPqv93ycUV3Mwf/p1fFW2TOcb6juhGrMb5oNYYTa0aTe4WgnboipNWLe5viDlC8XYLS+g5WpZBvCzwFkw=="
+  "resolved" "https://registry.npmjs.org/react-native-stars/-/react-native-stars-1.2.2.tgz"
+  "version" "1.2.2"
+
 "react-native-stepper-ui@^0.0.9":
   "integrity" "sha512-SnG1r73Ka0v3588MafTRbIJ1I6IF+d/GswQSPW4LsFOjgecwkNsTMjPgcAU14gV4ymts/38JmqXBsmztwR113Q=="
   "resolved" "https://registry.npmjs.org/react-native-stepper-ui/-/react-native-stepper-ui-0.0.9.tgz"
