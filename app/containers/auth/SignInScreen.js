@@ -14,6 +14,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import PasswordInput from '../../components/PasswordInput/PasswordInput';
 import {useIsFocused} from '@react-navigation/native';
 import {LoadingOverlay} from '../../components/LoadingOverlay';
+import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 
 const SignInScreen = ({navigation, route}) => {
   const {loading, authData, signIn, setAuthError} = useAuth();
@@ -83,30 +84,14 @@ const SignInScreen = ({navigation, route}) => {
               </Text>
             </View>
             <View style={{flex: 2, justifyContent: 'center'}}>
-              <View style={styles.inputField}>
-                <View
-                  style={{
-                    backgroundColor: 'rgba(255,255,255,0.3)',
-                    padding: 5,
-                    fontSize: 40,
-                  }}>
-                  <View>
-                    <TextInput
-                      placeholder="E-mail"
-                      value={email}
-                      onChangeText={setEmail}
-                      placeholderTextColor="black"
-                      selectionColor={'black'}
-                      style={{color: 'black'}}
-                    />
-                  </View>
-                </View>
-              </View>
-              <View style={styles.inputField}>
-                <PasswordInput password={password} setPassword={setPassword} />
-              </View>
+              <CustomTextInput
+                placeholder={'Email'}
+                value={email}
+                onChangeText={setEmail}
+              />
+              <PasswordInput password={password} setPassword={setPassword} />
             </View>
-            <View styles={{flex: 1}}>
+            <View styles={{flex: 1, alignItems: 'center'}}>
               <View style={[styles.buttonContainer]}>
                 <TouchableOpacity
                   style={styles.button}
@@ -146,13 +131,6 @@ const SignInScreen = ({navigation, route}) => {
 const styles = StyleSheet.create({
   titleStyle: {fontSize: 30, fontWeight: 'bold'},
   subtitleStyle: {fontSize: 20},
-  shape: {
-    height: 140,
-    width: '100%',
-    borderBottomRightRadius: 400,
-    borderBottomLeftRadius: 400,
-    alignSelf: 'center',
-  },
   continueWithText: {
     marginBottom: 10,
   },
@@ -163,16 +141,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'stretch',
   },
-  inputField: {
-    borderWidth: 4,
-    marginBottom: 10,
-    marginTop: 10,
-    marginLeft: 5,
-    marginRight: 5,
-    borderRadius: 10,
-  },
   buttonContainer: {
-    margin: 2,
+    margin: 9,
+    padding: 10,
   },
   button: {
     borderRadius: 10,

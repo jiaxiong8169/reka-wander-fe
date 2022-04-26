@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 import {useAuth} from '../hooks/useAuth';
@@ -59,14 +59,27 @@ const GoogleAuth = ({navigation, setEmail}) => {
 
   return (
     <TouchableOpacity style={styles.otherMethod} onPress={handleGoogleAuth}>
-      <FontAwesomeIcon icon={faGoogle} size={20} />
+      <Image
+        source={require('../assets/google-signin.png')}
+        style={styles.image}
+      />
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   otherMethod: {
-    padding: 3,
+    padding: 2,
+    height: 50,
+    borderColor: '#8c8c8c',
+    borderWidth: 1,
+    borderRadius: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  image: {
+    height: 40,
+    resizeMode: 'contain',
   },
 });
 
