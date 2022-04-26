@@ -1,6 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 
 TouchableOpacity.defaultProps = {activeOpacity: 0.7};
 
@@ -12,11 +11,9 @@ export const CustomTabs = ({tabs, tab, setTab, style}) => (
         onPress={() => {
           setTab(t.id);
         }}>
-        <View style={[t.id === tab ? styles.activeTab : styles.inactiveTab]}>
-          <Text style={{fontSize: 10, color: t.id === tab ? '#fff' : '#000'}}>
-            {t.name}
-          </Text>
-        </View>
+        <Text style={[t.id === tab ? styles.activeTab : styles.inactiveTab]}>
+          {t.name}
+        </Text>
       </TouchableOpacity>
     ))}
   </View>
@@ -30,12 +27,16 @@ const styles = StyleSheet.create({
     paddingTop: 5,
   },
   activeTab: {
-    borderRadius: 7,
+    borderRadius: 10,
     backgroundColor: '#1E88E5',
     padding: 5,
+    color: '#fff',
+    fontSize: 10,
   },
   inactiveTab: {
     padding: 5,
-    borderRadius: 7,
+    borderRadius: 10,
+    color: '#000',
+    fontSize: 10,
   },
 });
