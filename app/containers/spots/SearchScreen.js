@@ -89,7 +89,7 @@ export const SearchScreen = ({navigation}) => {
           />
         }
       />
-      <Card style={{marginBottom: height - 430}}>
+      <Card style={{marginBottom: height - 420}}>
         <CustomTabs
           tabs={tabs}
           tab={tab}
