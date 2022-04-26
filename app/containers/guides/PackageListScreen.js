@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import BlueSubtitle from '../../components/BlueSubtitle';
 import GradientBackground from '../../components/GradientBackground';
-import {View, ScrollView} from 'native-base';
+import {View, ScrollView, Text} from 'native-base';
 import {PackageCardItem} from '../../components/PackageCardItem';
 import {BackButton} from '../../components/BackButton';
 import RoundButton from '../../components/RoundButton';
@@ -9,6 +9,15 @@ import RoundButton from '../../components/RoundButton';
 export const PackageListScreen = ({navigation, route}) => {
   const [item, setItem] = useState(route?.params?.item);
   const [selected, setSelected] = useState([]);
+  const [price, setPrice] = useState(0);
+
+  useEffect(() => {
+    let tmp = 0;
+    item.packages.forEach(p => {
+      if (selected.indexOf(p.id) !== -1) tmp += p.price;
+    });
+    setPrice(tmp);
+  }, [selected]);
 
   const toggleSelection = e => {
     const index = selected.indexOf(e);
@@ -41,6 +50,18 @@ export const PackageListScreen = ({navigation, route}) => {
               marginBottom={10}
             />
           ))}
+        <Text
+          style={{
+            alignSelf: 'center',
+            marginTop: 20,
+            marginBottom: 15,
+          }}
+          bold
+          fontSize={24}
+          letterSpacing="sm"
+          lineHeight="xs">
+          Total Price : RM {price}
+        </Text>
         <RoundButton
           onPress={() => {
             // TODO: Navigate to Checkout
