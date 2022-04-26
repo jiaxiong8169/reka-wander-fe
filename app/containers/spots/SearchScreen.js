@@ -2,37 +2,52 @@ import React, {useEffect, useState} from 'react';
 import CardItem from '../../components/CardItem';
 import BlueSubtitle from '../../components/BlueSubtitle';
 import GradientBackground from '../../components/GradientBackground';
-import {Text, Input, View, ScrollView} from 'native-base';
+import {Text, Input, ScrollView} from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {LoadMore} from '../../components/LoadMore';
 import {BackButton} from '../../components/BackButton';
+import {CustomTabs} from '../../components/CustomTabs';
+import Card from '../../components/Card';
+import {Dimensions, View} from 'react-native';
+
+const height = Dimensions.get('window').height;
+
+// list of available tabs
+const tabs = [
+  {id: 'attractions', name: 'Tourist Spots'},
+  {id: 'hotels', name: 'Hotels'},
+  {id: 'restaurants', name: 'Food'},
+  // {id: 'vehicles', name: 'Transport'},
+];
 
 export const SearchScreen = ({navigation}) => {
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState('');
   const [full, setFull] = useState(false);
+  const [tab, setTab] = useState('attractions');
   const {getWithoutAuth} = useHttpCall();
 
-  // on load and on search, fetch new 10 records
+  // on load, on search and on change tab, fetch new 10 records
   useEffect(() => {
+    setItems([]);
     setLoading(true);
     setFull(false);
-    getWithoutAuth(`hotels?sort=-avgRating&limit=10&filter[q]=${search}`).then(
+    getWithoutAuth(`${tab}?sort=-avgRating&limit=10&filter[q]=${search}`).then(
       ({data}) => {
         setItems(data);
         setLoading(false);
       },
     );
-  }, [search]);
+  }, [search, tab]);
 
   // getData fetch more data and append to the items array
   const getData = () => {
     if (full) return;
     setLoading(true);
     getWithoutAuth(
-      `hotels?sort=-avgRating&offset=${items.length}&limit=10&filter[q]=${search}`,
+      `${tab}?sort=-avgRating&offset=${items.length}&limit=10&filter[q]=${search}`,
     ).then(({data}) => {
       let tmp = JSON.parse(JSON.stringify(items));
       Array.prototype.push.apply(tmp, data);
@@ -64,6 +79,7 @@ export const SearchScreen = ({navigation}) => {
         value={search}
         onChangeText={t => setSearch(t)}
         shadow="5"
+        marginBottom="3"
         InputLeftElement={
           <Icon
             style={{marginLeft: 10}}
@@ -73,18 +89,26 @@ export const SearchScreen = ({navigation}) => {
           />
         }
       />
-      <ScrollView style={{marginTop: 10, marginBottom: 50}}>
-        {items.map(item => (
-          <CardItem
-            item={item}
-            key={item.id}
-            navigation={navigation}
-            type={'hotels'}
-            marginBottom={10}
-          />
-        ))}
-        <LoadMore getData={getData} full={full} loading={loading} />
-      </ScrollView>
+      <Card style={{marginBottom: height - 420}}>
+        <CustomTabs
+          tabs={tabs}
+          tab={tab}
+          setTab={setTab}
+          style={{marginBottom: 10}}
+        />
+        <ScrollView>
+          {items.map(item => (
+            <CardItem
+              item={item}
+              key={item.id}
+              navigation={navigation}
+              type={tab}
+              marginBottom={10}
+            />
+          ))}
+          <LoadMore getData={getData} full={full} loading={loading} />
+        </ScrollView>
+      </Card>
     </GradientBackground>
   );
 };

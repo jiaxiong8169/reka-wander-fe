@@ -1,20 +1,27 @@
 import {
-  TextInput,
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
   Modal,
+  Image,
+  ScrollView,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import auth from '@react-native-firebase/auth';
 import {useAuth} from '../../hooks/useAuth';
 import LinearGradient from 'react-native-linear-gradient';
 import {LoadingOverlay} from '../../components/LoadingOverlay';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
+import OTPInput from './OTPInput';
+import {Button} from 'native-base';
+import CustomButton from '../../components/CustomButton/CustomButton';
 
 export const ConfirmPhoneScreen = ({navigation, route}) => {
   const [code, setCode] = useState('');
   const [confirm, setConfirm] = useState(undefined);
+  const [phoneNumberPrefix, setPhoneNumberPrefix] = useState('60');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [phoneNumberEditable, setPhoneNumberEditable] = useState(true);
   const [otpModalVisible, setOTPModalVisible] = useState(false);
@@ -25,10 +32,10 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
 
   const handlePhoneNumberButtonPress = async () => {
     setPhoneNumberEditable(false);
-    signInWithPhoneNumber(phoneNumber);
+    signInWithPhoneNumber(`+${phoneNumberPrefix}${phoneNumber}`);
   };
 
-  async function signInWithPhoneNumber() {
+  async function signInWithPhoneNumber(phoneNumber) {
     try {
       const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
       setConfirm(confirmation);
@@ -81,40 +88,57 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
   }, [otpModalVisible]);
 
   return (
-    <LinearGradient
-      colors={['#CFDDFC', 'white']}
-      start={{x: 0, y: 0}}
-      end={{x: 0, y: 0.5}}
-      style={{height: '100%', width: '100%'}}>
-      {authProvider.loading && <LoadingOverlay />}
-      <View style={styles.container}>
-        <View style={styles.inputField}>
-          <View
-            style={{
-              backgroundColor: 'rgba(255,255,255,0.3)',
-              padding: 5,
-              fontSize: 40,
-            }}>
-            <View>
-              <TextInput
-                placeholder="Phone Number"
-                value={phoneNumber}
-                onChangeText={setPhoneNumber}
-                editable={phoneNumberEditable}
-                placeholderTextColor="black"
-                selectionColor="black"
-              />
+    <SafeAreaView>
+      <LinearGradient
+        colors={['#CFDDFC', 'white']}
+        start={{x: 0, y: 0}}
+        end={{x: 0, y: 0.5}}
+        style={{height: '100%', width: '100%'}}>
+        <View style={styles.container}>
+          <ScrollView contentContainerStyle={{flex: 1}}>
+            <Image
+              source={require('../../assets/paper_plane_2.png')}
+              style={[styles.img, {flex: 3}]}
+              resizeMode={'contain'}></Image>
+            <View
+              style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+              <Text style={styles.title}>OTP Verification</Text>
+              <Text style={styles.caption}>Let's see if it's your phone!</Text>
             </View>
-          </View>
+            <View style={{flex: 1, flexDirection: 'row'}}>
+              <View style={{flex: 1}}>
+                <CustomTextInput
+                  placeholder="60"
+                  value={phoneNumberPrefix}
+                  onChangeText={setPhoneNumberPrefix}
+                  editable={phoneNumberEditable}
+                  maxLength={3}
+                  startAdornment={'+'}
+                />
+              </View>
+              <View style={{flex: 2}}>
+                <CustomTextInput
+                  placeholder="Phone Number"
+                  value={phoneNumber}
+                  onChangeText={setPhoneNumber}
+                  editable={phoneNumberEditable}
+                />
+              </View>
+            </View>
+            <View>
+              <CustomButton
+                style={
+                  phoneNumberEditable
+                    ? styles.enabledButton
+                    : styles.disabledButton
+                }
+                onPress={handlePhoneNumberButtonPress}
+                disabled={!phoneNumberEditable}>
+                Send OTP
+              </CustomButton>
+            </View>
+          </ScrollView>
         </View>
-        <TouchableOpacity
-          style={
-            phoneNumberEditable ? styles.enabledButton : styles.disabledButton
-          }
-          onPress={handlePhoneNumberButtonPress}
-          disabled={!phoneNumberEditable}>
-          <Text style={styles.buttonText}>Send OTP</Text>
-        </TouchableOpacity>
         <Modal
           animationType="slide"
           transparent={false}
@@ -127,39 +151,37 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
             start={{x: 0, y: 0}}
             end={{x: 0, y: 0.5}}
             style={{height: '100%', width: '100%'}}>
-            <View style={styles.container}>
-              <View style={styles.inputField}>
+            <ScrollView contentContainerStyle={{flex: 1}}>
+              <View style={styles.container}>
                 <View
                   style={{
-                    backgroundColor: 'rgba(255,255,255,0.3)',
-                    padding: 5,
-                    fontSize: 40,
+                    flex: 4,
+                    alignItems: 'center',
+                    justifyContent: 'center',
                   }}>
-                  <View>
-                    <TextInput
-                      value={code}
-                      onChangeText={setCode}
-                      placeholder="OTP"
-                      editable={!!confirm}
-                      placeholderTextColor="black"
-                      selectionColor="black"
-                    />
-                  </View>
+                  <Text>Verifying your number!</Text>
+                  <Text>We have sent an OTP on your number</Text>
+                  <Text>{`+${phoneNumberPrefix}${phoneNumber}`}</Text>
+                </View>
+                <View style={{flex: 4}}>
+                  <OTPInput setCode={setCode} editable={!!confirm}></OTPInput>
+                </View>
+                <View style={{justifyContent: 'flex-end'}}>
+                  <CustomButton
+                    onPress={() => confirmCode()}
+                    disabled={!!!confirm}
+                    style={
+                      !!confirm ? styles.enabledButton : styles.disabledButton
+                    }>
+                    Confirm
+                  </CustomButton>
                 </View>
               </View>
-              <TouchableOpacity
-                onPress={() => confirmCode()}
-                disabled={!!!confirm}
-                style={
-                  !!confirm ? styles.enabledButton : styles.disabledButton
-                }>
-                <Text style={styles.buttonText}>Confirm</Text>
-              </TouchableOpacity>
-            </View>
+            </ScrollView>
           </LinearGradient>
         </Modal>
-      </View>
-    </LinearGradient>
+      </LinearGradient>
+    </SafeAreaView>
   );
 };
 
@@ -170,19 +192,9 @@ const styles = StyleSheet.create({
     paddingTop: 0,
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'stretch',
-  },
-  inputField: {
-    borderWidth: 4,
-    marginBottom: 10,
-    marginTop: 10,
-    marginLeft: 5,
-    marginRight: 5,
-    borderRadius: 10,
   },
   enabledButton: {
     borderRadius: 10,
-    backgroundColor: '#F5362E',
     padding: 10,
     paddingLeft: 30,
     paddingRight: 30,
@@ -198,10 +210,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     margin: 10,
   },
-  buttonText: {
-    color: 'white',
+  img: {
+    width: '100%',
+  },
+  title: {
     textAlign: 'center',
-    shadowColor: 'black',
-    fontSize: 15,
+    fontWeight: 'bold',
+  },
+  caption: {
+    textAlign: 'center',
+  },
+  inputAddOn: {
+    backgroundColor: '#aeb3bd',
+    borderBottomLeftRadius: 6,
+    borderTopLeftRadius: 6,
   },
 });

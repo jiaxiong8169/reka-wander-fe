@@ -4,10 +4,13 @@ import PlannerSteps from '../containers/Planner/PlannerProgressSteps';
 import LoadingScreen from '../containers/Planner/PlannerLoadingScreen';
 import Recommended from '../containers/Planner/RecommendedPlaceScreen';
 import SuccessConfirmScreen from '../containers/Planner/PlannerSuccessCreateTrip';
+import SpotDetailsScreen from '../containers/spots/SpotDetailsScreen';
+import {EditScreen} from '../containers/Planner/PlannerEditScreen';
 import {Provider, useDispatch} from 'react-redux';
 import {store} from '../redux/store';
 import {useHttpCall} from '../hooks/useHttpCall';
 import {setInterests} from '../redux/Nearby/actions';
+import {MyHomeScreen} from '../containers/home/MyHomeScreen';
 
 //Screen names
 const Stack = createStackNavigator();
@@ -39,6 +42,13 @@ export default function PlannerStack() {
     <Provider store={store}>
       <Stack.Navigator>
         <Stack.Screen
+          name="MyHome"
+          component={MyHomeScreen}
+          options={{
+            header: () => null,
+          }}
+        />
+        <Stack.Screen
           name="Planner_Question"
           component={PlannerSteps}
           options={{
@@ -64,6 +74,21 @@ export default function PlannerStack() {
           component={SuccessConfirmScreen}
           options={{
             header: () => null,
+          }}
+        />
+
+        <Stack.Screen
+          name="Edit"
+          component={EditScreen}
+          options={{
+            header: () => null,
+          }}
+        />
+        <Stack.Screen
+          name="SpotDetails"
+          component={SpotDetailsScreen}
+          options={{
+            headerShown: false,
           }}
         />
       </Stack.Navigator>

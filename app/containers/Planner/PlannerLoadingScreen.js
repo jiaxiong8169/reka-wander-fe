@@ -26,7 +26,7 @@ export default function LoadingScreen({navigation}) {
   const {rentHomeStay} = useSelector(state => state.plannerReducer);
 
   const postAPI = (long, lat) => {
-    postWithAuth('trips/recommend', {
+    const tmp = {
       userId: authData && authData.id ? authData.id : '',
       name: tripName ? tripName : 'My Trip',
       startDate: startDate,
@@ -39,15 +39,29 @@ export default function LoadingScreen({navigation}) {
       rentHomestay: rentHomeStay,
       long: long,
       lat: lat,
-    })
+    };
+    console.log(tmp);
+    postWithAuth('trips/recommend', tmp)
       .then(({data}) => {
+        // TODO: Let backend do this, add default values if not exists
+        if (!data.attractionObjects) data.attractionObjects = [];
+        if (!data.attractions) data.attractions = [];
+        if (!data.restaurantObjects) data.restaurantObjects = [];
+        if (!data.restaurants) data.restaurants = [];
+        if (!data.hotelObject) data.hotelObject = {};
+        if (!data.hotel) data.hotel = '';
+        if (!data.vehicleObject) data.vehicleObject = {};
+        if (!data.vehicle) data.vehicle = '';
+        if (!data.homestayObject) data.homestayObject = {};
+        if (!data.homestay) data.homestay = '';
+
         dispatch(setTripPlan(data));
         dispatch(setTripId(data.id)); // set ID for updating later
         navigation.navigate('Recommended'); // navigate to Recommend page
       })
       .catch(err => {
         Alert.alert('Error', JSON.stringify(err));
-        navigation.navigate('Planner_Question');
+        navigation.navigate('MyHome');
       });
   };
 
@@ -58,7 +72,7 @@ export default function LoadingScreen({navigation}) {
       },
       error => {
         Alert.alert('Error', JSON.stringify(error));
-        navigation.navigate('Planner_Question');
+        navigation.navigate('MyHome');
       },
       {
         enableHighAccuracy: true,

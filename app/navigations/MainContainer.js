@@ -16,6 +16,8 @@ import {SettingsScreen} from '../containers/settings/SettingsScreen';
 import SpotsImagesScreen from '../containers/spots/SpotsImagesScreen';
 import SpotsCommentScreen from '../containers/spots/SpotsCommentScreen';
 import {SearchScreen} from '../containers/spots/SearchScreen';
+import {GuideListScreen} from '../containers/guides/GuideListScreen';
+import {GuideStack} from './GuideStack';
 //Screen names
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -145,7 +147,7 @@ function MainContainer() {
       />
       <Tab.Screen
         name="Agency"
-        component={Temp}
+        component={GuideStack}
         options={{
           headerShown: false,
         }}

@@ -29,6 +29,9 @@ const signInWithGoogle = (email, idToken) => {
     })
     .catch(err => {
       console.log(err);
+      if (err.status === 401) {
+        throw 'Hi Newcomer! We need to verify your phone number first to complete the registration.';
+      }
       throw 'Invalid Google signin';
     });
 };

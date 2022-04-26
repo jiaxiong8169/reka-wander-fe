@@ -11,6 +11,7 @@ import {
   SET_TRIP_ID,
   RESET_TRIP,
   SET_TRIP_PLAN,
+  SET_TRIP_PLAN_BY_FIELDNAME,
 } from './actions';
 import moment from 'moment';
 
@@ -20,7 +21,7 @@ const initialState = {
   startDate: moment(new Date()).format('YYYY-MM-DD[T00:00:00.000Z]'),
   endDate: moment(new Date()).format('YYYY-MM-DD[T00:00:00.000Z]'),
   pax: 1,
-  budget: '1000',
+  budget: '0.0',
   interest: [],
   kids: true,
   rentCar: true,
@@ -35,6 +36,12 @@ const initialState = {
     attractions: [],
     restaurantObjects: [],
     restaurants: [],
+    hotelObject: {},
+    hotel: '',
+    vehicleObject: {},
+    vehicle: '',
+    homestay: '',
+    homestayObject: {},
   },
 };
 
@@ -62,6 +69,14 @@ function plannerReducer(state = initialState, action) {
       return {...state, rentHomeStay: action.payload};
     case SET_TRIP_PLAN:
       return {...state, tripPlan: action.payload};
+    case SET_TRIP_PLAN_BY_FIELDNAME:
+      return {
+        ...state,
+        tripPlan: {
+          ...state.tripPlan,
+          [action.payload.fieldName]: action.payload.data,
+        },
+      };
     case RESET_TRIP:
       return initialState;
     default:

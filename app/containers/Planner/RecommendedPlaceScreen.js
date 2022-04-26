@@ -50,6 +50,10 @@ export default function Recommended({navigation}) {
     });
   }, [navigation]);
 
+  useEffect(() => {
+    console.log(tripPlan);
+  }, [tripPlan]);
+
   const onPressHandler = () => {
     // clear trip fields
     dispatch(resetTrip());
@@ -549,7 +553,14 @@ export default function Recommended({navigation}) {
               <Text style={{margin: 10}}>Recommended Hotel</Text>
               <Card style={{marginVertical: 10}}>
                 <View style={{flexDirection: 'column'}}>
-                  <TouchableOpacity style={{margin: 4}}>
+                  <TouchableOpacity
+                    style={{margin: 4}}
+                    onPress={() => {
+                      navigation.navigate('SpotDetails', {
+                        type: 'hotels',
+                        id: item.id,
+                      });
+                    }}>
                     <View
                       style={{
                         flex: 1,
@@ -588,8 +599,12 @@ export default function Recommended({navigation}) {
                             fontSize: 11,
                             color: '#000',
                           }}>
-                          {tripPlan.hotelObject.description.substring(0, 100) +
-                            '...'}
+                          {tripPlan?.hotelObject?.description
+                            ? tripPlan.hotelObject.description.substring(
+                                0,
+                                100,
+                              ) + '...'
+                            : ''}
                         </Text>
                         <View
                           style={{
@@ -613,14 +628,17 @@ export default function Recommended({navigation}) {
                     alignItems: 'flex-end',
                     justifyContent: 'flex-end',
                   }}>
-                  <Text
-                    style={{
-                      fontSize: 11,
-                      color: '#00BFFF',
-                      paddingTop: 5,
-                    }}>
-                    Edit
-                  </Text>
+                  <TouchableOpacity
+                    style={{marginTop: 4}}
+                    onPress={() =>
+                      navigation.navigate('Edit', {
+                        type: 'hotels',
+                        fieldName: 'hotel',
+                        fieldNameObj: 'hotelObject',
+                      })
+                    }>
+                    <Text style={{fontSize: 10, color: '#00BFFF'}}>Edit</Text>
+                  </TouchableOpacity>
                 </View>
               </Card>
             </View>
@@ -631,7 +649,14 @@ export default function Recommended({navigation}) {
               <Text style={{margin: 10}}>Recommended Homestay</Text>
               <Card style={{marginVertical: 10}}>
                 <View style={{flexDirection: 'column'}}>
-                  <TouchableOpacity style={{margin: 4}}>
+                  <TouchableOpacity
+                    style={{margin: 4}}
+                    onPress={() => {
+                      navigation.navigate('SpotDetails', {
+                        type: 'homestays',
+                        id: tripPlan.homestayObject.id,
+                      });
+                    }}>
                     <View
                       style={{
                         flex: 1,
@@ -670,10 +695,12 @@ export default function Recommended({navigation}) {
                             fontSize: 11,
                             color: '#000',
                           }}>
-                          {tripPlan.homestayObject.description.substring(
-                            0,
-                            100,
-                          ) + '...'}
+                          {tripPlan?.homestayObject?.description
+                            ? tripPlan.homestayObject.description.substring(
+                                0,
+                                100,
+                              ) + '...'
+                            : ''}
                         </Text>
                         <View
                           style={{
@@ -697,14 +724,17 @@ export default function Recommended({navigation}) {
                     alignItems: 'flex-end',
                     justifyContent: 'flex-end',
                   }}>
-                  <Text
-                    style={{
-                      fontSize: 11,
-                      color: '#00BFFF',
-                      paddingTop: 5,
-                    }}>
-                    Edit
-                  </Text>
+                  <TouchableOpacity
+                    style={{marginTop: 4}}
+                    onPress={() =>
+                      navigation.navigate('Edit', {
+                        type: 'homestays',
+                        fieldName: 'homestay',
+                        fieldNameObj: 'homestayObject',
+                      })
+                    }>
+                    <Text style={{fontSize: 10, color: '#00BFFF'}}>Edit</Text>
+                  </TouchableOpacity>
                 </View>
               </Card>
             </View>
@@ -715,7 +745,14 @@ export default function Recommended({navigation}) {
               <Text style={{margin: 10}}>Recommended Car</Text>
               <Card style={{marginVertical: 10}}>
                 <View style={{flexDirection: 'column'}}>
-                  <TouchableOpacity style={{margin: 4}}>
+                  <TouchableOpacity
+                    style={{margin: 4}}
+                    onPress={() => {
+                      navigation.navigate('SpotDetails', {
+                        type: 'vehicles',
+                        id: tripPlan.vehicleObject.id,
+                      });
+                    }}>
                     <View
                       style={{
                         flex: 1,
@@ -754,10 +791,12 @@ export default function Recommended({navigation}) {
                             fontSize: 11,
                             color: '#000',
                           }}>
-                          {tripPlan.vehicleObject.description.substring(
-                            0,
-                            100,
-                          ) + '...'}
+                          {tripPlan?.vehicleObject?.description
+                            ? tripPlan.vehicleObject.description.substring(
+                                0,
+                                100,
+                              ) + '...'
+                            : ''}
                         </Text>
                         <View
                           style={{
@@ -781,14 +820,17 @@ export default function Recommended({navigation}) {
                     alignItems: 'flex-end',
                     justifyContent: 'flex-end',
                   }}>
-                  <Text
-                    style={{
-                      fontSize: 11,
-                      color: '#00BFFF',
-                      paddingTop: 5,
-                    }}>
-                    Edit
-                  </Text>
+                  <TouchableOpacity
+                    style={{marginTop: 4}}
+                    onPress={() =>
+                      navigation.navigate('Edit', {
+                        type: 'vehicles',
+                        fieldName: 'vehicle',
+                        fieldNameObj: 'vehicleObject',
+                      })
+                    }>
+                    <Text style={{fontSize: 10, color: '#00BFFF'}}>Edit</Text>
+                  </TouchableOpacity>
                 </View>
               </Card>
             </View>
@@ -800,7 +842,14 @@ export default function Recommended({navigation}) {
               {tripPlan.attractionObjects.map(item => (
                 <Card style={{marginVertical: 10}} key={item.id}>
                   <View style={{flexDirection: 'column'}}>
-                    <TouchableOpacity style={{margin: 4}}>
+                    <TouchableOpacity
+                      style={{margin: 4}}
+                      onPress={() => {
+                        navigation.navigate('SpotDetails', {
+                          type: 'attractions',
+                          id: item.id,
+                        });
+                      }}>
                       <View
                         style={{
                           flex: 1,
@@ -863,14 +912,17 @@ export default function Recommended({navigation}) {
                       alignItems: 'flex-end',
                       justifyContent: 'flex-end',
                     }}>
-                    <Text
-                      style={{
-                        fontSize: 11,
-                        color: '#00BFFF',
-                        paddingTop: 5,
-                      }}>
-                      Edit
-                    </Text>
+                    <TouchableOpacity
+                      style={{marginTop: 4}}
+                      onPress={() =>
+                        navigation.navigate('Edit', {
+                          type: 'attractions',
+                          fieldName: 'attractions',
+                          fieldNameObj: 'attractionObjects',
+                        })
+                      }>
+                      <Text style={{fontSize: 10, color: '#00BFFF'}}>Edit</Text>
+                    </TouchableOpacity>
                   </View>
                 </Card>
               ))}
@@ -883,7 +935,14 @@ export default function Recommended({navigation}) {
               {tripPlan.restaurantObjects.map(item => (
                 <Card style={{marginVertical: 10}} key={item.id}>
                   <View style={{flexDirection: 'column'}}>
-                    <TouchableOpacity style={{margin: 4}}>
+                    <TouchableOpacity
+                      style={{margin: 4}}
+                      onPress={() => {
+                        navigation.navigate('SpotDetails', {
+                          type: 'restaurants',
+                          id: item.id,
+                        });
+                      }}>
                       <View
                         style={{
                           flex: 1,
@@ -946,14 +1005,17 @@ export default function Recommended({navigation}) {
                       alignItems: 'flex-end',
                       justifyContent: 'flex-end',
                     }}>
-                    <Text
-                      style={{
-                        fontSize: 11,
-                        color: '#00BFFF',
-                        paddingTop: 5,
-                      }}>
-                      Edit
-                    </Text>
+                    <TouchableOpacity
+                      style={{marginTop: 4}}
+                      onPress={() =>
+                        navigation.navigate('Edit', {
+                          type: 'restaurants',
+                          fieldName: 'restaurants',
+                          fieldNameObj: 'restaurantObjects',
+                        })
+                      }>
+                      <Text style={{fontSize: 10, color: '#00BFFF'}}>Edit</Text>
+                    </TouchableOpacity>
                   </View>
                 </Card>
               ))}

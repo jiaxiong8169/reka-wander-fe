@@ -60,7 +60,7 @@ const CardItem = ({item, navigation, type, marginBottom}) => {
                 marginTop: 4,
               }}>
               <Text marginLeft="1" fontSize={8} color="gray.400">
-                {item.reviews.length} reviews
+                {!item.reviews ? '' : `${item.reviews.length} reviews`}
               </Text>
             </View>
           </View>
