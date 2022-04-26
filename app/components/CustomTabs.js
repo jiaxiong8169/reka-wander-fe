@@ -31,12 +31,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#1E88E5',
     padding: 5,
     color: '#fff',
-    fontSize: 10,
   },
   inactiveTab: {
     padding: 5,
     borderRadius: 10,
     color: '#000',
-    fontSize: 10,
   },
 });
