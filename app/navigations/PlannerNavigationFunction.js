@@ -4,6 +4,8 @@ import PlannerSteps from '../containers/Planner/PlannerProgressSteps';
 import LoadingScreen from '../containers/Planner/PlannerLoadingScreen';
 import Recommended from '../containers/Planner/RecommendedPlaceScreen';
 import SuccessConfirmScreen from '../containers/Planner/PlannerSuccessCreateTrip';
+import SpotDetailsScreen from '../containers/spots/SpotDetailsScreen';
+import {EditScreen} from '../containers/Planner/PlannerEditScreen';
 import {Provider, useDispatch} from 'react-redux';
 import {store} from '../redux/store';
 import {useHttpCall} from '../hooks/useHttpCall';
@@ -64,6 +66,21 @@ export default function PlannerStack() {
           component={SuccessConfirmScreen}
           options={{
             header: () => null,
+          }}
+        />
+
+        <Stack.Screen
+          name="Edit"
+          component={EditScreen}
+          options={{
+            header: () => null,
+          }}
+        />
+        <Stack.Screen
+          name="SpotDetails"
+          component={SpotDetailsScreen}
+          options={{
+            headerShown: false,
           }}
         />
       </Stack.Navigator>

@@ -6,7 +6,7 @@ export const BackButton = ({navigation, absolute}) => {
   return (
     <Box style={absolute ? styles.backButtonAbsolute : styles.backButton}>
       <Pressable onPress={() => navigation.goBack()}>
-        <ArrowBackIcon size="8" color="white" m="1" />
+        <ArrowBackIcon size="8" color="coolGray.400" m="1" />
       </Pressable>
     </Box>
   );
@@ -15,7 +15,7 @@ export const BackButton = ({navigation, absolute}) => {
 const styles = StyleSheet.create({
   backButton: {
     alignSelf: 'center',
-    backgroundColor: 'rgb(30, 136, 229)',
+    backgroundColor: 'transparent',
     borderRadius: 5,
     marginRight: 10,
   },

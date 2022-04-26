@@ -11,6 +11,7 @@ import {
   SET_TRIP_ID,
   RESET_TRIP,
   SET_TRIP_PLAN,
+  SET_TRIP_PLAN_BY_FIELDNAME,
 } from './actions';
 import moment from 'moment';
 
@@ -35,6 +36,12 @@ const initialState = {
     attractions: [],
     restaurantObjects: [],
     restaurants: [],
+    hotelObject: {},
+    hotel: '',
+    vehicleObject: {},
+    vehicle: '',
+    homestay: '',
+    homestayObject: {},
   },
 };
 
@@ -62,6 +69,14 @@ function plannerReducer(state = initialState, action) {
       return {...state, rentHomeStay: action.payload};
     case SET_TRIP_PLAN:
       return {...state, tripPlan: action.payload};
+    case SET_TRIP_PLAN_BY_FIELDNAME:
+      return {
+        ...state,
+        tripPlan: {
+          ...state.tripPlan,
+          [action.payload.fieldName]: action.payload.data,
+        },
+      };
     case RESET_TRIP:
       return initialState;
     default:
