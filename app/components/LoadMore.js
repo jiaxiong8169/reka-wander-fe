@@ -1,7 +1,11 @@
-import {Text} from 'native-base';
 import React from 'react';
-import {View, StyleSheet, ActivityIndicator} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {
+  View,
+  StyleSheet,
+  ActivityIndicator,
+  TouchableOpacity,
+  Text,
+} from 'react-native';
 
 export const LoadMore = ({getData, full, loading}) => {
   return (
