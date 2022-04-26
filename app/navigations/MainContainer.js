@@ -74,20 +74,6 @@ function SpotsHomeStack() {
           headerShown: false,
         }}
       />
-      <Stack.Screen
-        name="SpotsSearchManually"
-        component={SpotsSearchManuallyScreen}
-        options={{
-          headerShown: false
-        }}
-      />
-      <Stack.Screen
-        name="SpotsComment"
-        component={SpotsCommentScreen}
-        options={{
-          headerShown: false
-        }}
-      />
     </Stack.Navigator>
   );
 }

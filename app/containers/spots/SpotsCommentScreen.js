@@ -1,7 +1,7 @@
 import GradientBackground from '../../components/GradientBackground';
 import * as React from 'react';
-import {View, StyleSheet, Dimensions} from 'react-native';
-import {Image} from 'react-native';
+import {View, StyleSheet, Dimensions, Alert} from 'react-native';
+import {Image, RefreshControl} from 'react-native';
 import {
   Box,
   Heading,
@@ -19,15 +19,218 @@ import {ScrollView, SafeAreaView} from 'react-native';
 import RoundButton from '../../components/RoundButton';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import CommentCard from '../../components/CommentCard';
+import {useHttpCall} from '../../hooks/useHttpCall';
+import FastImage from 'react-native-fast-image';
+import {useAuth} from '../../hooks/useAuth';
+import DeviceInfo from 'react-native-device-info';
+import {useSelector, useDispatch} from 'react-redux';
+import {
+  setNearbyAttractions,
+  setNearbyHotels,
+  setNearbyRestaurants,
+  setRestaurants,
+  setAttractions,
+  setHotels,
+} from '../../redux/Nearby/actions';
 
-export default function SpotsCommentScreen({navigation}) {
+const height = Dimensions.get('window').height;
+
+export default function SpotsCommentScreen({navigation, route}) {
+  const {authData} = useAuth();
+  const dispatch = useDispatch();
+  const {id, type} = route.params;
+  const listData = useSelector(state => state.nearbyReducer[type]);
+  const {postWithAuth, getWithAuth} = useHttpCall();
+  const [item, setItem] = React.useState({});
+  const [reload, setReload] = React.useState(true);
+  const [loading, setLoading] = React.useState(false);
+  const [liked, setLiked] = React.useState(false);
+  const [shared, setShared] = React.useState(false);
+  const [likes, setLikes] = React.useState(0);
+  const [shares, setShares] = React.useState(0);
+  const [reviews, setReview] = React.useState([]);
+  const [reviewDataList, setReviewDataList] = React.useState([]);
+  const [rating, setRating] = React.useState(0);
+  const [textAreaValue, setTextAreaValue] = React.useState('');
+
+  // const [review, setReview] = React.useState({});
+
+  React.useEffect(() => {
+    if (!reload) return;
+    setLoading(true);
+    // convert type to without the word nearby
+    let currentType = type;
+    switch (currentType) {
+      case 'nearbyAttractions':
+        currentType = 'attractions';
+        break;
+      case 'nearbyRestaurants':
+        currentType = 'restaurants';
+        break;
+      case 'nearbyHotels':
+        currentType = 'hotels';
+        break;
+    }
+    // try to fetch the data
+    getWithAuth(`${currentType}/${id}`)
+      .then(({data}) => {
+        if (!!data) {
+          setItem(data);
+          setReviewDataList([])
+          reviews.map(id =>
+            getWithAuth(`reviews/${id}`).then(({data}) => {
+              setReviewDataList((reviewDataList) => {
+                return reviewDataList.concat(data);
+              });
+            }),
+          );
+
+          setReview(data.reviews);
+          // update like and share states
+          setLiked(
+            data.likes.includes(
+              authData?.id ? authData.id : DeviceInfo.getUniqueId(),
+            ),
+          );
+          setLikes(data.likes.length);
+          setShared(
+            data.shares.includes(
+              authData?.id ? authData.id : DeviceInfo.getUniqueId(),
+            ),
+          );
+          setShares(data.shares.length);
+          // update the cached data
+          let clonedListData = JSON.parse(JSON.stringify(listData));
+          for (let i = 0; i < clonedListData.length; i++) {
+            if (clonedListData[i].id === id) {
+              clonedListData[i] = data;
+              break;
+            }
+          }
+          switch (type) {
+            case 'restaurants':
+              dispatch(setRestaurants(clonedListData));
+              break;
+            case 'attractions':
+              dispatch(setAttractions(clonedListData));
+              break;
+            case 'hotels':
+              dispatch(setHotels(clonedListData));
+              break;
+            case 'nearbyRestaurants':
+              dispatch(setNearbyRestaurants(clonedListData));
+              break;
+            case 'nearbyAttractions':
+              dispatch(setNearbyAttractions(clonedListData));
+              break;
+            case 'nearbyHotels':
+              dispatch(setNearbyHotels(clonedListData));
+              break;
+            default:
+          }
+        }
+        // set loading and reload to false indicating finished loading
+        setLoading(false);
+        setReload(false);
+      })
+      .catch(err => {
+        console.log(err);
+        // set loading and reload to false indicating finished loading
+        setLoading(false);
+        setReload(false);
+      });
+  }, [reload]);
+
+  const handleLike = async () => {
+    if (loading) return; // do not proceed when loading is true
+    // convert type to without the word nearby
+    let currentType = type;
+    switch (currentType) {
+      case 'nearbyAttractions':
+        currentType = 'attractions';
+        break;
+      case 'nearbyRestaurants':
+        currentType = 'restaurants';
+        break;
+      case 'nearbyHotels':
+        currentType = 'hotels';
+        break;
+    }
+    // POST like API: Allow stale data to increase responsiveness
+
+    try {
+      postWithAuth(`${currentType}/like`, {
+        targetId: id,
+        userId:
+          authData && authData.id ? authData.id : DeviceInfo.getUniqueId(),
+      });
+    } catch (err) {
+      console.log(err);
+    }
+
+    // set likes
+    setLikes(liked ? likes - 1 : likes + 1);
+    setLiked(!liked);
+  };
+
+  const handleReview = async () => {
+    if (loading) return; // do not proceed when loading is true
+    // convert type to without the word nearby
+    let currentType = type;
+    switch (currentType) {
+      case 'nearbyAttractions':
+        currentType = 'attractions';
+        break;
+      case 'nearbyRestaurants':
+        currentType = 'restaurants';
+        break;
+      case 'nearbyHotels':
+        currentType = 'hotels';
+        break;
+    }
+    // POST like API: Allow stale data to increase responsiveness
+    if (authData && authData.id) {
+      try {
+        postWithAuth(`${currentType}/review`, {
+          targetId: id,
+          rating: rating,
+          userName: authData.name,
+          userProfileSrc: '',
+          contents: textAreaValue,
+          targetId: id,
+          userId: authData.id,
+        });
+        setTextAreaValue("")
+        setRating(0)
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      Alert.alert('Please register an account to continue this action.');
+    }
+  };
+
+  const ratingCompleted = rating => {
+    setRating(rating);
+  };
+
+  const valueControlledTextArea = value => {
+    setTextAreaValue(value);
+  };
+  
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      refreshControl={
+        <RefreshControl
+          refreshing={loading}
+          onRefresh={() => setReload(true)}
+        />
+      }>
       <View style={styles.container}>
-        <Image
-          style={styles.image}
-          // source={require('../../assets/home.jpg')}
-          ></Image>
+        {/* <FastImage style={styles.image} source={{uri: item.thumbnailSrc}} /> */}
+        {/* <Image style={styles.image} source={{uri: item.thumbnailSrc}}/> */}
+        <FastImage style={styles.image} source={{uri: item.thumbnailSrc}} />
         <View style={{flex: 1}}></View>
         <Box style={styles.backButton}>
           <Pressable onPress={() => navigation.goBack()}>
@@ -36,11 +239,9 @@ export default function SpotsCommentScreen({navigation}) {
         </Box>
 
         <View style={styles.textContainer}>
-          <Heading size="2xl">Hotel 1234</Heading>
+          <Heading size="2xl">{item.name}</Heading>
           <Text mt="3" mb="3">
-            adsalksjdklasjdklaslkjdaklslasjdlaskjdasdasdsadsadsadasdasdasdasdsadasdasdasdasdasda
-            adsalksjdklasjdklaslkjdaklslasjdlaskjdasdasdsadsadsadasdasdasdasdsadasdasdasdasdasda
-            adsalksjdklasjdklaslkjdaklslasjdlaskjdasdasdsadsadsadas
+            {item.description}
           </Text>
 
           <Rating
@@ -50,7 +251,7 @@ export default function SpotsCommentScreen({navigation}) {
             }}
             imageSize={15}
             ratingCount={5}
-            startingValue={4}
+            startingValue={item.avgRating}
             tintColor={'white'}
             readonly
           />
@@ -68,7 +269,7 @@ export default function SpotsCommentScreen({navigation}) {
               tintColor={'#52525b'}
             />
             <Text marginLeft="1" fontSize={10} color="gray.600">
-              Kinabalu
+              {item.city}
             </Text>
           </View>
 
@@ -83,22 +284,32 @@ export default function SpotsCommentScreen({navigation}) {
               tintColor={'#52525b'}
             />
             <Text marginLeft="1" fontSize={10} color="gray.600">
-              RM 250/pax
+              RM {item.price ? item.price : item.minPrice}
             </Text>
             <View style={{marginLeft: 'auto', flexDirection: 'row'}}>
-              <Image
-                style={{width: 15, height: 15, marginHorizontal: 2}}
-                source={require('../../assets/love.png')}
-                tintColor={'#52525b'}
-              />
-              <Text marginLeft="1" fontSize={10} color="gray.600">
-                97
+              <TouchableOpacity
+                onPress={() => handleLike()}
+                style={{flex: 1, justifyContent: 'center'}}>
+                <Image
+                  style={{width: 15, height: 15, marginHorizontal: 2}}
+                  source={require('../../assets/love.png')}
+                  tintColor={liked ? 'red' : 'gray'}
+                />
+              </TouchableOpacity>
+              <Text
+                marginLeft="1"
+                fontSize={10}
+                color={liked ? 'red.500' : 'gray.500'}>
+                {likes}
               </Text>
               <Image
                 style={{width: 15, height: 15, marginHorizontal: 10}}
                 source={require('../../assets/message.png')}
                 tintColor={'#52525b'}
               />
+              <Text fontSize={10} color="gray.600">
+                {reviews ? reviews.length : 0}
+              </Text>
             </View>
           </View>
         </View>
@@ -107,9 +318,15 @@ export default function SpotsCommentScreen({navigation}) {
         <Heading size="sm">Reviews & Comments</Heading>
       </View>
       <View style={styles.commentBox}>
-        <TextArea h={20} px="3" placeholder="Write your review..." />
+        <TextArea
+          h={20}
+          px="3"
+          placeholder="Write your review..."
+          onChangeText={valueControlledTextArea}
+          value={textAreaValue}
+        />
       </View>
-      
+
       <Rating
         style={{
           position: 'relative',
@@ -119,24 +336,26 @@ export default function SpotsCommentScreen({navigation}) {
         }}
         imageSize={15}
         ratingCount={5}
-        startingValue={0}
-        tintColor='#eee'
+        startingValue={rating}
+        onFinishRating={ratingCompleted}
+        tintColor="#eee"
       />
-      <TouchableOpacity style={styles.button}>
+      <Pressable style={styles.button} onPress={() => handleReview()}>
         <Text style={styles.buttonText}>Post</Text>
-      </TouchableOpacity>
-      <View></View>
-      <CommentCard
-        comment="Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into"
-        date="3/4/22"
-        time="13:31"
-        rating="1.0"
-        commentorName="Sarah"
-        imgSrc="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"></CommentCard>
+      </Pressable>
+
+      {reviewDataList.map(e => {
+        return (
+          <CommentCard
+          key={e.id}
+          comment={e.contents}
+          date={new Date(e.timestamp).toLocaleDateString()}
+          time={new Date(e.timestamp).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}
+          rating={e.rating}
+          commentorName={e.userName}
+          imgSrc={e.userProfileSrc}></CommentCard>
+        );
+      })}
     </ScrollView>
   );
 }
@@ -185,6 +404,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     position: 'relative',
+    height: height * 0.35,
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
   },
@@ -209,10 +429,8 @@ const styles = StyleSheet.create({
     paddingVertical: 1,
     borderRadius: 20,
     backgroundColor: '#dc2626',
-    maxWidth: 100,
+    // maxWidth: 100,
     position: 'relative',
-    // right: "-70%",
-    // left: 0,
     top: -17,
     marginBottom: 10,
     alignSelf: 'flex-end',

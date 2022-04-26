@@ -259,7 +259,12 @@ export default function SpotDetailsScreen({navigation, route}) {
           </View>
           <TouchableOpacity
             style={{flex: 1, alignSelf: 'center', justifyContent: 'center'}}
-            onPress={() => navigation.navigate('SpotsComment')}>
+            onPress={() =>
+              navigation.navigate('SpotsComment', {
+                id: id,
+                type: type
+              })
+            }>
             <View style={{flexDirection: 'row'}}>
               <Image
                 style={styles.icon}
