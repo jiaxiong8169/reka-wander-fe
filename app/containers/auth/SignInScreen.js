@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  Pressable,
 } from 'react-native';
 import {useAuth} from '../../hooks/useAuth';
 import GoogleAuth from '../../components/GoogleAuth';
@@ -22,6 +23,7 @@ const SignInScreen = ({navigation, route}) => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isRegister, setIsRegister] = useState(false);
   const isFocused = useIsFocused();
 
   useEffect(() => {
@@ -29,14 +31,19 @@ const SignInScreen = ({navigation, route}) => {
     if (!!authData) navigation.navigate({name: 'MainScreen'});
   }, [authData]);
 
+  // clear all fields when user is redirected to this page
+  const clearLoginFields = () => {
+    setEmail('');
+    setPassword('');
+  };
+
   useEffect(() => {
-    // clear all fields when user is redirected to this page
-    const clearLoginFields = () => {
-      setEmail('');
-      setPassword('');
-    };
     if (isFocused) clearLoginFields();
   }, [isFocused]);
+
+  useEffect(() => {
+    clearLoginFields();
+  }, [isRegister]);
 
   const checkBeforeRun = func => {
     if (!/^\S+@\S+.com$/.test(email)) {
@@ -79,10 +86,51 @@ const SignInScreen = ({navigation, route}) => {
               ]}>
               <Text style={styles.titleStyle}>Hello Traveller!</Text>
             </View>
-            <View style={[styles.containerMargin, {flex: 1, marginBottom: 40}]}>
-              <Text style={styles.subtitleStyle}>
-                {"Welcome back.\nYou've been missed."}
-              </Text>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: 'row',
+                justifyContent: 'center',
+                marginBottom: 10,
+              }}>
+              <Pressable
+                onPress={() => setIsRegister(false)}
+                style={[styles.toggleLeft]}>
+                <View
+                  style={[
+                    isRegister
+                      ? styles.toggleInactiveLeft
+                      : styles.toggleActive,
+                  ]}>
+                  <Text
+                    style={
+                      isRegister
+                        ? styles.toggleTextInactive
+                        : styles.toggleTextActive
+                    }>
+                    Login
+                  </Text>
+                </View>
+              </Pressable>
+              <Pressable
+                onPress={() => setIsRegister(true)}
+                style={[styles.toggleRight]}>
+                <View
+                  style={[
+                    isRegister
+                      ? styles.toggleActive
+                      : styles.toggleInactiveRight,
+                  ]}>
+                  <Text
+                    style={
+                      isRegister
+                        ? styles.toggleTextActive
+                        : styles.toggleTextInactive
+                    }>
+                    Register
+                  </Text>
+                </View>
+              </Pressable>
             </View>
             <View style={{flex: 2, justifyContent: 'center'}}>
               <CustomTextInput
@@ -94,15 +142,18 @@ const SignInScreen = ({navigation, route}) => {
             </View>
             <View styles={{flex: 1, alignItems: 'center'}}>
               <View style={[styles.buttonContainer]}>
-                <CustomButton onPress={handleLoginButtonPress}>
-                  Login
-                </CustomButton>
-                <CustomButton onPress={handleRegisterButtonPress}>
-                  Register
-                </CustomButton>
+                {isRegister ? (
+                  <CustomButton onPress={handleRegisterButtonPress}>
+                    Register
+                  </CustomButton>
+                ) : (
+                  <CustomButton onPress={handleLoginButtonPress}>
+                    Login
+                  </CustomButton>
+                )}
                 <View style={[styles.otherMethod, {marginTop: 20}]}>
                   <View style={styles.continueWithText}>
-                    <Text>Continue with</Text>
+                    <Text>{isRegister ? 'Register' : 'Login'} with</Text>
                   </View>
                   <View>
                     <GoogleAuth navigation={navigation} />
@@ -115,7 +166,9 @@ const SignInScreen = ({navigation, route}) => {
                 onPress={() => {
                   navigation.navigate({name: 'MainScreen'});
                 }}>
-                <Text>Continue as Visitor</Text>
+                <Text>
+                  Continue as <Text style={{fontWeight: 'bold'}}>VISITOR</Text>
+                </Text>
               </TouchableOpacity>
             </View>
           </ScrollView>
@@ -149,6 +202,48 @@ const styles = StyleSheet.create({
   placeholder: {color: 'black'},
   containerMargin: {
     marginBottom: 40,
+  },
+  toggleLeft: {
+    borderTopLeftRadius: 50,
+    borderBottomLeftRadius: 50,
+    backgroundColor: '#94c9d6',
+  },
+  toggleRight: {
+    backgroundColor: '#94c9d6',
+    borderTopRightRadius: 50,
+    borderBottomRightRadius: 50,
+    paddingRight: -4,
+  },
+  toggleActive: {
+    paddingVertical: 20,
+    paddingHorizontal: 30,
+    borderRadius: 50,
+    backgroundColor: '#0891B2',
+    elevation: 10,
+    shadowOffset: {
+      width: 5,
+      height: 3,
+    },
+    shadowColor: '#3c507d',
+    shadowOpacity: 2,
+  },
+  toggleInactiveLeft: {
+    paddingVertical: 20,
+    paddingHorizontal: 30,
+    paddingRight: 10,
+  },
+  toggleInactiveRight: {
+    paddingVertical: 20,
+    paddingHorizontal: 30,
+    paddingLeft: 10,
+  },
+  toggleTextActive: {
+    fontSize: 18,
+    color: '#94c9d6',
+  },
+  toggleTextInactive: {
+    fontSize: 18,
+    color: '#0891B2',
   },
 });
 
