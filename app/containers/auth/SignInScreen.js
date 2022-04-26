@@ -31,14 +31,19 @@ const SignInScreen = ({navigation, route}) => {
     if (!!authData) navigation.navigate({name: 'MainScreen'});
   }, [authData]);
 
+  // clear all fields when user is redirected to this page
+  const clearLoginFields = () => {
+    setEmail('');
+    setPassword('');
+  };
+
   useEffect(() => {
-    // clear all fields when user is redirected to this page
-    const clearLoginFields = () => {
-      setEmail('');
-      setPassword('');
-    };
     if (isFocused) clearLoginFields();
   }, [isFocused]);
+
+  useEffect(() => {
+    clearLoginFields();
+  }, [isRegister]);
 
   const checkBeforeRun = func => {
     if (!/^\S+@\S+.com$/.test(email)) {
