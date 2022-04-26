@@ -1,10 +1,8 @@
 import React from 'react';
-import {Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {StyleSheet, Image, Pressable} from 'react-native';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 import {useAuth} from '../hooks/useAuth';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faGoogle} from '@fortawesome/free-brands-svg-icons';
 import {FIREBASE_CLIENT_ID} from '@env';
 
 GoogleSignin.configure({
@@ -58,24 +56,36 @@ const GoogleAuth = ({navigation, setEmail}) => {
   };
 
   return (
-    <TouchableOpacity style={styles.otherMethod} onPress={handleGoogleAuth}>
+    <Pressable
+      style={({pressed}) => [styles.otherMethod, !pressed ? styles.shadow : []]}
+      onPress={handleGoogleAuth}>
       <Image
         source={require('../assets/google-signin.png')}
         style={styles.image}
       />
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 
 const styles = StyleSheet.create({
   otherMethod: {
     padding: 2,
-    height: 50,
-    borderColor: '#8c8c8c',
-    borderWidth: 1,
-    borderRadius: 100,
+    height: 60,
+    width: 60,
+    borderColor: '#e0eaff',
+    borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#e0eaff',
+  },
+  shadow: {
+    shadowOffset: {
+      width: 5,
+      height: 3,
+    },
+    shadowColor: '#3c507d',
+    shadowOpacity: 2,
+    elevation: 4,
   },
   image: {
     height: 40,

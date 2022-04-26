@@ -15,6 +15,8 @@ import {LoadingOverlay} from '../../components/LoadingOverlay';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 import OTPInput from './OTPInput';
+import {Button} from 'native-base';
+import CustomButton from '../../components/CustomButton/CustomButton';
 
 export const ConfirmPhoneScreen = ({navigation, route}) => {
   const [code, setCode] = useState('');
@@ -124,7 +126,7 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
               </View>
             </View>
             <View>
-              <TouchableOpacity
+              <CustomButton
                 style={
                   phoneNumberEditable
                     ? styles.enabledButton
@@ -132,8 +134,8 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
                 }
                 onPress={handlePhoneNumberButtonPress}
                 disabled={!phoneNumberEditable}>
-                <Text style={styles.buttonText}>Send OTP</Text>
-              </TouchableOpacity>
+                Send OTP
+              </CustomButton>
             </View>
           </ScrollView>
         </View>
@@ -165,14 +167,14 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
                   <OTPInput setCode={setCode} editable={!!confirm}></OTPInput>
                 </View>
                 <View style={{justifyContent: 'flex-end'}}>
-                  <TouchableOpacity
+                  <CustomButton
                     onPress={() => confirmCode()}
                     disabled={!!!confirm}
                     style={
                       !!confirm ? styles.enabledButton : styles.disabledButton
                     }>
-                    <Text style={styles.buttonText}>Confirm</Text>
-                  </TouchableOpacity>
+                    Confirm
+                  </CustomButton>
                 </View>
               </View>
             </ScrollView>
@@ -193,7 +195,6 @@ const styles = StyleSheet.create({
   },
   enabledButton: {
     borderRadius: 10,
-    backgroundColor: '#F5362E',
     padding: 10,
     paddingLeft: 30,
     paddingRight: 30,
@@ -208,12 +209,6 @@ const styles = StyleSheet.create({
     paddingRight: 30,
     alignItems: 'center',
     margin: 10,
-  },
-  buttonText: {
-    color: 'white',
-    textAlign: 'center',
-    shadowColor: 'black',
-    fontSize: 15,
   },
   img: {
     width: '100%',

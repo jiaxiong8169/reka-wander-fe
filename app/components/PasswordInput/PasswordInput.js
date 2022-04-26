@@ -28,7 +28,7 @@ const PasswordInput = ({password, setPassword}) => {
           onChangeText={setPassword}
           placeholderTextColor="#a1a1a1"
           selectionColor={'black'}
-          style={[{color: 'black'}]}
+          style={[{color: 'black', width: '90%'}]}
         />
         <Pressable
           onPress={handlePasswordVisible}

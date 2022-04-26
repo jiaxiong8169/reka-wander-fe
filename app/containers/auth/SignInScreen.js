@@ -15,6 +15,7 @@ import PasswordInput from '../../components/PasswordInput/PasswordInput';
 import {useIsFocused} from '@react-navigation/native';
 import {LoadingOverlay} from '../../components/LoadingOverlay';
 import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
+import CustomButton from '../../components/CustomButton/CustomButton';
 
 const SignInScreen = ({navigation, route}) => {
   const {loading, authData, signIn, setAuthError} = useAuth();
@@ -93,16 +94,12 @@ const SignInScreen = ({navigation, route}) => {
             </View>
             <View styles={{flex: 1, alignItems: 'center'}}>
               <View style={[styles.buttonContainer]}>
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={handleLoginButtonPress}>
-                  <Text style={styles.buttonText}>Login</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={handleRegisterButtonPress}>
-                  <Text style={styles.buttonText}>Register</Text>
-                </TouchableOpacity>
+                <CustomButton onPress={handleLoginButtonPress}>
+                  Login
+                </CustomButton>
+                <CustomButton onPress={handleRegisterButtonPress}>
+                  Register
+                </CustomButton>
                 <View style={[styles.otherMethod, {marginTop: 20}]}>
                   <View style={styles.continueWithText}>
                     <Text>Continue with</Text>
@@ -144,21 +141,6 @@ const styles = StyleSheet.create({
   buttonContainer: {
     margin: 9,
     padding: 10,
-  },
-  button: {
-    borderRadius: 10,
-    backgroundColor: '#F5362E',
-    padding: 10,
-    paddingLeft: 30,
-    paddingRight: 30,
-    alignItems: 'center',
-    margin: 10,
-  },
-  buttonText: {
-    color: 'white',
-    textAlign: 'center',
-    shadowColor: 'black',
-    fontSize: 15,
   },
   otherMethod: {
     padding: 3,

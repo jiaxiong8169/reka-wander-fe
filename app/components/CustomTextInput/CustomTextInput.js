@@ -29,17 +29,15 @@ const CustomTextInput = ({
             <Text>{startAdornment}</Text>
           </View>
         )}
-        <View style={{padding: 5}}>
-          <TextInput
-            placeholder={placeholder}
-            value={value}
-            onChangeText={onChangeText}
-            placeholderTextColor="#a1a1a1"
-            selectionColor={'black'}
-            style={{color: 'black'}}
-            {...props}
-          />
-        </View>
+        <TextInput
+          placeholder={placeholder}
+          value={value}
+          onChangeText={onChangeText}
+          placeholderTextColor="#a1a1a1"
+          selectionColor={'black'}
+          style={{color: 'black', width: '100%', margin: 5}}
+          {...props}
+        />
       </View>
     </View>
   );
