@@ -13,6 +13,7 @@ export const SET_USER_RENTHOMESTAY = 'SET_USER_RENTHOMESTAY';
 export const SET_TRIP_ID = 'SET_TRIP_ID';
 export const RESET_TRIP = 'RESET_TRIP';
 export const SET_TRIP_PLAN = 'SET_TRIP_PLAN';
+export const SET_TRIP_PLAN_BY_FIELDNAME = 'SET_TRIP_PLAN_BY_FIELDNAME';
 
 export const setTripId = tripId => dispatch => {
   dispatch({
@@ -107,6 +108,16 @@ export const setTripPlan = tripPlan => dispatch => {
   dispatch({
     type: SET_TRIP_PLAN,
     payload: tripPlan,
+  });
+};
+
+export const setTripPlanbyFieldName = (fieldName, data) => dispatch => {
+  dispatch({
+    type: SET_TRIP_PLAN_BY_FIELDNAME,
+    payload: {
+      fieldName,
+      data,
+    },
   });
 };
 
