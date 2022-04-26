@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {StyleSheet, View, TextInput} from 'react-native';
 
 const OneDigitInput = React.forwardRef(
-  ({value, onChangeText, editable, onFocus, isFocus}, ref) => {
+  ({value, onChangeText, editable, onFocus, isFocus, backspaceAction}, ref) => {
     return (
       <View
         style={[
@@ -27,6 +27,11 @@ const OneDigitInput = React.forwardRef(
               caretHidden
               ref={ref}
               onFocus={onFocus}
+              onKeyPress={({nativeEvent}) => {
+                console.log(nativeEvent.key);
+                if (nativeEvent.key === 'Backspace' && value === '')
+                  backspaceAction();
+              }}
             />
           </View>
         </View>
@@ -79,6 +84,19 @@ const OTPInput = ({setCode, editable}) => {
     setCode(state.join(''));
   }, [state]);
 
+  const onBackspaceHandler = idx => {
+    const refArr = [
+      refInput0,
+      refInput1,
+      refInput2,
+      refInput3,
+      refInput4,
+      refInput5,
+    ];
+    console.log(refArr[idx]);
+    refArr[idx].current.focus();
+  };
+
   const focusOnCodeField = index => {
     setIsFocus(isFocus => isFocus.map((_, idx) => idx === index));
   };
@@ -91,6 +109,7 @@ const OTPInput = ({setCode, editable}) => {
         ref={refInput0}
         onFocus={() => focusOnCodeField(0)}
         isFocus={isFocus[0]}
+        backspaceAction={() => {}}
       />
       <OneDigitInput
         value={state[1]}
@@ -99,6 +118,7 @@ const OTPInput = ({setCode, editable}) => {
         ref={refInput1}
         onFocus={() => focusOnCodeField(1)}
         isFocus={isFocus[1]}
+        backspaceAction={() => onBackspaceHandler(0)}
       />
       <OneDigitInput
         value={state[2]}
@@ -107,6 +127,7 @@ const OTPInput = ({setCode, editable}) => {
         ref={refInput2}
         onFocus={() => focusOnCodeField(2)}
         isFocus={isFocus[2]}
+        backspaceAction={() => onBackspaceHandler(1)}
       />
       <OneDigitInput
         value={state[3]}
@@ -115,6 +136,7 @@ const OTPInput = ({setCode, editable}) => {
         ref={refInput3}
         onFocus={() => focusOnCodeField(3)}
         isFocus={isFocus[3]}
+        backspaceAction={() => onBackspaceHandler(2)}
       />
       <OneDigitInput
         value={state[4]}
@@ -123,6 +145,7 @@ const OTPInput = ({setCode, editable}) => {
         ref={refInput4}
         onFocus={() => focusOnCodeField(4)}
         isFocus={isFocus[4]}
+        backspaceAction={() => onBackspaceHandler(3)}
       />
       <OneDigitInput
         value={state[5]}
@@ -131,6 +154,7 @@ const OTPInput = ({setCode, editable}) => {
         ref={refInput5}
         onFocus={() => focusOnCodeField(5)}
         isFocus={isFocus[5]}
+        backspaceAction={() => onBackspaceHandler(4)}
       />
     </View>
   );
