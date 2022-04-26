@@ -1,12 +1,20 @@
 import React from 'react';
 import {View, StyleSheet, Image} from 'react-native';
+import CheckBox from '@react-native-community/checkbox';
 import {Text} from 'native-base';
 import {Button} from 'native-base';
 import Card from '../components/Card';
 import {Rating} from 'react-native-ratings';
 import FastImage from 'react-native-fast-image';
 
-const CardItem = ({item, navigation, type, marginBottom}) => {
+const CardItemWithEdit = ({
+  item,
+  navigation,
+  type,
+  marginBottom,
+  selected,
+  toggleItemSelection,
+}) => {
   return (
     <Card
       style={{
@@ -21,6 +29,31 @@ const CardItem = ({item, navigation, type, marginBottom}) => {
         source={{uri: item.thumbnailSrc}}
       />
       <View style={{flex: 3, flexDirection: 'column', marginLeft: 10}}>
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'flex-end',
+            paddingRight: 5,
+          }}>
+          <Text style={{color: 'blue'}}>
+            {selected &&
+            (typeof selected === 'string'
+              ? selected === item.id
+              : selected.includes(item.id))
+              ? 'Item Selected  '
+              : ''}
+          </Text>
+          <CheckBox
+            value={
+              selected &&
+              (typeof selected === 'string'
+                ? selected === item.id
+                : selected.includes(item.id))
+            }
+            onValueChange={() => toggleItemSelection(item.id, item)}
+          />
+        </View>
         <View style={{flexDirection: 'row', flex: 2}}>
           <View style={{flex: 1}}>
             <Text bold fontSize={14} letterSpacing="sm" lineHeight="xs">
@@ -115,4 +148,4 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
 });
-export default CardItem;
+export default CardItemWithEdit;
