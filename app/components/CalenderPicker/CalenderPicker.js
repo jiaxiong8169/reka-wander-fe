@@ -3,6 +3,7 @@ import {StyleSheet, Text, View, Dimensions} from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
 import {connect} from 'react-redux';
 import {setStartDate, setEndDate} from '../../redux/Planner/actions';
+import moment from 'moment';
 
 const width = Dimensions.get('window').width;
 
@@ -26,8 +27,12 @@ class Calendar extends Component {
     const minDate = new Date(); // Today
     const year = minDate.getFullYear();
     const maxDate = new Date(year + 2, 12, 31);
-    const formattedStartDate = startDate ? startDate.format('YYYY-MM-DD') : '';
-    const formattedEndDate = endDate ? endDate.format('YYYY-MM-DD') : '';
+    const formattedStartDate = startDate
+      ? moment(startDate).format('YYYY-MM-DD')
+      : '';
+    const formattedEndDate = endDate
+      ? moment(endDate).format('YYYY-MM-DD')
+      : '';
 
     return (
       <View style={styles.container}>
@@ -70,7 +75,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#FFFFFF',
     width: '100%',
-    flex: 1,
   },
 });
 

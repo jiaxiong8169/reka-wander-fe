@@ -11,6 +11,7 @@ import React, {useEffect, useState, useRef} from 'react';
 import auth from '@react-native-firebase/auth';
 import {useAuth} from '../../hooks/useAuth';
 import LinearGradient from 'react-native-linear-gradient';
+import {LoadingOverlay} from '../../components/LoadingOverlay';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 import OTPInput from './OTPInput';
@@ -38,15 +39,17 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
       setConfirm(confirmation);
       setOTPModalVisible(true);
     } catch (err) {
-      authProvider.setAuthError(err.message);
+      console.log(err);
+      authProvider.setAuthError(
+        'The format of the phone number provided is incorrect.',
+      );
       setPhoneNumberEditable(true);
     }
   }
 
   async function confirmCode() {
     try {
-      const codeString = code.join('');
-      await confirm.confirm(codeString);
+      await confirm.confirm(code);
       const regInfo = {
         email,
         password,

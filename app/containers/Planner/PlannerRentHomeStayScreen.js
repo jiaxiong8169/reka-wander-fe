@@ -15,7 +15,7 @@ const data = [
     { label: 'No', value: 'false', index: 2 },
 ];
 
-const RentHomeStay = (props) => {
+const RentHomeStay = () => {
     const { rentHomeStay } = useSelector(state => state.plannerReducer);
     const dispatch = useDispatch();
 
@@ -32,7 +32,7 @@ const RentHomeStay = (props) => {
             <Card style={{ width: '100%' }}>
                 <View style={{ alignItems: 'center' }}>
                     <Text style={styles.question}>
-                        {props.quest}
+                    Rent Homestay?
                     </Text>
                 </View>
                 <View style={{ marginHorizontal: '15%' }}>

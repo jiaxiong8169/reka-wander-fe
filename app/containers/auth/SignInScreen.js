@@ -13,10 +13,11 @@ import LinearGradient from 'react-native-linear-gradient';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import PasswordInput from '../../components/PasswordInput/PasswordInput';
 import {useIsFocused} from '@react-navigation/native';
+import {LoadingOverlay} from '../../components/LoadingOverlay';
 import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 
 const SignInScreen = ({navigation, route}) => {
-  const {authData, signIn, setAuthError} = useAuth();
+  const {loading, authData, signIn, setAuthError} = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -67,6 +68,7 @@ const SignInScreen = ({navigation, route}) => {
         start={{x: 0, y: 0}}
         end={{x: 0, y: 0.5}}
         style={{height: '100%', width: '100%'}}>
+        {loading && <LoadingOverlay />}
         <View style={styles.container}>
           <ScrollView>
             <View

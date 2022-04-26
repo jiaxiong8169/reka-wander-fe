@@ -1,26 +1,16 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   StyleSheet,
   View,
   Text,
   Image,
-  SafeAreaView,
-  ScrollView,
   TouchableWithoutFeedback,
 } from 'react-native';
-import MultiSelectExample from '../../components/dropdown/interest';
+import Interest from '../../components/dropdown/interest';
 import Card from '../../components/card/card';
-// import Multiselect from 'multiselect-react-dropdown';
-// import { LogBox } from 'react-native'
 
-// LogBox.ignoreWarnings([
-//   'VirtualizedLists should never be nested', // TODO: Remove when fixed
-// ])
-
-const TravelInterest = props => {
+const TravelInterest = () => {
   return (
-    // <ScrollView>
-    // <SafeAreaView>
     <TouchableWithoutFeedback>
       <View style={styles.body}>
         <Card
@@ -29,9 +19,9 @@ const TravelInterest = props => {
           }}>
           <View style={styles.body_container}>
             <View style={{alignItems: 'center'}}>
-              <Text style={styles.question}>{props.quest}</Text>
+              <Text style={styles.question}>Travel interest</Text>
             </View>
-            <MultiSelectExample />
+            <Interest />
 
             <View style={{marginTop: 10}}>
               <Image
@@ -41,7 +31,6 @@ const TravelInterest = props => {
                   aspectRatio: 1,
                   width: '100%',
                   resizeMode: 'contain',
-                  // justifyContent: 'flex-end',
                   alignItems: 'flex-end',
                   height: undefined,
                 }}
@@ -51,8 +40,6 @@ const TravelInterest = props => {
         </Card>
       </View>
     </TouchableWithoutFeedback>
-    // </SafeAreaView>
-    // </ScrollView>
   );
 };
 
@@ -61,14 +48,9 @@ const styles = StyleSheet.create({
     fontSize: 40,
   },
   body: {
-    // marginBottom: 20,
-    // marginTop:30,
-    // marginHorizontal: '8%',
     marginBottom: 20,
     marginTop: 30,
-    // marginHorizontal: '1%',
     width: '100%',
-    //this is to format the dropdown box, it fix this issue => when click more than 2, the card will become fat
   },
   body_container: {},
   question: {

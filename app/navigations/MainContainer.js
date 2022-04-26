@@ -6,24 +6,21 @@ import GradientBackground from '../components/GradientBackground';
 
 // Screens
 import SpotsHomeScreen from '../containers/spots/SpotsHomeScreen';
-import SpotsListScreen from '../containers/spots/SpotsListScreen';
+import {SpotsListScreen} from '../containers/spots/SpotsListScreen';
 import NearBySearchScreen from '../containers/spots/NearBySearchScreen';
 import SpotDetailsScreen from '../containers/spots/SpotDetailsScreen';
 
 //Planner
-import HomePage from '../containers/Planner/PlannerHomeScreen';
-import PlannerSteps from '../containers/Planner/PlannerProgressSteps';
-import LoadingScreen from '../containers/Planner/PlannerLoadingScreen';
-import Recommended from '../containers/Planner/RecommendedPlaceScreen';
-import SuccessConfirmScreen from '../containers/Planner/PlannerSuccessCreateTrip';
+import PlannerStack from './PlannerNavigationFunction';
 import {SettingsScreen} from '../containers/settings/SettingsScreen';
 import SpotsImagesScreen from '../containers/spots/SpotsImagesScreen';
-
+import SpotsCommentScreen from '../containers/spots/SpotsCommentScreen';
+import {SearchScreen} from '../containers/spots/SearchScreen';
+import {GuideListScreen} from '../containers/guides/GuideListScreen';
 //Screen names
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-//temporary
 const Temp = () => <GradientBackground></GradientBackground>;
 
 function SpotsHomeStack() {
@@ -64,46 +61,18 @@ function SpotsHomeStack() {
           headerShown: false,
         }}
       />
-    </Stack.Navigator>
-  );
-}
-
-function PlannerHomeStack() {
-  return (
-    <Stack.Navigator>
       <Stack.Screen
-        name="HomePage"
-        component={HomePage}
+        name="SpotsSearchManually"
+        component={SearchScreen}
         options={{
-          header: () => null,
+          headerShown: false,
         }}
       />
       <Stack.Screen
-        name="Planner_Question"
-        component={PlannerSteps}
+        name="SpotsComment"
+        component={SpotsCommentScreen}
         options={{
-          header: () => null,
-        }}
-      />
-      <Stack.Screen
-        name="Loading"
-        component={LoadingScreen}
-        options={{
-          header: () => null,
-        }}
-      />
-      <Stack.Screen
-        name="Recommended"
-        component={Recommended}
-        options={{
-          header: () => null,
-        }}
-      />
-      <Stack.Screen
-        name="Success"
-        component={SuccessConfirmScreen}
-        options={{
-          header: () => null,
+          headerShown: false,
         }}
       />
     </Stack.Navigator>
@@ -177,7 +146,7 @@ function MainContainer() {
       />
       <Tab.Screen
         name="Agency"
-        component={Temp}
+        component={GuideListScreen}
         options={{
           headerShown: false,
         }}
@@ -191,7 +160,7 @@ function MainContainer() {
       />
       <Tab.Screen
         name="Home"
-        component={PlannerHomeStack}
+        component={PlannerStack}
         options={{
           headerShown: false,
         }}

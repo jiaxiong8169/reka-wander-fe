@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, View, Text, Image, TextInput} from 'react-native';
 import Card from '../../components/card/card';
 import {useSelector, useDispatch} from 'react-redux';
 import {setTripName} from '../../redux/Planner/actions';
 
-const TripName = props => {
+const TripName = () => {
   const {tripName} = useSelector(state => state.plannerReducer);
   const dispatch = useDispatch();
 
@@ -15,7 +15,7 @@ const TripName = props => {
           width: '100%',
         }}>
         <View style={styles.body_container}>
-          <Text style={styles.question}>{props.quest}</Text>
+          <Text style={styles.question}>Give Your Trip a name!</Text>
           <TextInput
             style={styles.input}
             onChangeText={v => dispatch(setTripName(v))}

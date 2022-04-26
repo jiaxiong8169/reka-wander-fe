@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Text, ScrollView} from 'react-native';
-import {useAuth} from '../../hooks/useAuth';
+import Modal from 'react-native-modal';
 import {useSelector, useDispatch} from 'react-redux';
 
 import TripName from './PlannerTripNameScreen';
@@ -11,26 +11,84 @@ import TravelInterest from './PlannerTravelinterestScreen';
 import Withkids from './PlannerWithkidsScreen';
 import RentHomeStay from './PlannerRentHomeStayScreen';
 import RentCar from './PlannerRentCarScreen';
-
 import ProgressStep from '../../components/stepper/ProgressStep';
 import ProgressSteps from '../../components/stepper/ProgressSteps';
 import GradientBackground from '../../components/GradientBackground';
+import ModelContent from '../../components/Modal/ModalContent';
 
 export default function PlannerSteps({navigation}) {
-  const {authData} = useAuth();
-  // const { rentCar } = useSelector(state => state.plannerReducer);
+  const [isModelPopUp, setIsModelPopUp] = useState(false);
+  const [errors, setErrors] = useState(false);
+  const {budget} = useSelector(state => state.plannerReducer);
+
+  const closeModel = () => {
+    console.log('toggled close');
+    setIsModelPopUp(false);
+  };
 
   const onPressHandler = () => {
-    // navigation.navigate('Recomendation');
     navigation.navigate('Loading');
   };
 
-  const check = () => {};
+  const checkNumberInput = () => {
+    try {
+      //check for number input
+      if (parseFloat(budget) < 100) {
+        console.log(budget);
+        setIsModelPopUp(true);
+        setErrors(true);
+      } else {
+        setErrors(false);
+      }
+      return (
+        <Modal
+          isVisible={true}
+          onBackdropPress={closeModel}
+          onSwipeComplete={closeModel}
+          useNativeDriverForBackdrop
+          swipeDirection={['left', 'right', 'up', 'down']}
+          animationIn="zoomInDown"
+          animationOut="zoomOutUp"
+          animationInTiming={700}
+          animationOutTiming={700}
+          backdropTransitionInTiming={700}
+          backdropTransitionOutTiming={700}>
+          <ModelContent title={'Opps!'} onPress={closeModel}>
+            <Text>
+              Your travel budget must at least more than RM100! Please re-enter
+              your travel budget.
+            </Text>
+          </ModelContent>
+        </Modal>
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    return (
+      <Modal
+        isVisible={true}
+        onBackdropPress={closeModel}
+        onSwipeComplete={closeModel}
+        useNativeDriverForBackdrop
+        swipeDirection={['left', 'right', 'up', 'down']}
+        animationIn="zoomInDown"
+        animationOut="zoomOutUp"
+        animationInTiming={700}
+        animationOutTiming={700}
+        backdropTransitionInTiming={700}
+        backdropTransitionOutTiming={700}>
+        <ModelContent title={'Opps!'} onPress={closeModel}>
+          <Text>
+            Please tell us your travel budget and do not leave it blank!
+          </Text>
+        </ModelContent>
+      </Modal>
+    );
+  };
 
   const nextbuttonTextStyle = {
     backgroundColor: '#4169E1',
     minWidth: '35%',
-    // height: "100%",
     borderRadius: 50,
     textAlign: 'center',
     color: 'white',
@@ -41,7 +99,6 @@ export default function PlannerSteps({navigation}) {
   const previousbuttonTextStyle = {
     backgroundColor: 'white',
     minWidth: '35%',
-    // height: "100%",
     borderRadius: 50,
     padding: 10,
     borderWidth: 1,
@@ -85,7 +142,7 @@ export default function PlannerSteps({navigation}) {
                   fontWeight: 'bold',
                   fontFamily: 'sans-serif-light',
                 }}>
-                {authData?.name ?? 'Welcome,'}
+                Welcome,
               </Text>
             </Text>
             <Text style={styles.subtitle}>Create your destiny</Text>
@@ -95,54 +152,72 @@ export default function PlannerSteps({navigation}) {
               paddingHorizontal: 20,
             }}>
             <ProgressSteps {...progressStepsStyle}>
-              <ProgressStep
-                nextBtnTextStyle={nextbuttonTextStyle}
-                // onNext={check}
-              >
-                <TripName quest="Give Your Trip a name!" />
+              <ProgressStep nextBtnTextStyle={nextbuttonTextStyle}>
+                <TripName />
               </ProgressStep>
 
               <ProgressStep
                 nextBtnTextStyle={nextbuttonTextStyle}
                 previousBtnTextStyle={previousbuttonTextStyle}>
-                <PaxPage quest="How many Pax?" />
+                <PaxPage />
               </ProgressStep>
 
               <ProgressStep
                 nextBtnTextStyle={nextbuttonTextStyle}
                 previousBtnTextStyle={previousbuttonTextStyle}>
-                <ChooseDays quest="How many days?" />
+                <ChooseDays />
               </ProgressStep>
 
               <ProgressStep
                 nextBtnTextStyle={nextbuttonTextStyle}
                 previousBtnTextStyle={previousbuttonTextStyle}>
-                <TravelInterest quest="Travel interest" />
+                <TravelInterest />
               </ProgressStep>
 
               <ProgressStep
                 nextBtnTextStyle={nextbuttonTextStyle}
                 previousBtnTextStyle={previousbuttonTextStyle}>
-                <Withkids quest="With kids?" />
+                <Withkids />
               </ProgressStep>
 
               <ProgressStep
                 nextBtnTextStyle={nextbuttonTextStyle}
                 previousBtnTextStyle={previousbuttonTextStyle}>
-                <RentHomeStay quest="Rent Homestay?" />
+                <RentHomeStay />
               </ProgressStep>
 
               <ProgressStep
                 nextBtnTextStyle={nextbuttonTextStyle}
-                previousBtnTextStyle={previousbuttonTextStyle}>
-                <TravelBudget quest="Travel budget" />
+                previousBtnTextStyle={previousbuttonTextStyle}
+                onNext={checkNumberInput}
+                errors={errors}>
+                <TravelBudget />
+                <Modal
+                  isVisible={isModelPopUp}
+                  onBackdropPress={closeModel}
+                  onSwipeComplete={closeModel}
+                  useNativeDriverForBackdrop
+                  swipeDirection={['left', 'right', 'up', 'down']}
+                  animationIn="zoomInDown"
+                  animationOut="zoomOutUp"
+                  animationInTiming={700}
+                  animationOutTiming={700}
+                  backdropTransitionInTiming={700}
+                  backdropTransitionOutTiming={700}>
+                  <ModelContent title={'Opps!'} onPress={closeModel}>
+                    <Text>
+                      Please tell us your travel budget and do not leave it
+                      blank!
+                    </Text>
+                  </ModelContent>
+                </Modal>
               </ProgressStep>
 
               <ProgressStep
                 onSubmit={onPressHandler}
                 nextBtnTextStyle={nextbuttonTextStyle}
                 previousBtnTextStyle={previousbuttonTextStyle}>
-                <RentCar quest="Rent Car?" />
+                <RentCar />
               </ProgressStep>
             </ProgressSteps>
           </View>
@@ -155,18 +230,14 @@ export default function PlannerSteps({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // padding: 20,
   },
   title: {
     fontWeight: '300',
     fontSize: 40,
-    // marginHorizontal: 10,
-    // marginTop: 10,
     color: `#4169E1`,
   },
   subtitle: {
     fontSize: 15,
-    // marginLeft: 10,
     color: `#4169E1`,
   },
 });

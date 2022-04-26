@@ -1,39 +1,39 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
-import {useAuth} from '../../hooks/useAuth';
 
 export default function HomePage({navigation}) {
-  const onPressHandler = () => {
-    // navigation.navigate('Loading');
-    navigation.navigate('Planner_Question');
-  };
+  // redirect to the planner page after 2 seconds
+  useEffect(() => {
+    let timer1 = setTimeout(() => {
+      navigation.navigate('SignInScreen');
+    }, 1000);
 
-  const {authData} = useAuth();
+    return () => {
+      clearTimeout(timer1);
+    };
+  }, []);
 
   return (
-    <TouchableOpacity onPress={onPressHandler}>
-      <View>
-        <LinearGradient
-          colors={['#CFDDFC', 'white', 'white', '#CFDDFC']}
-          style={{height: '100%', width: '100%'}}>
-          <View style={styles.container}>
-            <Text style={styles.title}>
-              Hi{' '}
-              <Text
-                style={{
-                  fontWeight: 'bold',
-                  fontFamily: 'sans-serif-light',
-                }}>
-                {authData?.name ?? 'Welcome'}
-              </Text>
+    <View>
+      <LinearGradient
+        colors={['#CFDDFC', 'white', 'white', '#CFDDFC']}
+        style={{height: '100%', width: '100%'}}>
+        <View style={styles.container}>
+          <Text style={styles.title}>
+            Hi{' '}
+            <Text
+              style={{
+                fontWeight: 'bold',
+                fontFamily: 'sans-serif-light',
+              }}>
+              Welcome,
             </Text>
-            <Text style={styles.subtitle}>Let's create your destiny</Text>
-          </View>
-        </LinearGradient>
-      </View>
-    </TouchableOpacity>
+          </Text>
+          <Text style={styles.subtitle}>Let's create your destiny</Text>
+        </View>
+      </LinearGradient>
+    </View>
   );
 }
 

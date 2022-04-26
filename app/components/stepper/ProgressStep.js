@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { View, ScrollView, TouchableOpacity, Text } from 'react-native';
+import React, {Component} from 'react';
+import {View, ScrollView, TouchableOpacity, Text} from 'react-native';
 import PropTypes from 'prop-types';
 
 import ProgressButtons from './ProgressButtons';
@@ -22,6 +22,7 @@ class ProgressStep extends Component {
   };
 
   onSubmit = () => {
+    this.props.setActiveStep(this.props.activeStep + 1);
     this.props.onSubmit && this.props.onSubmit();
   };
 
@@ -29,17 +30,17 @@ class ProgressStep extends Component {
     const btnStyle = {
       textAlign: 'center',
       padding: 8,
-      ...this.props.nextBtnStyle
+      ...this.props.nextBtnStyle,
     };
 
     const btnTextStyle = {
       color: '#007AFF',
       fontSize: 18,
-      ...this.props.nextBtnTextStyle
+      ...this.props.nextBtnTextStyle,
     };
 
     const disabledBtnText = {
-      color: '#cdcdcd'
+      color: '#cdcdcd',
     };
 
     let textStyle = [btnTextStyle];
@@ -48,11 +49,16 @@ class ProgressStep extends Component {
     return (
       <TouchableOpacity
         style={btnStyle}
-        onPress={this.props.activeStep === this.props.stepCount - 1 ? this.onSubmit : this.onNextStep}
-        disabled={this.props.nextBtnDisabled}
-      >
+        onPress={
+          this.props.activeStep === this.props.stepCount - 1
+            ? this.onSubmit
+            : this.onNextStep
+        }
+        disabled={this.props.nextBtnDisabled}>
         <Text style={textStyle}>
-          {this.props.activeStep === this.props.stepCount - 1 ? this.props.finishBtnText : this.props.nextBtnText}
+          {this.props.activeStep === this.props.stepCount - 1
+            ? this.props.finishBtnText
+            : this.props.nextBtnText}
         </Text>
       </TouchableOpacity>
     );
@@ -62,25 +68,30 @@ class ProgressStep extends Component {
     const btnStyle = {
       textAlign: 'center',
       padding: 8,
-      ...this.props.previousBtnStyle
+      ...this.props.previousBtnStyle,
     };
 
     const btnTextStyle = {
       color: '#007AFF',
       fontSize: 18,
-      ...this.props.previousBtnTextStyle
+      ...this.props.previousBtnTextStyle,
     };
 
     const disabledBtnText = {
-      color: '#cdcdcd'
+      color: '#cdcdcd',
     };
 
     let textStyle = [btnTextStyle];
     if (this.props.previousBtnDisabled) textStyle.push(disabledBtnText);
 
     return (
-      <TouchableOpacity style={btnStyle} onPress={this.onPreviousStep} disabled={this.props.previousBtnDisabled}>
-        <Text style={textStyle}>{this.props.activeStep === 0 ? '' : this.props.previousBtnText}</Text>
+      <TouchableOpacity
+        style={btnStyle}
+        onPress={this.onPreviousStep}
+        disabled={this.props.previousBtnDisabled}>
+        <Text style={textStyle}>
+          {this.props.activeStep === 0 ? '' : this.props.previousBtnText}
+        </Text>
       </TouchableOpacity>
     );
   };
@@ -90,17 +101,19 @@ class ProgressStep extends Component {
     const viewProps = this.props.viewProps || {};
     const isScrollable = this.props.scrollable;
     const buttonRow = this.props.removeBtnRow ? null : (
-      <ProgressButtons 
-        renderNextButton={this.renderNextButton} 
-        renderPreviousButton={this.renderPreviousButton} 
+      <ProgressButtons
+        renderNextButton={this.renderNextButton}
+        renderPreviousButton={this.renderPreviousButton}
       />
     );
 
     return (
-      <View style={{ flex: 1 }}>
-        {isScrollable
-          ? <ScrollView {...scrollViewProps}>{this.props.children}</ScrollView>
-          : <View {...viewProps}>{this.props.children}</View>}
+      <View style={{flex: 1}}>
+        {isScrollable ? (
+          <ScrollView {...scrollViewProps}>{this.props.children}</ScrollView>
+        ) : (
+          <View {...viewProps}>{this.props.children}</View>
+        )}
 
         {buttonRow}
       </View>
@@ -128,7 +141,7 @@ ProgressStep.propTypes = {
   viewProps: PropTypes.object,
   errors: PropTypes.bool,
   removeBtnRow: PropTypes.bool,
-  scrollable: PropTypes.bool
+  scrollable: PropTypes.bool,
 };
 
 ProgressStep.defaultProps = {
@@ -139,7 +152,7 @@ ProgressStep.defaultProps = {
   previousBtnDisabled: false,
   errors: false,
   removeBtnRow: false,
-  scrollable: true
+  scrollable: true,
 };
 
 export default ProgressStep;
