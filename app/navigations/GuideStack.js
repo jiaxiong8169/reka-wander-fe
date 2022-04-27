@@ -5,6 +5,7 @@ import {store} from '../redux/store';
 import {GuideListScreen} from '../containers/guides/GuideListScreen';
 import {GuideDetailsScreen} from '../containers/guides/GuideDetailsScreen';
 import {PackageListScreen} from '../containers/guides/PackageListScreen';
+import SpotsCommentScreen from '../containers/spots/SpotsCommentScreen';
 
 //Screen names
 const Stack = createStackNavigator();
@@ -23,6 +24,13 @@ export const GuideStack = () => {
         <Stack.Screen
           name="GuideDetails"
           component={GuideDetailsScreen}
+          options={{
+            header: () => null,
+          }}
+        />
+        <Stack.Screen
+          name="SpotsComment"
+          component={SpotsCommentScreen}
           options={{
             header: () => null,
           }}

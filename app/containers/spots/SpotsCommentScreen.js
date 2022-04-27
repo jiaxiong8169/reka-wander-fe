@@ -1,4 +1,3 @@
-import GradientBackground from '../../components/GradientBackground';
 import * as React from 'react';
 import {View, StyleSheet, Dimensions, Alert} from 'react-native';
 import {Image, RefreshControl} from 'react-native';
@@ -8,15 +7,10 @@ import {
   Text,
   ArrowBackIcon,
   Pressable,
-  VStack,
-  HStack,
-  Avatar,
-  Flex,
   TextArea,
 } from 'native-base';
 import {Rating} from 'react-native-ratings';
-import {ScrollView, SafeAreaView} from 'react-native';
-import RoundButton from '../../components/RoundButton';
+import {ScrollView} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import CommentCard from '../../components/CommentCard';
 import {useHttpCall} from '../../hooks/useHttpCall';
@@ -32,6 +26,7 @@ import {
   setAttractions,
   setHotels,
 } from '../../redux/Nearby/actions';
+import {BackButton} from '../../components/BackButton';
 
 const height = Dimensions.get('window').height;
 
@@ -48,12 +43,10 @@ export default function SpotsCommentScreen({navigation, route}) {
   const [shared, setShared] = React.useState(false);
   const [likes, setLikes] = React.useState(0);
   const [shares, setShares] = React.useState(0);
-  const [reviews, setReview] = React.useState([]);
+  const [reviews, setReviews] = React.useState([]);
   const [reviewDataList, setReviewDataList] = React.useState([]);
   const [rating, setRating] = React.useState(0);
   const [textAreaValue, setTextAreaValue] = React.useState('');
-
-  // const [review, setReview] = React.useState({});
 
   React.useEffect(() => {
     if (!reload) return;
@@ -76,16 +69,15 @@ export default function SpotsCommentScreen({navigation, route}) {
       .then(({data}) => {
         if (!!data) {
           setItem(data);
-          setReviewDataList([])
-          reviews.map(id =>
-            getWithAuth(`reviews/${id}`).then(({data}) => {
-              setReviewDataList((reviewDataList) => {
-                return reviewDataList.concat(data);
-              });
-            }),
-          );
-
-          setReview(data.reviews);
+          // Prepare promises
+          const promises = data.reviews.map(id => getWithAuth(`reviews/${id}`));
+          // TODO: Implement pagination
+          Promise.all(promises).then(values => {
+            let tmp = values.map(v => v.data);
+            tmp.reverse();
+            setReviewDataList(tmp);
+          });
+          setReviews(data.reviews);
           // update like and share states
           setLiked(
             data.likes.includes(
@@ -157,7 +149,6 @@ export default function SpotsCommentScreen({navigation, route}) {
         break;
     }
     // POST like API: Allow stale data to increase responsiveness
-
     try {
       postWithAuth(`${currentType}/like`, {
         targetId: id,
@@ -188,20 +179,20 @@ export default function SpotsCommentScreen({navigation, route}) {
         currentType = 'hotels';
         break;
     }
-    // POST like API: Allow stale data to increase responsiveness
     if (authData && authData.id) {
       try {
         postWithAuth(`${currentType}/review`, {
           targetId: id,
           rating: rating,
-          userName: authData.name,
+          userName: authData.name ? authData.name : 'User', // TODO: Enforce user name in auth module
           userProfileSrc: '',
           contents: textAreaValue,
-          targetId: id,
           userId: authData.id,
+        }).then(() => {
+          setReload(true);
         });
-        setTextAreaValue("")
-        setRating(0)
+        setTextAreaValue('');
+        setRating(0);
       } catch (err) {
         console.log(err);
       }
@@ -217,7 +208,7 @@ export default function SpotsCommentScreen({navigation, route}) {
   const valueControlledTextArea = value => {
     setTextAreaValue(value);
   };
-  
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -228,8 +219,6 @@ export default function SpotsCommentScreen({navigation, route}) {
         />
       }>
       <View style={styles.container}>
-        {/* <FastImage style={styles.image} source={{uri: item.thumbnailSrc}} /> */}
-        {/* <Image style={styles.image} source={{uri: item.thumbnailSrc}}/> */}
         <FastImage style={styles.image} source={{uri: item.thumbnailSrc}} />
         <View style={{flex: 1}}></View>
         <Box style={styles.backButton}>
@@ -237,7 +226,6 @@ export default function SpotsCommentScreen({navigation, route}) {
             <ArrowBackIcon size="8" m="1" color="white" />
           </Pressable>
         </Box>
-
         <View style={styles.textContainer}>
           <Heading size="2xl">{item.name}</Heading>
           <Text mt="3" mb="3">
@@ -255,9 +243,6 @@ export default function SpotsCommentScreen({navigation, route}) {
             tintColor={'white'}
             readonly
           />
-          {/* <Text fontSize={14}>
-            Kota Kinabalu
-          </Text> */}
           <View
             style={{
               flexDirection: 'row',
@@ -347,13 +332,17 @@ export default function SpotsCommentScreen({navigation, route}) {
       {reviewDataList.map(e => {
         return (
           <CommentCard
-          key={e.id}
-          comment={e.contents}
-          date={new Date(e.timestamp).toLocaleDateString()}
-          time={new Date(e.timestamp).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}
-          rating={e.rating}
-          commentorName={e.userName}
-          imgSrc={e.userProfileSrc}></CommentCard>
+            key={e.id}
+            comment={e.contents}
+            date={new Date(e.timestamp).toLocaleDateString()}
+            time={new Date(e.timestamp).toLocaleTimeString('en-US', {
+              hour: '2-digit',
+              minute: '2-digit',
+              hour12: true,
+            })}
+            rating={e.rating}
+            commentorName={e.userName}
+            imgSrc={e.userProfileSrc}></CommentCard>
         );
       })}
     </ScrollView>
@@ -392,8 +381,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 1.0,
     elevation: 8,
     marginBottom: 10,
-    // borderColor: 'grey',
-    // borderWidth: 3,
   },
   container: {
     flex: 1,
@@ -429,7 +416,6 @@ const styles = StyleSheet.create({
     paddingVertical: 1,
     borderRadius: 20,
     backgroundColor: '#dc2626',
-    // maxWidth: 100,
     position: 'relative',
     top: -17,
     marginBottom: 10,

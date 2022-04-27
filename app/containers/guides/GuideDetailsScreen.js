@@ -189,7 +189,12 @@ export const GuideDetailsScreen = ({navigation, route}) => {
           </View>
           <TouchableOpacity
             style={{flex: 1, alignSelf: 'center', justifyContent: 'center'}}
-            onPress={() => navigation.navigate('SpotsComment')}>
+            onPress={() =>
+              navigation.navigate('SpotsComment', {
+                id: id,
+                type: 'guides',
+              })
+            }>
             <View style={{flexDirection: 'row'}}>
               <Image
                 style={styles.icon}

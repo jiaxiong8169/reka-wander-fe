@@ -11,6 +11,7 @@ import {store} from '../redux/store';
 import {useHttpCall} from '../hooks/useHttpCall';
 import {setInterests} from '../redux/Nearby/actions';
 import {MyHomeScreen} from '../containers/home/MyHomeScreen';
+import SpotsCommentScreen from '../containers/spots/SpotsCommentScreen';
 
 //Screen names
 const Stack = createStackNavigator();
@@ -87,6 +88,13 @@ export default function PlannerStack() {
         <Stack.Screen
           name="SpotDetails"
           component={SpotDetailsScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="SpotsComment"
+          component={SpotsCommentScreen}
           options={{
             headerShown: false,
           }}
