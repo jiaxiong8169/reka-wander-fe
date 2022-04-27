@@ -6,25 +6,28 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 TouchableOpacity.defaultProps = {activeOpacity: 0.7};
 
-export const RatingButton = ({onPress, rating, editable}) => (
-  <Stars
-    display={rating}
-    default={rating}
-    update={editable ? onPress : () => {}}
-    spacing={2}
-    count={5}
-    starSize={50}
-    disabled={!editable}
-    fullStar={<Icon name={'star'} style={[styles.myStarStyle]} />}
-    emptyStar={
-      <Icon
-        name={'star-outline'}
-        style={[styles.myStarStyle, styles.myEmptyStarStyle]}
-      />
-    }
-    halfStar={<Icon name={'star-half'} style={[styles.myStarStyle]} />}
-  />
-);
+export const RatingButton = ({onPress, rating, editable}) => {
+  return (
+    <Stars
+      display={rating}
+      default={rating}
+      update={editable ? onPress : () => {}}
+      spacing={2}
+      count={5}
+      starSize={50}
+      disabled={!editable}
+      half
+      fullStar={<Icon name={'star'} style={[styles.myStarStyle]} />}
+      emptyStar={
+        <Icon
+          name={'star-outline'}
+          style={[styles.myStarStyle, styles.myEmptyStarStyle]}
+        />
+      }
+      halfStar={<Icon name={'star-half'} style={[styles.myStarStyle]} />}
+    />
+  );
+};
 
 const styles = StyleSheet.create({
   myStarStyle: {
