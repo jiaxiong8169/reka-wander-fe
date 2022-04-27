@@ -33,12 +33,12 @@ const CommentCard = props => {
         <Flex direction="row">
           <Rating
             style={{marginLeft: 'auto'}}
-            imageSize={10}
+            imageSize={12}
             ratingCount={5}
             startingValue={props.rating}
             readonly
           />
-          <Text fontSize={10} marginLeft={2}>
+          <Text fontSize={9} marginLeft={2}>
             {props.rating}
           </Text>
         </Flex>
