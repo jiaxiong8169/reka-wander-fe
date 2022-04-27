@@ -1,11 +1,5 @@
 import * as React from 'react';
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  RefreshControl,
-  Share,
-} from 'react-native';
+import {View, StyleSheet, Dimensions, RefreshControl} from 'react-native';
 import {Image} from 'react-native';
 import {Heading, Text} from 'native-base';
 import {Rating} from 'react-native-ratings';
@@ -26,6 +20,7 @@ import {
 } from '../../redux/Nearby/actions';
 import {BackButton} from '../../components/BackButton';
 import DeviceInfo from 'react-native-device-info';
+import Share from 'react-native-share';
 
 const height = Dimensions.get('window').height;
 
@@ -167,29 +162,26 @@ export default function SpotDetailsScreen({navigation, route}) {
     }
     // open the share component
     try {
-      const result = await Share.share({
+      await Share.open({
         title: `Reka Wander - ${item.name}`,
         url: item.link,
         message: `Please check out ${item.name} via: ${item.link}`,
       });
-      if (result.action === Share.sharedAction) {
-        // POST share API
-        try {
-          postWithAuth(`${currentType}/share`, {
-            targetId: id,
-            userId:
-              authData && authData.id ? authData.id : DeviceInfo.getUniqueId(),
-          });
-        } catch (err) {
-          console.log(err);
-          setLoading(false);
-        }
+      // POST share API
+      try {
+        postWithAuth(`${currentType}/share`, {
+          targetId: id,
+          userId:
+            authData && authData.id ? authData.id : DeviceInfo.getUniqueId(),
+        });
+        setShares(shared ? shares : shares + 1);
+        setShared(true);
+      } catch (err) {
+        console.log(err);
       }
     } catch (error) {
       console.log(error.message);
     }
-    setShares(shared ? shares : shares + 1);
-    setShared(true);
   };
 
   return (
@@ -262,7 +254,7 @@ export default function SpotDetailsScreen({navigation, route}) {
             onPress={() =>
               navigation.navigate('SpotsComment', {
                 id: id,
-                type: type
+                type: type,
               })
             }>
             <View style={{flexDirection: 'row'}}>
