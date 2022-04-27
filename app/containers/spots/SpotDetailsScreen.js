@@ -2,7 +2,6 @@ import * as React from 'react';
 import {View, StyleSheet, Dimensions, RefreshControl} from 'react-native';
 import {Image} from 'react-native';
 import {Heading, Text} from 'native-base';
-import {Rating} from 'react-native-ratings';
 import {ScrollView} from 'react-native';
 import RoundButton from '../../components/RoundButton';
 import {useHttpCall} from '../../hooks/useHttpCall';
@@ -21,6 +20,7 @@ import {
 import {BackButton} from '../../components/BackButton';
 import DeviceInfo from 'react-native-device-info';
 import Share from 'react-native-share';
+import {RatingButton} from '../../components/RatingButton';
 
 const height = Dimensions.get('window').height;
 
@@ -214,17 +214,13 @@ export default function SpotDetailsScreen({navigation, route}) {
               {item.category}
             </Text>
           </View>
-          <Rating
+          <View
             style={{
               marginRight: 'auto',
               marginTop: 6,
-            }}
-            imageSize={15}
-            ratingCount={5}
-            startingValue={item.avgRating}
-            tintColor={'#414141'}
-            readonly
-          />
+            }}>
+            <RatingButton rating={item.avgRating} />
+          </View>
           <Text mt="3" mb="10" color={'white'}>
             {item.description}
           </Text>
