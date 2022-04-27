@@ -15,7 +15,7 @@ export const PackageCardItem = ({
   return (
     <Card
       style={{
-        height: 180,
+        minHeight: 180,
         display: 'flex',
         flexDirection: 'column',
         margin: 10,

@@ -108,7 +108,7 @@ export const EditScreen = ({navigation, route}) => {
           />
         }
       />
-      <ScrollView style={{marginTop: 10, marginBottom: 50}}>
+      <ScrollView style={{marginTop: 10, marginBottom: 100}}>
         {items.map(item => (
           <CardItemWithEdit
             item={item}

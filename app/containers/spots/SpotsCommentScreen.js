@@ -1,15 +1,7 @@
 import * as React from 'react';
-import {View, StyleSheet, Dimensions, Alert} from 'react-native';
+import {View, StyleSheet, Dimensions, Alert, Pressable} from 'react-native';
 import {Image, RefreshControl} from 'react-native';
-import {
-  Box,
-  Heading,
-  Text,
-  ArrowBackIcon,
-  Pressable,
-  TextArea,
-} from 'native-base';
-import {Rating} from 'react-native-ratings';
+import {Box, Heading, Text, ArrowBackIcon, TextArea} from 'native-base';
 import {ScrollView} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import CommentCard from '../../components/CommentCard';
@@ -26,7 +18,7 @@ import {
   setAttractions,
   setHotels,
 } from '../../redux/Nearby/actions';
-import {BackButton} from '../../components/BackButton';
+import {RatingButton} from '../../components/RatingButton';
 
 const height = Dimensions.get('window').height;
 
@@ -201,10 +193,6 @@ export default function SpotsCommentScreen({navigation, route}) {
     }
   };
 
-  const ratingCompleted = rating => {
-    setRating(rating);
-  };
-
   const valueControlledTextArea = value => {
     setTextAreaValue(value);
   };
@@ -220,7 +208,6 @@ export default function SpotsCommentScreen({navigation, route}) {
       }>
       <View style={styles.container}>
         <FastImage style={styles.image} source={{uri: item.thumbnailSrc}} />
-        <View style={{flex: 1}}></View>
         <Box style={styles.backButton}>
           <Pressable onPress={() => navigation.goBack()}>
             <ArrowBackIcon size="8" m="1" color="white" />
@@ -231,18 +218,13 @@ export default function SpotsCommentScreen({navigation, route}) {
           <Text mt="3" mb="3">
             {item.description}
           </Text>
-
-          <Rating
+          <View
             style={{
               marginRight: 'auto',
               marginBottom: 6,
-            }}
-            imageSize={15}
-            ratingCount={5}
-            startingValue={item.avgRating}
-            tintColor={'white'}
-            readonly
-          />
+            }}>
+            <RatingButton rating={item.avgRating} />
+          </View>
           <View
             style={{
               flexDirection: 'row',
@@ -311,24 +293,18 @@ export default function SpotsCommentScreen({navigation, route}) {
           value={textAreaValue}
         />
       </View>
-
-      <Rating
+      <View
         style={{
           position: 'relative',
           top: -16,
           alignSelf: 'flex-start',
           marginHorizontal: 20,
-        }}
-        imageSize={15}
-        ratingCount={5}
-        startingValue={rating}
-        onFinishRating={ratingCompleted}
-        tintColor="#eee"
-      />
+        }}>
+        <RatingButton rating={rating} editable onPress={setRating} />
+      </View>
       <Pressable style={styles.button} onPress={() => handleReview()}>
         <Text style={styles.buttonText}>Post</Text>
       </Pressable>
-
       {reviewDataList.map(e => {
         return (
           <CommentCard
@@ -406,10 +382,11 @@ const styles = StyleSheet.create({
   },
   backButton: {
     position: 'absolute',
-    left: 10,
-    top: 10,
+    left: 20,
+    top: 20,
     alignSelf: 'flex-start',
     borderRadius: 5,
+    backgroundColor: 'rgba(69, 69 , 69, 0.7)',
   },
   button: {
     paddingHorizontal: 20,

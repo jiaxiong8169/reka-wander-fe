@@ -7,7 +7,6 @@ import {
   Image,
 } from 'react-native';
 import {Heading, Text} from 'native-base';
-import {Rating} from 'react-native-ratings';
 import {ScrollView} from 'react-native';
 import RoundButton from '../../components/RoundButton';
 import {useHttpCall} from '../../hooks/useHttpCall';
@@ -17,6 +16,7 @@ import {BackButton} from '../../components/BackButton';
 import DeviceInfo from 'react-native-device-info';
 import FastImage from 'react-native-fast-image';
 import Share from 'react-native-share';
+import {RatingButton} from '../../components/RatingButton';
 
 const height = Dimensions.get('window').height;
 
@@ -139,17 +139,10 @@ export const GuideDetailsScreen = ({navigation, route}) => {
               {item.category}
             </Text>
           </View>
-          <Rating
-            style={{
-              marginRight: 'auto',
-              marginTop: 6,
-            }}
-            imageSize={15}
-            ratingCount={5}
-            startingValue={item.avgRating}
-            tintColor={'#414141'}
-            readonly
-          />
+          <View style={{marginRight: 'auto'}}>
+            <RatingButton rating={item.avgRating} />
+          </View>
+
           <Text mt="3" mb="10" color={'white'}>
             {item.description}
           </Text>
