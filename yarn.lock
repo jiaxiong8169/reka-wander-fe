@@ -10172,6 +10172,11 @@
     "lodash.isequal" "^4.5.0"
     "memoize-one" "^6.0.0"
 
+"react-native-share@^7.3.9":
+  "integrity" "sha512-doPOUSQAkiIOZarFZvwrxVmfK3789CWsuZ6SNGzNCEGt7dA349vv2uSKDFUP5M7p+GIY+YqFaD3RSIt1Oct+PQ=="
+  "resolved" "https://registry.npmjs.org/react-native-share/-/react-native-share-7.3.9.tgz"
+  "version" "7.3.9"
+
 "react-native-stars@^1.2.2":
   "integrity" "sha512-ROoluqPqv93ycUV3Mwf/p1fFW2TOcb6juhGrMb5oNYYTa0aTe4WgnboipNWLe5viDlC8XYLS+g5WpZBvCzwFkw=="
   "resolved" "https://registry.npmjs.org/react-native-stars/-/react-native-stars-1.2.2.tgz"

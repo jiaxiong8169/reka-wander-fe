@@ -7,7 +7,7 @@ import {useHttpCall} from '../../hooks/useHttpCall';
 import {LoadMore} from '../../components/LoadMore';
 import {CustomTabs} from '../../components/CustomTabs';
 import Card from '../../components/Card';
-import {Dimensions} from 'react-native';
+import {Dimensions, RefreshControl} from 'react-native';
 import {GuideCardItem} from '../../components/GuideCardItem';
 
 const height = Dimensions.get('window').height;
@@ -26,6 +26,7 @@ export const GuideListScreen = ({navigation}) => {
   const [full, setFull] = useState(false);
   const [tab, setTab] = useState('popular');
   const {getWithoutAuth} = useHttpCall();
+  const [reload, setReload] = useState(false);
 
   // on load, on search and on change tab, fetch new 10 records
   useEffect(() => {
@@ -41,7 +42,7 @@ export const GuideListScreen = ({navigation}) => {
       setItems(data);
       setLoading(false);
     });
-  }, [search, tab]);
+  }, [reload, search, tab]);
 
   // getData fetch more data and append to the items array
   const getData = () => {
@@ -96,7 +97,13 @@ export const GuideListScreen = ({navigation}) => {
           setTab={setTab}
           style={{marginBottom: 10}}
         />
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={false}
+              onRefresh={() => setReload(!reload)}
+            />
+          }>
           {items.map(item => (
             <GuideCardItem
               item={item}

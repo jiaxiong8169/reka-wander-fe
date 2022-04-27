@@ -90,7 +90,7 @@ export const GuideCardItem = ({item, navigation, marginBottom}) => {
             height: undefined,
           }}
           source={{
-            uri: item.thumbnailSrc,
+            uri: item.thumbnailTransparentSrc,
           }}
         />
       </TouchableOpacity>
