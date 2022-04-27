@@ -3,42 +3,27 @@ import {View, StyleSheet, Dimensions, Alert, Pressable} from 'react-native';
 import {Image, RefreshControl} from 'react-native';
 import {Box, Heading, Text, ArrowBackIcon, TextArea} from 'native-base';
 import {ScrollView} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import CommentCard from '../../components/CommentCard';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import FastImage from 'react-native-fast-image';
 import {useAuth} from '../../hooks/useAuth';
-import DeviceInfo from 'react-native-device-info';
-import {useSelector, useDispatch} from 'react-redux';
-import {
-  setNearbyAttractions,
-  setNearbyHotels,
-  setNearbyRestaurants,
-  setRestaurants,
-  setAttractions,
-  setHotels,
-} from '../../redux/Nearby/actions';
 import {RatingButton} from '../../components/RatingButton';
+import moment from 'moment';
+import {LoadMore} from '../../components/LoadMore';
 
 const height = Dimensions.get('window').height;
 
 export default function SpotsCommentScreen({navigation, route}) {
   const {authData} = useAuth();
-  const dispatch = useDispatch();
   const {id, type} = route.params;
-  const listData = useSelector(state => state.nearbyReducer[type]);
   const {postWithAuth, getWithAuth} = useHttpCall();
   const [item, setItem] = React.useState({});
   const [reload, setReload] = React.useState(true);
   const [loading, setLoading] = React.useState(false);
-  const [liked, setLiked] = React.useState(false);
-  const [shared, setShared] = React.useState(false);
-  const [likes, setLikes] = React.useState(0);
-  const [shares, setShares] = React.useState(0);
-  const [reviews, setReviews] = React.useState([]);
   const [reviewDataList, setReviewDataList] = React.useState([]);
   const [rating, setRating] = React.useState(0);
   const [textAreaValue, setTextAreaValue] = React.useState('');
+  const [currentLimit, setCurrentLimit] = React.useState(10);
 
   React.useEffect(() => {
     if (!reload) return;
@@ -63,55 +48,11 @@ export default function SpotsCommentScreen({navigation, route}) {
           setItem(data);
           // Prepare promises
           const promises = data.reviews.map(id => getWithAuth(`reviews/${id}`));
-          // TODO: Implement pagination
           Promise.all(promises).then(values => {
             let tmp = values.map(v => v.data);
             tmp.reverse();
             setReviewDataList(tmp);
           });
-          setReviews(data.reviews);
-          // update like and share states
-          setLiked(
-            data.likes.includes(
-              authData?.id ? authData.id : DeviceInfo.getUniqueId(),
-            ),
-          );
-          setLikes(data.likes.length);
-          setShared(
-            data.shares.includes(
-              authData?.id ? authData.id : DeviceInfo.getUniqueId(),
-            ),
-          );
-          setShares(data.shares.length);
-          // update the cached data
-          let clonedListData = JSON.parse(JSON.stringify(listData));
-          for (let i = 0; i < clonedListData.length; i++) {
-            if (clonedListData[i].id === id) {
-              clonedListData[i] = data;
-              break;
-            }
-          }
-          switch (type) {
-            case 'restaurants':
-              dispatch(setRestaurants(clonedListData));
-              break;
-            case 'attractions':
-              dispatch(setAttractions(clonedListData));
-              break;
-            case 'hotels':
-              dispatch(setHotels(clonedListData));
-              break;
-            case 'nearbyRestaurants':
-              dispatch(setNearbyRestaurants(clonedListData));
-              break;
-            case 'nearbyAttractions':
-              dispatch(setNearbyAttractions(clonedListData));
-              break;
-            case 'nearbyHotels':
-              dispatch(setNearbyHotels(clonedListData));
-              break;
-            default:
-          }
         }
         // set loading and reload to false indicating finished loading
         setLoading(false);
@@ -125,39 +66,9 @@ export default function SpotsCommentScreen({navigation, route}) {
       });
   }, [reload]);
 
-  const handleLike = async () => {
-    if (loading) return; // do not proceed when loading is true
-    // convert type to without the word nearby
-    let currentType = type;
-    switch (currentType) {
-      case 'nearbyAttractions':
-        currentType = 'attractions';
-        break;
-      case 'nearbyRestaurants':
-        currentType = 'restaurants';
-        break;
-      case 'nearbyHotels':
-        currentType = 'hotels';
-        break;
-    }
-    // POST like API: Allow stale data to increase responsiveness
-    try {
-      postWithAuth(`${currentType}/like`, {
-        targetId: id,
-        userId:
-          authData && authData.id ? authData.id : DeviceInfo.getUniqueId(),
-      });
-    } catch (err) {
-      console.log(err);
-    }
-
-    // set likes
-    setLikes(liked ? likes - 1 : likes + 1);
-    setLiked(!liked);
-  };
-
   const handleReview = async () => {
     if (loading) return; // do not proceed when loading is true
+    setLoading(true);
     // convert type to without the word nearby
     let currentType = type;
     switch (currentType) {
@@ -181,15 +92,33 @@ export default function SpotsCommentScreen({navigation, route}) {
           contents: textAreaValue,
           userId: authData.id,
         }).then(() => {
-          setReload(true);
+          // add a dummy record to block update review
+          setReviewDataList(oldArray => [
+            {
+              targetId: id,
+              rating: rating,
+              userName: authData.name ? authData.name : 'User', // TODO: Enforce user name in auth module
+              userProfileSrc: '',
+              contents: textAreaValue,
+              userId: authData.id,
+              id: 'newReview',
+              timestamp: moment(new Date()).format(
+                'YYYY-MM-DD[T00:00:00.000Z]',
+              ),
+            },
+            ...oldArray,
+          ]);
+          setLoading(false);
         });
         setTextAreaValue('');
         setRating(0);
       } catch (err) {
+        setLoading(false);
         console.log(err);
       }
     } else {
       Alert.alert('Please register an account to continue this action.');
+      setLoading(false);
     }
   };
 
@@ -253,59 +182,40 @@ export default function SpotsCommentScreen({navigation, route}) {
             <Text marginLeft="1" fontSize={10} color="gray.600">
               RM {item.price ? item.price : item.minPrice}
             </Text>
-            <View style={{marginLeft: 'auto', flexDirection: 'row'}}>
-              <TouchableOpacity
-                onPress={() => handleLike()}
-                style={{flex: 1, justifyContent: 'center'}}>
-                <Image
-                  style={{width: 15, height: 15, marginHorizontal: 2}}
-                  source={require('../../assets/love.png')}
-                  tintColor={liked ? 'red' : 'gray'}
-                />
-              </TouchableOpacity>
-              <Text
-                marginLeft="1"
-                fontSize={10}
-                color={liked ? 'red.500' : 'gray.500'}>
-                {likes}
-              </Text>
-              <Image
-                style={{width: 15, height: 15, marginHorizontal: 10}}
-                source={require('../../assets/message.png')}
-                tintColor={'#52525b'}
-              />
-              <Text fontSize={10} color="gray.600">
-                {reviews ? reviews.length : 0}
-              </Text>
-            </View>
           </View>
         </View>
       </View>
-      <View style={styles.textContainer}>
+      <View style={[styles.textContainer, {alignItems: 'center'}]}>
         <Heading size="sm">Reviews & Comments</Heading>
       </View>
-      <View style={styles.commentBox}>
-        <TextArea
-          h={20}
-          px="3"
-          placeholder="Write your review..."
-          onChangeText={valueControlledTextArea}
-          value={textAreaValue}
-        />
-      </View>
-      <View
-        style={{
-          position: 'relative',
-          top: -16,
-          alignSelf: 'flex-start',
-          marginHorizontal: 20,
-        }}>
-        <RatingButton rating={rating} editable onPress={setRating} />
-      </View>
-      <Pressable style={styles.button} onPress={() => handleReview()}>
-        <Text style={styles.buttonText}>Post</Text>
-      </Pressable>
-      {reviewDataList.map(e => {
+      {!reviewDataList.find(
+        x => x.id === 'newReview' || x.userId === authData.id,
+      ) && (
+        <View>
+          <View style={styles.commentBox}>
+            <TextArea
+              h={20}
+              px="3"
+              placeholder="Write your review..."
+              onChangeText={valueControlledTextArea}
+              value={textAreaValue}
+            />
+          </View>
+          <View
+            style={{
+              position: 'relative',
+              top: -16,
+              alignSelf: 'flex-start',
+              marginHorizontal: 20,
+            }}>
+            <RatingButton rating={rating} editable onPress={setRating} />
+          </View>
+          <Pressable style={styles.button} onPress={() => handleReview()}>
+            <Text style={styles.buttonText}>Post</Text>
+          </Pressable>
+        </View>
+      )}
+      {reviewDataList.slice(0, currentLimit).map(e => {
         return (
           <CommentCard
             key={e.id}
@@ -318,9 +228,14 @@ export default function SpotsCommentScreen({navigation, route}) {
             })}
             rating={e.rating}
             commentorName={e.userName}
-            imgSrc={e.userProfileSrc}></CommentCard>
+            imgSrc={e.userProfileSrc}
+          />
         );
       })}
+      <LoadMore
+        getData={() => setCurrentLimit(oldValue => oldValue + 10)}
+        full={reviewDataList.length - currentLimit < 0}
+      />
     </ScrollView>
   );
 }
@@ -333,7 +248,7 @@ const styles = StyleSheet.create({
     left: 0,
     top: -16,
     width: '90%',
-    padding: 20,
+    padding: 15,
     marginHorizontal: 20,
     shadowColor: 'black',
     shadowOffset: {width: 0, height: 2},
@@ -341,6 +256,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.26,
     elevation: 8,
     marginBottom: 10,
+    justifyContent: 'center',
   },
   commentBox: {
     backgroundColor: 'white',

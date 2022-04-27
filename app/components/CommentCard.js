@@ -1,17 +1,19 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
-import {Heading, Text, Avatar, Flex} from 'native-base';
+import {Heading, Text, Flex} from 'native-base';
 import {RatingButton} from './RatingButton';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const CommentCard = props => {
   return (
     <View style={styles.textContainer}>
       <Flex direction="row" w="100%">
-        <Avatar
+        <Icon name="person-circle-sharp" size={50} style={{marginRight: 5}} />
+        {/* <Avatar
           mr="3"
           source={{
             uri: props.imgSrc,
-          }}></Avatar>
+          }}></Avatar> */}
         <View style={{flex: 1}}>
           <Heading size="sm">{props.commentorName}</Heading>
           <Flex
@@ -53,8 +55,8 @@ const styles = StyleSheet.create({
     right: 0,
     left: 0,
     top: -16,
-    width: '90%',
-    padding: 20,
+    width: '85%',
+    padding: 10,
     marginHorizontal: 20,
     shadowColor: 'black',
     shadowOffset: {width: 0, height: 2},
@@ -62,6 +64,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.26,
     elevation: 8,
     marginBottom: 10,
+    alignSelf: 'center',
   },
 });
 export default CommentCard;
