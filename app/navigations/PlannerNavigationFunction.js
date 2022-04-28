@@ -14,6 +14,7 @@ import {MyHomeScreen} from '../containers/home/MyHomeScreen';
 import SpotsCommentScreen from '../containers/spots/SpotsCommentScreen';
 import {CarRentalListScreen} from '../containers/carRental/CarRentalListScreen';
 import {HomestayStack} from './HomestayStack';
+import {CarRentalDetailsScreen} from '../containers/carRental/CarRentalDetailsScreen';
 
 //Screen names
 const Stack = createStackNavigator();
@@ -110,6 +111,14 @@ export default function PlannerStack() {
         <Stack.Screen
           name="Homestay"
           component={HomestayStack}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="CarRentalDetails"
+          component={CarRentalDetailsScreen}
           options={{
             headerShown: false,
           }}

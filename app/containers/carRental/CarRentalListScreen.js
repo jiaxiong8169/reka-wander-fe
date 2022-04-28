@@ -86,6 +86,7 @@ export const CarRentalListScreen = ({navigation}) => {
               name={item.name}
               price={item.price}
               thumbnailSrc={item.thumbnailSrc}
+              onPress={() => navigation.navigate('CarRentalDetails', {id:item.id})}
             />
           ))}
           <LoadMore getData={getData} full={full} loading={loading} />

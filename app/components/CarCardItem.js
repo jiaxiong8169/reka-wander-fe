@@ -2,9 +2,11 @@ import React from 'react';
 import {Text, Box, Center} from 'native-base';
 import Card from './Card';
 import FastImage from 'react-native-fast-image';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const CarCardItem = props => {
   return (
+    <TouchableOpacity onPress={props.onPress}>
     <Card
       style={{
         flexDirection: 'row',
@@ -49,6 +51,7 @@ const CarCardItem = props => {
         source={{uri: props.thumbnailSrc}}
       />
     </Card>
+    </TouchableOpacity>
   );
 };
 
