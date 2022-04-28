@@ -1,16 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import GradientBackground from '../../components/GradientBackground';
 import BlueSubtitle from '../../components/BlueSubtitle';
-import {View, ScrollView} from 'react-native';
-import {Text, Input} from 'native-base';
-import {BackButton} from '../../components/BackButton';
+import GradientBackground from '../../components/GradientBackground';
+import {Text, Input, ScrollView} from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import Card from '../../components/Card';
-import {LoadMore} from '../../components/LoadMore';
-import CarCardItem from '../../components/CarCardItem';
 import {useHttpCall} from '../../hooks/useHttpCall';
+import {LoadMore} from '../../components/LoadMore';
+import {BackButton} from '../../components/BackButton';
+import Card from '../../components/Card';
+import {View} from 'react-native';
+import {HomestayCardItem} from '../../components/HomestayCardItem';
 
-export const CarRentalListScreen = ({navigation}) => {
+export const HomestayListScreen = ({navigation}) => {
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState('');
@@ -23,7 +23,7 @@ export const CarRentalListScreen = ({navigation}) => {
     setLoading(true);
     setFull(false);
     getWithoutAuth(
-      `vehicles?sort=-avgRating&limit=10&filter[q]=${search}`,
+      `homestays?sort=-avgRating&limit=10&filter[q]=${search}`,
     ).then(({data}) => {
       setItems(data);
       setLoading(false);
@@ -35,7 +35,7 @@ export const CarRentalListScreen = ({navigation}) => {
     if (full) return;
     setLoading(true);
     getWithoutAuth(
-      `vehicles?sort=-avgRating&offset=${items.length}&limit=10&filter[q]=${search}`,
+      `homestays?sort=-avgRating&offset=${items.length}&limit=10&filter[q]=${search}`,
     ).then(({data}) => {
       let tmp = JSON.parse(JSON.stringify(items));
       Array.prototype.push.apply(tmp, data);
@@ -54,7 +54,7 @@ export const CarRentalListScreen = ({navigation}) => {
           <BlueSubtitle text1="Hi" text2={`Welcome,`} />
         </View>
         <Text fontSize={17} color="rgb(117,157,246)">
-          Rent your car
+          Book a Homestay
         </Text>
       </View>
 
@@ -77,14 +77,14 @@ export const CarRentalListScreen = ({navigation}) => {
           />
         }
       />
-      {/* TODO: Check marginBottom after having more data */}
+      {/* TODO: Check marginBottom after having more records */}
       <Card style={{marginBottom: 40}}>
         <ScrollView>
           {items.map(item => (
-            <CarCardItem
+            <HomestayCardItem
               key={item.id}
               name={item.name}
-              price={item.price}
+              price={item.minPrice}
               thumbnailSrc={item.thumbnailSrc}
             />
           ))}

@@ -3,18 +3,17 @@ import {Text, Box, Center} from 'native-base';
 import Card from './Card';
 import FastImage from 'react-native-fast-image';
 
-const CarCardItem = props => {
+export const HomestayCardItem = props => {
   return (
     <Card
       style={{
         flexDirection: 'row',
         flex: 2,
         margin: 10,
-        marginTop: 50,
-        paddingLeft: 15,
-        height: 120,
+        marginTop: 40,
+        minHeight: 120,
       }}>
-      <Center>
+      <Center flex="1">
         <Box bg={'blue.300'} mt="-10" p="2" rounded="2xl" shadow={5}>
           <Text
             style={{textAlign: 'center'}}
@@ -33,23 +32,27 @@ const CarCardItem = props => {
           bold
           fontSize={20}
           mt={3}
-          style={{maxWidth: 100, textAlign: 'center'}}
+          style={{maxWidth: 100}}
           lineHeight={20}
           numberOfLines={2}>
           {props.name}
         </Text>
       </Center>
-      <FastImage
+      <Card
         style={{
-          width: 260,
-          height: 150,
-          resizeMode: 'contain',
-          marginTop: -50,
-        }}
-        source={{uri: props.thumbnailSrc}}
-      />
+          flex: 1,
+          borderRadius: 0,
+          transform: [{rotate: '-5deg'}, {translateY: -30}],
+        }}>
+        <FastImage
+          style={{
+            width: undefined,
+            height: '100%',
+            resizeMode: 'contain',
+          }}
+          source={{uri: props.thumbnailSrc}}
+        />
+      </Card>
     </Card>
   );
 };
-
-export default CarCardItem;
