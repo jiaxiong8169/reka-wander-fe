@@ -49,21 +49,11 @@ export const EditScreen = ({navigation, route}) => {
   };
 
   const toggleItemSelection = (v, vObj) => {
-    // hmm I guess need some backend changes this too messy dy
     let tmp = JSON.parse(JSON.stringify(tripPlan[fieldName]));
     let tmpObj = JSON.parse(JSON.stringify(tripPlan[fieldNameObj]));
     console.log(tmp);
     console.log(tmpObj);
-    // for string
-    if (tmp && typeof tmp === 'string') {
-      if (tmp === v) {
-        tmp = '';
-        tmpObj = {};
-      } else {
-        tmp = v;
-        tmpObj = vObj;
-      }
-    } else if (tmp) {
+    if (tmp) {
       // for array
       const index = tmpObj.findIndex(x => x.id === v);
       if (index !== -1) {
