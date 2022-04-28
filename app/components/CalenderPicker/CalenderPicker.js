@@ -45,6 +45,11 @@ class Calendar extends Component {
           selectedDayTextColor="#FFFFFF"
           allowRangeSelection={true}
           onDateChange={this.onDateChange}
+          textStyle={{fontSize:13}}
+          previousTitleStyle={{fontSize:14}}
+          nextTitleStyle={{fontSize:14}}
+          monthTitleStyle={{fontSize:16}}
+          yearTitleStyle={{fontSize:16}}
           selectedStartDate={formattedStartDate}
           selectedEndDate={formattedEndDate}
         />
@@ -55,14 +60,14 @@ class Calendar extends Component {
             justifyContent: 'space-between',
             marginTop: 10,
           }}>
-          <Text style={{fontSize: 14, fontWeight: '400'}}>Start Date</Text>
-          <Text style={{fontSize: 14, fontWeight: '400'}}>End Date</Text>
+          <Text style={{fontSize: 15, fontWeight: '400'}}>Start Date</Text>
+          <Text style={{fontSize: 15, fontWeight: '400'}}>End Date</Text>
         </View>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <Text style={{fontSize: 14, fontWeight: '400'}}>
+          <Text style={{fontSize: 15, fontWeight: '400'}}>
             {formattedStartDate}
           </Text>
-          <Text style={{fontSize: 14, fontWeight: '400'}}>
+          <Text style={{fontSize: 15, fontWeight: '400'}}>
             {formattedEndDate}
           </Text>
         </View>

@@ -101,6 +101,9 @@ const HttpProvider = ({children}) => {
 
   const getWithoutAuth = urlPath => fetchWithoutAuth(urlPath, 'GET');
 
+  const putWithAuth = (urlPath, body, unauthorizedAction) =>
+    fetchWithAuth(urlPath, 'PUT', body, unauthorizedAction);
+
   const refreshAccessToken = refreshToken => {
     return fetch(`${BACKEND_URL}/auth/refresh`, {
       method: 'POST',
@@ -131,7 +134,7 @@ const HttpProvider = ({children}) => {
 
   return (
     <HttpContext.Provider
-      value={{postWithAuth, postWithoutAuth, getWithAuth, getWithoutAuth}}>
+      value={{postWithAuth, postWithoutAuth, getWithAuth, getWithoutAuth, putWithAuth}}>
       {children}
     </HttpContext.Provider>
   );

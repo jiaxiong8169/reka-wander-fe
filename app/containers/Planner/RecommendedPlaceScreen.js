@@ -4,7 +4,6 @@ import moment from 'moment';
 import {useSelector, useDispatch} from 'react-redux';
 import Card from '../../components/card/card';
 import GradientBackground from '../../components/GradientBackground';
-import Modal from 'react-native-modal';
 import TripName from './PlannerTripNameScreen';
 import PaxPage from './PlannerPaxScreen';
 import ChooseDays from './PlannerCalendarScreen';
@@ -13,11 +12,18 @@ import TravelInterest from './PlannerTravelinterestScreen';
 import Withkids from './PlannerWithkidsScreen';
 import RentHomeStay from './PlannerRentHomeStayScreen';
 import RentCar from './PlannerRentCarScreen';
-import {resetTrip} from '../../redux/Planner/actions';
-import FastImage from 'react-native-fast-image';
+import {resetTrip, setTripName} from '../../redux/Planner/actions';
+import UserDetails from './PlannerUserDetails';
+import RecommendedCardDetails from './PlannerRecommendationCardDetails';
+import RecommendedCard from './PlannerRecommendCard';
+
+import {useHttpCall} from '../../hooks/useHttpCall';
+import {useAuth} from '../../hooks/useAuth';
 
 export default function Recommended({navigation}) {
   const dispatch = useDispatch();
+
+  const {authData} = useAuth();
   const {tripName} = useSelector(state => state.plannerReducer);
   const {startDate} = useSelector(state => state.plannerReducer);
   const {endDate} = useSelector(state => state.plannerReducer);
@@ -37,6 +43,7 @@ export default function Recommended({navigation}) {
   const kid = kids == true ? 'Yes' : 'No';
   const rentHomeStays = rentHomeStay == true ? 'Yes' : 'No';
   const rentCars = rentCar == true ? 'Yes' : 'No';
+  const {putWithAuth} = useHttpCall();
 
   // add navigation listener to prevent back
   useEffect(() => {
@@ -50,9 +57,7 @@ export default function Recommended({navigation}) {
     });
   }, [navigation]);
 
-  useEffect(() => {
-    console.log(tripPlan);
-  }, [tripPlan]);
+  useEffect(() => {}, [tripPlan]);
 
   const onPressHandler = () => {
     // clear trip fields
@@ -60,966 +65,391 @@ export default function Recommended({navigation}) {
     navigation.navigate('Success');
   };
 
-  const [isNameModelPopUp, setIsNameModelPopUp] = useState(false);
-  const closeNameModel = () => {
-    setIsNameModelPopUp(false);
-  };
-
-  const [isPaxModalPopUp, setIsPaxModalPopUp] = useState(false);
-  const closePaxModal = () => {
-    setIsPaxModalPopUp(false);
-  };
-
-  const [isDateModalPopUp, setIsDateModalPopUp] = useState(false);
-  const closeDateModal = () => {
-    setIsDateModalPopUp(false);
-  };
-
-  const [isBudgetModalPopUp, setIsBudgetModalPopUp] = useState(false);
-  const closeBudgetModal = () => {
-    setIsBudgetModalPopUp(false);
-  };
-
-  const [isInterestModalPopUp, setIsInterestModalPopUp] = useState(false);
-  const closeInterestModal = () => {
-    setIsInterestModalPopUp(false);
-  };
-
-  const [isKidsModalPopUp, setIsKidsModalPopUp] = useState(false);
-  const closeKidsModal = () => {
-    setIsKidsModalPopUp(false);
-  };
-
-  const [isHomeStayModalPopUp, setIsHomeStayModalPopUp] = useState(false);
-  const closeHomeStayModal = () => {
-    setIsHomeStayModalPopUp(false);
-  };
-
-  const [isCarModalPopUp, setIsCarModalPopUp] = useState(false);
-  const closeCarModal = () => {
-    setIsCarModalPopUp(false);
+  const updateAPI = () => {
+    console.log(tripPlan['attractions']);
+    const tmp = {
+      name: tripName ? tripName : 'My Trip',
+      startDate: startDate,
+      endDate: endDate,
+      pax: pax,
+      previousBudget: parseFloat(budget),
+      interests: interest,
+      kids: kids,
+      rentCar: rentCar,
+      rentHomestay: rentHomeStay,
+      attractions: tripPlan['attractions'],
+      restaurants: tripPlan['restaurants'],
+      hotels: tripPlan['hotels'],
+      vehicles: tripPlan['vihicles'],
+      homestays: tripPlan['homestays'],
+    };
+    putWithAuth(`trips/${tripId}`, tmp)
+      .then(({data}) => {
+        console.log(data);
+        dispatch(resetTrip());
+        navigation.navigate('Success');
+      })
+      .catch(err => {
+        Alert.alert('Error', JSON.stringify(err));
+        navigation.navigate('MyHome');
+      });
   };
 
   return (
     <GradientBackground>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View>
-          <Text style={{margin: 10}}>Your Searching Details</Text>
+          <Text style={{fontWeight: '300', fontSize: 40, color: `#4169E1`}}>
+            Hi{' '}
+            <Text
+              style={{
+                fontWeight: 'bold',
+                fontFamily: 'sans-serif-light',
+              }}>
+              Welcome,
+            </Text>
+          </Text>
+          <Text
+            style={{
+              margin: 5,
+              fontSize: 20,
+              color: `#6A5ACD`,
+              fontWeight: '700',
+              fontFamily: 'sans-serif-light',
+              textAlign: 'center',
+            }}>
+            Your Searching Details
+          </Text>
           <Card style={{marginVertical: 10}}>
             <View>
               <View
-                style={{
-                  flexDirection: 'column',
-                  borderColor: '#000',
-                  justifyContent: 'space-between',
-                  borderBottomWidth: 1,
-                }}>
-                <View style={{flexDirection: 'row'}}>
-                  <Image
-                    style={{flex: 1, height: undefined, resizeMode: 'contain'}}
-                    source={require('../../assets/kid_icon.png')}
-                  />
-                  <Text style={{flex: 7, fontSize: 16, color: '#000'}}>
-                    Trip Name
-                  </Text>
-                </View>
-                <View style={{padding: 3, flexDirection: 'row'}}>
+                style={{flexDirection: 'column', borderBottomColor: '#000'}}>
+                <UserDetails
+                  title={'Trip Name'}
+                  url={require('../../assets/kid_icon.png')}
+                  editPage={<TripName />}>
                   <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
                     {tripName ? tripName : 'My Trip'}
                   </Text>
-                  <Text style={{flex: 2, fontSize: 14, paddingLeft: 5}}>
-                    {/* RM250/pax */}
+                </UserDetails>
+              </View>
+
+              <View
+                style={{flexDirection: 'column', borderBottomColor: '#000'}}>
+                <UserDetails
+                  title={'Pax'}
+                  styles={{paddingTop: 10}}
+                  url={require('../../assets/pax_icon.png')}
+                  editPage={<PaxPage />}>
+                  <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
+                    {pax}
                   </Text>
-                  <TouchableOpacity
-                    style={{marginTop: 4}}
-                    onPress={() => setIsNameModelPopUp(true)}>
-                    <Text style={{fontSize: 10, color: '#00BFFF'}}>Edit</Text>
-                    <Modal
-                      isVisible={isNameModelPopUp}
-                      onBackdropPress={closeNameModel}
-                      onSwipeComplete={closeNameModel}
-                      useNativeDriverForBackdrop
-                      swipeDirection={['left', 'right', 'up', 'down']}
-                      animationIn="zoomInDown"
-                      animationOut="zoomOutUp"
-                      animationInTiming={700}
-                      animationOutTiming={700}
-                      backdropTransitionInTiming={700}
-                      backdropTransitionOutTiming={700}>
-                      <TripName />
-                    </Modal>
-                  </TouchableOpacity>
-                </View>
+                </UserDetails>
               </View>
 
               <View
                 style={{flexDirection: 'column', borderBottomColor: '#000'}}>
-                <View
-                  style={{
-                    flexDirection: 'column',
-                    paddingTop: 10,
-                    borderColor: '#000',
-                    borderBottomWidth: 1,
-                    justifyContent: 'space-between',
-                  }}>
-                  <View style={{flexDirection: 'row'}}>
-                    <Image
-                      style={{
-                        flex: 1,
-                        height: undefined,
-                        resizeMode: 'contain',
-                      }}
-                      source={require('../../assets/pax_icon.png')}
-                    />
-                    <Text style={{flex: 7, fontSize: 16, color: '#000'}}>
-                      Pax
-                    </Text>
-                  </View>
-                  <View style={{flexDirection: 'row', padding: 3}}>
-                    <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
-                      {pax}
-                    </Text>
-                    <Text style={{flex: 2, fontSize: 14, paddingLeft: 5}}>
-                      {/* RM400/night */}
-                    </Text>
-                    <TouchableOpacity
-                      style={{marginTop: 4}}
-                      onPress={() => setIsPaxModalPopUp(true)}>
-                      <Text style={{fontSize: 10, color: '#00BFFF'}}>Edit</Text>
-                      <Modal
-                        isVisible={isPaxModalPopUp}
-                        onBackdropPress={closePaxModal}
-                        onSwipeComplete={closePaxModal}
-                        useNativeDriverForBackdrop
-                        swipeDirection={['left', 'right', 'up', 'down']}
-                        animationIn="zoomInDown"
-                        animationOut="zoomOutUp"
-                        animationInTiming={700}
-                        animationOutTiming={700}
-                        backdropTransitionInTiming={700}
-                        backdropTransitionOutTiming={700}>
-                        <PaxPage />
-                      </Modal>
-                    </TouchableOpacity>
-                  </View>
-                </View>
+                <UserDetails
+                  title={'Date'}
+                  styles={{paddingTop: 10}}
+                  url={require('../../assets/calendar_icon.png')}
+                  editPage={<ChooseDays />}>
+                  <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
+                    {formattedStartDate} - {formattedEndDate}
+                  </Text>
+                </UserDetails>
               </View>
 
               <View
                 style={{flexDirection: 'column', borderBottomColor: '#000'}}>
-                <View
-                  style={{
-                    flexDirection: 'column',
-                    paddingTop: 10,
-                    borderColor: '#000',
-                    borderBottomWidth: 1,
-                    justifyContent: 'space-between',
-                  }}>
-                  <View style={{flexDirection: 'row'}}>
-                    <Image
-                      style={{
-                        flex: 1,
-                        height: undefined,
-                        resizeMode: 'contain',
-                      }}
-                      source={require('../../assets/calendar_icon.png')}
-                    />
-                    <Text style={{flex: 7, fontSize: 16, color: '#000'}}>
-                      Date
-                    </Text>
-                  </View>
-                  <View style={{flexDirection: 'row', padding: 3}}>
-                    <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
-                      {formattedStartDate} - {formattedEndDate}
-                    </Text>
-                    <Text style={{flex: 2, fontSize: 14, paddingLeft: 5}}>
-                      {/* RM400/night */}
-                    </Text>
-                    <TouchableOpacity
-                      style={{marginTop: 4}}
-                      onPress={() => setIsDateModalPopUp(true)}>
-                      <Text style={{fontSize: 10, color: '#00BFFF'}}>Edit</Text>
-                      <Modal
-                        isVisible={isDateModalPopUp}
-                        onBackdropPress={closeDateModal}
-                        onSwipeComplete={closeDateModal}
-                        useNativeDriverForBackdrop
-                        swipeDirection={['left', 'right', 'up', 'down']}
-                        animationIn="zoomInDown"
-                        animationOut="zoomOutUp"
-                        animationInTiming={700}
-                        animationOutTiming={700}
-                        backdropTransitionInTiming={700}
-                        backdropTransitionOutTiming={700}>
-                        <ChooseDays />
-                      </Modal>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </View>
-
-              <View
-                style={{flexDirection: 'column', borderBottomColor: '#000'}}>
-                <View
-                  style={{
-                    flexDirection: 'column',
-                    paddingTop: 10,
-                    borderColor: '#000',
-                    borderBottomWidth: 1,
-                    justifyContent: 'space-between',
-                  }}>
-                  <View style={{flexDirection: 'row'}}>
-                    <Image
-                      style={{
-                        flex: 1,
-                        height: undefined,
-                        resizeMode: 'contain',
-                      }}
-                      source={require('../../assets/travelInterest_icon.jpg')}
-                    />
-                    <Text style={{flex: 7, fontSize: 16, color: '#000'}}>
-                      Travel Interests
-                    </Text>
-                  </View>
-                  <View style={{flexDirection: 'row', padding: 3}}>
-                    <View style={{flex: 3, paddingLeft: 5}}>
-                      {(!interest || interest.length === 0) && (
-                        <View key={'Everything'}>
-                          <Text style={{fontSize: 14}}>- Everything</Text>
+                <UserDetails
+                  title={'Travel Interests'}
+                  styles={{paddingTop: 10}}
+                  url={require('../../assets/travelInterest_icon.jpg')}
+                  editPage={<TravelInterest />}>
+                  <View style={{flex: 3, paddingLeft: 5}}>
+                    {(!interest || interest.length === 0) && (
+                      <View key={'Everything'}>
+                        <Text style={{fontSize: 14}}>- Everything</Text>
+                      </View>
+                    )}
+                    {interest.map(e => {
+                      return (
+                        <View key={e}>
+                          <Text style={{fontSize: 14}}>- {e}</Text>
                         </View>
-                      )}
-                      {interest.map(e => {
-                        return (
-                          <View key={e}>
-                            <Text style={{fontSize: 14}}>- {e}</Text>
-                          </View>
-                        );
-                      })}
-                    </View>
-                    <Text style={{flex: 2, fontSize: 14, paddingLeft: 5}}>
-                      {/* Depends */}
-                    </Text>
-                    <TouchableOpacity
-                      style={{marginTop: 4}}
-                      onPress={() => setIsInterestModalPopUp(true)}>
-                      <Text style={{fontSize: 10, color: '#00BFFF'}}>Edit</Text>
-                      <Modal
-                        isVisible={isInterestModalPopUp}
-                        onBackdropPress={closeInterestModal}
-                        onSwipeComplete={closeInterestModal}
-                        useNativeDriverForBackdrop
-                        swipeDirection={['left', 'right', 'up', 'down']}
-                        animationIn="zoomInDown"
-                        animationOut="zoomOutUp"
-                        animationInTiming={700}
-                        animationOutTiming={700}
-                        backdropTransitionInTiming={700}
-                        backdropTransitionOutTiming={700}>
-                        <TravelInterest />
-                      </Modal>
-                    </TouchableOpacity>
+                      );
+                    })}
                   </View>
-                </View>
+                </UserDetails>
               </View>
 
               <View style={{flexDirection: 'column'}}>
-                <View
-                  style={{
-                    flexDirection: 'column',
-                    paddingTop: 10,
-                    borderColor: '#000',
-                    borderBottomWidth: 1,
-                    justifyContent: 'space-between',
-                  }}>
-                  <View style={{flexDirection: 'row'}}>
-                    <Image
-                      style={{
-                        flex: 1,
-                        height: undefined,
-                        resizeMode: 'contain',
-                      }}
-                      source={require('../../assets/child_icon.jpg')}
-                    />
-                    <Text style={{flex: 7, fontSize: 16, color: '#000'}}>
-                      Kids
-                    </Text>
-                  </View>
-                  <View style={{flexDirection: 'row', padding: 3}}>
-                    <Text
-                      style={{
-                        flex: 3,
-                        paddingLeft: 5,
-                        fontSize: 15,
-                      }}>
-                      {kid}
-                    </Text>
-                    <Text style={{flex: 2, fontSize: 15, paddingLeft: 5}}>
-                      {/* Free */}
-                    </Text>
-                    <TouchableOpacity
-                      style={{marginTop: 4}}
-                      onPress={() => setIsKidsModalPopUp(true)}>
-                      <Text style={{fontSize: 10, color: '#00BFFF'}}>Edit</Text>
-                      <Modal
-                        isVisible={isKidsModalPopUp}
-                        onBackdropPress={closeKidsModal}
-                        onSwipeComplete={closeKidsModal}
-                        useNativeDriverForBackdrop
-                        swipeDirection={['left', 'right', 'up', 'down']}
-                        animationIn="zoomInDown"
-                        animationOut="zoomOutUp"
-                        animationInTiming={700}
-                        animationOutTiming={700}
-                        backdropTransitionInTiming={700}
-                        backdropTransitionOutTiming={700}>
-                        <Withkids />
-                      </Modal>
-                    </TouchableOpacity>
-                  </View>
-                </View>
+                <UserDetails
+                  title={'Kids'}
+                  styles={{paddingTop: 10}}
+                  url={require('../../assets/child_icon.jpg')}
+                  editPage={<Withkids />}>
+                  <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
+                    {kid}
+                  </Text>
+                </UserDetails>
               </View>
 
               <View style={{flexDirection: 'column'}}>
-                <View
-                  style={{
-                    flexDirection: 'column',
-                    paddingTop: 10,
-                    borderColor: '#000',
-                    borderBottomWidth: 1,
-                    justifyContent: 'space-between',
-                  }}>
-                  <View style={{flexDirection: 'row'}}>
-                    <Image
-                      style={{
-                        flex: 1,
-                        height: undefined,
-                        resizeMode: 'contain',
-                      }}
-                      source={require('../../assets/Home.png')}
-                    />
-                    <Text style={{flex: 7, fontSize: 16, color: '#000'}}>
-                      Homestay
-                    </Text>
-                  </View>
-                  <View style={{flexDirection: 'row', padding: 3}}>
-                    <Text
-                      style={{
-                        flex: 3,
-                        paddingLeft: 5,
-                        fontSize: 15,
-                      }}>
-                      {rentHomeStays}
-                    </Text>
-                    <Text style={{flex: 2, fontSize: 15, paddingLeft: 5}}>
-                      {/* Free */}
-                    </Text>
-                    <TouchableOpacity
-                      style={{marginTop: 4}}
-                      onPress={() => setIsHomeStayModalPopUp(true)}>
-                      <Text style={{fontSize: 10, color: '#00BFFF'}}>Edit</Text>
-                      <Modal
-                        isVisible={isHomeStayModalPopUp}
-                        onBackdropPress={closeHomeStayModal}
-                        onSwipeComplete={closeHomeStayModal}
-                        useNativeDriverForBackdrop
-                        swipeDirection={['left', 'right', 'up', 'down']}
-                        animationIn="zoomInDown"
-                        animationOut="zoomOutUp"
-                        animationInTiming={700}
-                        animationOutTiming={700}
-                        backdropTransitionInTiming={700}
-                        backdropTransitionOutTiming={700}>
-                        <RentHomeStay />
-                      </Modal>
-                    </TouchableOpacity>
-                  </View>
-                </View>
+                <UserDetails
+                  title={'Homestay'}
+                  types={'Homestay'}
+                  styles={{paddingTop: 10}}
+                  url={require('../../assets/Home.png')}
+                  editPage={<RentHomeStay />}>
+                  <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
+                    {rentHomeStays}
+                  </Text>
+                </UserDetails>
               </View>
 
               <View
                 style={{flexDirection: 'column', borderBottomColor: '#000'}}>
-                <View
-                  style={{
-                    flexDirection: 'column',
-                    paddingTop: 10,
-                    borderColor: '#000',
-                    borderBottomWidth: 1,
-                    justifyContent: 'space-between',
-                  }}>
-                  <View style={{flexDirection: 'row'}}>
-                    <Image
-                      style={{
-                        flex: 1,
-                        height: undefined,
-                        resizeMode: 'contain',
-                      }}
-                      source={require('../../assets/dollar_icon.png')}
-                    />
-                    <Text style={{flex: 7, fontSize: 16, color: '#000'}}>
-                      Budget
-                    </Text>
-                  </View>
-                  <View style={{flexDirection: 'row', padding: 3}}>
-                    <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
-                      RM{budget}
-                    </Text>
-
-                    <TouchableOpacity
-                      style={{marginTop: 4}}
-                      onPress={() => setIsBudgetModalPopUp(true)}>
-                      <Text style={{fontSize: 10, color: '#00BFFF'}}>Edit</Text>
-                      <Modal
-                        isVisible={isBudgetModalPopUp}
-                        onBackdropPress={closeBudgetModal}
-                        onSwipeComplete={closeBudgetModal}
-                        useNativeDriverForBackdrop
-                        swipeDirection={['left', 'right', 'up', 'down']}
-                        animationIn="zoomInDown"
-                        animationOut="zoomOutUp"
-                        animationInTiming={700}
-                        animationOutTiming={700}
-                        backdropTransitionInTiming={700}
-                        backdropTransitionOutTiming={700}>
-                        <TravelBudget />
-                      </Modal>
-                    </TouchableOpacity>
-                  </View>
-                </View>
+                <UserDetails
+                  title={'Budget'}
+                  styles={{paddingTop: 10}}
+                  url={require('../../assets/dollar_icon.png')}
+                  editPage={<TravelBudget />}>
+                  <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
+                    RM{budget}
+                  </Text>
+                </UserDetails>
               </View>
 
               <View
                 style={{flexDirection: 'column', borderBottomColor: '#000'}}>
-                <View
-                  style={{
-                    flexDirection: 'column',
-                    paddingTop: 10,
-                    borderColor: '#000',
-                    borderBottomWidth: 1,
-                    justifyContent: 'space-between',
-                  }}>
-                  <View style={{flexDirection: 'row'}}>
-                    <Image
-                      style={{
-                        flex: 1,
-                        height: undefined,
-                        margin: 2,
-                        resizeMode: 'contain',
-                      }}
-                      source={require('../../assets/car_icon.png')}
-                    />
-                    <Text style={{flex: 7, fontSize: 16, color: '#000'}}>
-                      Car
-                    </Text>
-                  </View>
-                  <View style={{flexDirection: 'row', padding: 3}}>
-                    <Text
-                      style={{
-                        flex: 3,
-                        paddingLeft: 5,
-                        fontSize: 14,
-                      }}>
-                      {rentCars}
-                    </Text>
-                    <Text style={{flex: 2, fontSize: 15, paddingLeft: 5}}>
-                      {/* Free */}
-                    </Text>
-                    <TouchableOpacity
-                      style={{marginTop: 4}}
-                      onPress={() => setIsCarModalPopUp(true)}>
-                      <Text style={{fontSize: 10, color: '#00BFFF'}}>Edit</Text>
-                      <Modal
-                        isVisible={isCarModalPopUp}
-                        onBackdropPress={closeCarModal}
-                        onSwipeComplete={closeCarModal}
-                        useNativeDriverForBackdrop
-                        swipeDirection={['left', 'right', 'up', 'down']}
-                        animationIn="zoomInDown"
-                        animationOut="zoomOutUp"
-                        animationInTiming={700}
-                        animationOutTiming={700}
-                        backdropTransitionInTiming={700}
-                        backdropTransitionOutTiming={700}>
-                        <RentCar />
-                      </Modal>
-                    </TouchableOpacity>
-                  </View>
-                </View>
+                <UserDetails
+                  title={'Car'}
+                  styles={{paddingTop: 10}}
+                  url={require('../../assets/car_icon.png')}
+                  imageStyle={{margin: 2}}
+                  editPage={<RentCar />}>
+                  <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
+                    {rentCars}
+                  </Text>
+                </UserDetails>
               </View>
             </View>
           </Card>
-
-          {tripPlan.hotelObject && (
-            <View>
-              <Text style={{margin: 10}}>Recommended Hotel</Text>
-              <Card style={{marginVertical: 10}}>
-                <View style={{flexDirection: 'column'}}>
-                  <TouchableOpacity
-                    style={{margin: 4}}
-                    onPress={() => {
-                      navigation.navigate('SpotDetails', {
-                        type: 'hotels',
-                        id: item.id,
-                      });
-                    }}>
-                    <View
-                      style={{
-                        flex: 1,
-                        flexDirection: 'row',
-                        borderColor: '#000',
-                        borderBottomWidth: 1,
-                        paddingBottom: 10,
-                      }}>
-                      <FastImage
-                        style={{
-                          flex: 1,
-                          height: 60,
-                          resizeMode: 'contain',
-                          borderRadius: 5,
-                          paddingRight: 8,
-                        }}
-                        source={{uri: tripPlan.hotelObject.thumbnailSrc}}
-                      />
-
-                      <View
-                        style={{
-                          flex: 3,
-                          flexDirection: 'column',
-                          marginLeft: 3,
-                          paddingLeft: 10,
-                        }}>
-                        <Text
-                          style={{
-                            fontSize: 16,
-                            color: '#000',
-                          }}>
-                          {tripPlan.hotelObject.name}
-                        </Text>
-                        <Text
-                          style={{
-                            fontSize: 11,
-                            color: '#000',
-                          }}>
-                          {tripPlan?.hotelObject?.description
-                            ? tripPlan.hotelObject.description.substring(
-                                0,
-                                100,
-                              ) + '...'
-                            : ''}
-                        </Text>
-                        <View
-                          style={{
-                            alignItems: 'flex-end',
-                            justifyContent: 'flex-end',
-                          }}>
-                          <Text
-                            style={{
-                              fontSize: 11,
-                              color: '#000',
-                            }}>
-                            {tripPlan.hotelObject.perks}
-                          </Text>
-                        </View>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-                </View>
-                <View
-                  style={{
-                    alignItems: 'flex-end',
-                    justifyContent: 'flex-end',
-                  }}>
-                  <TouchableOpacity
-                    style={{marginTop: 4}}
-                    onPress={() =>
-                      navigation.navigate('Edit', {
-                        type: 'hotels',
-                        fieldName: 'hotel',
-                        fieldNameObj: 'hotelObject',
-                      })
-                    }>
-                    <Text style={{fontSize: 10, color: '#00BFFF'}}>Edit</Text>
-                  </TouchableOpacity>
-                </View>
-              </Card>
-            </View>
+          {tripPlan.hotelObjects.length <= 0 && (
+            <RecommendedCard
+              title={'Hotel'}
+              styles={{marginVertical: 10}}
+              type={'hotels'}
+              navigation={navigation}
+              fieldName={'hotels'}
+              fieldNameObj={'hotelObjects'}>
+              <Text
+                style={{
+                  fontSize: 15,
+                  color: '#000',
+                  fontFamily: 'sans-serif-light',
+                  textAlign: 'center',
+                }}>
+                None is Selected. Click edit to browse more.
+              </Text>
+            </RecommendedCard>
+          )}
+          {tripPlan.hotelObjects.length > 0 && (
+             <RecommendedCard
+              title={'Hotel'}
+              styles={{flexDirection: 'column'}}
+              type={'hotels'}
+              navigation={navigation}
+              fieldName={'hotels'}
+              fieldNameObj={'hotelObjects'}>
+             
+             
+              {tripPlan.hotelObjects.map(item => (
+                <RecommendedCardDetails
+                  item={item}
+                  perks={item.perks}
+                  type={'hotels'}
+                  url={item.thumbnailSrc}
+                  id={item.id}
+                  navigation={navigation}
+                  styles={{paddingTop: 10}}
+                  name={item.name}>
+                  {item.description.substring(0, 100) + '...'}
+                  <Text>abc</Text>
+                </RecommendedCardDetails>
+              ))}
+            </RecommendedCard>
+          )}
+          {tripPlan.homestayObjects.length <= 0 && (
+            <RecommendedCard
+              title={'Homestay'}
+              styles={{marginVertical: 10}}
+              type={'homestays'}
+              navigation={navigation}
+              fieldName={'homestays'}
+              fieldNameObj={'homestayObjects'}>
+              <Text
+                style={{
+                  fontSize: 15,
+                  color: '#000',
+                  fontFamily: 'sans-serif-light',
+                  textAlign: 'center',
+                }}>
+                None is Selected. Click edit to browse more.
+              </Text>
+            </RecommendedCard>
+          )}
+          {tripPlan.homestayObjects.length > 0 && (
+            <RecommendedCard
+              title={'Homestay'}
+              styles={{flexDirection: 'column'}}
+              type={'homestays'}
+              navigation={navigation}
+              fieldName={'homestays'}
+              fieldNameObj={'homestayObjects'}>
+              {tripPlan.homestayObjects.map(item => (
+                <RecommendedCardDetails
+                  item={item}
+                  perks={item.perks}
+                  type={'homestays'}
+                  url={item.thumbnailSrc}
+                  id={item.id}
+                  navigation={navigation}
+                  styles={{paddingTop: 10}}
+                  name={item.name}>
+                  {item.description.substring(0, 100) + '...'}
+                </RecommendedCardDetails>
+              ))}
+            </RecommendedCard>
+          )}
+          {tripPlan.vehicleObjects.length <= 0 && (
+            <RecommendedCard
+              title={'Car'}
+              styles={{marginVertical: 10}}
+              type={'vehicles'}
+              navigation={navigation}
+              fieldName={'vehicles'}
+              fieldNameObj={'vehicleObjects'}>
+              <Text
+                style={{
+                  fontSize: 15,
+                  color: '#000',
+                  fontFamily: 'sans-serif-light',
+                  textAlign: 'center',
+                }}>
+                None is Selected. Click edit to browse more.
+              </Text>
+            </RecommendedCard>
+          )}
+          {tripPlan.vehicleObjects.length > 0 && (
+            <RecommendedCard
+              title={'Car'}
+              styles={{flexDirection: 'column'}}
+              type={'vehicles'}
+              navigation={navigation}
+              fieldName={'vehicles'}
+              fieldNameObj={'vehicleObjects'}>
+              {tripPlan.vehicleObjects.map(item => (
+                <RecommendedCardDetails
+                  item={item}
+                  perks={item.perks}
+                  type={'vehicles'}
+                  url={item.thumbnailSrc}
+                  id={item.id}
+                  navigation={navigation}
+                  styles={{paddingTop: 10}}
+                  name={item.name}>
+                  {item.description.substring(0, 100) + '...'}
+                </RecommendedCardDetails>
+              ))}
+            </RecommendedCard>
+          )}
+          {tripPlan.attractionObjects.length <= 0 && (
+            <RecommendedCard
+              title={'Attractions'}
+              styles={{marginVertical: 10}}
+              type={'attractions'}
+              navigation={navigation}
+              fieldName={'attractions'}
+              fieldNameObj={'attractionObjects'}>
+              <Text
+                style={{
+                  fontSize: 15,
+                  color: '#000',
+                  fontFamily: 'sans-serif-light',
+                  textAlign: 'center',
+                }}>
+                None is Selected. Click edit to browse more.
+              </Text>
+            </RecommendedCard>
           )}
 
-          {tripPlan.homestayObject && (
-            <View>
-              <Text style={{margin: 10}}>Recommended Homestay</Text>
-              <Card style={{marginVertical: 10}}>
-                <View style={{flexDirection: 'column'}}>
-                  <TouchableOpacity
-                    style={{margin: 4}}
-                    onPress={() => {
-                      navigation.navigate('SpotDetails', {
-                        type: 'homestays',
-                        id: tripPlan.homestayObject.id,
-                      });
-                    }}>
-                    <View
-                      style={{
-                        flex: 1,
-                        flexDirection: 'row',
-                        borderColor: '#000',
-                        borderBottomWidth: 1,
-                        paddingBottom: 10,
-                      }}>
-                      <FastImage
-                        style={{
-                          flex: 1,
-                          height: 60,
-                          resizeMode: 'contain',
-                          borderRadius: 5,
-                          paddingRight: 8,
-                        }}
-                        source={{uri: tripPlan.homestayObject.thumbnailSrc}}
-                      />
-
-                      <View
-                        style={{
-                          flex: 3,
-                          flexDirection: 'column',
-                          marginLeft: 3,
-                          paddingLeft: 10,
-                        }}>
-                        <Text
-                          style={{
-                            fontSize: 16,
-                            color: '#000',
-                          }}>
-                          {tripPlan.homestayObject.name}
-                        </Text>
-                        <Text
-                          style={{
-                            fontSize: 11,
-                            color: '#000',
-                          }}>
-                          {tripPlan?.homestayObject?.description
-                            ? tripPlan.homestayObject.description.substring(
-                                0,
-                                100,
-                              ) + '...'
-                            : ''}
-                        </Text>
-                        <View
-                          style={{
-                            alignItems: 'flex-end',
-                            justifyContent: 'flex-end',
-                          }}>
-                          <Text
-                            style={{
-                              fontSize: 11,
-                              color: '#000',
-                            }}>
-                            {tripPlan.homestayObject.perks}
-                          </Text>
-                        </View>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-                </View>
-                <View
-                  style={{
-                    alignItems: 'flex-end',
-                    justifyContent: 'flex-end',
-                  }}>
-                  <TouchableOpacity
-                    style={{marginTop: 4}}
-                    onPress={() =>
-                      navigation.navigate('Edit', {
-                        type: 'homestays',
-                        fieldName: 'homestay',
-                        fieldNameObj: 'homestayObject',
-                      })
-                    }>
-                    <Text style={{fontSize: 10, color: '#00BFFF'}}>Edit</Text>
-                  </TouchableOpacity>
-                </View>
-              </Card>
-            </View>
-          )}
-
-          {tripPlan.vehicleObject && (
-            <View>
-              <Text style={{margin: 10}}>Recommended Car</Text>
-              <Card style={{marginVertical: 10}}>
-                <View style={{flexDirection: 'column'}}>
-                  <TouchableOpacity
-                    style={{margin: 4}}
-                    onPress={() => {
-                      navigation.navigate('SpotDetails', {
-                        type: 'vehicles',
-                        id: tripPlan.vehicleObject.id,
-                      });
-                    }}>
-                    <View
-                      style={{
-                        flex: 1,
-                        flexDirection: 'row',
-                        borderColor: '#000',
-                        borderBottomWidth: 1,
-                        paddingBottom: 10,
-                      }}>
-                      <FastImage
-                        style={{
-                          flex: 1,
-                          height: 60,
-                          resizeMode: 'contain',
-                          borderRadius: 5,
-                          paddingRight: 8,
-                        }}
-                        source={{uri: tripPlan.vehicleObject.thumbnailSrc}}
-                      />
-
-                      <View
-                        style={{
-                          flex: 3,
-                          flexDirection: 'column',
-                          marginLeft: 3,
-                          paddingLeft: 10,
-                        }}>
-                        <Text
-                          style={{
-                            fontSize: 16,
-                            color: '#000',
-                          }}>
-                          {tripPlan.vehicleObject.name}
-                        </Text>
-                        <Text
-                          style={{
-                            fontSize: 11,
-                            color: '#000',
-                          }}>
-                          {tripPlan?.vehicleObject?.description
-                            ? tripPlan.vehicleObject.description.substring(
-                                0,
-                                100,
-                              ) + '...'
-                            : ''}
-                        </Text>
-                        <View
-                          style={{
-                            alignItems: 'flex-end',
-                            justifyContent: 'flex-end',
-                          }}>
-                          <Text
-                            style={{
-                              fontSize: 11,
-                              color: '#000',
-                            }}>
-                            {tripPlan.vehicleObject.perks}
-                          </Text>
-                        </View>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-                </View>
-                <View
-                  style={{
-                    alignItems: 'flex-end',
-                    justifyContent: 'flex-end',
-                  }}>
-                  <TouchableOpacity
-                    style={{marginTop: 4}}
-                    onPress={() =>
-                      navigation.navigate('Edit', {
-                        type: 'vehicles',
-                        fieldName: 'vehicle',
-                        fieldNameObj: 'vehicleObject',
-                      })
-                    }>
-                    <Text style={{fontSize: 10, color: '#00BFFF'}}>Edit</Text>
-                  </TouchableOpacity>
-                </View>
-              </Card>
-            </View>
-          )}
-
-          {tripPlan.attractionObjects && tripPlan.attractionObjects.length > 0 && (
-            <View>
-              <Text style={{margin: 10}}>Recommended Attractions</Text>
+          {tripPlan.attractionObjects.length > 0 && (
+            <RecommendedCard
+              title={'Attractions'}
+              styles={{flexDirection: 'column'}}
+              type={'attractions'}
+              navigation={navigation}
+              fieldName={'attractions'}
+              fieldNameObj={'attractionObjects'}>
               {tripPlan.attractionObjects.map(item => (
-                <Card style={{marginVertical: 10}} key={item.id}>
-                  <View style={{flexDirection: 'column'}}>
-                    <TouchableOpacity
-                      style={{margin: 4}}
-                      onPress={() => {
-                        navigation.navigate('SpotDetails', {
-                          type: 'attractions',
-                          id: item.id,
-                        });
-                      }}>
-                      <View
-                        style={{
-                          flex: 1,
-                          flexDirection: 'row',
-                          borderColor: '#000',
-                          borderBottomWidth: 1,
-                          paddingBottom: 10,
-                        }}>
-                        <FastImage
-                          style={{
-                            flex: 1,
-                            height: 60,
-                            resizeMode: 'contain',
-                            borderRadius: 5,
-                            paddingRight: 8,
-                          }}
-                          source={{uri: item.thumbnailSrc}}
-                        />
-
-                        <View
-                          style={{
-                            flex: 3,
-                            flexDirection: 'column',
-                            marginLeft: 3,
-                            paddingLeft: 10,
-                          }}>
-                          <Text
-                            style={{
-                              fontSize: 16,
-                              color: '#000',
-                            }}>
-                            {item.name}
-                          </Text>
-                          <Text
-                            style={{
-                              fontSize: 11,
-                              color: '#000',
-                            }}>
-                            {item.description.substring(0, 100) + '...'}
-                          </Text>
-                          <View
-                            style={{
-                              alignItems: 'flex-end',
-                              justifyContent: 'flex-end',
-                            }}>
-                            <Text
-                              style={{
-                                fontSize: 11,
-                                color: '#000',
-                              }}>
-                              {item.perks}
-                            </Text>
-                          </View>
-                        </View>
-                      </View>
-                    </TouchableOpacity>
-                  </View>
-                  <View
-                    style={{
-                      alignItems: 'flex-end',
-                      justifyContent: 'flex-end',
-                    }}>
-                    <TouchableOpacity
-                      style={{marginTop: 4}}
-                      onPress={() =>
-                        navigation.navigate('Edit', {
-                          type: 'attractions',
-                          fieldName: 'attractions',
-                          fieldNameObj: 'attractionObjects',
-                        })
-                      }>
-                      <Text style={{fontSize: 10, color: '#00BFFF'}}>Edit</Text>
-                    </TouchableOpacity>
-                  </View>
-                </Card>
+                <RecommendedCardDetails
+                  item={item}
+                  perks={item.perks}
+                  type={'attractions'}
+                  url={item.thumbnailSrc}
+                  id={item.id}
+                  navigation={navigation}
+                  styles={{paddingTop: 10}}
+                  name={item.name}>
+                  {item.description.substring(0, 100) + '...'}
+                </RecommendedCardDetails>
               ))}
-            </View>
+            </RecommendedCard>
           )}
-
-          {tripPlan.restaurantObjects && tripPlan.restaurantObjects.length > 0 && (
-            <View>
-              <Text style={{margin: 10}}>Recommended Restaurants</Text>
+          {tripPlan.restaurantObjects.length <= 0 && (
+            <RecommendedCard
+              title={'Restaurants'}
+              styles={{marginVertical: 10}}
+              type={'restaurants'}
+              navigation={navigation}
+              fieldName={'restaurants'}
+              fieldNameObj={'restaurantObjects'}>
+              <Text
+                style={{
+                  fontSize: 15,
+                  color: '#000',
+                  fontFamily: 'sans-serif-light',
+                  textAlign: 'center',
+                }}>
+                None is Selected. Click edit to browse more.
+              </Text>
+            </RecommendedCard>
+          )}
+          {tripPlan.restaurantObjects.length > 0 && (
+            <RecommendedCard
+              title={'Restaurants'}
+              styles={{flexDirection: 'column'}}
+              type={'restaurants'}
+              navigation={navigation}
+              fieldName={'restaurants'}
+              fieldNameObj={'restaurantObjects'}>
               {tripPlan.restaurantObjects.map(item => (
-                <Card style={{marginVertical: 10}} key={item.id}>
-                  <View style={{flexDirection: 'column'}}>
-                    <TouchableOpacity
-                      style={{margin: 4}}
-                      onPress={() => {
-                        navigation.navigate('SpotDetails', {
-                          type: 'restaurants',
-                          id: item.id,
-                        });
-                      }}>
-                      <View
-                        style={{
-                          flex: 1,
-                          flexDirection: 'row',
-                          borderColor: '#000',
-                          borderBottomWidth: 1,
-                          paddingBottom: 10,
-                        }}>
-                        <FastImage
-                          style={{
-                            flex: 1,
-                            height: 60,
-                            resizeMode: 'contain',
-                            borderRadius: 5,
-                            paddingRight: 8,
-                          }}
-                          source={{uri: item.thumbnailSrc}}
-                        />
-
-                        <View
-                          style={{
-                            flex: 3,
-                            flexDirection: 'column',
-                            marginLeft: 3,
-                            paddingLeft: 10,
-                          }}>
-                          <Text
-                            style={{
-                              fontSize: 16,
-                              color: '#000',
-                            }}>
-                            {item.name}
-                          </Text>
-                          <Text
-                            style={{
-                              fontSize: 11,
-                              color: '#000',
-                            }}>
-                            {item.description.substring(0, 100) + '...'}
-                          </Text>
-                          <View
-                            style={{
-                              alignItems: 'flex-end',
-                              justifyContent: 'flex-end',
-                            }}>
-                            <Text
-                              style={{
-                                fontSize: 11,
-                                color: '#000',
-                              }}>
-                              {item.perks}
-                            </Text>
-                          </View>
-                        </View>
-                      </View>
-                    </TouchableOpacity>
-                  </View>
-                  <View
-                    style={{
-                      alignItems: 'flex-end',
-                      justifyContent: 'flex-end',
-                    }}>
-                    <TouchableOpacity
-                      style={{marginTop: 4}}
-                      onPress={() =>
-                        navigation.navigate('Edit', {
-                          type: 'restaurants',
-                          fieldName: 'restaurants',
-                          fieldNameObj: 'restaurantObjects',
-                        })
-                      }>
-                      <Text style={{fontSize: 10, color: '#00BFFF'}}>Edit</Text>
-                    </TouchableOpacity>
-                  </View>
-                </Card>
+                <RecommendedCardDetails
+                  item={item}
+                  perks={item.perks}
+                  type={'restaurants'}
+                  url={item.thumbnailSrc}
+                  id={item.id}
+                  navigation={navigation}
+                  styles={{paddingTop: 10}}
+                  name={item.name}>
+                  {item.description.substring(0, 100) + '...'}
+                </RecommendedCardDetails>
               ))}
-            </View>
+            </RecommendedCard>
           )}
         </View>
         {/* <View style={{flexDirection: 'row', marginTop: 20}}>
@@ -1037,7 +467,7 @@ export default function Recommended({navigation}) {
           </Text>
         </View> */}
         <View style={{marginTop: 20}}>
-          <TouchableOpacity onPress={onPressHandler}>
+          <TouchableOpacity onPress={updateAPI}>
             <Text
               style={{
                 color: 'white',

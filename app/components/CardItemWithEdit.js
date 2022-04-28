@@ -20,6 +20,7 @@ const CardItemWithEdit = ({
       style={{
         minHeight: 150,
         flexDirection: 'row',
+        flex: 1,
         margin: 10,
         marginBottom: marginBottom,
       }}

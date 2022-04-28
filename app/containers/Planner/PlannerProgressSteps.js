@@ -22,7 +22,6 @@ export default function PlannerSteps({navigation}) {
   const {budget} = useSelector(state => state.plannerReducer);
 
   const closeModel = () => {
-    console.log('toggled close');
     setIsModelPopUp(false);
   };
 
@@ -34,7 +33,6 @@ export default function PlannerSteps({navigation}) {
     try {
       //check for number input
       if (parseFloat(budget) < 100) {
-        console.log(budget);
         setIsModelPopUp(true);
         setErrors(true);
       } else {
