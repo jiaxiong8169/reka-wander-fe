@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import CardItem from '../../components/CardItem';
 import BlueSubtitle from '../../components/BlueSubtitle';
 import GradientBackground from '../../components/GradientBackground';
 import {Text, Input, ScrollView} from 'native-base';
@@ -8,11 +7,10 @@ import {useHttpCall} from '../../hooks/useHttpCall';
 import {LoadMore} from '../../components/LoadMore';
 import {BackButton} from '../../components/BackButton';
 import Card from '../../components/Card';
-import {Dimensions, View} from 'react-native';
+import {View} from 'react-native';
+import {HomestayCardItem} from '../../components/HomestayCardItem';
 
-const height = Dimensions.get('window').height;
-
-export const HomestaySearchScreen = ({navigation}) => {
+export const HomestayListScreen = ({navigation}) => {
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState('');
@@ -56,7 +54,7 @@ export const HomestaySearchScreen = ({navigation}) => {
           <BlueSubtitle text1="Hi" text2={`Welcome,`} />
         </View>
         <Text fontSize={17} color="rgb(117,157,246)">
-          Here there is some suggestion for you.
+          Book a Homestay
         </Text>
       </View>
 
@@ -79,15 +77,15 @@ export const HomestaySearchScreen = ({navigation}) => {
           />
         }
       />
-      <Card style={{marginBottom: height - 420}}>
+      {/* TODO: Check marginBottom after having more records */}
+      <Card style={{marginBottom: 40}}>
         <ScrollView>
           {items.map(item => (
-            <CardItem
-              item={item}
+            <HomestayCardItem
               key={item.id}
-              navigation={navigation}
-              type="homestays"
-              marginBottom={10}
+              name={item.name}
+              price={item.minPrice}
+              thumbnailSrc={item.thumbnailSrc}
             />
           ))}
           <LoadMore getData={getData} full={full} loading={loading} />

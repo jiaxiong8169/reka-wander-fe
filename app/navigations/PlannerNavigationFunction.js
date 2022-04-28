@@ -100,7 +100,13 @@ export default function PlannerStack() {
             headerShown: false,
           }}
         />
-        <Stack.Screen name="CarRentalList" component={CarRentalListScreen} />
+        <Stack.Screen
+          name="CarRentalList"
+          component={CarRentalListScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
         <Stack.Screen
           name="Homestay"
           component={HomestayStack}
