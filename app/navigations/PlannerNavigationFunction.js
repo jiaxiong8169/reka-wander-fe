@@ -12,6 +12,7 @@ import {useHttpCall} from '../hooks/useHttpCall';
 import {setInterests} from '../redux/Nearby/actions';
 import {MyHomeScreen} from '../containers/home/MyHomeScreen';
 import SpotsCommentScreen from '../containers/spots/SpotsCommentScreen';
+import { CarRentalListScreen } from '../containers/carRental/CarRentalListScreen';
 
 //Screen names
 const Stack = createStackNavigator();
@@ -95,6 +96,14 @@ export default function PlannerStack() {
         <Stack.Screen
           name="SpotsComment"
           component={SpotsCommentScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="CarRentalList"
+          component={CarRentalListScreen}
           options={{
             headerShown: false,
           }}
