@@ -78,7 +78,7 @@ export const MyHomeScreen = ({navigation}) => {
             flexDirection: 'row',
             justifyContent: 'space-evenly',
           }}>
-          <MyCircleIcon text="Car Rental">
+          <MyCircleIcon text="Car Rental" onPress={() => navigation.navigate('CarRentalList')}>
             <Image
               source={require('../../assets/car_rental.png')}
               style={{
