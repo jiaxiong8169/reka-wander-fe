@@ -16,14 +16,59 @@ import {BackButton} from '../../components/BackButton';
 import RoundButton from '../../components/RoundButton';
 import FastImage from 'react-native-fast-image';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { useHttpCall } from '../../hooks/useHttpCall';
+import {useHttpCall} from '../../hooks/useHttpCall';
+import { RefreshControl } from 'react-native';
 
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 
 export const CarRentalDetailsScreen = ({navigation, route}) => {
+    const {id} = route.params;
+  const [item, setItem] = useState([]);
+  const {getWithoutAuth} = useHttpCall();
+  const [reload, setReload] = React.useState(true);
+  const [loading, setLoading] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!reload) return;
+    setLoading(true);
+    
+    // try to fetch the data
+    getWithoutAuth(`vehicles/${id}`)
+      .then(({data}) => {
+        if (!!data) {
+          setItem(data);
+          
+          // update the cached data
+          let clonedListData = JSON.parse(JSON.stringify(listData));
+          for (let i = 0; i < clonedListData.length; i++) {
+            if (clonedListData[i].id === id) {
+              clonedListData[i] = data;
+              break;
+            }
+          }
+        }
+        // set loading and reload to false indicating finished loading
+        setLoading(false);
+        setReload(false);
+      })
+      .catch(err => {
+        console.log(err);
+        // set loading and reload to false indicating finished loading
+        setLoading(false);
+        setReload(false);
+      });
+  }, [reload]);
+  console.log(item)
   return (
-    <ScrollView>
+    <ScrollView
+    showsVerticalScrollIndicator={false}
+    refreshControl={
+      <RefreshControl
+        refreshing={loading}
+        onRefresh={() => setReload(true)}
+      />
+    }>
       <GradientBackground>
         <View style={{flexDirection: 'row'}}>
           <BackButton navigation={navigation} />
@@ -35,15 +80,15 @@ export const CarRentalDetailsScreen = ({navigation, route}) => {
             lineHeight={30}
             color={'gray.500'}
             style={styles.productName}>
-            BMW
+            {item.name}
             {'\n'}
             <Text bold fontSize={15} lineHeight={25}>
-              RM 300/day
+              RM {item.price}/day
             </Text>
           </Text>
           <View style={styles.carLeft}>
             <Text bold fontSize={20} color={'gray.500'}>
-              33333 cars left
+              {item.availability} cars left
             </Text>
           </View>
         </View>
@@ -59,7 +104,7 @@ export const CarRentalDetailsScreen = ({navigation, route}) => {
                 marginTop: -50,
               }}
               source={{
-                uri: 'https://www.hyundai.com.my/images/find-a-car/all-vehicles/palisade-lx2.png',
+                uri: item.thumbnailSrc,
               }}
             />
           </ZStack>
@@ -73,16 +118,9 @@ export const CarRentalDetailsScreen = ({navigation, route}) => {
             pl={5}
             pr={5}
             pb={10}>
-            BMW Details{'\n'}
+            {item.name} Details{'\n'}
             <Text fontSize={15} lineHeight={25}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </Text>
+              {item.description}</Text>
           </Text>
         </View>
 
@@ -92,8 +130,9 @@ export const CarRentalDetailsScreen = ({navigation, route}) => {
           </Pressable>
         </Box>
         <RoundButton title="Rent" backgroundColor="#dc2626" />
+        
       </GradientBackground>
-    </ScrollView>
+      </ScrollView>
   );
 };
 

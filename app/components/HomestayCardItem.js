@@ -14,7 +14,18 @@ export const HomestayCardItem = props => {
         minHeight: 120,
       }}>
       <Center flex="1">
-        <Box bg={'blue.300'} mt="-10" p="2" rounded="2xl" shadow={5}>
+        <Box
+          bg={{
+            linearGradient: {
+              colors: ['blue.600', 'lightBlue.300'],
+              start: [0, 0],
+              end: [1, 0],
+            },
+          }}
+          mt="-10"
+          p="2"
+          rounded="2xl"
+          shadow={5}>
           <Text
             style={{textAlign: 'center'}}
             bold
