@@ -43,18 +43,6 @@ export default function LoadingScreen({navigation}) {
     console.log(tmp);
     postWithAuth('trips/recommend', tmp)
       .then(({data}) => {
-        // TODO: Let backend do this, add default values if not exists
-        if (!data.attractionObjects) data.attractionObjects = [];
-        if (!data.attractions) data.attractions = [];
-        if (!data.restaurantObjects) data.restaurantObjects = [];
-        if (!data.restaurants) data.restaurants = [];
-        if (!data.hotelObject) data.hotelObject = {};
-        if (!data.hotel) data.hotel = '';
-        if (!data.vehicleObject) data.vehicleObject = {};
-        if (!data.vehicle) data.vehicle = '';
-        if (!data.homestayObject) data.homestayObject = {};
-        if (!data.homestay) data.homestay = '';
-
         dispatch(setTripPlan(data));
         dispatch(setTripId(data.id)); // set ID for updating later
         navigation.navigate('Recommended'); // navigate to Recommend page

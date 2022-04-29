@@ -5,6 +5,7 @@ import LoadingScreen from '../containers/Planner/PlannerLoadingScreen';
 import Recommended from '../containers/Planner/RecommendedPlaceScreen';
 import SuccessConfirmScreen from '../containers/Planner/PlannerSuccessCreateTrip';
 import SpotDetailsScreen from '../containers/spots/SpotDetailsScreen';
+import RecommendedCard from '../containers/Planner/PlannerRecommendCard';
 import {EditScreen} from '../containers/Planner/PlannerEditScreen';
 import {Provider, useDispatch} from 'react-redux';
 import {store} from '../redux/store';
@@ -119,6 +120,14 @@ export default function PlannerStack() {
         <Stack.Screen
           name="CarRentalDetails"
           component={CarRentalDetailsScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        
+        <Stack.Screen
+          name="RecommendedCards"
+          component={RecommendedCard}
           options={{
             headerShown: false,
           }}
