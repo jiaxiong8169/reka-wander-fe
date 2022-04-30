@@ -48,6 +48,7 @@
     "react": "17.0.2",
     "react-devtools": "^4.24.2",
     "react-native": "0.68.1",
+    "react-native-android-keyboard-adjust": "^1.2.0",
     "react-native-calendar-picker": "^7.1.2",
     "react-native-calendars": "^1.1280.0",
     "react-native-device-info": "^8.7.0",
