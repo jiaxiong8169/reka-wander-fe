@@ -26,6 +26,7 @@ const OneDigitInput = React.forwardRef(
               keyboardType={'number-pad'}
               caretHidden
               ref={ref}
+              selection={{start: 1, end: 1}}
               onFocus={onFocus}
               onKeyPress={({nativeEvent}) => {
                 console.log(nativeEvent.key);
@@ -76,7 +77,6 @@ const OTPInput = ({setCode, editable}) => {
     if (text !== '')
       if (index < refArr.length - 1) refArr[index + 1].current.focus();
       else refArr[index].current.blur();
-    else if (index > 0) refArr[index - 1].current.focus();
   };
 
   useEffect(() => {
