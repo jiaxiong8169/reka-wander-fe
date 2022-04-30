@@ -61,7 +61,9 @@ const SignInScreen = ({navigation, route}) => {
   };
 
   const handleLoginButtonPress = () => {
-    signIn(email, password);
+    signIn(email, password).catch(e => {
+      console.log(e);
+    });
   };
 
   const handleRegisterButtonPress = () => {

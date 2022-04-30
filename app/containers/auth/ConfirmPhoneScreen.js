@@ -51,59 +51,29 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
 
   async function confirmCode() {
     try {
-      await confirm.confirm(code);
-      const regInfo = {
-        email,
-        password,
-        phoneNumber,
-      };
-      authProvider.signUp(regInfo).then(success => {
-        if (success)
-          authProvider
-            .signIn(email, password)
-            .then(() => {
-              return auth().signOut();
-            })
-            .then(() => {
-              navigation.navigate({name: 'MainScreen'});
-            });
-        // it is not necessary to use `signInWithGoogle`
-        // because we use the same email and password to sign up and sign in
-        // user sign up with any method should be able to sign in
-      });
+      await confirm.confirm(code); // this will trigger the onAuthStateChanged listener
     } catch (error) {
       console.log(error);
-      setOTPModalVisible(false);
     }
   }
 
   useEffect(() => {
     const unsubscribe = auth().onAuthStateChanged(user => {
-      console.log('listener is running');
       if (user) {
-        console.log(user);
-        try {
-          const regInfo = {
-            email,
-            password,
-            phoneNumber,
-          };
-          authProvider.signUp(regInfo).then(success => {
-            console.log('registration status: ' + success);
-            if (success)
-              authProvider
-                .signIn(email, password)
-                .then(() => {
-                  console.log('sign out now');
-                  return auth().signOut();
-                })
-                .then(() => {
-                  navigation.navigate({name: 'MainScreen'});
-                });
-          });
-        } catch (error) {
-          console.log(error);
-        }
+        const regInfo = {
+          email,
+          password,
+          phoneNumber,
+        };
+        authProvider
+          .signUp(regInfo)
+          .then(() => {
+            setOTPModalVisible(false);
+          })
+          .catch(err => {
+            console.log({err});
+          })
+          .finally(() => auth().signOut());
       }
     });
 
