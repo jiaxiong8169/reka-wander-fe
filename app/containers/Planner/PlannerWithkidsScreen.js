@@ -1,6 +1,5 @@
 import React from 'react';
 import {StyleSheet, View, Text, Image} from 'react-native';
-import Card from '../../components/card/card';
 import RadioButtonRN from '../../components/multiple_choice/multiplechoice';
 import {useSelector, useDispatch} from 'react-redux';
 import {setKids} from '../../redux/Planner/actions';
@@ -23,35 +22,33 @@ const Withkids = () => {
   };
 
   return (
-    <View style={styles.body}>
-      <Card style={{width: '100%'}}>
-        <View style={{alignItems: 'center'}}>
-          <Text style={styles.question}>With kids?</Text>
-        </View>
-        <View style={{marginHorizontal: '15%'}}>
-          <RadioButtonRN
-            data={data}
-            box={false}
-            initial={kids ? 1 : 2}
-            animationTypes={['pulse']}
-            circleSize={18}
-            textColor={'black'}
-            selectedBtn={onPressHandler}></RadioButtonRN>
-        </View>
-        <View style={{marginTop: 10}}>
-          <Image
-            source={require('../../assets/kids.png')}
-            style={{
-              padding: 1,
-              aspectRatio: 1,
-              width: '100%',
-              resizeMode: 'contain',
-              alignItems: 'flex-end',
-              height: undefined,
-            }}
-          />
-        </View>
-      </Card>
+    <View>
+      <View style={{alignItems: 'center'}}>
+        <Text style={styles.question}>With kids?</Text>
+      </View>
+      <View style={{marginHorizontal: '15%'}}>
+        <RadioButtonRN
+          data={data}
+          box={false}
+          initial={kids ? 1 : 2}
+          animationTypes={['pulse']}
+          circleSize={18}
+          textColor={'black'}
+          selectedBtn={onPressHandler}></RadioButtonRN>
+      </View>
+      <View style={{marginTop: 10}}>
+        <Image
+          source={require('../../assets/kids.png')}
+          style={{
+            padding: 1,
+            aspectRatio: 1,
+            width: '100%',
+            resizeMode: 'contain',
+            alignItems: 'flex-end',
+            height: undefined,
+          }}
+        />
+      </View>
     </View>
   );
 };

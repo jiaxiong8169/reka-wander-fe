@@ -4,9 +4,8 @@ import {Button, View, Text, StyleSheet, Dimensions} from 'react-native';
 const ModelContent = props => {
   return (
     <View style={styles.content}>
-      <Text style={styles.contentTitle}>{props.title}</Text>
-      <View>{props.children}</View>
-      <Button testID={'close-button'} onPress={props.onPress} title="Close" />
+      <View style={{marginBottom: 15}}>{props.children}</View>
+      <Button testID={'close-button'} onPress={props.onPress} title="Close" color='#6495ED'/>
     </View>
   );
 };
@@ -19,10 +18,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 4,
     borderColor: 'rgba(0, 0, 0, 0.1)',
-  },
-  contentTitle: {
-    fontSize: 20,
-    marginBottom: 12,
   },
 });
 
