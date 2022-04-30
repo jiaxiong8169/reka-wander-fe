@@ -17,6 +17,7 @@ import {useIsFocused} from '@react-navigation/native';
 import {LoadingOverlay} from '../../components/LoadingOverlay';
 import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 import CustomButton from '../../components/CustomButton/CustomButton';
+import AppleAuth from '../../components/AppleAuth';
 
 const SignInScreen = ({navigation, route}) => {
   const {loading, authData, signIn, setAuthError} = useAuth();
@@ -155,8 +156,13 @@ const SignInScreen = ({navigation, route}) => {
                   <View style={styles.continueWithText}>
                     <Text>{isRegister ? 'Register' : 'Login'} with</Text>
                   </View>
-                  <View>
+                  <View
+                    style={{
+                      flex: 1,
+                      flexDirection: 'row',
+                    }}>
                     <GoogleAuth navigation={navigation} />
+                    <AppleAuth navigation={navigation} />
                   </View>
                 </View>
               </View>
