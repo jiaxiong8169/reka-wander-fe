@@ -73,12 +73,15 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
       });
     } catch (error) {
       console.log(error);
+      setOTPModalVisible(false);
     }
   }
 
   useEffect(() => {
-    auth().onAuthStateChanged(user => {
+    const unsubscribe = auth().onAuthStateChanged(user => {
+      console.log('listener is running');
       if (user) {
+        console.log(user);
         try {
           const regInfo = {
             email,
@@ -86,10 +89,12 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
             phoneNumber,
           };
           authProvider.signUp(regInfo).then(success => {
+            console.log('registration status: ' + success);
             if (success)
               authProvider
                 .signIn(email, password)
                 .then(() => {
+                  console.log('sign out now');
                   return auth().signOut();
                 })
                 .then(() => {
@@ -101,6 +106,10 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
         }
       }
     });
+
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   useEffect(() => {
