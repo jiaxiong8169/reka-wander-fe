@@ -12,10 +12,15 @@ import RoundButton from '../../components/RoundButton';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {Input} from 'native-base';
 import {MyCircleIcon} from '../../components/CircleIcon';
+import {preventBack} from '../../utils/navigation-utils';
 
 const width = Dimensions.get('window').width;
 
 export const MyHomeScreen = ({navigation}) => {
+  useEffect(() => {
+    preventBack(navigation, 'MyHome');
+  }, [navigation]);
+
   return (
     <LinearGradient
       colors={['#CFDDFC', 'white', 'white', '#CFDDFC']}
@@ -78,7 +83,9 @@ export const MyHomeScreen = ({navigation}) => {
             flexDirection: 'row',
             justifyContent: 'space-evenly',
           }}>
-          <MyCircleIcon text="Car Rental" onPress={() => navigation.navigate('CarRentalList')}>
+          <MyCircleIcon
+            text="Car Rental"
+            onPress={() => navigation.navigate('CarRentalList')}>
             <Image
               source={require('../../assets/car_rental.png')}
               style={{

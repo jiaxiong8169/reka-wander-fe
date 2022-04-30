@@ -1,21 +1,11 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Modal,
-  Image,
-  ScrollView,
-} from 'react-native';
-import React, {useEffect, useState, useRef} from 'react';
+import {View, Text, StyleSheet, Modal, Image, ScrollView} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import {useAuth} from '../../hooks/useAuth';
 import LinearGradient from 'react-native-linear-gradient';
-import {LoadingOverlay} from '../../components/LoadingOverlay';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 import OTPInput from './OTPInput';
-import {Button} from 'native-base';
 import CustomButton from '../../components/CustomButton/CustomButton';
 
 export const ConfirmPhoneScreen = ({navigation, route}) => {

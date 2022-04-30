@@ -1,13 +1,18 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet} from 'react-native';
 import {Button, View, Text} from 'native-base';
 import GradientBackground from '../../components/GradientBackground';
 import {useAuth} from '../../hooks/useAuth';
 import {useHttpCall} from '../../hooks/useHttpCall';
+import {preventBack} from '../../utils/navigation-utils';
 
 export const SettingsScreen = ({navigation}) => {
   const {authData, signOut} = useAuth();
   const {getWithAuth} = useHttpCall();
+
+  useEffect(() => {
+    preventBack(navigation, 'Settings');
+  }, [navigation]);
 
   const getProfile = () => {
     return getWithAuth('profile', () =>
@@ -16,7 +21,6 @@ export const SettingsScreen = ({navigation}) => {
       // TODO: Implement Profile Container
       console.log(data);
     });
-
   };
 
   return (
