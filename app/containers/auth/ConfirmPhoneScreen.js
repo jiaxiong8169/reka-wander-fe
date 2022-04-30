@@ -79,22 +79,26 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
   useEffect(() => {
     auth().onAuthStateChanged(user => {
       if (user) {
-        const regInfo = {
-          email,
-          password,
-          phoneNumber,
-        };
-        authProvider.signUp(regInfo).then(success => {
-          if (success)
-            authProvider
-              .signIn(email, password)
-              .then(() => {
-                return auth().signOut();
-              })
-              .then(() => {
-                navigation.navigate({name: 'MainScreen'});
-              });
-        });
+        try {
+          const regInfo = {
+            email,
+            password,
+            phoneNumber,
+          };
+          authProvider.signUp(regInfo).then(success => {
+            if (success)
+              authProvider
+                .signIn(email, password)
+                .then(() => {
+                  return auth().signOut();
+                })
+                .then(() => {
+                  navigation.navigate({name: 'MainScreen'});
+                });
+          });
+        } catch (error) {
+          console.log(error);
+        }
       }
     });
   });
