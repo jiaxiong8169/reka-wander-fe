@@ -6,7 +6,11 @@ const ModelContent = props => {
     <View style={styles.content}>
       <Text style={styles.contentTitle}>{props.title}</Text>
       <View>{props.children}</View>
-      <Button testID={'close-button'} onPress={props.onPress} title="Close" />
+      <Button
+        testID={'close-button'}
+        onPress={props.onPress}
+        title={props.buttonTitle}
+      />
     </View>
   );
 };

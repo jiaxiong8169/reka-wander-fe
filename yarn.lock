@@ -28,7 +28,11 @@
   "resolved" "https://registry.npmjs.org/@babel/compat-data/-/compat-data-7.17.7.tgz"
   "version" "7.17.7"
 
+<<<<<<< HEAD
 "@babel/core@*", "@babel/core@^7.0.0", "@babel/core@^7.0.0-0", "@babel/core@^7.1.0", "@babel/core@^7.12.0", "@babel/core@^7.12.3", "@babel/core@^7.12.9", "@babel/core@^7.13.0", "@babel/core@^7.13.16", "@babel/core@^7.14.0", "@babel/core@^7.4.0-0", "@babel/core@^7.7.5":
+=======
+"@babel/core@*", "@babel/core@^7.0.0", "@babel/core@^7.0.0-0", "@babel/core@^7.1.0", "@babel/core@^7.12.3", "@babel/core@^7.12.9", "@babel/core@^7.13.16", "@babel/core@^7.14.0", "@babel/core@^7.4.0-0", "@babel/core@^7.7.5":
+>>>>>>> Add close button on edit user details model
   "integrity" "sha512-5ug+SfZCpDAkVp9SFIZAzlW18rlzsOcJGaetCjkySnrXXDUw9AR8cDUm1iByTmdWM6yxX6/zycaV76w3YTF2gw=="
   "resolved" "https://registry.npmjs.org/@babel/core/-/core-7.17.9.tgz"
   "version" "7.17.9"
@@ -1215,7 +1219,11 @@
   "resolved" "https://registry.npmjs.org/@expo-google-fonts/montserrat/-/montserrat-0.2.2.tgz"
   "version" "0.2.2"
 
+<<<<<<< HEAD
 "@expo/config-plugins@^4.0.18", "@expo/config-plugins@^4.0.2", "@expo/config-plugins@^4.1.0", "@expo/config-plugins@4.1.1":
+=======
+"@expo/config-plugins@^4.0.18", "@expo/config-plugins@^4.1.0", "@expo/config-plugins@4.1.1":
+>>>>>>> Add close button on edit user details model
   "integrity" "sha512-lo3tVxRhwM9jfxPHJcURsH5WvU26kX12h5EB3C7kjVhgdQPLkvT8Jk8Cx0KSL8MXKcry2xQvZ2uuwWLkMeplJw=="
   "resolved" "https://registry.npmjs.org/@expo/config-plugins/-/config-plugins-4.1.1.tgz"
   "version" "4.1.1"
@@ -10225,7 +10233,11 @@
     "prop-types" "^15.5.10"
     "yargs" "^8.0.2"
 
+<<<<<<< HEAD
 "react-native@*", "react-native@^0.0.0-0 || 0.60 - 0.68 || 1000.0.0", "react-native@> 0.57", "react-native@>= 0.30.0", "react-native@>= 0.62", "react-native@>=0.42.0", "react-native@>=0.48.4", "react-native@>=0.50.0", "react-native@>=0.55", "react-native@>=0.57", "react-native@>=0.60.0", "react-native@>=0.63.3", "react-native@>=0.65.0", "react-native@>0.57.0", "react-native@0.68.1":
+=======
+"react-native@*", "react-native@^0.0.0-0 || 0.60 - 0.68 || 1000.0.0", "react-native@> 0.57", "react-native@>= 0.30.0", "react-native@>= 0.62", "react-native@>=0.42.0", "react-native@>=0.48.4", "react-native@>=0.50.0", "react-native@>=0.55", "react-native@>=0.57", "react-native@>=0.60.0", "react-native@>=0.65.0", "react-native@>0.57.0", "react-native@0.68.1":
+>>>>>>> Add close button on edit user details model
   "integrity" "sha512-5gfvslo5NO2Ece2k/q41eVOK3ca4u1QAOf+qM+auvOiUA4/QR5Yr0WfSGbRpUr2GaFgv7qP11F4+elCravg7uQ=="
   "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.68.1.tgz"
   "version" "0.68.1"
@@ -10370,7 +10382,11 @@
     "loose-envify" "^1.4.0"
     "prop-types" "^15.6.2"
 
+<<<<<<< HEAD
 "react@*", "react@^16.0.0 || ^17.0.0", "react@^16.7.0 || ^17.0.0-0", "react@^16.8.0 || ^17.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0-rc.1", "react@^16.8.3 || ^17 || ^18", "react@^16.8.6 || ^17.0.0", "react@^17.0.0", "react@>= 15.2.1", "react@>= 16.x", "react@>=16.0", "react@>=16.13.1", "react@>=16.3.0", "react@>=16.6.0", "react@>=16.8.0", "react@>16.6.0", "react@16 || 17", "react@17.0.2":
+=======
+"react@*", "react@^16.0.0 || ^17.0.0", "react@^16.7.0 || ^17.0.0-0", "react@^16.8.0 || ^17.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0-rc.1", "react@^16.8.3 || ^17 || ^18", "react@^16.8.6 || ^17.0.0", "react@^17.0.0", "react@>= 15.2.1", "react@>= 16.x", "react@>=16.0", "react@>=16.3.0", "react@>=16.6.0", "react@>=16.8.0", "react@>16.6.0", "react@16 || 17", "react@16.9.0", "react@17.0.2":
+>>>>>>> Add close button on edit user details model
   "integrity" "sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA=="
   "resolved" "https://registry.npmjs.org/react/-/react-17.0.2.tgz"
   "version" "17.0.2"
@@ -10389,6 +10405,7 @@
     "object-assign" "^4.1.0"
     "prop-types" "^15.5.10"
 
+<<<<<<< HEAD
 "react@16.9.0":
   "integrity" "sha512-+7LQnFBwkiw+BobzOF6N//BdoNw0ouwmSJTEm9cglOOmsg/TMiFHZLe2sEoN5M7LgJTj9oHH0gxklfnQe66S1w=="
   "resolved" "https://registry.npmjs.org/react/-/react-16.9.0.tgz"
@@ -10398,6 +10415,8 @@
     "object-assign" "^4.1.1"
     "prop-types" "^15.6.2"
 
+=======
+>>>>>>> Add close button on edit user details model
 "read-pkg-up@^2.0.0":
   "integrity" "sha1-a3KoBImE4MQeeVEP1en6mbO1Sb4="
   "resolved" "https://registry.npmjs.org/read-pkg-up/-/read-pkg-up-2.0.0.tgz"

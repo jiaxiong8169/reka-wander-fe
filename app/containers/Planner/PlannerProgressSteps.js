@@ -161,7 +161,7 @@ export default function PlannerSteps({navigation}) {
                   animationOutTiming={700}
                   backdropTransitionInTiming={700}
                   backdropTransitionOutTiming={700}>
-                  <ModelContent title={'Opps!'} onPress={closeModel}>
+                  <ModelContent title={'Opps!'} onPress={closeModel} buttonTitle={'Close'}>
                     <Text>
                       Your travel budget must at least more than RM100! Please
                       re-enter your travel budget!
