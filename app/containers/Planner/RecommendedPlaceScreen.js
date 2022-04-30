@@ -257,15 +257,13 @@ export default function Recommended({navigation}) {
             </RecommendedCard>
           )}
           {tripPlan.hotelObjects.length > 0 && (
-             <RecommendedCard
+            <RecommendedCard
               title={'Hotel'}
               styles={{flexDirection: 'column'}}
               type={'hotels'}
               navigation={navigation}
               fieldName={'hotels'}
               fieldNameObj={'hotelObjects'}>
-             
-             
               {tripPlan.hotelObjects.map(item => (
                 <RecommendedCardDetails
                   item={item}
@@ -273,6 +271,7 @@ export default function Recommended({navigation}) {
                   type={'hotels'}
                   url={item.thumbnailSrc}
                   id={item.id}
+                  key={item.id}
                   navigation={navigation}
                   styles={{paddingTop: 10}}
                   name={item.name}>
@@ -312,6 +311,7 @@ export default function Recommended({navigation}) {
               {tripPlan.homestayObjects.map(item => (
                 <RecommendedCardDetails
                   item={item}
+                  key={item.id}
                   perks={item.perks}
                   type={'homestays'}
                   url={item.thumbnailSrc}
@@ -354,6 +354,7 @@ export default function Recommended({navigation}) {
               {tripPlan.vehicleObjects.map(item => (
                 <RecommendedCardDetails
                   item={item}
+                  key={item.id}
                   perks={item.perks}
                   type={'vehicles'}
                   url={item.thumbnailSrc}
@@ -397,6 +398,7 @@ export default function Recommended({navigation}) {
               {tripPlan.attractionObjects.map(item => (
                 <RecommendedCardDetails
                   item={item}
+                  key={item.id}
                   perks={item.perks}
                   type={'attractions'}
                   url={item.thumbnailSrc}
@@ -443,6 +445,7 @@ export default function Recommended({navigation}) {
                   type={'restaurants'}
                   url={item.thumbnailSrc}
                   id={item.id}
+                  key={item.id}
                   navigation={navigation}
                   styles={{paddingTop: 10}}
                   name={item.name}>

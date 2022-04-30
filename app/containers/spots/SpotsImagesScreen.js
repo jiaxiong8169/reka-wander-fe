@@ -4,6 +4,7 @@ import {
   ScrollView,
   Dimensions,
   RefreshControl,
+  Alert,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {FlatList} from 'react-native';
@@ -23,7 +24,7 @@ import {
   setNearbyHotels,
 } from '../../redux/Nearby/actions';
 import {BackButton} from '../../components/BackButton';
-import Geolocation from 'react-native-geolocation-service';
+import {getLocationPermissionAndExecute} from '../../utils/location-utils';
 
 const {width} = Dimensions.get('window');
 //you need to preview n items.
@@ -47,7 +48,7 @@ export default function SpotsImagesScreen({navigation, route}) {
   const dispatch = useDispatch();
   const flatlistRef = React.useRef();
   const {getWithoutAuth} = useHttpCall();
-  const [reload, setReload] = useState(false);
+  const [reload, setReload] = useState(true);
   const [loading1, setLoading1] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const [loading3, setLoading3] = useState(false);
@@ -74,6 +75,46 @@ export default function SpotsImagesScreen({navigation, route}) {
     setReload(true);
     setFirstLoad(false);
   }, [firstLoad]);
+
+  const getLocation = () => {
+    getLocationPermissionAndExecute(
+      position => {
+        getWithoutAuth(
+          `restaurants/nearby?long=${position.coords.longitude}&lat=${position.coords.latitude}&distance=300000&sort=-avgRating&limit=10`,
+        ).then(({data}) => {
+          if (!!data) {
+            dispatch(setNearbyRestaurants(data));
+          }
+          setLoading1(false);
+          setReload(false);
+        });
+        getWithoutAuth(
+          `attractions/nearby?long=${position.coords.longitude}&lat=${position.coords.latitude}&distance=300000&sort=-avgRating&limit=10`,
+        ).then(({data}) => {
+          if (!!data) {
+            dispatch(setNearbyAttractions(data));
+          }
+          setLoading2(false);
+          setReload(false);
+        });
+        getWithoutAuth(
+          `hotels/nearby?long=${position.coords.longitude}&lat=${position.coords.latitude}&distance=300000&sort=-avgRating&limit=10`,
+        ).then(({data}) => {
+          if (!!data) {
+            dispatch(setNearbyHotels(data));
+          }
+          setLoading3(false);
+          setReload(false);
+        });
+      },
+      () => {
+        setLoading1(false);
+        setLoading2(false);
+        setLoading3(false);
+        navigation.navigate('SpotsHome');
+      },
+    );
+  };
 
   useEffect(() => {
     if (!reload) return;
@@ -103,48 +144,7 @@ export default function SpotsImagesScreen({navigation, route}) {
         setReload(false);
       });
     } else {
-      Geolocation.getCurrentPosition(
-        position => {
-          getWithoutAuth(
-            `restaurants/nearby?long=${position.coords.longitude}&lat=${position.coords.latitude}&distance=300000&sort=-avgRating&limit=10`,
-          ).then(({data}) => {
-            if (!!data) {
-              dispatch(setNearbyRestaurants(data));
-            }
-            setLoading1(false);
-            setReload(false);
-          });
-          getWithoutAuth(
-            `attractions/nearby?long=${position.coords.longitude}&lat=${position.coords.latitude}&distance=300000&sort=-avgRating&limit=10`,
-          ).then(({data}) => {
-            if (!!data) {
-              dispatch(setNearbyAttractions(data));
-            }
-            setLoading2(false);
-            setReload(false);
-          });
-          getWithoutAuth(
-            `hotels/nearby?long=${position.coords.longitude}&lat=${position.coords.latitude}&distance=300000&sort=-avgRating&limit=10`,
-          ).then(({data}) => {
-            if (!!data) {
-              dispatch(setNearbyHotels(data));
-            }
-            setLoading3(false);
-            setReload(false);
-          });
-        },
-        error => {
-          Alert.alert('Error', JSON.stringify(error));
-          setLoading1(false);
-          setLoading2(false);
-          setLoading3(false);
-        },
-        {
-          enableHighAccuracy: true,
-          timeout: 20000,
-          maximumAge: 1000,
-        },
-      );
+      getLocation();
     }
   }, [reload]);
 
