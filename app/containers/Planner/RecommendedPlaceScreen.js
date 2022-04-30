@@ -463,7 +463,7 @@ export default function Recommended({navigation}) {
             RM {tripPlan.previousBudget - tripPlan.budget}
           </Text>
         </View> */}
-        <View style={{marginTop: 20}}>
+        <View style={{marginTop: 20, marginBottom: 30}}>
           <TouchableOpacity onPress={updateAPI}>
             <Text
               style={{

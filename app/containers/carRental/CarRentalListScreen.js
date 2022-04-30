@@ -77,8 +77,7 @@ export const CarRentalListScreen = ({navigation}) => {
           />
         }
       />
-      {/* TODO: Check marginBottom after having more data */}
-      <Card style={{marginBottom: 40}}>
+      <Card style={{marginBottom: 10}}>
         <ScrollView>
           {items.map(item => (
             <CarCardItem
@@ -86,7 +85,9 @@ export const CarRentalListScreen = ({navigation}) => {
               name={item.name}
               price={item.price}
               thumbnailSrc={item.thumbnailSrc}
-              onPress={() => navigation.navigate('CarRentalDetails', {id:item.id})}
+              onPress={() =>
+                navigation.navigate('CarRentalDetails', {id: item.id})
+              }
             />
           ))}
           <LoadMore getData={getData} full={full} loading={loading} />

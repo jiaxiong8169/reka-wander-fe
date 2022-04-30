@@ -16,11 +16,9 @@ export const LoadMore = ({getData, full, loading}) => {
         disabled={full}
         style={full ? styles.loadMoreBtnDisabled : styles.loadMoreBtn}>
         <Text style={styles.btnText}>
-          {full ? 'No More Results' : loading ? 'Loading Data...' : 'Load More'}
+          {full ? 'No More Results' : loading ? '' : 'Load More'}
         </Text>
-        {loading ? (
-          <ActivityIndicator color="white" style={{marginLeft: 8}} />
-        ) : null}
+        {loading ? <ActivityIndicator color="white" /> : null}
       </TouchableOpacity>
     </View>
   );
@@ -32,6 +30,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
+    marginBottom: 10,
   },
   loadMoreBtn: {
     borderRadius: 10,

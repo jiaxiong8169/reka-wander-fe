@@ -92,18 +92,16 @@ export const SpotsListScreen = ({navigation, route}) => {
           />
         </View>
       </View>
-      <ScrollView style={{marginTop: 10, marginBottom: 50}}>
-        {items.map(item => (
-          <CardItem
-            item={item}
-            key={item.id}
-            navigation={navigation}
-            type={type}
-            marginBottom={10}
-          />
-        ))}
-        <LoadMore getData={getData} full={full} loading={loading} />
-      </ScrollView>
+      {items.map(item => (
+        <CardItem
+          item={item}
+          key={item.id}
+          navigation={navigation}
+          type={type}
+          marginBottom={10}
+        />
+      ))}
+      <LoadMore getData={getData} full={full} loading={loading} />
     </GradientBackground>
   );
 };
