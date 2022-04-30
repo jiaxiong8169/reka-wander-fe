@@ -95,6 +95,7 @@ const OTPInput = ({setCode, editable}) => {
     ];
     console.log(refArr[idx]);
     refArr[idx].current.focus();
+    setState(state => state.map((val, index) => (index === idx ? '' : val)));
   };
 
   const focusOnCodeField = index => {
