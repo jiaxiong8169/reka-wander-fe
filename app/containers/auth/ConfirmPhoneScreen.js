@@ -101,7 +101,7 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
         }
       }
     });
-  });
+  }, []);
 
   useEffect(() => {
     const resetState = () => {

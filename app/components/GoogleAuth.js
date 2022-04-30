@@ -45,6 +45,7 @@ const GoogleAuth = ({navigation, setEmail}) => {
         return GoogleSignin.revokeAccess();
       })
       .then(() => {
+        auth().signOut();
         return GoogleSignin.signOut();
       })
       .then(() => {
