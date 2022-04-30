@@ -21,7 +21,7 @@ import {preventBack} from '../../utils/navigation-utils';
 import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
 
 const SignInScreen = ({navigation, route}) => {
-  AndroidKeyboardAdjust.setAdjustResize();
+  AndroidKeyboardAdjust.setAdjustPan();
 
   const {loading, authData, signIn, setAuthError} = useAuth();
 
