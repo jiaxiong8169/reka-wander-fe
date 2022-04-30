@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#e0eaff',
+    marginHorizontal: 10,
   },
   shadow: {
     shadowOffset: {
