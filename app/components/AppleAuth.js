@@ -94,6 +94,7 @@ const styles = StyleSheet.create({
   },
   image: {
     height: 40,
+    width: 40,
     resizeMode: 'contain',
   },
 });
