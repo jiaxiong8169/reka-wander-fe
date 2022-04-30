@@ -78,7 +78,7 @@ const SignInScreen = ({navigation, route}) => {
         style={{height: '100%', width: '100%'}}>
         {loading && <LoadingOverlay />}
         <View style={styles.container}>
-          <ScrollView>
+          <ScrollView showsVerticalScrollIndicator={false}>
             <View
               style={[
                 styles.containerMargin,
