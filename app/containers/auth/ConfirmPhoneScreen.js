@@ -77,6 +77,29 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
   }
 
   useEffect(() => {
+    auth().onAuthStateChanged(user => {
+      if (user) {
+        const regInfo = {
+          email,
+          password,
+          phoneNumber,
+        };
+        authProvider.signUp(regInfo).then(success => {
+          if (success)
+            authProvider
+              .signIn(email, password)
+              .then(() => {
+                return auth().signOut();
+              })
+              .then(() => {
+                navigation.navigate({name: 'MainScreen'});
+              });
+        });
+      }
+    });
+  });
+
+  useEffect(() => {
     const resetState = () => {
       setConfirm(undefined);
       setCode('');
@@ -95,13 +118,20 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
         end={{x: 0, y: 0.5}}
         style={{height: '100%', width: '100%'}}>
         <View style={styles.container}>
-          <ScrollView contentContainerStyle={{flex: 1}}>
-            <Image
-              source={require('../../assets/paper_plane_2.png')}
-              style={[styles.img, {flex: 3}]}
-              resizeMode={'contain'}></Image>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={{flex: 3}}>
+              <Image
+                source={require('../../assets/paper_plane_2.png')}
+                style={[styles.img]}
+                resizeMode={'contain'}></Image>
+            </View>
             <View
-              style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: 50,
+              }}>
               <Text style={styles.title}>OTP Verification</Text>
               <Text style={styles.caption}>Let's see if it's your phone!</Text>
             </View>
@@ -122,6 +152,7 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
                   value={phoneNumber}
                   onChangeText={setPhoneNumber}
                   editable={phoneNumberEditable}
+                  autoFocus={true}
                 />
               </View>
             </View>
@@ -212,6 +243,7 @@ const styles = StyleSheet.create({
   },
   img: {
     width: '100%',
+    height: 400,
   },
   title: {
     textAlign: 'center',
