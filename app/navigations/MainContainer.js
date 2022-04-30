@@ -1,8 +1,9 @@
 import * as React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Dimensions, Image} from 'react-native';
+import {Image} from 'react-native';
 import GradientBackground from '../components/GradientBackground';
+import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
 
 // Screens
 import SpotsHomeScreen from '../containers/spots/SpotsHomeScreen';
@@ -82,6 +83,8 @@ function SpotsHomeStack() {
 }
 
 function MainContainer() {
+  AndroidKeyboardAdjust.setAdjustNothing();
+
   return (
     <Tab.Navigator
       initialRouteName={'Home'}

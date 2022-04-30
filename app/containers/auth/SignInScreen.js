@@ -18,8 +18,11 @@ import {LoadingOverlay} from '../../components/LoadingOverlay';
 import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import {preventBack} from '../../utils/navigation-utils';
+import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
 
 const SignInScreen = ({navigation, route}) => {
+  AndroidKeyboardAdjust.setAdjustPan();
+
   const {loading, authData, signIn, setAuthError} = useAuth();
 
   const [email, setEmail] = useState('');

@@ -13,10 +13,13 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {Input} from 'native-base';
 import {MyCircleIcon} from '../../components/CircleIcon';
 import {preventBack} from '../../utils/navigation-utils';
+import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
 
 const width = Dimensions.get('window').width;
 
 export const MyHomeScreen = ({navigation}) => {
+  AndroidKeyboardAdjust.setAdjustNothing();
+
   useEffect(() => {
     preventBack(navigation, 'MyHome');
   }, [navigation]);
