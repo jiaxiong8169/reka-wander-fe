@@ -9,6 +9,7 @@ import {useHttpCall} from '../../hooks/useHttpCall';
 import {useAuth} from '../../hooks/useAuth';
 import {setTripId, setTripPlan} from '../../redux/Planner/actions';
 import {getLocationPermissionAndExecute} from '../../utils/location-utils';
+import {preventBack} from '../../utils/navigation-utils';
 
 export default function LoadingScreen({navigation}) {
   const dispatch = useDispatch();
@@ -65,12 +66,7 @@ export default function LoadingScreen({navigation}) {
   };
 
   useEffect(() => {
-    // add navigation listener to prevent back
-    navigation.addListener('beforeRemove', e => {
-      console.log(e);
-      if (e?.data?.action?.type === 'GO_BACK' && e.target.includes('Loading'))
-        e.preventDefault();
-    });
+    preventBack(navigation, 'Loading');
     getLocation();
   }, []);
 

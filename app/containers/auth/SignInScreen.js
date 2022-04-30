@@ -17,6 +17,7 @@ import {useIsFocused} from '@react-navigation/native';
 import {LoadingOverlay} from '../../components/LoadingOverlay';
 import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 import CustomButton from '../../components/CustomButton/CustomButton';
+import {preventBack} from '../../utils/navigation-utils';
 
 const SignInScreen = ({navigation, route}) => {
   const {loading, authData, signIn, setAuthError} = useAuth();
@@ -27,6 +28,7 @@ const SignInScreen = ({navigation, route}) => {
   const isFocused = useIsFocused();
 
   useEffect(() => {
+    preventBack(navigation, 'SignIn');
     // navigate users to main page if authenticated
     if (!!authData) navigation.navigate({name: 'MainScreen'});
   }, [authData]);

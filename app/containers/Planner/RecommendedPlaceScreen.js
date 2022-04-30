@@ -19,6 +19,7 @@ import RecommendedCard from './PlannerRecommendCard';
 
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {useAuth} from '../../hooks/useAuth';
+import {preventBack} from '../../utils/navigation-utils';
 
 export default function Recommended({navigation}) {
   const dispatch = useDispatch();
@@ -47,14 +48,7 @@ export default function Recommended({navigation}) {
 
   // add navigation listener to prevent back
   useEffect(() => {
-    navigation.addListener('beforeRemove', e => {
-      console.log(e);
-      if (
-        e?.data?.action?.type === 'GO_BACK' &&
-        e.target.includes('Recommended')
-      )
-        e.preventDefault();
-    });
+    preventBack(navigation, 'Recommend');
   }, [navigation]);
 
   useEffect(() => {}, [tripPlan]);
