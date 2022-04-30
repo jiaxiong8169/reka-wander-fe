@@ -15,7 +15,7 @@ import ProgressStep from '../../components/stepper/ProgressStep';
 import ProgressSteps from '../../components/stepper/ProgressSteps';
 import GradientBackground from '../../components/GradientBackground';
 import ModelContent from '../../components/Modal/ModalContent';
-
+import InsertDetailsCard from './PlannerInsertDetailsScreen';
 export default function PlannerSteps({navigation}) {
   const [isModelPopUp, setIsModelPopUp] = useState(false);
   const [errors, setErrors] = useState(false);
@@ -51,6 +51,7 @@ export default function PlannerSteps({navigation}) {
     color: 'white',
     padding: 12,
     marginHorizontal: 20,
+    marginBottom: 20,
   };
 
   const previousbuttonTextStyle = {
@@ -63,6 +64,7 @@ export default function PlannerSteps({navigation}) {
     color: '#4169E1',
     textAlign: 'center',
     marginHorizontal: 20,
+    marginBottom: 20,
   };
 
   const progressStepsStyle = {
@@ -110,37 +112,49 @@ export default function PlannerSteps({navigation}) {
             }}>
             <ProgressSteps {...progressStepsStyle}>
               <ProgressStep nextBtnTextStyle={nextbuttonTextStyle}>
-                <TripName />
+                <InsertDetailsCard style={{width: '100%'}}>
+                  <TripName />
+                </InsertDetailsCard>
               </ProgressStep>
 
               <ProgressStep
                 nextBtnTextStyle={nextbuttonTextStyle}
                 previousBtnTextStyle={previousbuttonTextStyle}>
-                <PaxPage />
+                <InsertDetailsCard style={{width: '100%'}}>
+                  <PaxPage />
+                </InsertDetailsCard>
               </ProgressStep>
 
               <ProgressStep
                 nextBtnTextStyle={nextbuttonTextStyle}
                 previousBtnTextStyle={previousbuttonTextStyle}>
-                <ChooseDays />
+                <InsertDetailsCard>
+                  <ChooseDays />
+                </InsertDetailsCard>
               </ProgressStep>
 
               <ProgressStep
                 nextBtnTextStyle={nextbuttonTextStyle}
                 previousBtnTextStyle={previousbuttonTextStyle}>
-                <TravelInterest />
+                <InsertDetailsCard style={{width: '100%'}}>
+                  <TravelInterest />
+                </InsertDetailsCard>
               </ProgressStep>
 
               <ProgressStep
                 nextBtnTextStyle={nextbuttonTextStyle}
                 previousBtnTextStyle={previousbuttonTextStyle}>
-                <Withkids />
+                <InsertDetailsCard style={{width: '100%'}}>
+                  <Withkids />
+                </InsertDetailsCard>
               </ProgressStep>
 
               <ProgressStep
                 nextBtnTextStyle={nextbuttonTextStyle}
                 previousBtnTextStyle={previousbuttonTextStyle}>
-                <RentHomeStay />
+                <InsertDetailsCard style={{width: '100%'}}>
+                  <RentHomeStay />
+                </InsertDetailsCard>
               </ProgressStep>
 
               <ProgressStep
@@ -148,7 +162,9 @@ export default function PlannerSteps({navigation}) {
                 previousBtnTextStyle={previousbuttonTextStyle}
                 onNext={checkNumberInput}
                 errors={errors}>
-                <TravelBudget />
+                <InsertDetailsCard style={{width: '100%'}}>
+                  <TravelBudget />
+                </InsertDetailsCard>
                 <Modal
                   isVisible={isModelPopUp}
                   onBackdropPress={closeModel}
@@ -161,7 +177,8 @@ export default function PlannerSteps({navigation}) {
                   animationOutTiming={700}
                   backdropTransitionInTiming={700}
                   backdropTransitionOutTiming={700}>
-                  <ModelContent title={'Opps!'} onPress={closeModel} buttonTitle={'Close'}>
+                  <ModelContent onPress={closeModel} buttonTitle={'Close'}>
+                    <Text style={{fontSize: 20, marginBottom: 12}}>Opps!</Text>
                     <Text>
                       Your travel budget must at least more than RM100! Please
                       re-enter your travel budget!
@@ -174,7 +191,9 @@ export default function PlannerSteps({navigation}) {
                 onSubmit={onPressHandler}
                 nextBtnTextStyle={nextbuttonTextStyle}
                 previousBtnTextStyle={previousbuttonTextStyle}>
-                <RentCar />
+                <InsertDetailsCard style={{width: '100%'}}>
+                  <RentCar />
+                </InsertDetailsCard>
               </ProgressStep>
             </ProgressSteps>
           </View>

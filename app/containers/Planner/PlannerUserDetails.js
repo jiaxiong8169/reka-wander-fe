@@ -3,8 +3,6 @@ import {View, Text, Image, TouchableOpacity} from 'react-native';
 import Modal from 'react-native-modal';
 import ModelContent from '../../components/Modal/ModalContent';
 
-
-
 export default function UserDetails(props) {
   const [isModelPopUp, setIsModelPopUp] = useState(false);
   const closeModel = () => {
@@ -55,9 +53,9 @@ export default function UserDetails(props) {
             animationOutTiming={700}
             backdropTransitionInTiming={700}
             backdropTransitionOutTiming={700}>
-              <ModelContent onPress={closeModel} >
-                 {props.editPage}
-              </ModelContent>
+            <ModelContent onPress={closeModel}>
+              {props.editPage}
+            </ModelContent>
           </Modal>
         </TouchableOpacity>
       </View>

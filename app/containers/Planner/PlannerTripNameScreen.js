@@ -1,44 +1,37 @@
 import React, {useEffect} from 'react';
 import {StyleSheet, View, Text, Image, TextInput} from 'react-native';
-import Card from '../../components/card/card';
 import {useSelector, useDispatch} from 'react-redux';
 import {setTripName} from '../../redux/Planner/actions';
+import InsertDetailsCard from './PlannerInsertDetailsScreen';
 
 const TripName = () => {
   const {tripName} = useSelector(state => state.plannerReducer);
   const dispatch = useDispatch();
 
   return (
-    <View style={styles.body}>
-      <Card
-        style={{
-          width: '100%',
-        }}>
-        <View style={styles.body_container}>
-          <Text style={styles.question}>Give Your Trip a name!</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={v => dispatch(setTripName(v))}
-            placeholder="Type Your trip name here..."
-            value={tripName}
-          />
+      <View style={styles.body_container}>
+        <Text style={styles.question}>Give Your Trip a name!</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={v => dispatch(setTripName(v))}
+          placeholder="Type Your trip name here..."
+          value={tripName}
+        />
 
-          <View style={{marginTop: 10}}>
-            <Image
-              source={require('../../assets/People.png')}
-              style={{
-                padding: 1,
-                aspectRatio: 1,
-                width: '100%',
-                resizeMode: 'contain',
-                alignItems: 'flex-end',
-                height: undefined,
-              }}
-            />
-          </View>
+        <View style={{marginTop: 10}}>
+          <Image
+            source={require('../../assets/People.png')}
+            style={{
+              padding: 1,
+              aspectRatio: 1,
+              width: '100%',
+              resizeMode: 'contain',
+              alignItems: 'flex-end',
+              height: undefined,
+            }}
+          />
         </View>
-      </Card>
-    </View>
+      </View>
   );
 };
 

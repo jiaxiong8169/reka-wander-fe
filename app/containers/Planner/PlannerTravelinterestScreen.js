@@ -7,38 +7,30 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import Interest from '../../components/dropdown/interest';
-import Card from '../../components/card/card';
 
 const TravelInterest = () => {
   return (
     <TouchableWithoutFeedback>
-      <View style={styles.body}>
-        <Card
-          style={{
-            width: '100%',
-          }}>
-          <View style={styles.body_container}>
-            <View style={{alignItems: 'center'}}>
-              <Text style={styles.question}>Travel interest</Text>
-            </View>
-            <Interest />
-
-            <View style={{marginTop: 10}}>
-              <Image
-                source={require('../../assets/Travel_interest.png')}
-                style={{
-                  padding: 1,
-                  aspectRatio: 1,
-                  width: '100%',
-                  resizeMode: 'contain',
-                  alignItems: 'flex-end',
-                  height: undefined,
-                }}
-              />
-            </View>
+   
+        <View style={styles.body_container}>
+          <View style={{alignItems: 'center'}}>
+            <Text style={styles.question}>Travel interest</Text>
           </View>
-        </Card>
-      </View>
+          <Interest />
+          <View style={{marginTop: 10}}>
+            <Image
+              source={require('../../assets/Travel_interest.png')}
+              style={{
+                padding: 1,
+                aspectRatio: 1,
+                width: '100%',
+                resizeMode: 'contain',
+                alignItems: 'flex-end',
+                height: undefined,
+              }}
+            />
+          </View>
+        </View>
     </TouchableWithoutFeedback>
   );
 };

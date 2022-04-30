@@ -6,6 +6,8 @@ import Card from '../../components/card/card';
 import Modal from 'react-native-modal';
 import ModelContent from '../../components/Modal/ModalContent';
 
+import InsertDetailsCard from './PlannerInsertDetailsScreen';
+
 const ChooseDays = () => {
   const [isModalPopUp, setIsModalPopUp] = useState(false);
   const closeModal = () => {
@@ -13,40 +15,39 @@ const ChooseDays = () => {
   };
 
   return (
-    <View style={styles.body}>
-      <Card>
-        <View>
-          <View style={{alignItems: 'center'}}>
-            <Text style={styles.question}>How many days?</Text>
-          </View>
-          <Calendar />
+    <View>
+      <View>
+        <View style={{alignItems: 'center'}}>
+          <Text style={styles.question}>How many days?</Text>
         </View>
+        <Calendar />
+      </View>
 
-        <TouchableOpacity onPress={() => setIsModalPopUp(true)}>
-          <Text style={{paddingTop: 15, color: 'blue'}}>
-            Click me for Instructions
-          </Text>
-          <Modal
-            isVisible={isModalPopUp}
-            onBackdropPress={closeModal}
-            onSwipeComplete={closeModal}
-            useNativeDriverForBackdrop
-            swipeDirection={['left', 'right', 'up', 'down']}
-            animationIn="zoomInDown"
-            animationOut="zoomOutUp"
-            animationInTiming={700}
-            animationOutTiming={700}
-            backdropTransitionInTiming={700}
-            backdropTransitionOutTiming={700}>
-            <ModelContent title="Instruction" onPress={closeModal} buttonTitle={'Close'}>
-              <Image
-                source={require('../../assets/calender.gif')}
-                style={{width: 220, height: 200}}
-              />
-            </ModelContent>
-          </Modal>
-        </TouchableOpacity>
-      </Card>
+      <TouchableOpacity onPress={() => setIsModalPopUp(true)}>
+        <Text style={{paddingTop: 15, color: 'blue'}}>
+          Click me for Instructions
+        </Text>
+        <Modal
+          isVisible={isModalPopUp}
+          onBackdropPress={closeModal}
+          onSwipeComplete={closeModal}
+          useNativeDriverForBackdrop
+          swipeDirection={['left', 'right', 'up', 'down']}
+          animationIn="zoomInDown"
+          animationOut="zoomOutUp"
+          animationInTiming={700}
+          animationOutTiming={700}
+          backdropTransitionInTiming={700}
+          backdropTransitionOutTiming={700}>
+          <ModelContent onPress={closeModal} buttonTitle={'Close'}>
+            <Text style={{fontSize: 20, marginBottom: 12}}>Instruction</Text>
+            <Image
+              source={require('../../assets/calender.gif')}
+              style={{width: 220, height: 200}}
+            />
+          </ModelContent>
+        </Modal>
+      </TouchableOpacity>
     </View>
   );
   // };
