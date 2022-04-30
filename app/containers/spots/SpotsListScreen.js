@@ -6,7 +6,7 @@ import {View, ScrollView} from 'native-base';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {LoadMore} from '../../components/LoadMore';
 import {BackButton} from '../../components/BackButton';
-import Geolocation from 'react-native-geolocation-service';
+import {getLocationPermissionAndExecute} from '../../utils/location-utils';
 
 export const SpotsListScreen = ({navigation, route}) => {
   const [loading, setLoading] = useState(true);
@@ -20,7 +20,7 @@ export const SpotsListScreen = ({navigation, route}) => {
     setLoading(true);
     setFull(false);
     if (isNearby) {
-      Geolocation.getCurrentPosition(
+      getLocationPermissionAndExecute(
         position => {
           let query = `${type}/nearby?long=${position.coords.longitude}&lat=${position.coords.latitude}&distance=300000&sort=-avgRating&limit=10`;
           console.log(query);
@@ -29,15 +29,9 @@ export const SpotsListScreen = ({navigation, route}) => {
             setLoading(false);
           });
         },
-        error => {
-          Alert.alert('Error', JSON.stringify(error));
+        () => {
           setLoading(false);
           setItems([]);
-        },
-        {
-          enableHighAccuracy: true,
-          timeout: 20000,
-          maximumAge: 1000,
         },
       );
     } else {
@@ -55,7 +49,7 @@ export const SpotsListScreen = ({navigation, route}) => {
     setLoading(true);
 
     if (isNearby) {
-      Geolocation.getCurrentPosition(
+      getLocationPermissionAndExecute(
         position => {
           let query = `${type}/nearby?long=${position.coords.longitude}&lat=${position.coords.latitude}&distance=300000&sort=-avgRating&limit=10&offset=${items.length}`;
           console.log(query);
@@ -68,15 +62,9 @@ export const SpotsListScreen = ({navigation, route}) => {
             setLoading(false);
           });
         },
-        error => {
-          Alert.alert('Error', JSON.stringify(error));
+        () => {
           setLoading(false);
           setItems([]);
-        },
-        {
-          enableHighAccuracy: true,
-          timeout: 20000,
-          maximumAge: 1000,
         },
       );
     } else {

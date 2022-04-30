@@ -7,8 +7,8 @@ import BlueSubtitle from '../../components/BlueSubtitle';
 import {useSelector, useDispatch} from 'react-redux';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {useAuth} from '../../hooks/useAuth';
-import Geolocation from 'react-native-geolocation-service';
 import {setTripId, setTripPlan} from '../../redux/Planner/actions';
+import {getLocationPermissionAndExecute} from '../../utils/location-utils';
 
 export default function LoadingScreen({navigation}) {
   const dispatch = useDispatch();
@@ -54,18 +54,12 @@ export default function LoadingScreen({navigation}) {
   };
 
   const getLocation = () => {
-    Geolocation.getCurrentPosition(
+    getLocationPermissionAndExecute(
       position => {
         postAPI(position.coords.longitude, position.coords.latitude);
       },
-      error => {
-        Alert.alert('Error', JSON.stringify(error));
+      () => {
         navigation.navigate('MyHome');
-      },
-      {
-        enableHighAccuracy: true,
-        timeout: 20000,
-        maximumAge: 1000,
       },
     );
   };
