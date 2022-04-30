@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import {useAuth} from '../hooks/useAuth';
-import {StyleSheet, Alert, useColorScheme} from 'react-native';
+import {Alert, useColorScheme} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import SignInScreen from '../containers/auth/SignInScreen';
 import {ConfirmPhoneScreen} from '../containers/auth/ConfirmPhoneScreen';
@@ -34,7 +34,6 @@ export const Router = () => {
     }
   }, [authError]);
 
-  // TODO: Handle Dark Theme Colors
   return (
     <NavigationContainer
       theme={scheme === 'dark' ? DefaultTheme : DefaultTheme}>
@@ -67,31 +66,3 @@ export const Router = () => {
     </NavigationContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: 'red',
-    borderRadius: 10,
-    padding: 10,
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  modalText: {
-    color: 'white',
-  },
-});

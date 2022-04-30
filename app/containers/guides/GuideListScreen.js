@@ -90,7 +90,7 @@ export const GuideListScreen = ({navigation}) => {
           />
         }
       />
-      <Card style={{marginBottom: height - 430}}>
+      <Card style={{marginBottom: 10}}>
         <CustomTabs
           tabs={tabs}
           tab={tab}

@@ -63,6 +63,9 @@ const styles = StyleSheet.create({
   image: {
     resizeMode: 'contain',
     flex: 1,
+    height: '50%',
+    marginVertical: 10,
+    // width: 100,
   },
   h2: {
     fontWeight: 'bold',

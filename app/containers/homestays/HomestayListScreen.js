@@ -78,7 +78,7 @@ export const HomestayListScreen = ({navigation}) => {
         }
       />
       {/* TODO: Check marginBottom after having more records */}
-      <Card style={{marginBottom: 40}}>
+      <Card style={{marginBottom: 10}}>
         <ScrollView>
           {items.map(item => (
             <HomestayCardItem
