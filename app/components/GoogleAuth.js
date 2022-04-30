@@ -14,9 +14,10 @@ GoogleSignin.configure({
   ],
 });
 const GoogleAuth = ({navigation, setEmail}) => {
-  const {signInWithGoogle, setAuthError} = useAuth();
+  const {setLoading, signInWithGoogle, setAuthError} = useAuth();
 
   const handleGoogleAuth = async () => {
+    setLoading(true);
     await GoogleSignin.hasPlayServices();
     try {
       const {idToken} = await GoogleSignin.signIn();
@@ -28,6 +29,8 @@ const GoogleAuth = ({navigation, setEmail}) => {
         });
     } catch (err) {
       setAuthError('You are not signed in. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 

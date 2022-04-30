@@ -92,6 +92,7 @@ const AuthProvider = ({children}) => {
         setAuthError,
         signInWithGoogle,
         setAuthData,
+        setLoading,
       }}>
       {children}
     </AuthContext.Provider>
