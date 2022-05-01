@@ -29,7 +29,7 @@ const SignInScreen = ({navigation, route}) => {
 
   useEffect(() => {
     // navigate users to main page if authenticated
-    if (!!authData) navigation.navigate({name: 'MainScreen'});
+    if (!!authData) navigation.replace('MainScreen');
   }, [authData]);
 
   // clear all fields when user is redirected to this page

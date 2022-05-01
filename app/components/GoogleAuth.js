@@ -52,10 +52,10 @@ const GoogleAuth = ({navigation, setEmail}) => {
         return GoogleSignin.signOut();
       })
       .then(() => {
-        navigation.navigate({name: 'MainScreen'});
+        navigation.replace('MainScreen');
       })
       .catch(err => {
-        navigation.navigate('ConfirmPhone', {email, password: uid});
+        navigation.push('ConfirmPhone', {email, password: uid});
       });
   };
 

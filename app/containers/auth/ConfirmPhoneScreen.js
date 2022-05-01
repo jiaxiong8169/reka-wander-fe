@@ -21,7 +21,7 @@ import CustomButton from '../../components/CustomButton/CustomButton';
 
 const OTP_TIMEOUT_SECONDS = 90;
 
-export const ConfirmPhoneScreen = ({navigation, route}) => {
+export const ConfirmPhoneScreen = ({route}) => {
   const [code, setCode] = useState('');
   const [confirm, setConfirm] = useState(undefined);
   const [phoneNumberPrefix, setPhoneNumberPrefix] = useState('60');
