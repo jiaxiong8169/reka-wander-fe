@@ -102,7 +102,12 @@ const OTPInput = ({setCode, editable}) => {
     setIsFocus(isFocus => isFocus.map((_, idx) => idx === index));
   };
   return (
-    <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+    <View
+      style={{
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginVertical: 3,
+      }}>
       <OneDigitInput
         value={state[0]}
         onChangeText={e => codeOnChange(e, 0)}

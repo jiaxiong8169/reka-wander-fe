@@ -6,6 +6,7 @@ import {
   Modal,
   Image,
   ScrollView,
+  Pressable,
 } from 'react-native';
 import React, {useEffect, useState, useRef} from 'react';
 import auth from '@react-native-firebase/auth';
@@ -18,6 +19,8 @@ import OTPInput from './OTPInput';
 import {Button} from 'native-base';
 import CustomButton from '../../components/CustomButton/CustomButton';
 
+const OTP_TIMEOUT_SECONDS = 90;
+
 export const ConfirmPhoneScreen = ({navigation, route}) => {
   const [code, setCode] = useState('');
   const [confirm, setConfirm] = useState(undefined);
@@ -25,6 +28,10 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [phoneNumberEditable, setPhoneNumberEditable] = useState(true);
   const [otpModalVisible, setOTPModalVisible] = useState(false);
+  const [otpResendTimer, setOtpResendTimer] = useState(undefined);
+  const [resendTimeLeft, setResendTimeLeft] = useState(0);
+  const [otpResendLimit, setOtpResendLimit] = useState(3);
+  const [loading, setLoading] = useState(false);
 
   const authProvider = useAuth();
 
@@ -37,7 +44,10 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
 
   async function signInWithPhoneNumber(phoneNumber) {
     try {
+      setLoading(true);
       const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+      setLoading(false);
+      setResendTimeLeft(OTP_TIMEOUT_SECONDS);
       setConfirm(confirmation);
       setOTPModalVisible(true);
     } catch (err) {
@@ -93,6 +103,22 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
     if (!otpModalVisible) resetState();
   }, [otpModalVisible]);
 
+  useEffect(() => {
+    if (resendTimeLeft === OTP_TIMEOUT_SECONDS) {
+      let interval;
+      console.log('set interval');
+      setOtpResendLimit(otpResendLimit => otpResendLimit - 1);
+      interval = setInterval(() => {
+        setResendTimeLeft(resendTimeLeft => resendTimeLeft - 1);
+      }, 1000);
+      setOtpResendTimer(interval);
+    }
+    if (resendTimeLeft === 0) {
+      console.log('clear interval ' + otpResendTimer);
+      clearInterval(otpResendTimer);
+    }
+  }, [resendTimeLeft]);
+
   return (
     <SafeAreaView>
       <LinearGradient
@@ -100,6 +126,7 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
         start={{x: 0, y: 0}}
         end={{x: 0, y: 0.5}}
         style={{height: '100%', width: '100%'}}>
+        {loading && <LoadingOverlay />}
         <View style={styles.container}>
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={{flex: 3}}>
@@ -177,9 +204,34 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
                   <Text>We have sent an OTP on your number</Text>
                   <Text>{`+${phoneNumberPrefix}${phoneNumber}`}</Text>
                 </View>
-                <View style={{flex: 4}}>
+                <View style={{flex: 4, alignItems: 'center'}}>
                   <OTPInput setCode={setCode} editable={!!confirm}></OTPInput>
+                  {resendTimeLeft !== 0 ? (
+                    <Text>Resend in {resendTimeLeft} seconds</Text>
+                  ) : otpResendLimit > 0 ? (
+                    <Pressable onPress={handlePhoneNumberButtonPress}>
+                      <Text>Resend OTP password</Text>
+                    </Pressable>
+                  ) : (
+                    <Text>
+                      Resent limit reached. Please enter a new phone number.
+                    </Text>
+                  )}
                 </View>
+                {/* <View
+                  style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  {resendTimeLeft !== 0 ? (
+                    <Text>Resend in {resendTimeLeft} seconds</Text>
+                  ) : (
+                    <Pressable onPress={handlePhoneNumberButtonPress}>
+                      <Text>Resend OTP password</Text>
+                    </Pressable>
+                  )}
+                </View> */}
                 <View style={{justifyContent: 'flex-end'}}>
                   <CustomButton
                     onPress={() => confirmCode()}
