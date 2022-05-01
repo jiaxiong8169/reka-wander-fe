@@ -29,6 +29,9 @@ export const CarRentalDetailsScreen = ({navigation, route}) => {
   const [reload, setReload] = React.useState(true);
   const [loading, setLoading] = React.useState(false);
 
+  const onPressHandlerRent = () => {
+    navigation.navigate('CarRentalUserInfo', {id: item.id});
+  };
   React.useEffect(() => {
     if (!reload) return;
     setLoading(true);
@@ -129,7 +132,7 @@ export const CarRentalDetailsScreen = ({navigation, route}) => {
             <Icon name="logo-whatsapp" size={35} color={'green'}></Icon>
           </Pressable>
         </Box>
-        <RoundButton title="Rent" backgroundColor="#dc2626" />
+        <RoundButton title="Rent" backgroundColor="#dc2626" onPress={onPressHandlerRent}/>
         
       </GradientBackground>
       </ScrollView>
