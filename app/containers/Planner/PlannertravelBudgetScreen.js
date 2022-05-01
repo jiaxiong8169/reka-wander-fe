@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Text, TextInput, Image, Alert} from 'react-native';
-import Card from '../../components/card/card';
 import {useSelector, useDispatch} from 'react-redux';
 import {setBudget} from '../../redux/Planner/actions';
 
@@ -29,7 +28,6 @@ const TravelBudget = () => {
               aspectRatio: 1,
               width: '100%',
               resizeMode: 'contain',
-              // justifyContent: 'flex-end',
               alignItems: 'flex-end',
               height: undefined,
             }}
