@@ -53,12 +53,6 @@ export default function Recommended({navigation}) {
 
   useEffect(() => {}, [tripPlan]);
 
-  const onPressHandler = () => {
-    // clear trip fields
-    dispatch(resetTrip());
-    navigation.navigate('Success');
-  };
-
   const updateAPI = () => {
     console.log(tripPlan['attractions']);
     const tmp = {
