@@ -1,5 +1,13 @@
-import {View, Text, StyleSheet, Modal, Image, ScrollView} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Modal,
+  Image,
+  ScrollView,
+  Pressable,
+} from 'react-native';
+import React, {useEffect, useState, useRef} from 'react';
 import auth from '@react-native-firebase/auth';
 import {useAuth} from '../../hooks/useAuth';
 import LinearGradient from 'react-native-linear-gradient';
@@ -8,13 +16,19 @@ import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 import OTPInput from './OTPInput';
 import CustomButton from '../../components/CustomButton/CustomButton';
 
-export const ConfirmPhoneScreen = ({navigation, route}) => {
+const OTP_TIMEOUT_SECONDS = 90;
+
+export const ConfirmPhoneScreen = ({route}) => {
   const [code, setCode] = useState('');
   const [confirm, setConfirm] = useState(undefined);
   const [phoneNumberPrefix, setPhoneNumberPrefix] = useState('60');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [phoneNumberEditable, setPhoneNumberEditable] = useState(true);
   const [otpModalVisible, setOTPModalVisible] = useState(false);
+  const [otpResendTimer, setOtpResendTimer] = useState(undefined);
+  const [resendTimeLeft, setResendTimeLeft] = useState(0);
+  const [otpResendLimit, setOtpResendLimit] = useState(3);
+  const [loading, setLoading] = useState(false);
 
   const authProvider = useAuth();
 
@@ -27,7 +41,10 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
 
   async function signInWithPhoneNumber(phoneNumber) {
     try {
+      setLoading(true);
       const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+      setLoading(false);
+      setResendTimeLeft(OTP_TIMEOUT_SECONDS);
       setConfirm(confirmation);
       setOTPModalVisible(true);
     } catch (err) {
@@ -41,30 +58,36 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
 
   async function confirmCode() {
     try {
-      await confirm.confirm(code);
-      const regInfo = {
-        email,
-        password,
-        phoneNumber,
-      };
-      authProvider.signUp(regInfo).then(success => {
-        if (success)
-          authProvider
-            .signIn(email, password)
-            .then(() => {
-              return auth().signOut();
-            })
-            .then(() => {
-              navigation.navigate({name: 'MainScreen'});
-            });
-        // it is not necessary to use `signInWithGoogle`
-        // because we use the same email and password to sign up and sign in
-        // user sign up with any method should be able to sign in
-      });
+      await confirm.confirm(code); // this will trigger the onAuthStateChanged listener
     } catch (error) {
       console.log(error);
     }
   }
+
+  useEffect(() => {
+    const unsubscribe = auth().onAuthStateChanged(user => {
+      if (user) {
+        const regInfo = {
+          email,
+          password,
+          phoneNumber,
+        };
+        authProvider
+          .signUp(regInfo)
+          .then(() => {
+            setOTPModalVisible(false);
+          })
+          .catch(err => {
+            console.log({err});
+          })
+          .finally(() => auth().signOut());
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     const resetState = () => {
@@ -77,6 +100,22 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
     if (!otpModalVisible) resetState();
   }, [otpModalVisible]);
 
+  useEffect(() => {
+    if (resendTimeLeft === OTP_TIMEOUT_SECONDS) {
+      let interval;
+      console.log('set interval');
+      setOtpResendLimit(otpResendLimit => otpResendLimit - 1);
+      interval = setInterval(() => {
+        setResendTimeLeft(resendTimeLeft => resendTimeLeft - 1);
+      }, 1000);
+      setOtpResendTimer(interval);
+    }
+    if (resendTimeLeft === 0) {
+      console.log('clear interval ' + otpResendTimer);
+      clearInterval(otpResendTimer);
+    }
+  }, [resendTimeLeft]);
+
   return (
     <SafeAreaView>
       <LinearGradient
@@ -84,14 +123,22 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
         start={{x: 0, y: 0}}
         end={{x: 0, y: 0.5}}
         style={{height: '100%', width: '100%'}}>
+        {loading && <LoadingOverlay />}
         <View style={styles.container}>
-          <ScrollView contentContainerStyle={{flex: 1}}>
-            <Image
-              source={require('../../assets/paper_plane_2.png')}
-              style={[styles.img, {flex: 3}]}
-              resizeMode={'contain'}></Image>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={{flex: 3}}>
+              <Image
+                source={require('../../assets/paper_plane_2.png')}
+                style={[styles.img]}
+                resizeMode={'contain'}></Image>
+            </View>
             <View
-              style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: 50,
+              }}>
               <Text style={styles.title}>OTP Verification</Text>
               <Text style={styles.caption}>Let's see if it's your phone!</Text>
             </View>
@@ -112,6 +159,7 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
                   value={phoneNumber}
                   onChangeText={setPhoneNumber}
                   editable={phoneNumberEditable}
+                  autoFocus={true}
                 />
               </View>
             </View>
@@ -153,9 +201,34 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
                   <Text>We have sent an OTP on your number</Text>
                   <Text>{`+${phoneNumberPrefix}${phoneNumber}`}</Text>
                 </View>
-                <View style={{flex: 4}}>
+                <View style={{flex: 4, alignItems: 'center'}}>
                   <OTPInput setCode={setCode} editable={!!confirm}></OTPInput>
+                  {resendTimeLeft !== 0 ? (
+                    <Text>Resend in {resendTimeLeft} seconds</Text>
+                  ) : otpResendLimit > 0 ? (
+                    <Pressable onPress={handlePhoneNumberButtonPress}>
+                      <Text>Resend OTP password</Text>
+                    </Pressable>
+                  ) : (
+                    <Text>
+                      Resent limit reached. Please enter a new phone number.
+                    </Text>
+                  )}
                 </View>
+                {/* <View
+                  style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  {resendTimeLeft !== 0 ? (
+                    <Text>Resend in {resendTimeLeft} seconds</Text>
+                  ) : (
+                    <Pressable onPress={handlePhoneNumberButtonPress}>
+                      <Text>Resend OTP password</Text>
+                    </Pressable>
+                  )}
+                </View> */}
                 <View style={{justifyContent: 'flex-end'}}>
                   <CustomButton
                     onPress={() => confirmCode()}
@@ -202,6 +275,7 @@ const styles = StyleSheet.create({
   },
   img: {
     width: '100%',
+    height: 400,
   },
   title: {
     textAlign: 'center',

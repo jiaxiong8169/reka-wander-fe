@@ -36,13 +36,12 @@ const AuthProvider = ({children}) => {
     return AuthService.signUp(userRegInfo)
       .then(_authData => {
         setLoading(false);
-        return true;
       })
       .then(() => signIn(email, password))
       .catch(err => {
         setAuthError(err);
         setLoading(false);
-        return false;
+        throw err;
       });
   };
 
@@ -92,6 +91,7 @@ const AuthProvider = ({children}) => {
         setAuthError,
         signInWithGoogle,
         setAuthData,
+        setLoading,
       }}>
       {children}
     </AuthContext.Provider>

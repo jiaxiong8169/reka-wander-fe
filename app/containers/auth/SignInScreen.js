@@ -19,6 +19,7 @@ import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import {preventBack} from '../../utils/navigation-utils';
 import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
+import AppleAuth from '../../components/AppleAuth';
 
 const SignInScreen = ({navigation, route}) => {
   AndroidKeyboardAdjust.setAdjustPan();
@@ -33,7 +34,7 @@ const SignInScreen = ({navigation, route}) => {
   useEffect(() => {
     preventBack(navigation, 'SignIn');
     // navigate users to main page if authenticated
-    if (!!authData) navigation.navigate({name: 'MainScreen'});
+    if (!!authData) navigation.replace('MainScreen');
   }, [authData]);
 
   // clear all fields when user is redirected to this page
@@ -65,7 +66,9 @@ const SignInScreen = ({navigation, route}) => {
   };
 
   const handleLoginButtonPress = () => {
-    signIn(email, password);
+    signIn(email, password).catch(e => {
+      console.log(e);
+    });
   };
 
   const handleRegisterButtonPress = () => {
@@ -83,7 +86,7 @@ const SignInScreen = ({navigation, route}) => {
         style={{height: '100%', width: '100%'}}>
         {loading && <LoadingOverlay />}
         <View style={styles.container}>
-          <ScrollView>
+          <ScrollView showsVerticalScrollIndicator={false}>
             <View
               style={[
                 styles.containerMargin,
@@ -160,8 +163,13 @@ const SignInScreen = ({navigation, route}) => {
                   <View style={styles.continueWithText}>
                     <Text>{isRegister ? 'Register' : 'Login'} with</Text>
                   </View>
-                  <View>
+                  <View
+                    style={{
+                      flex: 1,
+                      flexDirection: 'row',
+                    }}>
                     <GoogleAuth navigation={navigation} />
+                    <AppleAuth navigation={navigation} />
                   </View>
                 </View>
               </View>
