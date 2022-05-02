@@ -215,20 +215,6 @@ export const ConfirmPhoneScreen = ({route}) => {
                     </Text>
                   )}
                 </View>
-                {/* <View
-                  style={{
-                    flex: 1,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  {resendTimeLeft !== 0 ? (
-                    <Text>Resend in {resendTimeLeft} seconds</Text>
-                  ) : (
-                    <Pressable onPress={handlePhoneNumberButtonPress}>
-                      <Text>Resend OTP password</Text>
-                    </Pressable>
-                  )}
-                </View> */}
                 <View style={{justifyContent: 'flex-end'}}>
                   <CustomButton
                     onPress={() => confirmCode()}
