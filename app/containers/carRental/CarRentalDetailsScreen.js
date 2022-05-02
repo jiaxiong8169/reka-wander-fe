@@ -17,13 +17,13 @@ import RoundButton from '../../components/RoundButton';
 import FastImage from 'react-native-fast-image';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useHttpCall} from '../../hooks/useHttpCall';
-import { RefreshControl } from 'react-native';
+import {RefreshControl} from 'react-native';
 
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 
 export const CarRentalDetailsScreen = ({navigation, route}) => {
-    const {id} = route.params;
+  const {id} = route.params;
   const [item, setItem] = useState([]);
   const {getWithoutAuth} = useHttpCall();
   const [reload, setReload] = React.useState(true);
@@ -35,13 +35,13 @@ export const CarRentalDetailsScreen = ({navigation, route}) => {
   React.useEffect(() => {
     if (!reload) return;
     setLoading(true);
-    
+
     // try to fetch the data
     getWithoutAuth(`vehicles/${id}`)
       .then(({data}) => {
         if (!!data) {
           setItem(data);
-          
+
           // update the cached data
           let clonedListData = JSON.parse(JSON.stringify(listData));
           for (let i = 0; i < clonedListData.length; i++) {
@@ -62,16 +62,16 @@ export const CarRentalDetailsScreen = ({navigation, route}) => {
         setReload(false);
       });
   }, [reload]);
-  console.log(item)
+  console.log(item);
   return (
     <ScrollView
-    showsVerticalScrollIndicator={false}
-    refreshControl={
-      <RefreshControl
-        refreshing={loading}
-        onRefresh={() => setReload(true)}
-      />
-    }>
+      showsVerticalScrollIndicator={false}
+      refreshControl={
+        <RefreshControl
+          refreshing={loading}
+          onRefresh={() => setReload(true)}
+        />
+      }>
       <GradientBackground>
         <View style={{flexDirection: 'row'}}>
           <BackButton navigation={navigation} />
@@ -123,7 +123,8 @@ export const CarRentalDetailsScreen = ({navigation, route}) => {
             pb={10}>
             {item.name} Details{'\n'}
             <Text fontSize={15} lineHeight={25}>
-              {item.description}</Text>
+              {item.description}
+            </Text>
           </Text>
         </View>
 
@@ -132,10 +133,13 @@ export const CarRentalDetailsScreen = ({navigation, route}) => {
             <Icon name="logo-whatsapp" size={35} color={'green'}></Icon>
           </Pressable>
         </Box>
-        <RoundButton title="Rent" backgroundColor="#dc2626" onPress={onPressHandlerRent}/>
-        
+        <RoundButton
+          title="Rent"
+          backgroundColor="#dc2626"
+          onPress={onPressHandlerRent}
+        />
       </GradientBackground>
-      </ScrollView>
+    </ScrollView>
   );
 };
 
