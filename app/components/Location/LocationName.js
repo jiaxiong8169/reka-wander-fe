@@ -3,7 +3,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {setCarLocation} from '../../redux/CarRental/actions';
-import {Popup, showLocation} from 'react-native-map-link';
+import {Popup} from 'react-native-map-link';
 import {getLocationPermissionAndExecute} from '../../utils/location-utils';
 
 export const LocationName = props => {
@@ -29,6 +29,8 @@ export const LocationName = props => {
   };
 
   const onPressHandler = () => {
+    // do nothing if location not found
+    if (!currentLat || !currentLong) return;
     setIsModelPopUp(true);
   };
 
@@ -88,13 +90,17 @@ export const LocationName = props => {
               padding: 4,
               width: '50%',
               borderRadius: 15,
-              justifyContent:'center',
-              alignItems:'center',
-              alignContent:'center',
+              justifyContent: 'center',
+              alignItems: 'center',
+              alignContent: 'center',
             }}
             onPress={onPressHandler}>
-              <View>
-              <Icon name="navigate-circle-outline" size={26} color='white'></Icon></View>
+            <View>
+              <Icon
+                name="navigate-circle-outline"
+                size={26}
+                color="white"></Icon>
+            </View>
             <Popup
               isVisible={isModelPopUp}
               onCancelPressed={closeModel}
