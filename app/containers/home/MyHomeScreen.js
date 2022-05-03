@@ -88,7 +88,7 @@ export const MyHomeScreen = ({navigation}) => {
           }}>
           <MyCircleIcon
             text="Car Rental"
-            onPress={() => navigation.navigate('CarRentalList')}>
+            onPress={() => navigation.navigate('CarRental')}>
             <Image
               source={require('../../assets/car_rental.png')}
               style={{

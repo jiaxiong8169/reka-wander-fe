@@ -38,15 +38,6 @@ export const CarRentalDetailsScreen = ({navigation, route}) => {
       .then(({data}) => {
         if (!!data) {
           setItem(data);
-          
-          // update the cached data
-          let clonedListData = JSON.parse(JSON.stringify(listData));
-          for (let i = 0; i < clonedListData.length; i++) {
-            if (clonedListData[i].id === id) {
-              clonedListData[i] = data;
-              break;
-            }
-          }
         }
         // set loading and reload to false indicating finished loading
         setLoading(false);
@@ -59,7 +50,6 @@ export const CarRentalDetailsScreen = ({navigation, route}) => {
         setReload(false);
       });
   }, [reload]);
-  console.log(item)
   return (
     <ScrollView
     showsVerticalScrollIndicator={false}
@@ -69,8 +59,8 @@ export const CarRentalDetailsScreen = ({navigation, route}) => {
         onRefresh={() => setReload(true)}
       />
     }>
-      <GradientBackground>
-        <View style={{flexDirection: 'row'}}>
+      <GradientBackground fullWidth={true}>
+        <View style={{flexDirection: 'row', padding: '3%'}}>
           <BackButton navigation={navigation} />
         </View>
         <View style={styles.containerProducts}>
@@ -109,7 +99,7 @@ export const CarRentalDetailsScreen = ({navigation, route}) => {
             />
           </ZStack>
         </Center>
-        <View>
+        <View style={{paddingHorizontal: '3%'}}>
           <Text
             bold
             fontSize={25}

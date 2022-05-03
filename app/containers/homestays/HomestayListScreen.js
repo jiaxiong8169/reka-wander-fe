@@ -86,6 +86,7 @@ export const HomestayListScreen = ({navigation}) => {
               name={item.name}
               price={item.minPrice}
               thumbnailSrc={item.thumbnailSrc}
+              onPress={() => navigation.navigate('HomestayDetails', {id:item.id})}
             />
           ))}
           <LoadMore getData={getData} full={full} loading={loading} />
