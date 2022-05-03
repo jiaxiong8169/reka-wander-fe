@@ -54,10 +54,16 @@ const CarCardItem = props => {
         </Center>
         <FastImage
           style={{
-            width: 260,
-            height: 150,
+            // maxWidth: '75%',
+            // height: 'auto',
+            // padding:50,
+            // // resizeMode: 'contain',
+            // aspectRatio: 16/9,
+            marginTop: -15,
+            flex: 1,
+            width: null,
+            height: null,
             resizeMode: 'contain',
-            marginTop: -50,
           }}
           source={{uri: props.thumbnailSrc}}
         />
