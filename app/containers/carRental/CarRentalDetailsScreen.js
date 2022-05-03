@@ -42,18 +42,17 @@ export const CarRentalDetailsScreen = ({navigation, route}) => {
         setReload(false);
       });
   }, [reload]);
-
   return (
     <ScrollView
-      showsVerticalScrollIndicator={false}
-      refreshControl={
-        <RefreshControl
-          refreshing={loading}
-          onRefresh={() => setReload(true)}
-        />
-      }>
-      <GradientBackground>
-        <View style={{flexDirection: 'row'}}>
+    showsVerticalScrollIndicator={false}
+    refreshControl={
+      <RefreshControl
+        refreshing={loading}
+        onRefresh={() => setReload(true)}
+      />
+    }>
+      <GradientBackground fullWidth={true}>
+        <View style={{flexDirection: 'row', padding: '3%'}}>
           <BackButton navigation={navigation} />
         </View>
         <View style={styles.containerProducts}>
@@ -91,9 +90,18 @@ export const CarRentalDetailsScreen = ({navigation, route}) => {
             />
           </ZStack>
         </Center>
-        <View style={{minHeight: height * 0.4}}>
-          <Text pl={5} pr={5} pb={10} fontSize={15} lineHeight={25}>
-            {item.description}
+        <View style={{paddingHorizontal: '3%'}}>
+          <Text
+            bold
+            fontSize={25}
+            lineHeight={30}
+            color={'gray.500'}
+            pl={5}
+            pr={5}
+            pb={10}>
+            {item.name} Details{'\n'}
+            <Text fontSize={15} lineHeight={25}>
+              {item.description}</Text>
           </Text>
         </View>
         {/* <Box style={styles.whatsapp}>
