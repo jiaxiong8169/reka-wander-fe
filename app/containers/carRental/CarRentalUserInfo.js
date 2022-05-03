@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -9,80 +9,43 @@ import {
 import GradientBackground from '../../components/GradientBackground';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {BackButton} from '../../components/BackButton';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 import moment from 'moment';
 import Card from '../../components/Card';
-import {CalendarCar} from '../../components/CalenderPicker/Calender';
+import {CalendarCar} from '../../components/CalenderPicker/CalenderCar';
 import {LocationName} from '../../components/Location/LocationName';
-import {useAuth} from '../../hooks/useAuth';
-import {
-  resetCarInfo,
-  setPickupTime,
-  setReturnDate,
-  setReturnTime,
-} from '../../redux/CarRental/actions';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {GetTotal} from '../../components/Total/GetTotal';
-import { Phone } from '../../components/Phone/Phone';
-import { Mail } from '../../components/JumpMail/Mail';
+import {Phone} from '../../components/Phone/Phone';
+import {Mail} from '../../components/JumpMail/Mail';
 
 export default function UserCarRentalInfo({navigation, route}) {
-  const dispatch = useDispatch();
   const {id} = route.params;
-  const {authData} = useAuth();
-  const {putWithAuth} = useHttpCall();
-  const {pickUpDate} = useSelector(state => state.carReducer);
-  const {returnDate} = useSelector(state => state.carReducer);
-  const {carPrice} = useSelector(state => state.carReducer);
-
-  const [reload, setReload] = React.useState(true);
-  const [lat, setLat] = React.useState(0);
-  const [long, setLong] = React.useState(0);
+  const {pickUpDate, returnDate} = useSelector(state => state.carReducer);
   const [item, setItem] = useState([]);
   const {getWithoutAuth} = useHttpCall();
   const [diff, setDiff] = React.useState(0);
-  const [loading, setLoading] = React.useState(false);
 
+  // on load, get vehicle data
   React.useEffect(() => {
-    if (!reload) return;
-    setLoading(true);
-    console.log(carPrice);
     // try to fetch the data
     getWithoutAuth(`vehicles/${id}`)
       .then(({data}) => {
         if (!!data) {
           setItem(data);
-          setLat(data.loc.coordinates[1]);
-          setLong(data.loc.coordinates[0]);
         }
-        // set loading and reload to false indicating finished loading
-        setLoading(false);
-        setReload(false);
       })
       .catch(err => {
         console.log(err);
-        // set loading and reload to false indicating finished loading
-        setLoading(false);
-        setReload(false);
       });
-  }, [reload]);
+  }, []);
 
   React.useEffect(() => {
-    updateTotalDays();
-  }, [pickUpDate, returnDate]);
-
-  const updateTotalDays = () => {
     const a = moment(pickUpDate);
     const b = moment(returnDate);
-    console.log(a);
-    console.log(b);
     const D = b.diff(a, 'days');
-    setDiff(D);
-  };
-
-  const reset = () => {
-    dispatch(resetCarInfo());
-  };
+    setDiff(D + 1);
+  }, [pickUpDate, returnDate]);
 
   return (
     <GradientBackground>
@@ -94,7 +57,7 @@ export default function UserCarRentalInfo({navigation, route}) {
               {item.name}
             </Text>
           </View>
-          <Text color="rgb(117,157,246)" style={{fontSize: 17}}>
+          <Text color="rgb(117,157,246)">
             Fill in all fields to book{' '}
             <Text style={{fontWeight: '500', fontSize: 20, color: '#005533'}}>
               {item.name}
@@ -132,7 +95,10 @@ export default function UserCarRentalInfo({navigation, route}) {
             <View>
               <View style={styles.firstColumn}>
                 <Text style={{fontSize: 15, color: '#000'}}>Car Location</Text>
-                <LocationName lat={lat} long={long} />
+                <LocationName
+                  lat={item?.loc?.coordinates[1]}
+                  long={item?.loc?.coordinates[0]}
+                />
               </View>
               <View style={[styles.firstColumn, {marginTop: 5}]}>
                 <Text style={{fontSize: 15, color: '#000'}}>Price</Text>
@@ -156,33 +122,32 @@ export default function UserCarRentalInfo({navigation, route}) {
                   </View>
                 </View>
               </View>
-             <Mail type={'Vendor'} firstColumn={styles.firstColumn} vendorEmail={item.vendorEmail}>
-
-             </Mail>
-              <Phone type={'Vendor'} vendorPhoneNumber={item.vendorPhoneNumber}>
-              </Phone>
+              <Mail
+                type={'Vendor'}
+                firstColumn={styles.firstColumn}
+                vendorEmail={item.vendorEmail}></Mail>
+              <Phone
+                type={'Vendor'}
+                vendorPhoneNumber={item.vendorPhoneNumber}></Phone>
             </View>
           </Card>
 
           {!!diff && (
             <View>
               <Text
-                style={[styles.Subtitle, {fontSize: 30, fontWeight: 'bold'}]}>
-                Total Price
+                style={[styles.Subtitle, {fontSize: 20, fontWeight: 'bold'}]}>
+                Rental Details
               </Text>
-              <View style={{margin: 10, marginHorizontal: 30}}>
-                <GetTotal
-                  Subtitle={styles.Subtitle}
-                  price={item.price}
-                  diff={diff}
-                  carPrice={carPrice}
-                />
-              </View>
+              <GetTotal price={item.price} diff={diff} />
             </View>
           )}
         </View>
         <View style={{marginTop: 20, marginBottom: 30}}>
-          <TouchableOpacity onPress={reset}>
+          <TouchableOpacity
+            onPress={() => {
+              // TODO: Handle confirmation
+              // dispatch(resetCarInfo())
+            }}>
             <Text
               style={{
                 color: 'white',
