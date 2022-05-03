@@ -6,7 +6,7 @@ export default function HomePage({navigation}) {
   // redirect to the planner page after 2 seconds
   useEffect(() => {
     let timer1 = setTimeout(() => {
-      navigation.navigate('SignInScreen');
+      navigation.replace('SignInScreen');
     }, 1000);
 
     return () => {

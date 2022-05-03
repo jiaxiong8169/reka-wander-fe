@@ -13,7 +13,7 @@ GoogleSignin.configure({
     'https://www.googleapis.com/auth/userinfo.email',
   ],
 });
-const GoogleAuth = ({navigation, setEmail}) => {
+const AppleAuth = ({navigation, setEmail}) => {
   const {setLoading, signInWithGoogle, setAuthError} = useAuth();
 
   const handleGoogleAuth = async () => {
@@ -55,16 +55,16 @@ const GoogleAuth = ({navigation, setEmail}) => {
         navigation.replace('MainScreen');
       })
       .catch(err => {
-        navigation.push('ConfirmPhone', {email, password: uid});
+        navigation.navigate('ConfirmPhone', {email, password: uid});
       });
   };
 
   return (
     <Pressable
       style={({pressed}) => [styles.otherMethod, !pressed ? styles.shadow : []]}
-      onPress={handleGoogleAuth}>
+      onPress={() => {}}>
       <Image
-        source={require('../assets/google-signin.png')}
+        source={require('../assets/apple-signin.png')}
         style={styles.image}
       />
     </Pressable>
@@ -99,4 +99,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GoogleAuth;
+export default AppleAuth;

@@ -90,7 +90,6 @@ export default function LoadingScreen({navigation}) {
         <Text style={styles.content}>Please wait</Text>
         <Indicator />
       </Card>
-      {/* </View> */}
     </GradientBackground>
   );
 }

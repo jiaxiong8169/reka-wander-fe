@@ -16,8 +16,8 @@ const CustomTextInput = ({
           flexDirection: 'row',
           alignItems: 'center',
         }}>
-        {startAdornment && (
-          <View
+        {startAdornment && Platform.OS !== 'ios' && (
+          <Text
             style={[
               styles.inputAddOn,
               {
@@ -26,8 +26,8 @@ const CustomTextInput = ({
                 paddingHorizontal: 8,
               },
             ]}>
-            <Text>{startAdornment}</Text>
-          </View>
+            {startAdornment}
+          </Text>
         )}
         <TextInput
           placeholder={placeholder}
@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#aeb3bd',
     borderBottomLeftRadius: 6,
     borderTopLeftRadius: 6,
+    textAlignVertical: 'center',
   },
 });
 
