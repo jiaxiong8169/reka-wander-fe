@@ -9,6 +9,7 @@ import {useHttpCall} from '../../hooks/useHttpCall';
 import {RefreshControl} from 'react-native';
 
 const height = Dimensions.get('window').height;
+const width = Dimensions.get('window').width;
 
 export const CarRentalDetailsScreen = ({navigation, route}) => {
   const {id} = route.params;
@@ -43,15 +44,8 @@ export const CarRentalDetailsScreen = ({navigation, route}) => {
       });
   }, [reload]);
   return (
-    <ScrollView
-    showsVerticalScrollIndicator={false}
-    refreshControl={
-      <RefreshControl
-        refreshing={loading}
-        onRefresh={() => setReload(true)}
-      />
-    }>
-      <GradientBackground fullWidth={true}>
+    <GradientBackground fullWidth={true}>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{flexDirection: 'row', padding: '3%'}}>
           <BackButton navigation={navigation} />
         </View>
@@ -61,6 +55,7 @@ export const CarRentalDetailsScreen = ({navigation, route}) => {
             fontSize={30}
             lineHeight={30}
             color={'gray.500'}
+            maxWidth={'70%'}
             style={styles.productName}>
             {item.name}
             {'\n'}
@@ -114,8 +109,8 @@ export const CarRentalDetailsScreen = ({navigation, route}) => {
           backgroundColor="#dc2626"
           onPress={onPressHandlerRent}
         />
-      </GradientBackground>
-    </ScrollView>
+      </ScrollView>
+    </GradientBackground>
   );
 };
 
