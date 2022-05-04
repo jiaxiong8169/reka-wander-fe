@@ -14,6 +14,7 @@ import {Input} from 'native-base';
 import {MyCircleIcon} from '../../components/CircleIcon';
 import {preventBack} from '../../utils/navigation-utils';
 import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
+import GradientBackground from '../../components/GradientBackground';
 
 const width = Dimensions.get('window').width;
 
@@ -25,9 +26,7 @@ export const MyHomeScreen = ({navigation}) => {
   }, [navigation]);
 
   return (
-    <LinearGradient
-      colors={['#CFDDFC', 'white', 'white', '#CFDDFC']}
-      style={{height: '100%', width: '100%', position: 'relative'}}>
+    <GradientBackground fullWidth>
       <ImageBackground
         source={require('../../assets/home_scenery.jpg')}
         style={{
@@ -149,7 +148,7 @@ export const MyHomeScreen = ({navigation}) => {
           }}
         />
       </View>
-    </LinearGradient>
+    </GradientBackground>
   );
 };
 

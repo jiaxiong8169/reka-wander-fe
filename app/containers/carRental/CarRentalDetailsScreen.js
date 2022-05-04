@@ -45,80 +45,78 @@ export const CarRentalDetailsScreen = ({navigation, route}) => {
   }, [reload]);
   return (
     <GradientBackground fullWidth={true}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={{flexDirection: 'row', padding: '3%'}}>
-          <BackButton navigation={navigation} />
-        </View>
-        <View style={styles.containerProducts}>
-          <Text
-            semi-bold
-            fontSize={30}
-            lineHeight={30}
-            color={'gray.500'}
-            maxWidth={'70%'}
-            style={styles.productName}>
-            {item.name}
-            {'\n'}
-            <Text bold fontSize={15} lineHeight={25}>
-              RM {item.price}/day
-            </Text>
+      <View style={{flexDirection: 'row', padding: '3%'}}>
+        <BackButton navigation={navigation} />
+      </View>
+      <View style={styles.containerProducts}>
+        <Text
+          semi-bold
+          fontSize={30}
+          lineHeight={30}
+          color={'gray.500'}
+          maxWidth={'70%'}
+          style={styles.productName}>
+          {item.name}
+          {'\n'}
+          <Text bold fontSize={15} lineHeight={25}>
+            RM {item.price}/day
           </Text>
-          <View style={styles.carLeft}>
-            <Text bold color={'gray.500'}>
-              {item.availability} cars left
-            </Text>
-          </View>
+        </Text>
+        <View style={styles.carLeft}>
+          <Text bold color={'gray.500'}>
+            {item.availability} cars left
+          </Text>
         </View>
-        <Center>
-          <ZStack
-            alignItems="center"
-            justifyContent="center"
-            style={{marginTop: 120, marginBottom: 120}}>
-            <View style={styles.semiEllipse}></View>
-            <Image
-              style={{
-                width: 350,
-                height: 220,
-                resizeMode: 'contain',
-              }}
-              source={{
-                uri: item.thumbnailSrc,
-              }}
-            />
-          </ZStack>
-        </Center>
-        {/* <Center>
+      </View>
+      <Center>
+        <ZStack
+          alignItems="center"
+          justifyContent="center"
+          style={{marginTop: 120, marginBottom: 120}}>
+          <View style={styles.semiEllipse}></View>
+          <Image
+            style={{
+              width: 350,
+              height: 220,
+              resizeMode: 'contain',
+            }}
+            source={{
+              uri: item.thumbnailSrc,
+            }}
+          />
+        </ZStack>
+      </Center>
+      {/* <Center>
           <ZStack height={220} alignItems="center" justifyContent="center">
             <View style={styles.semiEllipse}></View>
             
           </ZStack>
         </Center> */}
-        <View style={{paddingHorizontal: '3%'}}>
-          <Text
-            bold
-            fontSize={25}
-            lineHeight={30}
-            color={'gray.500'}
-            pl={5}
-            pr={5}
-            pb={10}>
-            {item.name} Details{'\n'}
-            <Text fontSize={15} lineHeight={25}>
-              {item.description}
-            </Text>
+      <View style={{paddingHorizontal: '3%'}}>
+        <Text
+          bold
+          fontSize={25}
+          lineHeight={30}
+          color={'gray.500'}
+          pl={5}
+          pr={5}
+          pb={10}>
+          {item.name} Details{'\n'}
+          <Text fontSize={15} lineHeight={25}>
+            {item.description}
           </Text>
-        </View>
-        {/* <Box style={styles.whatsapp}>
+        </Text>
+      </View>
+      {/* <Box style={styles.whatsapp}>
           <Pressable p={1}>
             <Icon name="logo-whatsapp" size={35} color={'green'}></Icon>
           </Pressable>
         </Box> */}
-        <RoundButton
-          title="Rent"
-          backgroundColor="#dc2626"
-          onPress={onPressHandlerRent}
-        />
-      </ScrollView>
+      <RoundButton
+        title="Rent"
+        backgroundColor="#dc2626"
+        onPress={onPressHandlerRent}
+      />
     </GradientBackground>
   );
 };

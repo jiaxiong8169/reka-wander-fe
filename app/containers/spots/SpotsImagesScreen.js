@@ -157,205 +157,202 @@ export default function SpotsImagesScreen({navigation, route}) {
   }, [flatlistRef]);
 
   return (
-    <GradientBackground>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        refreshControl={
-          <RefreshControl
-            refreshing={loading1 || loading2 || loading3}
-            onRefresh={() => setReload(true)}
-          />
-        }>
-        {!isNearby && (
-          <SearchIcon
-            size="6"
-            mx={2}
-            style={{alignSelf: 'flex-end'}}
-            onPress={() => navigation.navigate('NearBySearch')}
-          />
-        )}
-        {isNearby && (
-          <View style={{flexDirection: 'column', marginBottom: 10}}>
-            <View style={{flexDirection: 'row'}}>
-              <BackButton navigation={navigation} />
-              <BlueSubtitle text1={isNearby ? 'Nearby Spots' : ''} text2={''} />
-            </View>
+    <GradientBackground
+      refreshControl={
+        <RefreshControl
+          refreshing={loading1 || loading2 || loading3}
+          onRefresh={() => setReload(true)}
+        />
+      }>
+      {!isNearby && (
+        <SearchIcon
+          size="6"
+          mx={2}
+          style={{alignSelf: 'flex-end'}}
+          onPress={() => navigation.navigate('NearBySearch')}
+        />
+      )}
+      {isNearby && (
+        <View style={{flexDirection: 'column', marginBottom: 10}}>
+          <View style={{flexDirection: 'row'}}>
+            <BackButton navigation={navigation} />
+            <BlueSubtitle text1={isNearby ? 'Nearby Spots' : ''} text2={''} />
           </View>
-        )}
-        <View style={{marginBottom: 10}}>
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}>
-            <Text bold fontSize={18} marginLeft={2}>
-              {isNearby ? 'Nearby ' : ''} Restaurants {'  '}
-            </Text>
-            <Text
-              fontSize={15}
-              color="blue.600"
-              onPress={() =>
-                navigation.navigate('SpotsList', {
-                  type: 'restaurants',
-                  isNearby: isNearby,
-                })
-              }>
-              {'View More'}
-            </Text>
-          </View>
-
-          <FlatList
-            ref={flatlistRef}
-            horizontal={true}
-            decelerationRate={0}
-            snapToOffsets={(isNearby ? nearbyRestaurants : restaurants).map(
-              (x, i) => i * itemWidth * startScroll,
-            )}
-            snapToAlignment={'center'}
-            showsHorizontalScrollIndicator={false}
-            data={isNearby ? nearbyRestaurants : restaurants}
-            renderItem={({item, index}) => (
-              <TouchableOpacity
-                style={styles.view}
-                onPress={() =>
-                  navigation.navigate('SpotDetails', {
-                    type: isNearby ? 'nearbyRestaurants' : 'restaurants',
-                    id: item.id,
-                  })
-                }>
-                <FastImage
-                  source={{uri: item.thumbnailSrc}}
-                  style={{
-                    flex: 1,
-                    width: null,
-                    height: null,
-                    resizeMode: 'cover',
-                    borderRadius: 10,
-                  }}
-                />
-              </TouchableOpacity>
-            )}
-          />
+        </View>
+      )}
+      <View style={{marginBottom: 10}}>
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}>
+          <Text bold fontSize={18} marginLeft={2}>
+            {isNearby ? 'Nearby ' : ''} Restaurants {'  '}
+          </Text>
+          <Text
+            fontSize={15}
+            color="blue.600"
+            onPress={() =>
+              navigation.navigate('SpotsList', {
+                type: 'restaurants',
+                isNearby: isNearby,
+              })
+            }>
+            {'View More'}
+          </Text>
         </View>
 
-        <View style={{marginBottom: 10}}>
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}>
-            <Text bold fontSize={18} marginLeft={2}>
-              {isNearby ? 'Nearby ' : ''}Attractions {'  '}
-            </Text>
-            <Text
-              fontSize={15}
-              color="blue.600"
+        <FlatList
+          ref={flatlistRef}
+          horizontal={true}
+          decelerationRate={0}
+          snapToOffsets={(isNearby ? nearbyRestaurants : restaurants).map(
+            (x, i) => i * itemWidth * startScroll,
+          )}
+          snapToAlignment={'center'}
+          showsHorizontalScrollIndicator={false}
+          data={isNearby ? nearbyRestaurants : restaurants}
+          renderItem={({item, index}) => (
+            <TouchableOpacity
+              style={styles.view}
               onPress={() =>
-                navigation.navigate('SpotsList', {
-                  type: 'attractions',
-                  isNearby: isNearby,
+                navigation.navigate('SpotDetails', {
+                  type: isNearby ? 'nearbyRestaurants' : 'restaurants',
+                  id: item.id,
                 })
               }>
-              {'View More'}
-            </Text>
-          </View>
+              <FastImage
+                source={{uri: item.thumbnailSrc}}
+                style={{
+                  flex: 1,
+                  width: null,
+                  height: null,
+                  resizeMode: 'cover',
+                  borderRadius: 10,
+                }}
+              />
+            </TouchableOpacity>
+          )}
+        />
+      </View>
 
-          <FlatList
-            ref={flatlistRef}
-            horizontal={true}
-            decelerationRate={0}
-            snapToOffsets={(isNearby ? nearbyAttractions : attractions).map(
-              (x, i) => i * itemWidth * startScroll,
-            )}
-            snapToAlignment={'center'}
-            showsHorizontalScrollIndicator={false}
-            data={isNearby ? nearbyAttractions : attractions}
-            renderItem={({item, index}) => (
-              <TouchableOpacity
-                style={styles.view}
-                onPress={() =>
-                  navigation.navigate('SpotDetails', {
-                    type: isNearby ? 'nearbyAttractions' : 'attractions',
-                    id: item.id,
-                  })
-                }>
-                <FastImage
-                  source={{uri: item.thumbnailSrc}}
-                  style={{
-                    flex: 1,
-                    width: null,
-                    height: null,
-                    resizeMode: 'cover',
-                    borderRadius: 10,
-                  }}
-                />
-              </TouchableOpacity>
-            )}
-          />
+      <View style={{marginBottom: 10}}>
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}>
+          <Text bold fontSize={18} marginLeft={2}>
+            {isNearby ? 'Nearby ' : ''}Attractions {'  '}
+          </Text>
+          <Text
+            fontSize={15}
+            color="blue.600"
+            onPress={() =>
+              navigation.navigate('SpotsList', {
+                type: 'attractions',
+                isNearby: isNearby,
+              })
+            }>
+            {'View More'}
+          </Text>
         </View>
 
-        <View style={{marginBottom: 20}}>
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}>
-            <Text bold fontSize={18} marginLeft={2}>
-              {isNearby ? 'Nearby ' : ''}Hotels {'  '}
-            </Text>
-            <Text
-              fontSize={15}
-              color="blue.600"
+        <FlatList
+          ref={flatlistRef}
+          horizontal={true}
+          decelerationRate={0}
+          snapToOffsets={(isNearby ? nearbyAttractions : attractions).map(
+            (x, i) => i * itemWidth * startScroll,
+          )}
+          snapToAlignment={'center'}
+          showsHorizontalScrollIndicator={false}
+          data={isNearby ? nearbyAttractions : attractions}
+          renderItem={({item, index}) => (
+            <TouchableOpacity
+              style={styles.view}
               onPress={() =>
-                navigation.navigate('SpotsList', {
-                  type: 'hotels',
-                  isNearby: isNearby,
+                navigation.navigate('SpotDetails', {
+                  type: isNearby ? 'nearbyAttractions' : 'attractions',
+                  id: item.id,
                 })
               }>
-              {'View More'}
-            </Text>
-          </View>
+              <FastImage
+                source={{uri: item.thumbnailSrc}}
+                style={{
+                  flex: 1,
+                  width: null,
+                  height: null,
+                  resizeMode: 'cover',
+                  borderRadius: 10,
+                }}
+              />
+            </TouchableOpacity>
+          )}
+        />
+      </View>
 
-          <FlatList
-            ref={flatlistRef}
-            horizontal={true}
-            decelerationRate={0}
-            snapToOffsets={(isNearby ? nearbyHotels : hotels).map(
-              (x, i) => i * itemWidth * startScroll,
-            )}
-            snapToAlignment={'center'}
-            showsHorizontalScrollIndicator={false}
-            data={isNearby ? nearbyHotels : hotels}
-            renderItem={({item, index}) => (
-              <TouchableOpacity
-                style={styles.view}
-                onPress={() =>
-                  navigation.navigate('SpotDetails', {
-                    type: isNearby ? 'nearbyHotels' : 'hotels',
-                    id: item.id,
-                  })
-                }>
-                <FastImage
-                  source={{uri: item.thumbnailSrc}}
-                  style={{
-                    flex: 1,
-                    width: null,
-                    height: null,
-                    resizeMode: 'cover',
-                    borderRadius: 10,
-                  }}
-                />
-              </TouchableOpacity>
-            )}
-          />
+      <View style={{marginBottom: 20}}>
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}>
+          <Text bold fontSize={18} marginLeft={2}>
+            {isNearby ? 'Nearby ' : ''}Hotels {'  '}
+          </Text>
+          <Text
+            fontSize={15}
+            color="blue.600"
+            onPress={() =>
+              navigation.navigate('SpotsList', {
+                type: 'hotels',
+                isNearby: isNearby,
+              })
+            }>
+            {'View More'}
+          </Text>
         </View>
-      </ScrollView>
+
+        <FlatList
+          ref={flatlistRef}
+          horizontal={true}
+          decelerationRate={0}
+          snapToOffsets={(isNearby ? nearbyHotels : hotels).map(
+            (x, i) => i * itemWidth * startScroll,
+          )}
+          snapToAlignment={'center'}
+          showsHorizontalScrollIndicator={false}
+          data={isNearby ? nearbyHotels : hotels}
+          renderItem={({item, index}) => (
+            <TouchableOpacity
+              style={styles.view}
+              onPress={() =>
+                navigation.navigate('SpotDetails', {
+                  type: isNearby ? 'nearbyHotels' : 'hotels',
+                  id: item.id,
+                })
+              }>
+              <FastImage
+                source={{uri: item.thumbnailSrc}}
+                style={{
+                  flex: 1,
+                  width: null,
+                  height: null,
+                  resizeMode: 'cover',
+                  borderRadius: 10,
+                }}
+              />
+            </TouchableOpacity>
+          )}
+        />
+      </View>
     </GradientBackground>
   );
 }
