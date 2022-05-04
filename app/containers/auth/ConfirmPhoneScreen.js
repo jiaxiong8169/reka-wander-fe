@@ -30,6 +30,7 @@ export const ConfirmPhoneScreen = ({route}) => {
   const [resendTimeLeft, setResendTimeLeft] = useState(0);
   const [otpResendLimit, setOtpResendLimit] = useState(3);
   const [loading, setLoading] = useState(false);
+  const [authUser, setAuthUser] = useState(undefined);
 
   const authProvider = useAuth();
 
@@ -66,22 +67,31 @@ export const ConfirmPhoneScreen = ({route}) => {
   }
 
   useEffect(() => {
+    if (authUser) {
+      const regInfo = {
+        email,
+        password,
+        phoneNumber: `${phoneNumberPrefix}${phoneNumber}`,
+      };
+      authProvider
+        .signUp(regInfo)
+        .then(() => {
+          setOTPModalVisible(false);
+        })
+        .catch(err => {
+          console.log({err});
+        })
+        .finally(() => {
+          console.log('sign out');
+          auth().signOut();
+        });
+    }
+  }, [authUser]);
+
+  useEffect(() => {
     const unsubscribe = auth().onAuthStateChanged(user => {
       if (user) {
-        const regInfo = {
-          email,
-          password,
-          phoneNumber,
-        };
-        authProvider
-          .signUp(regInfo)
-          .then(() => {
-            setOTPModalVisible(false);
-          })
-          .catch(err => {
-            console.log({err});
-          })
-          .finally(() => auth().signOut());
+        setAuthUser(user);
       }
     });
 
@@ -97,6 +107,7 @@ export const ConfirmPhoneScreen = ({route}) => {
       setPhoneNumber('');
       setPhoneNumberEditable(true);
       setOTPModalVisible(false);
+      console.log('reset');
     };
     if (!otpModalVisible) resetState();
   }, [otpModalVisible]);

@@ -22,8 +22,6 @@ import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
 import AppleAuth from '../../components/AppleAuth';
 
 const SignInScreen = ({navigation, route}) => {
-  AndroidKeyboardAdjust.setAdjustPan();
-
   const {loading, authData, signIn, setAuthError} = useAuth();
 
   const [email, setEmail] = useState('');
