@@ -69,22 +69,27 @@ export const CarRentalDetailsScreen = ({navigation, route}) => {
             </Text>
           </View>
         </View>
-
         <Center>
-          <ZStack alignItems="center" justifyContent="center" marginLeft="auto">
-            <View style={styles.semiEllipse}></View>
-            <FastImage
-              style={{
-                width: 400,
-                height: 220,
-                resizeMode: 'contain',
-              }}
-              source={{
-                uri: item.thumbnailSrc,
-              }}
-            />
-          </ZStack>
+          <FastImage
+            style={{
+              marginVertical: 15,
+              flex: 1,
+              width: width * 0.95,
+              height: 220,
+              resizeMode: 'contain',
+            }}
+            resizeMode="contain"
+            source={{
+              uri: item.thumbnailSrc,
+            }}
+          />
         </Center>
+        {/* <Center>
+          <ZStack height={220} alignItems="center" justifyContent="center">
+            <View style={styles.semiEllipse}></View>
+            
+          </ZStack>
+        </Center> */}
         <View style={{paddingHorizontal: '3%'}}>
           <Text
             bold
@@ -96,7 +101,8 @@ export const CarRentalDetailsScreen = ({navigation, route}) => {
             pb={10}>
             {item.name} Details{'\n'}
             <Text fontSize={15} lineHeight={25}>
-              {item.description}</Text>
+              {item.description}
+            </Text>
           </Text>
         </View>
         {/* <Box style={styles.whatsapp}>
