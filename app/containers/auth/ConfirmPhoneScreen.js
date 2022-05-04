@@ -15,6 +15,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 import OTPInput from './OTPInput';
 import CustomButton from '../../components/CustomButton/CustomButton';
+import {LoadingOverlay} from '../../components/LoadingOverlay';
 
 const OTP_TIMEOUT_SECONDS = 90;
 
