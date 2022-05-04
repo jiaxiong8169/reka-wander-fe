@@ -22,8 +22,9 @@ import {Mail} from '../../components/JumpMail/Mail';
 export default function UserCarRentalInfo({navigation, route}) {
   const {id} = route.params;
   const {pickUpDate, returnDate} = useSelector(state => state.carReducer);
+  const data = useSelector(state => state.carReducer);
   const [item, setItem] = useState([]);
-  const {getWithoutAuth} = useHttpCall();
+  const {getWithoutAuth, postWithAuth} = useHttpCall();
   const [diff, setDiff] = React.useState(0);
 
   // on load, get vehicle data
@@ -146,7 +147,21 @@ export default function UserCarRentalInfo({navigation, route}) {
           <TouchableOpacity
             onPress={() => {
               // TODO: Handle confirmation
-              // dispatch(resetCarInfo())
+              try {
+                postWithAuth(
+                  'car-rental/mail',
+                  {
+                    data,
+                    vendorEmail: 'autumnlewjb@gmail.com',
+                  },
+                  () => {
+                    navigation.navigate('SignInScreen');
+                  },
+                );
+              } catch (e) {
+                console.log(e);
+              }
+              // dispatch(resetCarInfo());
             }}>
             <Text
               style={{
