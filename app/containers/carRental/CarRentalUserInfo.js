@@ -152,7 +152,7 @@ export default function UserCarRentalInfo({navigation, route}) {
                   'car-rental/mail',
                   {
                     data,
-                    vendorEmail: 'autumnlewjb@gmail.com',
+                    vendorEmail: item.vendorEmail,
                   },
                   () => {
                     navigation.navigate('SignInScreen');
