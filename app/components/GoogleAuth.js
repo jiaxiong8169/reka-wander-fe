@@ -42,19 +42,19 @@ const GoogleAuth = ({navigation, setEmail}) => {
     // uid is used as password
     const uid = await auth().currentUser.uid;
     const {email} = currentUser;
-    signInWithGoogle(email, idToken)
-      // sign out immmediately after sign in to remove the access on firebase
+    // sign out immmediately to remove the access on firebase
+    auth()
+      .signOut()
       .then(() => {
-        return GoogleSignin.revokeAccess();
+        GoogleSignin.revokeAccess();
+        GoogleSignin.signOut();
       })
-      .then(() => {
-        auth().signOut();
-        return GoogleSignin.signOut();
-      })
+      .then(() => signInWithGoogle(email, idToken))
       .then(() => {
         navigation.replace('MainScreen');
       })
-      .catch(err => {
+      .catch(() => {
+        // without signing out, the auth state listener will assume that the user is authenticated
         navigation.push('ConfirmPhone', {email, password: uid});
       });
   };
