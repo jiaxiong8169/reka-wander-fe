@@ -116,7 +116,7 @@ const SignInScreen = ({navigation, route}) => {
                         ? styles.toggleTextInactive
                         : styles.toggleTextActive
                     }>
-                    Login
+                    Sign In
                   </Text>
                 </View>
               </Pressable>
@@ -135,7 +135,7 @@ const SignInScreen = ({navigation, route}) => {
                         ? styles.toggleTextActive
                         : styles.toggleTextInactive
                     }>
-                    Register
+                    Sign Up
                   </Text>
                 </View>
               </Pressable>
