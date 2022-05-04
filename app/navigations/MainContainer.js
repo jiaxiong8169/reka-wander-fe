@@ -139,8 +139,7 @@ function MainContainer() {
         },
         activeTintColor: '#0061FF',
         inactiveTintColor: 'grey',
-        labelStyle: {paddingBottom: 10, fontSize: 10},
-        style: {padding: 20, height: 100},
+        tabBarStyle: {height: 60, paddingBottom: 10, paddingTop: 10},
       })}>
       <Tab.Screen
         name="Spots"

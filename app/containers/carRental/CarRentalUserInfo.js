@@ -18,6 +18,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {GetTotal} from '../../components/Total/GetTotal';
 import {Phone} from '../../components/Phone/Phone';
 import {Mail} from '../../components/JumpMail/Mail';
+import RoundButton from '../../components/RoundButton';
 
 export default function UserCarRentalInfo({navigation, route}) {
   const {id} = route.params;
@@ -49,119 +50,96 @@ export default function UserCarRentalInfo({navigation, route}) {
 
   return (
     <GradientBackground>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={{flexDirection: 'column', marginBottom: 10}}>
-          <View style={{flexDirection: 'row'}}>
-            <BackButton navigation={navigation} />
-            <Text style={{fontWeight: '500', fontSize: 28, color: '#005533'}}>
-              {item.name}
-            </Text>
-          </View>
-          <Text color="rgb(117,157,246)">
-            Fill in all fields to book{' '}
-            <Text style={{fontWeight: '500', fontSize: 20, color: '#005533'}}>
-              {item.name}
-            </Text>
+      <View style={{flexDirection: 'column', marginBottom: 10}}>
+        <View style={{flexDirection: 'row'}}>
+          <BackButton navigation={navigation} />
+          {/* <Text style={{fontWeight: '500', fontSize: 28, color: '#005533'}}>
+            {item.name}
+          </Text> */}
+        </View>
+        <Text color="rgb(117,157,246)">
+          Fill in all fields to book{' '}
+          <Text style={{fontWeight: '500', fontSize: 20, color: '#005533'}}>
+            {item.name}
           </Text>
-        </View>
+        </Text>
+      </View>
 
+      <Text style={styles.Subtitle}>Pickup Details</Text>
+      <Card style={{margin: 10}}>
         <View>
-          <Text style={styles.Subtitle}>Pickup Details</Text>
-          <Card style={{margin: 10}}>
-            <View>
-              <View style={styles.firstColumn}>
-                <CalendarCar mode={'date'} type={'Pickup'} />
-              </View>
-              <View style={{flexDirection: 'column', marginTop: 5}}>
-                <CalendarCar mode={'time'} type={'Pickup'} />
-              </View>
-            </View>
-          </Card>
-
-          <Text style={styles.Subtitle}>Return Details</Text>
-          <Card style={{margin: 10}}>
-            <View>
-              <View style={styles.firstColumn}>
-                <CalendarCar mode={'date'} type={'Return'} />
-              </View>
-              <View style={{flexDirection: 'column', marginTop: 5}}>
-                <CalendarCar mode={'time'} type={'Return'} />
-              </View>
-            </View>
-          </Card>
-
-          <Text style={styles.Subtitle}>Car Details</Text>
-          <Card style={{margin: 10}}>
-            <View>
-              <View style={styles.firstColumn}>
-                <Text style={{fontSize: 15, color: '#000'}}>Car Location</Text>
-                <LocationName
-                  lat={item?.loc?.coordinates[1]}
-                  long={item?.loc?.coordinates[0]}
-                />
-              </View>
-              <View style={[styles.firstColumn, {marginTop: 5}]}>
-                <Text style={{fontSize: 15, color: '#000'}}>Price</Text>
-                <View style={{flexDirection: 'row', marginTop: 5}}>
-                  <Icon name="cash-outline" size={23} color="#000" />
-                  <View style={{flex: 3, marginLeft: 10}}>
-                    <Text style={{fontSize: 15, color: '#000'}}>
-                      RM{item.price} per day
-                    </Text>
-                  </View>
-                </View>
-              </View>
-              <View style={[styles.firstColumn, {marginTop: 5}]}>
-                <Text style={{fontSize: 15, color: '#000'}}>Vendor Name</Text>
-                <View style={{flexDirection: 'row', marginTop: 5}}>
-                  <Icon name="person-outline" size={23} color="#000" />
-                  <View style={{flex: 3, marginLeft: 10}}>
-                    <Text style={{fontSize: 15, color: '#000'}}>
-                      {item.vendorName}
-                    </Text>
-                  </View>
-                </View>
-              </View>
-              <Mail
-                type={'Vendor'}
-                firstColumn={styles.firstColumn}
-                vendorEmail={item.vendorEmail}></Mail>
-              <Phone
-                type={'Vendor'}
-                vendorPhoneNumber={item.vendorPhoneNumber}></Phone>
-            </View>
-          </Card>
-
-          {!!diff && (
-            <View>
-              <Text
-                style={[styles.Subtitle, {fontSize: 20, fontWeight: 'bold'}]}>
-                Rental Details
-              </Text>
-              <GetTotal price={item.price} diff={diff} />
-            </View>
-          )}
+          <View style={styles.firstColumn}>
+            <CalendarCar mode={'date'} type={'Pickup'} />
+          </View>
+          <View style={{flexDirection: 'column', marginTop: 5}}>
+            <CalendarCar mode={'time'} type={'Pickup'} />
+          </View>
         </View>
-        <View style={{marginTop: 20, marginBottom: 30}}>
-          <TouchableOpacity
-            onPress={() => {
-              // TODO: Handle confirmation
-              // dispatch(resetCarInfo())
-            }}>
-            <Text
-              style={{
-                color: 'white',
-                padding: 12,
-                backgroundColor: '#00A099',
-                borderRadius: 50,
-                textAlign: 'center',
-                marginHorizontal: 80,
-              }}>
-              Confirm
-            </Text>
-          </TouchableOpacity>
+      </Card>
+
+      <Text style={styles.Subtitle}>Return Details</Text>
+      <Card style={{margin: 10}}>
+        <View>
+          <View style={styles.firstColumn}>
+            <CalendarCar mode={'date'} type={'Return'} />
+          </View>
+          <View style={{flexDirection: 'column', marginTop: 5}}>
+            <CalendarCar mode={'time'} type={'Return'} />
+          </View>
         </View>
-      </ScrollView>
+      </Card>
+
+      <Text style={styles.Subtitle}>Car Details</Text>
+      <Card style={{margin: 10}}>
+        <View>
+          <View style={styles.firstColumn}>
+            <Text style={{fontSize: 15, color: '#000'}}>Car Location</Text>
+            <LocationName
+              lat={item?.loc?.coordinates[1]}
+              long={item?.loc?.coordinates[0]}
+            />
+          </View>
+          <View style={[styles.firstColumn, {marginTop: 5}]}>
+            <Text style={{fontSize: 15, color: '#000'}}>Price</Text>
+            <View style={{flexDirection: 'row', marginTop: 5}}>
+              <Icon name="cash-outline" size={23} color="#000" />
+              <View style={{flex: 3, marginLeft: 10}}>
+                <Text style={{fontSize: 15, color: '#000'}}>
+                  RM{item.price} per day
+                </Text>
+              </View>
+            </View>
+          </View>
+          <View style={[styles.firstColumn, {marginTop: 5}]}>
+            <Text style={{fontSize: 15, color: '#000'}}>Vendor Name</Text>
+            <View style={{flexDirection: 'row', marginTop: 5}}>
+              <Icon name="person-outline" size={23} color="#000" />
+              <View style={{flex: 3, marginLeft: 10}}>
+                <Text style={{fontSize: 15, color: '#000'}}>
+                  {item.vendorName}
+                </Text>
+              </View>
+            </View>
+          </View>
+          <Mail
+            type={'Vendor'}
+            firstColumn={styles.firstColumn}
+            vendorEmail={item.vendorEmail}></Mail>
+          <Phone
+            type={'Vendor'}
+            vendorPhoneNumber={item.vendorPhoneNumber}></Phone>
+        </View>
+      </Card>
+
+      {!!diff && (
+        <View>
+          <Text style={[styles.Subtitle, {fontSize: 20, fontWeight: 'bold'}]}>
+            Rental Details
+          </Text>
+          <GetTotal price={item.price} diff={diff} />
+        </View>
+      )}
+      <RoundButton backgroundColor="#dc2626" title={'Confirm'} />
     </GradientBackground>
   );
 }

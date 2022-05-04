@@ -12,7 +12,7 @@ const GradientBackground = props => {
         start={{x: 0, y: 0}}
         end={{x: 0, y: 0.5}}
         style={{
-          height: height - 70,
+          height: height - 80,
           width: '100%',
           ...props.style,
         }}
@@ -26,7 +26,7 @@ const GradientBackground = props => {
       end={{x: 0, y: 0.5}}
       style={{
         width: '100%',
-        height: height - 70,
+        height: height - 80,
         ...props.style,
       }}>
       <ScrollView
