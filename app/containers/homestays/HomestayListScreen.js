@@ -7,11 +7,12 @@ import {useHttpCall} from '../../hooks/useHttpCall';
 import {LoadMore} from '../../components/LoadMore';
 import {BackButton} from '../../components/BackButton';
 import Card from '../../components/Card';
-import {View} from 'react-native';
+import {RefreshControl, View} from 'react-native';
 import {HomestayCardItem} from '../../components/HomestayCardItem';
 
 export const HomestayListScreen = ({navigation}) => {
   const [loading, setLoading] = useState(true);
+  const [reload, setReload] = useState(true);
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState('');
   const [full, setFull] = useState(false);
@@ -28,7 +29,7 @@ export const HomestayListScreen = ({navigation}) => {
       setItems(data);
       setLoading(false);
     });
-  }, [search]);
+  }, [search, reload]);
 
   // getData fetch more data and append to the items array
   const getData = () => {
@@ -47,7 +48,13 @@ export const HomestayListScreen = ({navigation}) => {
   };
 
   return (
-    <GradientBackground>
+    <GradientBackground
+      refreshControl={
+        <RefreshControl
+          refreshing={false}
+          onRefresh={() => setReload(!reload)}
+        />
+      }>
       <View style={{flexDirection: 'column', marginBottom: 10}}>
         <View style={{flexDirection: 'row'}}>
           <BackButton navigation={navigation} />
@@ -77,20 +84,19 @@ export const HomestayListScreen = ({navigation}) => {
           />
         }
       />
-      {/* TODO: Check marginBottom after having more records */}
       <Card style={{marginBottom: 10}}>
-        <ScrollView>
-          {items.map(item => (
-            <HomestayCardItem
-              key={item.id}
-              name={item.name}
-              price={item.minPrice}
-              thumbnailSrc={item.thumbnailSrc}
-              onPress={() => navigation.navigate('HomestayDetails', {id:item.id})}
-            />
-          ))}
-          <LoadMore getData={getData} full={full} loading={loading} />
-        </ScrollView>
+        {items.map(item => (
+          <HomestayCardItem
+            key={item.id}
+            name={item.name}
+            price={item.minPrice}
+            thumbnailSrc={item.thumbnailSrc}
+            onPress={() =>
+              navigation.navigate('HomestayDetails', {id: item.id})
+            }
+          />
+        ))}
+        <LoadMore getData={getData} full={full} loading={loading} />
       </Card>
     </GradientBackground>
   );

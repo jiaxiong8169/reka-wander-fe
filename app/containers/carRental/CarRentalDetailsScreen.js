@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import GradientBackground from '../../components/GradientBackground';
-import {View, Dimensions, ScrollView, StyleSheet} from 'react-native';
+import {View, Dimensions, ScrollView, StyleSheet, Image} from 'react-native';
 import {Text, ZStack, Center} from 'native-base';
 import {BackButton} from '../../components/BackButton';
 import RoundButton from '../../components/RoundButton';
@@ -70,19 +70,22 @@ export const CarRentalDetailsScreen = ({navigation, route}) => {
           </View>
         </View>
         <Center>
-          <FastImage
-            style={{
-              marginVertical: 15,
-              flex: 1,
-              width: width * 0.95,
-              height: 220,
-              resizeMode: 'contain',
-            }}
-            resizeMode="contain"
-            source={{
-              uri: item.thumbnailSrc,
-            }}
-          />
+          <ZStack
+            alignItems="center"
+            justifyContent="center"
+            style={{marginTop: 120, marginBottom: 120}}>
+            <View style={styles.semiEllipse}></View>
+            <Image
+              style={{
+                width: 350,
+                height: 220,
+                resizeMode: 'contain',
+              }}
+              source={{
+                uri: item.thumbnailSrc,
+              }}
+            />
+          </ZStack>
         </Center>
         {/* <Center>
           <ZStack height={220} alignItems="center" justifyContent="center">

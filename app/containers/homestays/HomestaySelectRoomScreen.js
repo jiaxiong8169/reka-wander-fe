@@ -73,7 +73,8 @@ export const HomestaySelectRoomScreen = ({navigation, route}) => {
             price={item.price}
             pax={item.pax}
             availability={item.availability}
-            thumbnailSrc={item.thumnailSrc}></HomestayRoomCardItem>
+            thumbnailSrc={item.thumnailSrc}
+          />
         ))}
       </View>
     </GradientBackground>
@@ -160,6 +161,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     position: 'relative',
+    marginBottom: 20,
   },
   image: {
     flex: 1,

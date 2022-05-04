@@ -1,8 +1,8 @@
 import React from 'react';
 import {Text, Box, Center} from 'native-base';
 import Card from './Card';
-import FastImage from 'react-native-fast-image';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {Image} from 'react-native';
 
 const CarCardItem = props => {
   return (
@@ -52,13 +52,8 @@ const CarCardItem = props => {
             {props.name}
           </Text>
         </Center>
-        <FastImage
+        <Image
           style={{
-            // maxWidth: '75%',
-            // height: 'auto',
-            // padding:50,
-            // // resizeMode: 'contain',
-            // aspectRatio: 16/9,
             marginTop: -15,
             flex: 1,
             width: null,

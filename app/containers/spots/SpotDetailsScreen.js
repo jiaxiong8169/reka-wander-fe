@@ -21,6 +21,7 @@ import {BackButton} from '../../components/BackButton';
 import DeviceInfo from 'react-native-device-info';
 import Share from 'react-native-share';
 import {RatingButton} from '../../components/RatingButton';
+import {LocationButton} from '../../components/Location/LocationButton';
 
 const height = Dimensions.get('window').height;
 
@@ -224,7 +225,10 @@ export default function SpotDetailsScreen({navigation, route}) {
           <Text mt="3" mb="10" color={'white'}>
             {item.description}
           </Text>
-          <RoundButton title="Direction" backgroundColor="#dc2626" />
+          <LocationButton
+            targetLat={item?.loc?.coordinates[1]}
+            targetLong={item?.loc?.coordinates[0]}
+          />
         </View>
         <View style={styles.buttonContainer}>
           <View style={{flexDirection: 'row'}}>

@@ -29,7 +29,9 @@ const GradientBackground = props => {
         height: height - 70,
         ...props.style,
       }}>
-      <ScrollView style={props.fullWidth ? '' : styles.p3}>
+      <ScrollView
+        refreshControl={props.refreshControl}
+        style={props.fullWidth ? '' : styles.p3}>
         {props.children}
       </ScrollView>
     </LinearGradient>
