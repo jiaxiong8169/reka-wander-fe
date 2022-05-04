@@ -64,7 +64,7 @@ export const GuideCardItem = ({item, navigation, marginBottom}) => {
               marginTop: 2,
               marginBottom: 10,
             }}>
-            <RatingButton />
+            <RatingButton rating={item.avgRating} />
           </View>
         </View>
         <FastImage

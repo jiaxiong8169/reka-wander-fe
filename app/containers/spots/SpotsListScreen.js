@@ -7,11 +7,13 @@ import {useHttpCall} from '../../hooks/useHttpCall';
 import {LoadMore} from '../../components/LoadMore';
 import {BackButton} from '../../components/BackButton';
 import {getLocationPermissionAndExecute} from '../../utils/location-utils';
+import {RefreshControl} from 'react-native';
 
 export const SpotsListScreen = ({navigation, route}) => {
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
   const [full, setFull] = useState(false);
+  const [reload, setReload] = useState(false);
   const {getWithoutAuth} = useHttpCall();
   const {type, isNearby} = route.params;
 
@@ -41,7 +43,7 @@ export const SpotsListScreen = ({navigation, route}) => {
         setLoading(false);
       });
     }
-  }, []);
+  }, [reload]);
 
   // getData fetch more data and append to the items array
   const getData = () => {
@@ -81,7 +83,13 @@ export const SpotsListScreen = ({navigation, route}) => {
   };
 
   return (
-    <GradientBackground>
+    <GradientBackground
+      refreshControl={
+        <RefreshControl
+          refreshing={false}
+          onRefresh={() => setReload(!reload)}
+        />
+      }>
       <View style={{flexDirection: 'column', marginBottom: 10}}>
         <View style={{flexDirection: 'row'}}>
           <BackButton navigation={navigation} />

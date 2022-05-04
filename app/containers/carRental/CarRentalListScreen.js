@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import GradientBackground from '../../components/GradientBackground';
 import BlueSubtitle from '../../components/BlueSubtitle';
-import {View, ScrollView} from 'react-native';
+import {View, ScrollView, RefreshControl} from 'react-native';
 import {Text, Input} from 'native-base';
 import {BackButton} from '../../components/BackButton';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -15,6 +15,7 @@ export const CarRentalListScreen = ({navigation}) => {
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState('');
   const [full, setFull] = useState(false);
+  const [reload, setReload] = useState(false);
   const {getWithoutAuth} = useHttpCall();
 
   // on load and on search, fetch new 10 records
@@ -28,7 +29,7 @@ export const CarRentalListScreen = ({navigation}) => {
       setItems(data);
       setLoading(false);
     });
-  }, [search]);
+  }, [search, reload]);
 
   // getData fetch more data and append to the items array
   const getData = () => {
@@ -47,7 +48,13 @@ export const CarRentalListScreen = ({navigation}) => {
   };
 
   return (
-    <GradientBackground>
+    <GradientBackground
+      refreshControl={
+        <RefreshControl
+          refreshing={false}
+          onRefresh={() => setReload(!reload)}
+        />
+      }>
       <View style={{flexDirection: 'column', marginBottom: 10}}>
         <View style={{flexDirection: 'row'}}>
           <BackButton navigation={navigation} />
@@ -78,20 +85,18 @@ export const CarRentalListScreen = ({navigation}) => {
         }
       />
       <Card style={{marginBottom: 10}}>
-        <ScrollView>
-          {items.map(item => (
-            <CarCardItem
-              key={item.id}
-              name={item.name}
-              price={item.price}
-              thumbnailSrc={item.thumbnailSrc}
-              onPress={() =>
-                navigation.navigate('CarRentalDetails', {id: item.id})
-              }
-            />
-          ))}
-          <LoadMore getData={getData} full={full} loading={loading} />
-        </ScrollView>
+        {items.map(item => (
+          <CarCardItem
+            key={item.id}
+            name={item.name}
+            price={item.price}
+            thumbnailSrc={item.thumbnailSrc}
+            onPress={() =>
+              navigation.navigate('CarRentalDetails', {id: item.id})
+            }
+          />
+        ))}
+        <LoadMore getData={getData} full={full} loading={loading} />
       </Card>
     </GradientBackground>
   );

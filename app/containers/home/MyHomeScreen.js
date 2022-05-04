@@ -114,7 +114,13 @@ export const MyHomeScreen = ({navigation}) => {
               }}
             />
           </MyCircleIcon>
-          <MyCircleIcon text="Food">
+          <MyCircleIcon
+            text="Food"
+            onPress={() => {
+              navigation.navigate('MyHomeFood', {
+                type: 'restaurants',
+              });
+            }}>
             <Image
               source={require('../../assets/Food.png')}
               style={{

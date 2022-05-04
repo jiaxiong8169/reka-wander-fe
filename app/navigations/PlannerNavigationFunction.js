@@ -14,8 +14,9 @@ import {setInterests} from '../redux/Nearby/actions';
 import {MyHomeScreen} from '../containers/home/MyHomeScreen';
 import SpotsCommentScreen from '../containers/spots/SpotsCommentScreen';
 import {HomestayStack} from './HomestayStack';
-import { CarRentalStack } from './CarRentalStack';
+import {CarRentalStack} from './CarRentalStack';
 import UserCarRentalInfo from '../containers/carRental/CarRentalUserInfo';
+import {SpotsListScreen} from '../containers/spots/SpotsListScreen';
 //Screen names
 const Stack = createStackNavigator();
 
@@ -129,6 +130,14 @@ export default function PlannerStack() {
         <Stack.Screen
           name="RecommendedCards"
           component={RecommendedCard}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="MyHomeFood"
+          component={SpotsListScreen}
           options={{
             headerShown: false,
           }}

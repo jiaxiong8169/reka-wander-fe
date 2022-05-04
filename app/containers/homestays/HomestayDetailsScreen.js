@@ -148,13 +148,13 @@ export const HomestayDetailsScreen = ({navigation, route}) => {
           <Text mt="3" mb="3">
             {item.description}
           </Text>
-          <View
+          {/* <View
             style={{
               marginRight: 'auto',
               marginBottom: 6,
             }}>
             <RatingButton rating={item.avgRating} />
-          </View>
+          </View> */}
           <View
             style={{
               flexDirection: 'row',
@@ -197,7 +197,7 @@ export const HomestayDetailsScreen = ({navigation, route}) => {
           style={{position: 'relative', left: 0, right: 0, bottom: 0}}
           onPress={() => {
             navigation.navigate('HomestaySelectRoom', {
-              id:item.id,
+              id: item.id,
             });
           }}>
           Select Rooms

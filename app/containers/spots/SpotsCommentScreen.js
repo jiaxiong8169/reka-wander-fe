@@ -128,118 +128,116 @@ export default function SpotsCommentScreen({navigation, route}) {
   };
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
+    <GradientBackground
+      fullWidth
       refreshControl={
         <RefreshControl
           refreshing={loading}
           onRefresh={() => setReload(true)}
         />
       }>
-      <GradientBackground fullWidth={true}>
-        <View style={styles.container}>
-          <FastImage style={styles.image} source={{uri: item.thumbnailSrc}} />
-          <Box style={styles.backButton}>
-            <Pressable onPress={() => navigation.goBack()}>
-              <ArrowBackIcon size="8" m="1" color="white" />
-            </Pressable>
-          </Box>
-          <View style={styles.textContainer}>
-            <Heading size="2xl">{item.name}</Heading>
-            <Text mt="3" mb="3">
-              {item.description}
-            </Text>
-            <View
-              style={{
-                marginRight: 'auto',
-                marginBottom: 6,
-              }}>
-              <RatingButton rating={item.avgRating} />
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                marginTop: 4,
-              }}>
-              <Image
-                style={{width: 15, height: 15}}
-                source={require('../../assets/pin.png')}
-                tintColor={'#52525b'}
-              />
-              <Text marginLeft="1" fontSize={10} color="gray.600">
-                {item.city}
-              </Text>
-            </View>
-
-            <View
-              style={{
-                flexDirection: 'row',
-                marginTop: 4,
-              }}>
-              <Image
-                style={{width: 15, height: 15}}
-                source={require('../../assets/money.png')}
-                tintColor={'#52525b'}
-              />
-              <Text marginLeft="1" fontSize={10} color="gray.600">
-                RM {item.price ? item.price : item.minPrice}
-              </Text>
-            </View>
+      <View style={styles.container}>
+        <FastImage style={styles.image} source={{uri: item.thumbnailSrc}} />
+        <Box style={styles.backButton}>
+          <Pressable onPress={() => navigation.goBack()}>
+            <ArrowBackIcon size="8" m="1" color="white" />
+          </Pressable>
+        </Box>
+        <View style={styles.textContainer}>
+          <Heading size="2xl">{item.name}</Heading>
+          <Text mt="3" mb="3">
+            {item.description}
+          </Text>
+          <View
+            style={{
+              marginRight: 'auto',
+              marginBottom: 6,
+            }}>
+            <RatingButton rating={item.avgRating} />
           </View>
-        </View>
-        <View style={[styles.textContainer, {alignItems: 'center'}]}>
-          <Heading size="sm">Reviews & Comments</Heading>
-        </View>
-        {!reviewDataList.find(
-          x => x.id === 'newReview' || x.userId === authData.id,
-        ) && (
-          <View>
-            <View style={styles.commentBox}>
-              <TextArea
-                h={20}
-                px="3"
-                placeholder="Write your review..."
-                onChangeText={valueControlledTextArea}
-                value={textAreaValue}
-              />
-            </View>
-            <View
-              style={{
-                position: 'relative',
-                top: -16,
-                alignSelf: 'flex-start',
-                marginHorizontal: 20,
-              }}>
-              <RatingButton rating={rating} editable onPress={setRating} />
-            </View>
-            <Pressable style={styles.button} onPress={() => handleReview()}>
-              <Text style={styles.buttonText}>Post</Text>
-            </Pressable>
-          </View>
-        )}
-        {reviewDataList.slice(0, currentLimit).map(e => {
-          return (
-            <CommentCard
-              key={e.id}
-              comment={e.contents}
-              date={new Date(e.timestamp).toLocaleDateString()}
-              time={new Date(e.timestamp).toLocaleTimeString('en-US', {
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: true,
-              })}
-              rating={e.rating}
-              commentorName={e.userName}
-              imgSrc={e.userProfileSrc}
+          <View
+            style={{
+              flexDirection: 'row',
+              marginTop: 4,
+            }}>
+            <Image
+              style={{width: 15, height: 15}}
+              source={require('../../assets/pin.png')}
+              tintColor={'#52525b'}
             />
-          );
-        })}
-        <LoadMore
-          getData={() => setCurrentLimit(oldValue => oldValue + 10)}
-          full={reviewDataList.length - currentLimit < 0}
-        />
-      </GradientBackground>
-    </ScrollView>
+            <Text marginLeft="1" fontSize={10} color="gray.600">
+              {item.city}
+            </Text>
+          </View>
+
+          <View
+            style={{
+              flexDirection: 'row',
+              marginTop: 4,
+            }}>
+            <Image
+              style={{width: 15, height: 15}}
+              source={require('../../assets/money.png')}
+              tintColor={'#52525b'}
+            />
+            <Text marginLeft="1" fontSize={10} color="gray.600">
+              RM {item.price ? item.price : item.minPrice}
+            </Text>
+          </View>
+        </View>
+      </View>
+      <View style={[styles.textContainer, {alignItems: 'center'}]}>
+        <Heading size="sm">Reviews & Comments</Heading>
+      </View>
+      {!reviewDataList.find(
+        x => x.id === 'newReview' || x.userId === authData.id,
+      ) && (
+        <View>
+          <View style={styles.commentBox}>
+            <TextArea
+              h={20}
+              px="3"
+              placeholder="Write your review..."
+              onChangeText={valueControlledTextArea}
+              value={textAreaValue}
+            />
+          </View>
+          <View
+            style={{
+              position: 'relative',
+              top: -16,
+              alignSelf: 'flex-start',
+              marginHorizontal: 20,
+            }}>
+            <RatingButton rating={rating} editable onPress={setRating} />
+          </View>
+          <Pressable style={styles.button} onPress={() => handleReview()}>
+            <Text style={styles.buttonText}>Post</Text>
+          </Pressable>
+        </View>
+      )}
+      {reviewDataList.slice(0, currentLimit).map(e => {
+        return (
+          <CommentCard
+            key={e.id}
+            comment={e.contents}
+            date={new Date(e.timestamp).toLocaleDateString()}
+            time={new Date(e.timestamp).toLocaleTimeString('en-US', {
+              hour: '2-digit',
+              minute: '2-digit',
+              hour12: true,
+            })}
+            rating={e.rating}
+            commentorName={e.userName}
+            imgSrc={e.userProfileSrc}
+          />
+        );
+      })}
+      <LoadMore
+        getData={() => setCurrentLimit(oldValue => oldValue + 10)}
+        full={reviewDataList.length - currentLimit < 0}
+      />
+    </GradientBackground>
   );
 }
 const styles = StyleSheet.create({
