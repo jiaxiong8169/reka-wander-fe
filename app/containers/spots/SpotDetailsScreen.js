@@ -1,14 +1,7 @@
 import * as React from 'react';
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  RefreshControl,
-  Share,
-} from 'react-native';
+import {View, StyleSheet, Dimensions, RefreshControl} from 'react-native';
 import {Image} from 'react-native';
 import {Heading, Text} from 'native-base';
-import {Rating} from 'react-native-ratings';
 import {ScrollView} from 'react-native';
 import RoundButton from '../../components/RoundButton';
 import {useHttpCall} from '../../hooks/useHttpCall';
@@ -26,6 +19,9 @@ import {
 } from '../../redux/Nearby/actions';
 import {BackButton} from '../../components/BackButton';
 import DeviceInfo from 'react-native-device-info';
+import Share from 'react-native-share';
+import {RatingButton} from '../../components/RatingButton';
+import {LocationButton} from '../../components/Location/LocationButton';
 
 const height = Dimensions.get('window').height;
 
@@ -167,29 +163,26 @@ export default function SpotDetailsScreen({navigation, route}) {
     }
     // open the share component
     try {
-      const result = await Share.share({
+      await Share.open({
         title: `Reka Wander - ${item.name}`,
         url: item.link,
         message: `Please check out ${item.name} via: ${item.link}`,
       });
-      if (result.action === Share.sharedAction) {
-        // POST share API
-        try {
-          postWithAuth(`${currentType}/share`, {
-            targetId: id,
-            userId:
-              authData && authData.id ? authData.id : DeviceInfo.getUniqueId(),
-          });
-        } catch (err) {
-          console.log(err);
-          setLoading(false);
-        }
+      // POST share API
+      try {
+        postWithAuth(`${currentType}/share`, {
+          targetId: id,
+          userId:
+            authData && authData.id ? authData.id : DeviceInfo.getUniqueId(),
+        });
+        setShares(shared ? shares : shares + 1);
+        setShared(true);
+      } catch (err) {
+        console.log(err);
       }
     } catch (error) {
       console.log(error.message);
     }
-    setShares(shared ? shares : shares + 1);
-    setShared(true);
   };
 
   return (
@@ -222,21 +215,20 @@ export default function SpotDetailsScreen({navigation, route}) {
               {item.category}
             </Text>
           </View>
-          <Rating
+          <View
             style={{
               marginRight: 'auto',
               marginTop: 6,
-            }}
-            imageSize={15}
-            ratingCount={5}
-            startingValue={item.avgRating}
-            tintColor={'#414141'}
-            readonly
-          />
+            }}>
+            <RatingButton rating={item.avgRating} />
+          </View>
           <Text mt="3" mb="10" color={'white'}>
             {item.description}
           </Text>
-          <RoundButton title="Direction" backgroundColor="#dc2626" />
+          <LocationButton
+            targetLat={item?.loc?.coordinates[1]}
+            targetLong={item?.loc?.coordinates[0]}
+          />
         </View>
         <View style={styles.buttonContainer}>
           <View style={{flexDirection: 'row'}}>
@@ -259,7 +251,12 @@ export default function SpotDetailsScreen({navigation, route}) {
           </View>
           <TouchableOpacity
             style={{flex: 1, alignSelf: 'center', justifyContent: 'center'}}
-            onPress={() => navigation.navigate('SpotsComment')}>
+            onPress={() =>
+              navigation.navigate('SpotsComment', {
+                id: id,
+                type: type,
+              })
+            }>
             <View style={{flexDirection: 'row'}}>
               <Image
                 style={styles.icon}

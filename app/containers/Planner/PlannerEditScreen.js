@@ -9,11 +9,13 @@ import {LoadMore} from '../../components/LoadMore';
 import {BackButton} from '../../components/BackButton';
 import {useSelector, useDispatch} from 'react-redux';
 import {setTripPlanbyFieldName} from '../../redux/Planner/actions';
+import {RefreshControl} from 'react-native';
 
 export const EditScreen = ({navigation, route}) => {
   const dispatch = useDispatch();
   const {type, fieldName, fieldNameObj} = route.params;
   const [loading, setLoading] = useState(true);
+  const [reload, setReload] = useState(true);
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState('');
   const [full, setFull] = useState(false);
@@ -30,7 +32,7 @@ export const EditScreen = ({navigation, route}) => {
         setLoading(false);
       },
     );
-  }, [search]);
+  }, [search, reload]);
 
   // getData fetch more data and append to the items array
   const getData = () => {
@@ -49,21 +51,9 @@ export const EditScreen = ({navigation, route}) => {
   };
 
   const toggleItemSelection = (v, vObj) => {
-    // hmm I guess need some backend changes this too messy dy
     let tmp = JSON.parse(JSON.stringify(tripPlan[fieldName]));
     let tmpObj = JSON.parse(JSON.stringify(tripPlan[fieldNameObj]));
-    console.log(tmp);
-    console.log(tmpObj);
-    // for string
-    if (tmp && typeof tmp === 'string') {
-      if (tmp === v) {
-        tmp = '';
-        tmpObj = {};
-      } else {
-        tmp = v;
-        tmpObj = vObj;
-      }
-    } else if (tmp) {
+    if (tmp) {
       // for array
       const index = tmpObj.findIndex(x => x.id === v);
       if (index !== -1) {
@@ -82,7 +72,13 @@ export const EditScreen = ({navigation, route}) => {
   };
 
   return (
-    <GradientBackground>
+    <GradientBackground
+      refreshControl={
+        <RefreshControl
+          refreshing={false}
+          onRefresh={() => setReload(!reload)}
+        />
+      }>
       <View style={{flexDirection: 'column', marginBottom: 10}}>
         <View style={{flexDirection: 'row'}}>
           <BackButton navigation={navigation} />
@@ -108,20 +104,18 @@ export const EditScreen = ({navigation, route}) => {
           />
         }
       />
-      <ScrollView style={{marginTop: 10, marginBottom: 50}}>
-        {items.map(item => (
-          <CardItemWithEdit
-            item={item}
-            key={item.id}
-            navigation={navigation}
-            type={type}
-            marginBottom={10}
-            selected={tripPlan[fieldName]}
-            toggleItemSelection={toggleItemSelection}
-          />
-        ))}
-        <LoadMore getData={getData} full={full} loading={loading} />
-      </ScrollView>
+      {items.map(item => (
+        <CardItemWithEdit
+          item={item}
+          key={item.id}
+          navigation={navigation}
+          type={type}
+          marginBottom={10}
+          selected={tripPlan[fieldName]}
+          toggleItemSelection={toggleItemSelection}
+        />
+      ))}
+      <LoadMore getData={getData} full={full} loading={loading} />
     </GradientBackground>
   );
 };

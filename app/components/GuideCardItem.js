@@ -7,8 +7,7 @@ import {
 } from 'react-native';
 import {Text} from 'native-base';
 import FastImage from 'react-native-fast-image';
-import Stars from 'react-native-stars';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {RatingButton} from './RatingButton';
 
 export const GuideCardItem = ({item, navigation, marginBottom}) => {
   return (
@@ -65,22 +64,7 @@ export const GuideCardItem = ({item, navigation, marginBottom}) => {
               marginTop: 2,
               marginBottom: 10,
             }}>
-            <Stars
-              display={item.avgRating}
-              spacing={2}
-              count={5}
-              starSize={50}
-              fullStar={<Icon name={'star'} style={[styles.myStarStyle]} />}
-              emptyStar={
-                <Icon
-                  name={'star-outline'}
-                  style={[styles.myStarStyle, styles.myEmptyStarStyle]}
-                />
-              }
-              halfStar={
-                <Icon name={'star-half'} style={[styles.myStarStyle]} />
-              }
-            />
+            <RatingButton rating={item.avgRating} />
           </View>
         </View>
         <FastImage
@@ -90,7 +74,7 @@ export const GuideCardItem = ({item, navigation, marginBottom}) => {
             height: undefined,
           }}
           source={{
-            uri: item.thumbnailSrc,
+            uri: item.thumbnailTransparentSrc,
           }}
         />
       </TouchableOpacity>
@@ -104,15 +88,5 @@ const styles = StyleSheet.create({
   },
   button: {
     borderRadius: 100,
-  },
-  myStarStyle: {
-    color: 'yellow',
-    backgroundColor: 'transparent',
-    textShadowColor: 'black',
-    textShadowOffset: {width: 1, height: 1},
-    textShadowRadius: 2,
-  },
-  myEmptyStarStyle: {
-    color: 'white',
   },
 });

@@ -4,7 +4,6 @@ import Card from '../../components/card/card';
 import RadioButtonRN from '../../components/multiple_choice/multiplechoice';
 import {useSelector, useDispatch} from 'react-redux';
 import {setRentCar} from '../../redux/Planner/actions';
-import {color} from 'native-base/lib/typescript/theme/styled-system';
 
 const data = [
   {label: 'Yes', value: 'true', index: 1},
@@ -24,35 +23,33 @@ const RentCar = () => {
   };
 
   return (
-    <View style={styles.body}>
-      <Card style={{width: '100%'}}>
-        <View style={{alignItems: 'center'}}>
-          <Text style={styles.question}>Rent Car?</Text>
-        </View>
-        <View style={{marginHorizontal: '15%'}}>
-          <RadioButtonRN
-            data={data}
-            box={false}
-            initial={rentCar ? 1 : 2}
-            animationTypes={['pulse']}
-            circleSize={18}
-            textColor={'black'}
-            selectedBtn={onPressHandler}></RadioButtonRN>
-        </View>
-        <View style={{marginTop: 10}}>
-          <Image
-            source={require('../../assets/kids.png')}
-            style={{
-              padding: 1,
-              aspectRatio: 1,
-              width: '100%',
-              resizeMode: 'contain',
-              alignItems: 'flex-end',
-              height: undefined,
-            }}
-          />
-        </View>
-      </Card>
+    <View>
+      <View style={{alignItems: 'center'}}>
+        <Text style={styles.question}>Rent Car?</Text>
+      </View>
+      <View style={{marginHorizontal: '15%'}}>
+        <RadioButtonRN
+          data={data}
+          box={false}
+          initial={rentCar ? 1 : 2}
+          animationTypes={['pulse']}
+          circleSize={18}
+          textColor={'black'}
+          selectedBtn={onPressHandler}></RadioButtonRN>
+      </View>
+      <View style={{marginTop: 10}}>
+        <Image
+          source={require('../../assets/kids.png')}
+          style={{
+            padding: 1,
+            aspectRatio: 1,
+            width: '100%',
+            resizeMode: 'contain',
+            alignItems: 'flex-end',
+            height: undefined,
+          }}
+        />
+      </View>
     </View>
   );
 };

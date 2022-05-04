@@ -1,8 +1,9 @@
 import * as React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Image, StyleSheet} from 'react-native';
+import {Image} from 'react-native';
 import GradientBackground from '../components/GradientBackground';
+import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
 
 // Screens
 import SpotsHomeScreen from '../containers/spots/SpotsHomeScreen';
@@ -16,8 +17,8 @@ import {SettingsScreen} from '../containers/settings/SettingsScreen';
 import SpotsImagesScreen from '../containers/spots/SpotsImagesScreen';
 import SpotsCommentScreen from '../containers/spots/SpotsCommentScreen';
 import {SearchScreen} from '../containers/spots/SearchScreen';
-import {GuideListScreen} from '../containers/guides/GuideListScreen';
 import {GuideStack} from './GuideStack';
+
 //Screen names
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -40,6 +41,7 @@ function SpotsHomeStack() {
         options={{
           headerShown: false,
         }}
+        style={{height: 200}}
       />
       <Stack.Screen
         name="NearBySearch"
@@ -81,6 +83,8 @@ function SpotsHomeStack() {
 }
 
 function MainContainer() {
+  AndroidKeyboardAdjust.setAdjustNothing();
+
   return (
     <Tab.Navigator
       initialRouteName={'Home'}
@@ -135,8 +139,7 @@ function MainContainer() {
         },
         activeTintColor: '#0061FF',
         inactiveTintColor: 'grey',
-        labelStyle: {paddingBottom: 10, fontSize: 10},
-        style: {padding: 20, height: 100},
+        tabBarStyle: {height: 60, paddingBottom: 10, paddingTop: 10},
       })}>
       <Tab.Screen
         name="Spots"
@@ -190,21 +193,5 @@ function MainContainer() {
     </Tab.Navigator>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-  },
-  title: {
-    fontWeight: '300',
-    fontSize: 40,
-    color: `#4169E1`,
-  },
-  subtitle: {
-    fontSize: 15,
-    color: `#4169E1`,
-  },
-});
 
 export default MainContainer;

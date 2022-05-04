@@ -9,9 +9,7 @@ import {LoadMore} from '../../components/LoadMore';
 import {BackButton} from '../../components/BackButton';
 import {CustomTabs} from '../../components/CustomTabs';
 import Card from '../../components/Card';
-import {Dimensions, View} from 'react-native';
-
-const height = Dimensions.get('window').height;
+import {Dimensions, RefreshControl, View} from 'react-native';
 
 // list of available tabs
 const tabs = [
@@ -26,6 +24,7 @@ export const SearchScreen = ({navigation}) => {
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState('');
   const [full, setFull] = useState(false);
+  const [reload, setReload] = useState(false);
   const [tab, setTab] = useState('attractions');
   const {getWithoutAuth} = useHttpCall();
 
@@ -40,7 +39,7 @@ export const SearchScreen = ({navigation}) => {
         setLoading(false);
       },
     );
-  }, [search, tab]);
+  }, [search, tab, reload]);
 
   // getData fetch more data and append to the items array
   const getData = () => {
@@ -59,7 +58,13 @@ export const SearchScreen = ({navigation}) => {
   };
 
   return (
-    <GradientBackground>
+    <GradientBackground
+      refreshControl={
+        <RefreshControl
+          refreshing={false}
+          onRefresh={() => setReload(!reload)}
+        />
+      }>
       <View style={{flexDirection: 'column', marginBottom: 10}}>
         <View style={{flexDirection: 'row'}}>
           <BackButton navigation={navigation} />
@@ -89,25 +94,23 @@ export const SearchScreen = ({navigation}) => {
           />
         }
       />
-      <Card style={{marginBottom: height - 420}}>
+      <Card style={{marginBottom: 10}}>
         <CustomTabs
           tabs={tabs}
           tab={tab}
           setTab={setTab}
           style={{marginBottom: 10}}
         />
-        <ScrollView>
-          {items.map(item => (
-            <CardItem
-              item={item}
-              key={item.id}
-              navigation={navigation}
-              type={tab}
-              marginBottom={10}
-            />
-          ))}
-          <LoadMore getData={getData} full={full} loading={loading} />
-        </ScrollView>
+        {items.map(item => (
+          <CardItem
+            item={item}
+            key={item.id}
+            navigation={navigation}
+            type={tab}
+            marginBottom={10}
+          />
+        ))}
+        <LoadMore getData={getData} full={full} loading={loading} />
       </Card>
     </GradientBackground>
   );

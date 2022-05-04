@@ -6,12 +6,14 @@ import {View, ScrollView} from 'native-base';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {LoadMore} from '../../components/LoadMore';
 import {BackButton} from '../../components/BackButton';
-import Geolocation from 'react-native-geolocation-service';
+import {getLocationPermissionAndExecute} from '../../utils/location-utils';
+import {RefreshControl} from 'react-native';
 
 export const SpotsListScreen = ({navigation, route}) => {
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
   const [full, setFull] = useState(false);
+  const [reload, setReload] = useState(false);
   const {getWithoutAuth} = useHttpCall();
   const {type, isNearby} = route.params;
 
@@ -20,7 +22,7 @@ export const SpotsListScreen = ({navigation, route}) => {
     setLoading(true);
     setFull(false);
     if (isNearby) {
-      Geolocation.getCurrentPosition(
+      getLocationPermissionAndExecute(
         position => {
           let query = `${type}/nearby?long=${position.coords.longitude}&lat=${position.coords.latitude}&distance=300000&sort=-avgRating&limit=10`;
           console.log(query);
@@ -29,15 +31,9 @@ export const SpotsListScreen = ({navigation, route}) => {
             setLoading(false);
           });
         },
-        error => {
-          Alert.alert('Error', JSON.stringify(error));
+        () => {
           setLoading(false);
           setItems([]);
-        },
-        {
-          enableHighAccuracy: true,
-          timeout: 20000,
-          maximumAge: 1000,
         },
       );
     } else {
@@ -47,7 +43,7 @@ export const SpotsListScreen = ({navigation, route}) => {
         setLoading(false);
       });
     }
-  }, []);
+  }, [reload]);
 
   // getData fetch more data and append to the items array
   const getData = () => {
@@ -55,7 +51,7 @@ export const SpotsListScreen = ({navigation, route}) => {
     setLoading(true);
 
     if (isNearby) {
-      Geolocation.getCurrentPosition(
+      getLocationPermissionAndExecute(
         position => {
           let query = `${type}/nearby?long=${position.coords.longitude}&lat=${position.coords.latitude}&distance=300000&sort=-avgRating&limit=10&offset=${items.length}`;
           console.log(query);
@@ -68,15 +64,9 @@ export const SpotsListScreen = ({navigation, route}) => {
             setLoading(false);
           });
         },
-        error => {
-          Alert.alert('Error', JSON.stringify(error));
+        () => {
           setLoading(false);
           setItems([]);
-        },
-        {
-          enableHighAccuracy: true,
-          timeout: 20000,
-          maximumAge: 1000,
         },
       );
     } else {
@@ -93,7 +83,13 @@ export const SpotsListScreen = ({navigation, route}) => {
   };
 
   return (
-    <GradientBackground>
+    <GradientBackground
+      refreshControl={
+        <RefreshControl
+          refreshing={false}
+          onRefresh={() => setReload(!reload)}
+        />
+      }>
       <View style={{flexDirection: 'column', marginBottom: 10}}>
         <View style={{flexDirection: 'row'}}>
           <BackButton navigation={navigation} />
@@ -104,18 +100,16 @@ export const SpotsListScreen = ({navigation, route}) => {
           />
         </View>
       </View>
-      <ScrollView style={{marginTop: 10, marginBottom: 50}}>
-        {items.map(item => (
-          <CardItem
-            item={item}
-            key={item.id}
-            navigation={navigation}
-            type={type}
-            marginBottom={10}
-          />
-        ))}
-        <LoadMore getData={getData} full={full} loading={loading} />
-      </ScrollView>
+      {items.map(item => (
+        <CardItem
+          item={item}
+          key={item.id}
+          navigation={navigation}
+          type={type}
+          marginBottom={10}
+        />
+      ))}
+      <LoadMore getData={getData} full={full} loading={loading} />
     </GradientBackground>
   );
 };

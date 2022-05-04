@@ -4,8 +4,8 @@ import CheckBox from '@react-native-community/checkbox';
 import {Text} from 'native-base';
 import {Button} from 'native-base';
 import Card from '../components/Card';
-import {Rating} from 'react-native-ratings';
 import FastImage from 'react-native-fast-image';
+import {RatingButton} from './RatingButton';
 
 const CardItemWithEdit = ({
   item,
@@ -18,8 +18,9 @@ const CardItemWithEdit = ({
   return (
     <Card
       style={{
-        height: 150,
+        minHeight: 150,
         flexDirection: 'row',
+        flex: 1,
         margin: 10,
         marginBottom: marginBottom,
       }}
@@ -64,13 +65,9 @@ const CardItemWithEdit = ({
                 flexDirection: 'row',
                 marginRight: 'auto',
                 marginTop: 2,
+                marginBottom: 4,
               }}>
-              <Rating
-                imageSize={15}
-                ratingCount={5}
-                startingValue={item.avgRating}
-                readonly
-              />
+              <RatingButton rating={item.avgRating} />
             </View>
             <View style={styles.lineStyle} />
             <View

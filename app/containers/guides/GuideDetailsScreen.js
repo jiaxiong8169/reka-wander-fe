@@ -4,12 +4,9 @@ import {
   StyleSheet,
   Dimensions,
   RefreshControl,
-  Share,
-  ImageBackground,
   Image,
 } from 'react-native';
 import {Heading, Text} from 'native-base';
-import {Rating} from 'react-native-ratings';
 import {ScrollView} from 'react-native';
 import RoundButton from '../../components/RoundButton';
 import {useHttpCall} from '../../hooks/useHttpCall';
@@ -17,6 +14,9 @@ import {useAuth} from '../../hooks/useAuth';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {BackButton} from '../../components/BackButton';
 import DeviceInfo from 'react-native-device-info';
+import FastImage from 'react-native-fast-image';
+import Share from 'react-native-share';
+import {RatingButton} from '../../components/RatingButton';
 
 const height = Dimensions.get('window').height;
 
@@ -88,29 +88,26 @@ export const GuideDetailsScreen = ({navigation, route}) => {
     if (loading) return; // do not proceed when loading is true
     // open the share component
     try {
-      const result = await Share.share({
+      await Share.open({
         title: `Reka Wander - ${item.name}`,
         url: item.link,
         message: `Please check out ${item.name} via: ${item.link}`,
       });
-      if (result.action === Share.sharedAction) {
-        // POST share API
-        try {
-          postWithAuth(`guides/share`, {
-            targetId: id,
-            userId:
-              authData && authData.id ? authData.id : DeviceInfo.getUniqueId(),
-          });
-        } catch (err) {
-          console.log(err);
-          setLoading(false);
-        }
+      // POST share API
+      try {
+        postWithAuth(`guides/share`, {
+          targetId: id,
+          userId:
+            authData && authData.id ? authData.id : DeviceInfo.getUniqueId(),
+        });
+        setShares(shared ? shares : shares + 1);
+        setShared(true);
+      } catch (err) {
+        console.log(err);
       }
     } catch (error) {
       console.log(error.message);
     }
-    setShares(shared ? shares : shares + 1);
-    setShared(true);
   };
 
   return (
@@ -123,9 +120,7 @@ export const GuideDetailsScreen = ({navigation, route}) => {
         />
       }>
       <View style={styles.container}>
-        <ImageBackground source={require('../../assets/sky.jpg')}>
-          <Image style={styles.image} source={{uri: item.thumbnailSrc}} />
-        </ImageBackground>
+        <FastImage style={styles.image} source={{uri: item.thumbnailSrc}} />
         <BackButton navigation={navigation} absolute />
 
         <View style={styles.textContainer}>
@@ -144,17 +139,10 @@ export const GuideDetailsScreen = ({navigation, route}) => {
               {item.category}
             </Text>
           </View>
-          <Rating
-            style={{
-              marginRight: 'auto',
-              marginTop: 6,
-            }}
-            imageSize={15}
-            ratingCount={5}
-            startingValue={item.avgRating}
-            tintColor={'#414141'}
-            readonly
-          />
+          <View style={{marginRight: 'auto'}}>
+            <RatingButton rating={item.avgRating} />
+          </View>
+
           <Text mt="3" mb="10" color={'white'}>
             {item.description}
           </Text>
@@ -189,7 +177,12 @@ export const GuideDetailsScreen = ({navigation, route}) => {
           </View>
           <TouchableOpacity
             style={{flex: 1, alignSelf: 'center', justifyContent: 'center'}}
-            onPress={() => navigation.navigate('SpotsComment')}>
+            onPress={() =>
+              navigation.navigate('SpotsComment', {
+                id: id,
+                type: 'guides',
+              })
+            }>
             <View style={{flexDirection: 'row'}}>
               <Image
                 style={styles.icon}
@@ -266,11 +259,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#414141',
   },
   image: {
+    flex: 1,
     width: '100%',
     height: height * 0.4,
-    resizeMode: 'contain',
-    aspectRatio: 1,
-    alignSelf: 'center',
+    position: 'relative',
   },
   icon: {
     height: 25,

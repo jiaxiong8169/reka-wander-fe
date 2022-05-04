@@ -2,7 +2,6 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
   Modal,
   Image,
   ScrollView,
@@ -12,12 +11,11 @@ import React, {useEffect, useState, useRef} from 'react';
 import auth from '@react-native-firebase/auth';
 import {useAuth} from '../../hooks/useAuth';
 import LinearGradient from 'react-native-linear-gradient';
-import {LoadingOverlay} from '../../components/LoadingOverlay';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 import OTPInput from './OTPInput';
-import {Button} from 'native-base';
 import CustomButton from '../../components/CustomButton/CustomButton';
+import {LoadingOverlay} from '../../components/LoadingOverlay';
 
 const OTP_TIMEOUT_SECONDS = 90;
 
@@ -218,20 +216,6 @@ export const ConfirmPhoneScreen = ({route}) => {
                     </Text>
                   )}
                 </View>
-                {/* <View
-                  style={{
-                    flex: 1,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  {resendTimeLeft !== 0 ? (
-                    <Text>Resend in {resendTimeLeft} seconds</Text>
-                  ) : (
-                    <Pressable onPress={handlePhoneNumberButtonPress}>
-                      <Text>Resend OTP password</Text>
-                    </Pressable>
-                  )}
-                </View> */}
                 <View style={{justifyContent: 'flex-end'}}>
                   <CustomButton
                     onPress={() => confirmCode()}

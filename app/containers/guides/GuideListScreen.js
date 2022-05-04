@@ -1,16 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import BlueSubtitle from '../../components/BlueSubtitle';
 import GradientBackground from '../../components/GradientBackground';
-import {Input, View, ScrollView} from 'native-base';
+import {Input, View} from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {LoadMore} from '../../components/LoadMore';
 import {CustomTabs} from '../../components/CustomTabs';
 import Card from '../../components/Card';
-import {Dimensions} from 'react-native';
+import {RefreshControl} from 'react-native';
 import {GuideCardItem} from '../../components/GuideCardItem';
-
-const height = Dimensions.get('window').height;
 
 // list of available tabs
 const tabs = [
@@ -26,6 +24,7 @@ export const GuideListScreen = ({navigation}) => {
   const [full, setFull] = useState(false);
   const [tab, setTab] = useState('popular');
   const {getWithoutAuth} = useHttpCall();
+  const [reload, setReload] = useState(false);
 
   // on load, on search and on change tab, fetch new 10 records
   useEffect(() => {
@@ -41,7 +40,7 @@ export const GuideListScreen = ({navigation}) => {
       setItems(data);
       setLoading(false);
     });
-  }, [search, tab]);
+  }, [reload, search, tab]);
 
   // getData fetch more data and append to the items array
   const getData = () => {
@@ -63,7 +62,13 @@ export const GuideListScreen = ({navigation}) => {
   };
 
   return (
-    <GradientBackground>
+    <GradientBackground
+      refreshControl={
+        <RefreshControl
+          refreshing={false}
+          onRefresh={() => setReload(!reload)}
+        />
+      }>
       <View style={{flexDirection: 'column', marginBottom: 10}}>
         <View style={{flexDirection: 'row'}}>
           <BlueSubtitle text1="Tour Guides" text2={``} />
@@ -89,24 +94,22 @@ export const GuideListScreen = ({navigation}) => {
           />
         }
       />
-      <Card style={{marginBottom: height - 430}}>
+      <Card style={{marginBottom: 10}}>
         <CustomTabs
           tabs={tabs}
           tab={tab}
           setTab={setTab}
           style={{marginBottom: 10}}
         />
-        <ScrollView>
-          {items.map(item => (
-            <GuideCardItem
-              item={item}
-              key={item.id}
-              navigation={navigation}
-              marginBottom={10}
-            />
-          ))}
-          <LoadMore getData={getData} full={full} loading={loading} />
-        </ScrollView>
+        {items.map(item => (
+          <GuideCardItem
+            item={item}
+            key={item.id}
+            navigation={navigation}
+            marginBottom={10}
+          />
+        ))}
+        <LoadMore getData={getData} full={full} loading={loading} />
       </Card>
     </GradientBackground>
   );

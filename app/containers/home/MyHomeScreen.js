@@ -12,14 +12,21 @@ import RoundButton from '../../components/RoundButton';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {Input} from 'native-base';
 import {MyCircleIcon} from '../../components/CircleIcon';
+import {preventBack} from '../../utils/navigation-utils';
+import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
+import GradientBackground from '../../components/GradientBackground';
 
 const width = Dimensions.get('window').width;
 
 export const MyHomeScreen = ({navigation}) => {
+  AndroidKeyboardAdjust.setAdjustNothing();
+
+  useEffect(() => {
+    preventBack(navigation, 'MyHome');
+  }, [navigation]);
+
   return (
-    <LinearGradient
-      colors={['#CFDDFC', 'white', 'white', '#CFDDFC']}
-      style={{height: '100%', width: '100%', position: 'relative'}}>
+    <GradientBackground fullWidth>
       <ImageBackground
         source={require('../../assets/home_scenery.jpg')}
         style={{
@@ -78,7 +85,9 @@ export const MyHomeScreen = ({navigation}) => {
             flexDirection: 'row',
             justifyContent: 'space-evenly',
           }}>
-          <MyCircleIcon text="Car Rental">
+          <MyCircleIcon
+            text="Car Rental"
+            onPress={() => navigation.navigate('CarRental')}>
             <Image
               source={require('../../assets/car_rental.png')}
               style={{
@@ -89,7 +98,11 @@ export const MyHomeScreen = ({navigation}) => {
               }}
             />
           </MyCircleIcon>
-          <MyCircleIcon text="Homestay">
+          <MyCircleIcon
+            text="Homestay"
+            onPress={() => {
+              navigation.navigate('Homestay');
+            }}>
             <Image
               source={require('../../assets/Homestay.png')}
               style={{
@@ -100,7 +113,13 @@ export const MyHomeScreen = ({navigation}) => {
               }}
             />
           </MyCircleIcon>
-          <MyCircleIcon text="Food">
+          <MyCircleIcon
+            text="Food"
+            onPress={() => {
+              navigation.navigate('MyHomeFood', {
+                type: 'restaurants',
+              });
+            }}>
             <Image
               source={require('../../assets/Food.png')}
               style={{
@@ -129,7 +148,7 @@ export const MyHomeScreen = ({navigation}) => {
           }}
         />
       </View>
-    </LinearGradient>
+    </GradientBackground>
   );
 };
 

@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Text, TextInput, Image, Alert} from 'react-native';
-import Card from '../../components/card/card';
 import {useSelector, useDispatch} from 'react-redux';
 import {setBudget} from '../../redux/Planner/actions';
 
@@ -9,36 +8,32 @@ const TravelBudget = () => {
   const dispatch = useDispatch();
 
   return (
-    <View style={styles.body}>
-      <Card style={{width: '100%'}}>
-        <View style={styles.body_container}>
-          <Text style={styles.question}>Travel budget</Text>
-          <TextInput
-            style={styles.input}
-            keyboardType={'number-pad'}
-            onChangeText={v => {
-              dispatch(setBudget(v));
+
+      <View style={styles.body_container}>
+        <Text style={styles.question}>Travel budget</Text>
+        <TextInput
+          style={styles.input}
+          keyboardType={'number-pad'}
+          onChangeText={v => {
+            dispatch(setBudget(v));
+          }}
+          placeholder="RM..."
+          value={budget}
+        />
+        <View style={{marginTop: 10}}>
+          <Image
+            source={require('../../assets/budget.png')}
+            style={{
+              padding: 1,
+              aspectRatio: 1,
+              width: '100%',
+              resizeMode: 'contain',
+              alignItems: 'flex-end',
+              height: undefined,
             }}
-            placeholder="RM..."
-            value={budget}
           />
-          <View style={{marginTop: 10}}>
-            <Image
-              source={require('../../assets/budget.png')}
-              style={{
-                padding: 1,
-                aspectRatio: 1,
-                width: '100%',
-                resizeMode: 'contain',
-                // justifyContent: 'flex-end',
-                alignItems: 'flex-end',
-                height: undefined,
-              }}
-            />
-          </View>
         </View>
-      </Card>
-    </View>
+      </View>
   );
 };
 

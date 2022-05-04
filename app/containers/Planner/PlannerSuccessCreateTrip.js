@@ -10,14 +10,11 @@ import {
 import Card from '../../components/card/card';
 import GradientBackground from '../../components/GradientBackground';
 import BlueSubtitle from '../../components/BlueSubtitle';
+import {preventBack} from '../../utils/navigation-utils';
 
 export default function SuccessConfirmScreen({navigation}) {
   React.useEffect(() => {
-    navigation.addListener('beforeRemove', e => {
-      console.log(e);
-      if (e?.data?.action?.type === 'GO_BACK' && e.target.includes('Success'))
-        e.preventDefault();
-    });
+    preventBack(navigation, 'Success');
   }, [navigation]);
 
   const onPressHandler = () => {

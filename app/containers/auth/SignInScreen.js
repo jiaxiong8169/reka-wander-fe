@@ -17,9 +17,13 @@ import {useIsFocused} from '@react-navigation/native';
 import {LoadingOverlay} from '../../components/LoadingOverlay';
 import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 import CustomButton from '../../components/CustomButton/CustomButton';
+import {preventBack} from '../../utils/navigation-utils';
+import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
 import AppleAuth from '../../components/AppleAuth';
 
 const SignInScreen = ({navigation, route}) => {
+  AndroidKeyboardAdjust.setAdjustPan();
+
   const {loading, authData, signIn, setAuthError} = useAuth();
 
   const [email, setEmail] = useState('');
@@ -28,6 +32,7 @@ const SignInScreen = ({navigation, route}) => {
   const isFocused = useIsFocused();
 
   useEffect(() => {
+    preventBack(navigation, 'SignIn');
     // navigate users to main page if authenticated
     if (!!authData) navigation.replace('MainScreen');
   }, [authData]);

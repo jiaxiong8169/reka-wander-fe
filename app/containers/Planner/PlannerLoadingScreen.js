@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {StyleSheet, View, Text, Alert} from 'react-native';
+import {StyleSheet, View, Text, Alert, Dimensions} from 'react-native';
 import Card from '../../components/card/card';
 import Indicator from '../../components/Indicator/Indicator';
 import GradientBackground from '../../components/GradientBackground';
@@ -7,8 +7,11 @@ import BlueSubtitle from '../../components/BlueSubtitle';
 import {useSelector, useDispatch} from 'react-redux';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {useAuth} from '../../hooks/useAuth';
-import Geolocation from 'react-native-geolocation-service';
 import {setTripId, setTripPlan} from '../../redux/Planner/actions';
+import {getLocationPermissionAndExecute} from '../../utils/location-utils';
+import {preventBack} from '../../utils/navigation-utils';
+
+const height = Dimensions.get('window').height;
 
 export default function LoadingScreen({navigation}) {
   const dispatch = useDispatch();
@@ -43,18 +46,6 @@ export default function LoadingScreen({navigation}) {
     console.log(tmp);
     postWithAuth('trips/recommend', tmp)
       .then(({data}) => {
-        // TODO: Let backend do this, add default values if not exists
-        if (!data.attractionObjects) data.attractionObjects = [];
-        if (!data.attractions) data.attractions = [];
-        if (!data.restaurantObjects) data.restaurantObjects = [];
-        if (!data.restaurants) data.restaurants = [];
-        if (!data.hotelObject) data.hotelObject = {};
-        if (!data.hotel) data.hotel = '';
-        if (!data.vehicleObject) data.vehicleObject = {};
-        if (!data.vehicle) data.vehicle = '';
-        if (!data.homestayObject) data.homestayObject = {};
-        if (!data.homestay) data.homestay = '';
-
         dispatch(setTripPlan(data));
         dispatch(setTripId(data.id)); // set ID for updating later
         navigation.navigate('Recommended'); // navigate to Recommend page
@@ -66,29 +57,18 @@ export default function LoadingScreen({navigation}) {
   };
 
   const getLocation = () => {
-    Geolocation.getCurrentPosition(
+    getLocationPermissionAndExecute(
       position => {
         postAPI(position.coords.longitude, position.coords.latitude);
       },
-      error => {
-        Alert.alert('Error', JSON.stringify(error));
+      () => {
         navigation.navigate('MyHome');
-      },
-      {
-        enableHighAccuracy: true,
-        timeout: 20000,
-        maximumAge: 1000,
       },
     );
   };
 
   useEffect(() => {
-    // add navigation listener to prevent back
-    navigation.addListener('beforeRemove', e => {
-      console.log(e);
-      if (e?.data?.action?.type === 'GO_BACK' && e.target.includes('Loading'))
-        e.preventDefault();
-    });
+    preventBack(navigation, 'Loading');
     getLocation();
   }, []);
 
@@ -96,30 +76,25 @@ export default function LoadingScreen({navigation}) {
     <GradientBackground>
       <BlueSubtitle text1="Hi" text2="Welcome,"></BlueSubtitle>
       <Text style={styles.subtitle}>Create your destiny</Text>
-      <View style={styles.body}>
-        <Card>
-          <View
-            style={{
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}>
-            <Text style={styles.title}>We are preparing your holiday</Text>
-            <Text style={styles.content}>Please wait</Text>
-            <Indicator />
-          </View>
-        </Card>
-      </View>
+      <Card
+        style={{
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flex: 1,
+          minHeight: height * 0.4,
+          marginTop: '20%',
+          margin: 10,
+          marginBottom: 20,
+        }}>
+        <Text style={styles.title}>We are preparing your holiday</Text>
+        <Text style={styles.content}>Please wait</Text>
+        <Indicator />
+      </Card>
     </GradientBackground>
   );
 }
 
 const styles = StyleSheet.create({
-  body: {
-    height: '60%',
-    marginTop: '20%',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   title: {
     alignItems: 'center',
     color: '#000000',

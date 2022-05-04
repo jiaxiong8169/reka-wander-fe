@@ -36,12 +36,12 @@ const initialState = {
     attractions: [],
     restaurantObjects: [],
     restaurants: [],
-    hotelObject: {},
-    hotel: '',
-    vehicleObject: {},
-    vehicle: '',
-    homestay: '',
-    homestayObject: {},
+    hotelObjects: [],
+    hotels: [],
+    vehicleObjects: [],
+    vehicles: [],
+    homestays: [],
+    homestayObjects: [],
   },
 };
 
