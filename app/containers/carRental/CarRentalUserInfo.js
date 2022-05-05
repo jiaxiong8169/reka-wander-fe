@@ -23,8 +23,9 @@ import RoundButton from '../../components/RoundButton';
 export default function UserCarRentalInfo({navigation, route}) {
   const {id} = route.params;
   const {pickUpDate, returnDate} = useSelector(state => state.carReducer);
+  const data = useSelector(state => state.carReducer);
   const [item, setItem] = useState([]);
-  const {getWithoutAuth} = useHttpCall();
+  const {getWithoutAuth, postWithAuth} = useHttpCall();
   const [diff, setDiff] = React.useState(0);
 
   // on load, get vehicle data
