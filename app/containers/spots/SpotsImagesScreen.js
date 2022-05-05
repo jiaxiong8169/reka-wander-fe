@@ -296,7 +296,7 @@ export default function SpotsImagesScreen({navigation, route}) {
         />
       </View>
 
-      <View style={{marginBottom: 20}}>
+      <View style={{marginBottom: 40}}>
         <View
           style={{
             display: 'flex',

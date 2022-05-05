@@ -139,7 +139,11 @@ export default function UserCarRentalInfo({navigation, route}) {
           <GetTotal price={item.price} diff={diff} />
         </View>
       )}
-      <RoundButton backgroundColor="#dc2626" title={'Confirm'} />
+      <RoundButton
+        backgroundColor="#dc2626"
+        title={'Confirm'}
+        style={{marginBottom: 40}}
+      />
     </GradientBackground>
   );
 }
