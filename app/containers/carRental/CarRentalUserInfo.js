@@ -6,6 +6,8 @@ import {
   ScrollView,
   StyleSheet,
 } from 'react-native';
+import Modal from 'react-native-modal';
+import ModelContent from '../../components/Modal/ModalContent';
 import GradientBackground from '../../components/GradientBackground';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {BackButton} from '../../components/BackButton';
@@ -24,9 +26,14 @@ export default function UserCarRentalInfo({navigation, route}) {
   const {id} = route.params;
   const {pickUpDate, returnDate} = useSelector(state => state.carReducer);
   const data = useSelector(state => state.carReducer);
+  const [isModelPopUp, setIsModelPopUp] = useState(false);
   const [item, setItem] = useState([]);
   const {getWithoutAuth, postWithAuth} = useHttpCall();
   const [diff, setDiff] = React.useState(0);
+
+  const closeModel = () => {
+    setIsModelPopUp(false);
+  };
 
   // on load, get vehicle data
   React.useEffect(() => {
@@ -48,6 +55,12 @@ export default function UserCarRentalInfo({navigation, route}) {
     const D = b.diff(a, 'days');
     setDiff(D + 1);
   }, [pickUpDate, returnDate]);
+
+  const onPressHandler = () => {
+    if (moment(pickUpDate).isAfter(returnDate)) {
+      setIsModelPopUp(true);
+    }
+  };
 
   return (
     <GradientBackground>
@@ -143,8 +156,29 @@ export default function UserCarRentalInfo({navigation, route}) {
       <RoundButton
         backgroundColor="#dc2626"
         title={'Confirm'}
+        onPress={onPressHandler}
         style={{marginBottom: 40}}
       />
+      <Modal
+        isVisible={isModelPopUp}
+        onBackdropPress={closeModel}
+        onSwipeComplete={closeModel}
+        useNativeDriverForBackdrop
+        swipeDirection={['left', 'right', 'up', 'down']}
+        animationIn="zoomInDown"
+        animationOut="zoomOutUp"
+        animationInTiming={700}
+        animationOutTiming={700}
+        backdropTransitionInTiming={700}
+        backdropTransitionOutTiming={700}>
+        <ModelContent onPress={closeModel} buttonTitle={'Close'}>
+          <Text style={{fontSize: 20, marginBottom: 12}}>Opps!</Text>
+          <Text>
+            Your travel budget must at least more than RM100! Please re-enter
+            your travel budget!
+          </Text>
+        </ModelContent>
+      </Modal>
     </GradientBackground>
   );
 }

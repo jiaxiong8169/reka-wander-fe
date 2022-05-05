@@ -40,7 +40,7 @@ export const GetTotal = ({diff, price}) => {
             fontSize: 40,
             fontWeight: 'bold',
           }}>
-          {carPrice ? carPrice : 0}
+          {carPrice ? carPrice > 0? carPrice : 0 : 0}
         </Text>
       </View>
     </View>

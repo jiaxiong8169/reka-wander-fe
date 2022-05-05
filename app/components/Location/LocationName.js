@@ -29,8 +29,6 @@ export const LocationName = props => {
   };
 
   const onPressHandler = () => {
-    // do nothing if location not found
-    if (!currentLat || !currentLong) return;
     setIsModelPopUp(true);
   };
 
