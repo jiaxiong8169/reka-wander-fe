@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
     right: 0,
     left: 0,
     top: -28,
-    minHeight: height * 0.5 + 30,
+    minHeight: height * 0.5 + 20,
     width: '100%',
     paddingTop: '14%',
     paddingLeft: '5%',

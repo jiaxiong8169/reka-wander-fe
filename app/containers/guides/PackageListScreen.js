@@ -38,41 +38,40 @@ export const PackageListScreen = ({navigation, route}) => {
           <BlueSubtitle text1="Self Customize" text2={``} />
         </View>
       </View>
-      <ScrollView>
-        {item &&
-          item.packages.map(p => (
-            <PackageCardItem
-              item={p}
-              key={p.id}
-              navigation={navigation}
-              selected={selected}
-              setSelected={e => toggleSelection(e)}
-              marginBottom={10}
-            />
-          ))}
-        <Text
-          style={{
-            alignSelf: 'center',
-            marginTop: 20,
-            marginBottom: 15,
-          }}
-          bold
-          fontSize={24}
-          letterSpacing="sm"
-          lineHeight="xs">
-          Total Price : RM {price}
-        </Text>
-        <RoundButton
-          onPress={() => {
-            // TODO: Navigate to Checkout
-            // navigation.navigate('PackageList', {
-            //   item,
-            // });
-          }}
-          title="Checkout"
-          backgroundColor="#dc2626"
-        />
-      </ScrollView>
+      {item &&
+        item.packages.map(p => (
+          <PackageCardItem
+            item={p}
+            key={p.id}
+            navigation={navigation}
+            selected={selected}
+            setSelected={e => toggleSelection(e)}
+            marginBottom={10}
+          />
+        ))}
+      <Text
+        style={{
+          alignSelf: 'center',
+          marginTop: 20,
+          marginBottom: 15,
+        }}
+        bold
+        fontSize={24}
+        letterSpacing="sm"
+        lineHeight="xs">
+        Total Price : RM {price}
+      </Text>
+      <RoundButton
+        onPress={() => {
+          // TODO: Navigate to Checkout
+          // navigation.navigate('PackageList', {
+          //   item,
+          // });
+        }}
+        title="Checkout"
+        backgroundColor="#dc2626"
+        style={{marginBottom: 40}}
+      />
     </GradientBackground>
   );
 };
