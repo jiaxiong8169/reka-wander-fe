@@ -156,8 +156,29 @@ export default function UserCarRentalInfo({navigation, route}) {
       <RoundButton
         backgroundColor="#dc2626"
         title={'Confirm'}
+        onPress={onPressHandler}
         style={{marginBottom: 40}}
       />
+      <Modal
+        isVisible={isModelPopUp}
+        onBackdropPress={closeModel}
+        onSwipeComplete={closeModel}
+        useNativeDriverForBackdrop
+        swipeDirection={['left', 'right', 'up', 'down']}
+        animationIn="zoomInDown"
+        animationOut="zoomOutUp"
+        animationInTiming={700}
+        animationOutTiming={700}
+        backdropTransitionInTiming={700}
+        backdropTransitionOutTiming={700}>
+        <ModelContent onPress={closeModel} buttonTitle={'Close'}>
+          <Text style={{fontSize: 20, marginBottom: 12}}>Opps!</Text>
+          <Text>
+            Your travel budget must at least more than RM100! Please re-enter
+            your travel budget!
+          </Text>
+        </ModelContent>
+      </Modal>
     </GradientBackground>
   );
 }
