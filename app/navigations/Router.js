@@ -7,6 +7,7 @@ import SignInScreen from '../containers/auth/SignInScreen';
 import {ConfirmPhoneScreen} from '../containers/auth/ConfirmPhoneScreen';
 import MainContainer from './MainContainer';
 import HomePage from '../containers/Planner/PlannerHomeScreen';
+import {ResetPasswordScreen} from '../containers/auth/ResetPasswordScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -53,6 +54,11 @@ export const Router = () => {
             options={{headerShown: false}}
             name="ConfirmPhone"
             component={ConfirmPhoneScreen}
+          />
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="ResetPassword"
+            component={ResetPasswordScreen}
           />
         </Stack.Group>
         <Stack.Group>
