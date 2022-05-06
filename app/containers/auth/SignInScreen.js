@@ -146,6 +146,15 @@ const SignInScreen = ({navigation, route}) => {
               />
               <PasswordInput password={password} setPassword={setPassword} />
             </View>
+            {!isRegister && (
+              <View style={{flex: 1, justifyContent: 'flex-end'}}>
+                <Pressable onPress={() => navigation.navigate('ResetPassword')}>
+                  <Text style={{textAlign: 'right', marginHorizontal: 5}}>
+                    Forgot password
+                  </Text>
+                </Pressable>
+              </View>
+            )}
             <View styles={{flex: 1, alignItems: 'center'}}>
               <View style={[styles.buttonContainer]}>
                 {isRegister ? (
