@@ -58,6 +58,28 @@ export default function UserCarRentalInfo({navigation, route}) {
 
   const onPressHandler = () => {
     if (moment(pickUpDate).isAfter(returnDate)) {
+      const completeData = {
+        ...data,
+        name: item.name,
+        price: item.price,
+        priceWithBaby: item.priceWithBaby,
+        availabilityBeforeRent: item.availability,
+      };
+      try {
+        postWithAuth(
+          'car-rental/mail',
+          {
+            data: completeData,
+            // vendorEmail: item.vendorEmail,
+            vendorEmail: 'autumnlewjb@gmail.com',
+          },
+          () => {
+            navigation.navigate('SignInScreen');
+          },
+        );
+      } catch (e) {
+        console.log(e);
+      }
       setIsModelPopUp(true);
     }
   };
