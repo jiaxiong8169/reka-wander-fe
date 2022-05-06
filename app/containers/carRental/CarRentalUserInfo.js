@@ -57,7 +57,7 @@ export default function UserCarRentalInfo({navigation, route}) {
   }, [pickUpDate, returnDate]);
 
   const onPressHandler = () => {
-    if (moment(pickUpDate).isAfter(returnDate)) {
+    if (moment(returnDate).isAfter(pickUpDate)) {
       const completeData = {
         ...data,
         name: item.name,
