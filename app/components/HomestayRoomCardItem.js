@@ -99,6 +99,7 @@ export const HomestayRoomCardItem = props => {
     if (items.filter(({id}) => id === roomId).length != 0) {
       items.pop({...items.find(p => p.id === roomId), quantity: 0});
       dispatch(setRoomsAdded(items))
+      dispatch(setTotalPrice(getSum(items)));
     } 
   };
 
