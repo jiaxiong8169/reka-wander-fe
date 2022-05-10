@@ -1,6 +1,6 @@
 import LinearGradient from 'react-native-linear-gradient';
 import React from 'react';
-import {StyleSheet, ScrollView, useWindowDimensions} from 'react-native';
+import {StyleSheet, ScrollView, useWindowDimensions, View, Button} from 'react-native';
 
 const GradientBackground = props => {
   const {height} = useWindowDimensions();
@@ -40,10 +40,16 @@ const GradientBackground = props => {
         ...props.style,
       }}>
       <ScrollView
+      stickyHeaderIndices={props.stickyHeader ? [0] : ''}
         refreshControl={props.refreshControl}
         style={props.fullWidth ? styles.p0 : styles.p3}>
         {props.children}
       </ScrollView>
+    <View>
+      {
+        props.footer        
+      }
+    </View>
     </LinearGradient>
   );
 };

@@ -3,8 +3,9 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {Provider} from 'react-redux';
 import {store} from '../redux/store';
 import {HomestayListScreen} from '../containers/homestays/HomestayListScreen';
-import { HomestayDetailsScreen } from '../containers/homestays/HomestayDetailsScreen';
-import { HomestaySelectRoomScreen } from '../containers/homestays/HomestaySelectRoomScreen';
+import {HomestayDetailsScreen} from '../containers/homestays/HomestayDetailsScreen';
+import {HomestaySelectRoomScreen} from '../containers/homestays/HomestaySelectRoomScreen';
+import { HomestayRentScreen } from '../containers/homestays/HomestayRentScreen';
 //Screen names
 const Stack = createStackNavigator();
 
@@ -29,6 +30,14 @@ export const HomestayStack = () => {
         <Stack.Screen
           name="HomestaySelectRoom"
           component={HomestaySelectRoomScreen}
+          options={{
+            header: () => null,
+          }}
+        />
+
+        <Stack.Screen
+          name="HomestayRent"
+          component={HomestayRentScreen}
           options={{
             header: () => null,
           }}
