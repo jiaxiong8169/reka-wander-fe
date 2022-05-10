@@ -4,49 +4,51 @@ import BlueSubtitle from '../../components/BlueSubtitle';
 import {View, Dimensions, ScrollView, Image, StyleSheet} from 'react-native';
 import {
   Text,
-  Input,
-  Box,
-  ZStack,
+  HStack,
   Center,
   Flex,
-  Pressable,
-  ArrowBackIcon,
-  Heading,
-  AspectRatio,
+  Box,
   Stack,
-  HStack,
   Button,
   Divider,
 } from 'native-base';
 import {BackButton} from '../../components/BackButton';
-import RoundButton from '../../components/RoundButton';
-import FastImage from 'react-native-fast-image';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {RefreshControl} from 'react-native';
-import {RatingButton} from '../../components/RatingButton';
 import {HomestayRoomCardItem} from '../../components/HomestayRoomCardItem';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {useSelector, useDispatch} from 'react-redux';
+import {setHomestayId} from '../../redux/Homestay/actions';
+import RoundButton from '../../components/RoundButton';
+
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 
 export const HomestaySelectRoomScreen = ({navigation, route}) => {
   const {id} = route.params;
+  const dispatch = useDispatch();
   const [items, setItems] = useState([]);
   const {getWithoutAuth} = useHttpCall();
   const [reload, setReload] = React.useState(true);
   const [loading, setLoading] = React.useState(false);
+  const [hotelName, sethotelName] = React.useState('');
+  const {homestayId, roomsAdded, totalPrice} = useSelector(
+    state => state.homestayReducer,
+  );
 
   React.useEffect(() => {
     if (!reload) return;
     setLoading(true);
-
     // try to fetch the data
     getWithoutAuth(`homestays/${id}`)
       .then(({data}) => {
         if (!!data) {
           setItems(data.rooms);
-        }
-        // set loading and reload to false indicating finished loading
+          sethotelName(data.name);
+          console.log(roomsAdded)
+          console.log(totalPrice)
+        } // set loading and reload to false indicating finished loading
         setLoading(false);
         setReload(false);
       })
@@ -56,19 +58,66 @@ export const HomestaySelectRoomScreen = ({navigation, route}) => {
         setLoading(false);
         setReload(false);
       });
-  }, [reload]);
+  }, [reload, id]);
 
-  console.log(items);
   return (
-    <GradientBackground>
-      <View style={styles.container}>
-        <View style={{flexDirection: 'row', padding: '3%'}}>
-          <BackButton navigation={navigation} />
-          <BlueSubtitle text1={'Homestays ABC'}></BlueSubtitle>
+    <GradientBackground
+      footer={
+        <View
+          style={{
+            flexDirection: 'row',
+            padding: '3%',
+            width: '100%',
+            shadowColor: 'black',
+            shadowOffset: {width: 0, height: 2},
+            shadowRadius: 10,
+            shadowOpacity: 0.26,
+            elevation: 10,
+            backgroundColor: 'white',
+          }}>
+          <View style={{
+                width: '60%',
+                fontSize: 20,
+                fontWeight: 'bold',
+                flexDirection: 'row',
+                alignItems: 'center',
+                // justifyContent: 'space-evenly',
+              }}>
+
+            <Text style={{
+                fontSize: 20,
+                fontWeight: 'bold',
+                alignItems: 'center',
+              }}>
+              Total Price : RM {totalPrice._W ? totalPrice._W : 0}
+            </Text>
+          </View>
+          <Button
+            size="md"
+            w={'40%'}
+            bg="red.600"
+            _pressed={{bg: 'red.300', _text: {color: 'white'}}}
+            rounded={100}
+            onPress={() => {
+              navigation.navigate('HomestayRent', {
+                id: id,
+              });
+            }}>
+            Rent Rooms
+          </Button>
         </View>
-        {items.map((item, index) => (
+      }>
+      <View></View>
+      <View style={styles.container}>
+        <View style={{flexDirection: 'row', padding: '3%', width: '90%'}}>
+          <BackButton navigation={navigation} />
+          <BlueSubtitle key={id} text1={hotelName}></BlueSubtitle>
+        </View>
+
+        {items.map(item => (
           <HomestayRoomCardItem
-            key={index}
+            key={item.id}
+            id={item.id}
             name={item.name}
             price={item.price}
             pax={item.pax}
@@ -82,48 +131,6 @@ export const HomestaySelectRoomScreen = ({navigation, route}) => {
 };
 
 const styles = StyleSheet.create({
-  semiEllipse: {
-    width: 150,
-    height: 150,
-    backgroundColor: 'white',
-    borderRadius: 300,
-    transform: [{scaleX: 1.8}],
-  },
-  containerProducts: {
-    paddingTop: 5,
-    paddingLeft: 40,
-    marginBotton: 60,
-    flexDirection: 'row',
-    // maxWidth: width-170,
-    justifyContent: 'space-between',
-    width: width,
-  },
-  productName: {
-    alignSelf: 'flex-start',
-    maxWidth: width - 210,
-  },
-  carLeft: {
-    height: 30,
-    paddingHorizontal: 20,
-    marginLeft: 'auto',
-    borderBottomLeftRadius: 10,
-    borderTopLeftRadius: 10,
-    backgroundColor: 'white',
-    alignSelf: 'flex-end',
-  },
-  whatsapp: {
-    position: 'absolute',
-    right: 20,
-    bottom: 60,
-    alignSelf: 'flex-start',
-    backgroundColor: 'white',
-    borderRadius: 5,
-    shadowColor: 'black',
-    shadowOffset: {width: 0, height: 2},
-    shadowRadius: 6,
-    shadowOpacity: 0.26,
-    elevation: 5,
-  },
   textContainer: {
     backgroundColor: 'white',
     borderRadius: 20,
@@ -204,4 +211,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 9,
   },
+  centerElement: {justifyContent: 'center', alignItems: 'center'},
 });
