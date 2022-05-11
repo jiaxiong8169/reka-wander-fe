@@ -57,7 +57,8 @@ export default function UserCarRentalInfo({navigation, route}) {
   }, [pickUpDate, returnDate]);
 
   const onPressHandler = () => {
-    if (moment(returnDate).isAfter(pickUpDate)) {
+  
+      console.log("press")
       const completeData = {
         ...data,
         name: item.name,
@@ -66,21 +67,27 @@ export default function UserCarRentalInfo({navigation, route}) {
         availabilityBeforeRent: item.availability,
       };
       try {
+        console.log("press4")
         postWithAuth(
           'car-rental/mail',
           {
             data: completeData,
-            vendorEmail: item.vendorEmail,
+            vendorEmail: 'nicky.lyy2000@gmail.com',
+            // vendorEmail: item.vendorEmail,
           },
           () => {
             navigation.navigate('SignInScreen');
+            
           },
         );
       } catch (e) {
         console.log(e);
+        console.log("press23");
       }
-      setIsModelPopUp(true);
-    }
+      
+  
+    if(moment(pickUpDate).isAfter(returnDate))
+    setIsModelPopUp(true);
   };
 
   return (
@@ -195,8 +202,7 @@ export default function UserCarRentalInfo({navigation, route}) {
         <ModelContent onPress={closeModel} buttonTitle={'Close'}>
           <Text style={{fontSize: 20, marginBottom: 12}}>Opps!</Text>
           <Text>
-            Your travel budget must at least more than RM100! Please re-enter
-            your travel budget!
+            Opps your date is invalid, please check your pickup and return date. Make sure your pickup date is always after return date.
           </Text>
         </ModelContent>
       </Modal>
