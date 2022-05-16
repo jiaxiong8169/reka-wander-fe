@@ -20,7 +20,7 @@ export default function RecommendedCard({
           color: `#6A5ACD`,
           fontWeight: '600',
           fontFamily: 'sans-serif-light',
-        //   textAlign: 'center',
+          //   textAlign: 'center',
         }}>
         Recommended {title}
       </Text>
@@ -33,13 +33,20 @@ export default function RecommendedCard({
           }}>
           <TouchableOpacity
             style={{marginTop: 4}}
-            onPress={() =>
-              navigation.navigate('Edit', {
-                type: type,
-                fieldName: fieldName,
-                fieldNameObj: fieldNameObj,
-              })
-            }>
+            onPress={() => {
+              // handle homestay separately
+              if (type === 'homestays') {
+                navigation.navigate('HomestayEdit', {
+                  fieldName,
+                  fieldNameObj,
+                });
+              } else
+                navigation.navigate('Edit', {
+                  type,
+                  fieldName,
+                  fieldNameObj,
+                });
+            }}>
             <Text style={{fontSize: 10, color: '#00BFFF'}}>Edit</Text>
           </TouchableOpacity>
         </View>

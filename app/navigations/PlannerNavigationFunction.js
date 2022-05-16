@@ -17,6 +17,10 @@ import {HomestayStack} from './HomestayStack';
 import {CarRentalStack} from './CarRentalStack';
 import UserCarRentalInfo from '../containers/carRental/CarRentalUserInfo';
 import {SpotsListScreen} from '../containers/spots/SpotsListScreen';
+import {HomestayListScreen} from '../containers/homestays/HomestayListScreen';
+import {HomestayDetailsScreen} from '../containers/homestays/HomestayDetailsScreen';
+import {HomestaySelectRoomScreen} from '../containers/homestays/HomestaySelectRoomScreen';
+import {HomestayRentScreen} from '../containers/homestays/HomestayRentScreen';
 //Screen names
 const Stack = createStackNavigator();
 
@@ -84,6 +88,34 @@ export default function PlannerStack() {
         <Stack.Screen
           name="Edit"
           component={EditScreen}
+          options={{
+            header: () => null,
+          }}
+        />
+        <Stack.Screen
+          name="HomestayEdit"
+          component={HomestayListScreen}
+          options={{
+            header: () => null,
+          }}
+        />
+        <Stack.Screen
+          name="HomestayDetails"
+          component={HomestayDetailsScreen}
+          options={{
+            header: () => null,
+          }}
+        />
+        <Stack.Screen
+          name="HomestaySelectRoom"
+          component={HomestaySelectRoomScreen}
+          options={{
+            header: () => null,
+          }}
+        />
+        <Stack.Screen
+          name="HomestayRent"
+          component={HomestayRentScreen}
           options={{
             header: () => null,
           }}
