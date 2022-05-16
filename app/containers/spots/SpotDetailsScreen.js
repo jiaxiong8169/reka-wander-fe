@@ -3,7 +3,6 @@ import {View, StyleSheet, Dimensions, RefreshControl} from 'react-native';
 import {Image} from 'react-native';
 import {Heading, Text} from 'native-base';
 import {ScrollView} from 'react-native';
-import RoundButton from '../../components/RoundButton';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {useAuth} from '../../hooks/useAuth';
 import {TouchableOpacity} from 'react-native-gesture-handler';
@@ -39,8 +38,7 @@ export default function SpotDetailsScreen({navigation, route}) {
   const [likes, setLikes] = React.useState(0);
   const [shares, setShares] = React.useState(0);
 
-  React.useEffect(() => {
-    if (!reload) return;
+  function fetchData() {
     setLoading(true);
     // convert type to without the word nearby
     let currentType = type;
@@ -113,7 +111,19 @@ export default function SpotDetailsScreen({navigation, route}) {
         setLoading(false);
         setReload(false);
       });
+  }
+
+  React.useEffect(() => {
+    if (!reload) return;
+    fetchData();
   }, [reload]);
+
+  React.useEffect(() => {
+    const willFocusSubscription = navigation.addListener('focus', () => {
+      fetchData();
+    });
+    return willFocusSubscription;
+  }, []);
 
   const handleLike = async () => {
     if (loading) return; // do not proceed when loading is true

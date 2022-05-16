@@ -32,8 +32,7 @@ export const GuideDetailsScreen = ({navigation, route}) => {
   const [likes, setLikes] = React.useState(0);
   const [shares, setShares] = React.useState(0);
 
-  React.useEffect(() => {
-    if (!reload) return;
+  function fetchData() {
     setLoading(true);
     // try to fetch the data
     getWithAuth(`guides/${id}`)
@@ -64,7 +63,19 @@ export const GuideDetailsScreen = ({navigation, route}) => {
         setLoading(false);
         setReload(false);
       });
+  }
+
+  React.useEffect(() => {
+    if (!reload) return;
+    fetchData();
   }, [reload]);
+
+  React.useEffect(() => {
+    const willFocusSubscription = navigation.addListener('focus', () => {
+      fetchData();
+    });
+    return willFocusSubscription;
+  }, []);
 
   const handleLike = async () => {
     if (loading) return; // do not proceed when loading is true
