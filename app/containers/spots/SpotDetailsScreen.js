@@ -166,7 +166,7 @@ export default function SpotDetailsScreen({navigation, route}) {
       await Share.open({
         title: `Reka Wander - ${item.name}`,
         url: item.link,
-        message: `Please check out ${item.name} via: ${item.link}`,
+        message: `Please check out ${item.name} via:`,
       });
       // POST share API
       try {
