@@ -6,6 +6,7 @@ import {GuideListScreen} from '../containers/guides/GuideListScreen';
 import {GuideDetailsScreen} from '../containers/guides/GuideDetailsScreen';
 import {PackageListScreen} from '../containers/guides/PackageListScreen';
 import SpotsCommentScreen from '../containers/spots/SpotsCommentScreen';
+import { GuideConfirmationScreen } from '../containers/guides/GuideConfirmationScreen';
 
 //Screen names
 const Stack = createStackNavigator();
@@ -38,6 +39,13 @@ export const GuideStack = () => {
         <Stack.Screen
           name="PackageList"
           component={PackageListScreen}
+          options={{
+            header: () => null,
+          }}
+        />
+        <Stack.Screen
+          name="Confirmation"
+          component={GuideConfirmationScreen}
           options={{
             header: () => null,
           }}

@@ -2,8 +2,6 @@ import React, {useState} from 'react';
 import {
   View,
   Text,
-  TouchableOpacity,
-  ScrollView,
   StyleSheet,
 } from 'react-native';
 import Modal from 'react-native-modal';
@@ -11,7 +9,7 @@ import ModelContent from '../../components/Modal/ModalContent';
 import GradientBackground from '../../components/GradientBackground';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {BackButton} from '../../components/BackButton';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import moment from 'moment';
 import Card from '../../components/Card';
 import {CalendarCar} from '../../components/CalenderPicker/CalenderCar';
@@ -21,9 +19,12 @@ import {GetTotal} from '../../components/Total/GetTotal';
 import {Phone} from '../../components/Phone/Phone';
 import {Mail} from '../../components/JumpMail/Mail';
 import RoundButton from '../../components/RoundButton';
+import { resetCarInfo } from '../../redux/CarRental/actions';
 
 export default function UserCarRentalInfo({navigation, route}) {
   const {id} = route.params;
+  const dispatch = useDispatch();
+
   const {pickUpDate, returnDate} = useSelector(state => state.carReducer);
   const data = useSelector(state => state.carReducer);
   const [isModelPopUp, setIsModelPopUp] = useState(false);
@@ -57,7 +58,9 @@ export default function UserCarRentalInfo({navigation, route}) {
   }, [pickUpDate, returnDate]);
 
   const onPressHandler = () => {
-    if (moment(returnDate).isAfter(pickUpDate)) {
+    if (moment(pickUpDate).isAfter(returnDate)) {
+      setIsModelPopUp(true);
+    } else {
       const completeData = {
         ...data,
         name: item.name,
@@ -66,20 +69,16 @@ export default function UserCarRentalInfo({navigation, route}) {
         availabilityBeforeRent: item.availability,
       };
       try {
-        postWithAuth(
-          'car-rental/mail',
-          {
-            data: completeData,
-            vendorEmail: item.vendorEmail,
-          },
-          () => {
-            navigation.navigate('SignInScreen');
-          },
-        );
+        postWithAuth('car-rental/mail', {
+          data: completeData,
+          vendorEmail: 'nicky.lyy2000@gmail.com',
+          // vendorEmail: item.vendorEmail,
+        });
+        dispatch(resetCarInfo());
+        navigation.navigate('SignInScreen');
       } catch (e) {
         console.log(e);
       }
-      setIsModelPopUp(true);
     }
   };
 
@@ -132,6 +131,7 @@ export default function UserCarRentalInfo({navigation, route}) {
             <LocationName
               lat={item?.loc?.coordinates[1]}
               long={item?.loc?.coordinates[0]}
+              type={'car'}
             />
           </View>
           <View style={[styles.firstColumn, {marginTop: 5}]}>
@@ -195,8 +195,8 @@ export default function UserCarRentalInfo({navigation, route}) {
         <ModelContent onPress={closeModel} buttonTitle={'Close'}>
           <Text style={{fontSize: 20, marginBottom: 12}}>Opps!</Text>
           <Text>
-            Your travel budget must at least more than RM100! Please re-enter
-            your travel budget!
+            Opps your date is invalid, please check your pickup and return date.
+            Make sure your pickup date is always after return date.
           </Text>
         </ModelContent>
       </Modal>

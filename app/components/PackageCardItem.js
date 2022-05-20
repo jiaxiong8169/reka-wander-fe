@@ -38,7 +38,7 @@ export const PackageCardItem = ({
         <CheckBox
           disabled={false}
           value={selected.includes(item.id)}
-          onValueChange={() => setSelected(item.id)}
+          onValueChange={() => setSelected(item.id, item)}
         />
       </View>
       <Text bold fontSize={24} letterSpacing="sm" lineHeight="xs">

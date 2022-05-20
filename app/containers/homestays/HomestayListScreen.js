@@ -7,10 +7,14 @@ import {useHttpCall} from '../../hooks/useHttpCall';
 import {LoadMore} from '../../components/LoadMore';
 import {BackButton} from '../../components/BackButton';
 import Card from '../../components/Card';
+import moment from 'moment';
+import Modal from 'react-native-modal';
+import ModelContent from '../../components/Modal/ModalContent';
 import {RefreshControl, View} from 'react-native';
 import {HomestayCardItem} from '../../components/HomestayCardItem';
 import {useDispatch, useSelector} from 'react-redux';
 import {setTripPlanbyFieldName} from '../../redux/Planner/actions';
+import {CalendarHomestay} from '../../components/CalenderPicker/CalenderHomestay';
 
 export const HomestayListScreen = ({navigation, route}) => {
   const dispatch = useDispatch();
@@ -22,7 +26,12 @@ export const HomestayListScreen = ({navigation, route}) => {
   const [search, setSearch] = useState('');
   const [full, setFull] = useState(false);
   const {getWithoutAuth} = useHttpCall();
+  const {checkInDate, checkOutDate} = useSelector(
+    state => state.homestayReducer,
+  );
   const {tripPlan} = useSelector(state => state.plannerReducer);
+  const [diff, setDiff] = React.useState(0);
+  const [isModelPopUp, setIsModelPopUp] = useState(false);
 
   // on load and on search, fetch new 10 records
   useEffect(() => {
@@ -52,6 +61,17 @@ export const HomestayListScreen = ({navigation, route}) => {
       setLoading(false);
     });
   };
+
+  const closeModel = () => {
+    setIsModelPopUp(false);
+  };
+
+  React.useEffect(() => {
+    const a = moment(checkInDate);
+    const b = moment(checkOutDate);
+    const D = b.diff(a, 'days');
+    setDiff(D + 1);
+  }, [checkInDate, checkOutDate]);
 
   const toggleItemSelection = (v, vObj) => {
     let tmp = JSON.parse(JSON.stringify(tripPlan[fieldName]));
@@ -113,6 +133,19 @@ export const HomestayListScreen = ({navigation, route}) => {
           />
         }
       />
+      <Card style={{marginBottom: 25}}>
+        <View>
+          <View
+            style={{
+              flexDirection: 'row',
+              paddingBottom: 5,
+              justifyContent: 'center',
+            }}>
+            <CalendarHomestay mode={'date'} type={'CheckIn'} />
+            <CalendarHomestay mode={'date'} type={'CheckOut'} />
+          </View>
+        </View>
+      </Card>
       <Card style={{marginBottom: 10}}>
         {items.map(item => (
           <HomestayCardItem
@@ -121,14 +154,38 @@ export const HomestayListScreen = ({navigation, route}) => {
             name={item.name}
             price={item.minPrice}
             thumbnailSrc={item.thumbnailSrc}
-            onPress={() =>
-              navigation.navigate('HomestayDetails', {id: item.id})
-            }
+            onPress={() => {
+              if (moment(checkInDate).isAfter(checkOutDate)) {
+                setIsModelPopUp(true);
+              } else {
+                navigation.navigate('HomestayDetails', {id: item.id});
+              }
+            }}
             withEdit={!!fieldName && !!fieldNameObj}
             selected={tripPlan[fieldName]}
             toggleItemSelection={toggleItemSelection}
           />
         ))}
+        <Modal
+          isVisible={isModelPopUp}
+          onBackdropPress={closeModel}
+          onSwipeComplete={closeModel}
+          useNativeDriverForBackdrop
+          swipeDirection={['left', 'right', 'up', 'down']}
+          animationIn="zoomInDown"
+          animationOut="zoomOutUp"
+          animationInTiming={700}
+          animationOutTiming={700}
+          backdropTransitionInTiming={700}
+          backdropTransitionOutTiming={700}>
+          <ModelContent onPress={closeModel} buttonTitle={'Close'}>
+            <Text style={{fontSize: 20, marginBottom: 12}}>Opps!</Text>
+            <Text>
+              Opps your date is invalid, please check your pickup and return
+              date. Make sure your pickup date is always after return date.
+            </Text>
+          </ModelContent>
+        </Modal>
         <LoadMore getData={getData} full={full} loading={loading} />
       </Card>
     </GradientBackground>
