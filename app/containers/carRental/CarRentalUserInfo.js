@@ -57,8 +57,10 @@ export default function UserCarRentalInfo({navigation, route}) {
   }, [pickUpDate, returnDate]);
 
   const onPressHandler = () => {
-  
-      console.log("press")
+    if (moment(pickUpDate).isAfter(returnDate)) {
+      setIsModelPopUp(true);
+    } else {
+      console.log('press');
       const completeData = {
         ...data,
         name: item.name,
@@ -67,7 +69,7 @@ export default function UserCarRentalInfo({navigation, route}) {
         availabilityBeforeRent: item.availability,
       };
       try {
-        console.log("press4")
+        console.log('press4');
         postWithAuth(
           'car-rental/mail',
           {
@@ -77,17 +79,13 @@ export default function UserCarRentalInfo({navigation, route}) {
           },
           () => {
             navigation.navigate('SignInScreen');
-            
           },
         );
       } catch (e) {
         console.log(e);
-        console.log("press23");
+        console.log('press23');
       }
-      
-  
-    if(moment(pickUpDate).isAfter(returnDate))
-    setIsModelPopUp(true);
+    }
   };
 
   return (
@@ -139,6 +137,7 @@ export default function UserCarRentalInfo({navigation, route}) {
             <LocationName
               lat={item?.loc?.coordinates[1]}
               long={item?.loc?.coordinates[0]}
+              type={'car'}
             />
           </View>
           <View style={[styles.firstColumn, {marginTop: 5}]}>
@@ -202,7 +201,8 @@ export default function UserCarRentalInfo({navigation, route}) {
         <ModelContent onPress={closeModel} buttonTitle={'Close'}>
           <Text style={{fontSize: 20, marginBottom: 12}}>Opps!</Text>
           <Text>
-            Opps your date is invalid, please check your pickup and return date. Make sure your pickup date is always after return date.
+            Opps your date is invalid, please check your pickup and return date.
+            Make sure your pickup date is always after return date.
           </Text>
         </ModelContent>
       </Modal>

@@ -21,6 +21,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useSelector, useDispatch} from 'react-redux';
 import {setHomestayId} from '../../redux/Homestay/actions';
 import RoundButton from '../../components/RoundButton';
+import {setHomestayName, setHomestayLat, setHomestayLong, setHomestayData} from '../../redux/Homestay/actions';
 
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
@@ -46,8 +47,12 @@ export const HomestaySelectRoomScreen = ({navigation, route}) => {
         if (!!data) {
           setItems(data.rooms);
           sethotelName(data.name);
-          console.log(roomsAdded)
-          console.log(totalPrice)
+          dispatch(setHomestayName(data.name));
+          dispatch(setHomestayLat(data.loc.coordinates[1]));
+          dispatch(setHomestayLong(data.loc.coordinates[0]));
+          dispatch(setHomestayData(data));
+          console.log(roomsAdded);
+          console.log(totalPrice);
         } // set loading and reload to false indicating finished loading
         setLoading(false);
         setReload(false);
@@ -75,16 +80,17 @@ export const HomestaySelectRoomScreen = ({navigation, route}) => {
             elevation: 10,
             backgroundColor: 'white',
           }}>
-          <View style={{
-                width: '60%',
-                fontSize: 20,
-                fontWeight: 'bold',
-                flexDirection: 'row',
-                alignItems: 'center',
-                // justifyContent: 'space-evenly',
-              }}>
-
-            <Text style={{
+          <View
+            style={{
+              width: '60%',
+              fontSize: 20,
+              fontWeight: 'bold',
+              flexDirection: 'row',
+              alignItems: 'center',
+              // justifyContent: 'space-evenly',
+            }}>
+            <Text
+              style={{
                 fontSize: 20,
                 fontWeight: 'bold',
                 alignItems: 'center',

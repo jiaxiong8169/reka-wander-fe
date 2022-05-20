@@ -11,6 +11,7 @@ import {RefreshControl, View} from 'react-native';
 import {HomestayCardItem} from '../../components/HomestayCardItem';
 import {useDispatch, useSelector} from 'react-redux';
 import {setTripPlanbyFieldName} from '../../redux/Planner/actions';
+import { CalendarHomestay } from '../../components/CalenderPicker/CalenderHomestay';
 
 export const HomestayListScreen = ({navigation, route}) => {
   const dispatch = useDispatch();
@@ -113,6 +114,19 @@ export const HomestayListScreen = ({navigation, route}) => {
           />
         }
       />
+      <Card style={{marginBottom:25,}}>
+        <View>
+          <View
+            style={{
+              flexDirection: 'row',
+              paddingBottom: 5,
+              justifyContent: 'center',
+            }}>
+            <CalendarHomestay mode={'date'} type={'CheckIn'} />
+            <CalendarHomestay mode={'date'} type={'CheckOut'} />
+          </View>
+        </View>
+      </Card>
       <Card style={{marginBottom: 10}}>
         {items.map(item => (
           <HomestayCardItem
