@@ -85,5 +85,6 @@ export const setHomestayData = homestayData => dispatch => {
   dispatch({
     type: SET_HOMESTAY_DATA,
     payload: homestayData,
-  })
-}
+  });
+  console.log(homestayData);
+};

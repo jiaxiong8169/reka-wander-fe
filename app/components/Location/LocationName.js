@@ -4,12 +4,14 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {setCarLocation} from '../../redux/CarRental/actions';
 import {setHomestayLocation} from '../../redux/Homestay/actions';
+import {setGuideLocation} from '../../redux/Guides/actions';
 import {Popup} from 'react-native-map-link';
 import {getLocationPermissionAndExecute} from '../../utils/location-utils';
 
 export const LocationName = props => {
   const {carLocation} = useSelector(state => state.carReducer);
   const {homestayLocation} = useSelector(state => state.homestayReducer);
+  const {guidesLocation} = useSelector(state => state.guidesReducer);
   const dispatch = useDispatch();
   const [currentLong, setCurrentLong] = useState();
   const [currentLat, setCurrentLat] = useState();
@@ -24,7 +26,12 @@ export const LocationName = props => {
     longitude: props.long,
     sourceLatitude: currentLat,
     sourceLongitude: currentLong,
-    title: carLocation,
+    title:
+      props.type === 'car'
+        ? carLocation
+        : props.type === 'homestay'
+        ? homestayLocation
+        : guidesLocation,
     dialogTitle: '',
     dialogMessage: '',
     cancelText: 'Cancel',
@@ -39,12 +46,6 @@ export const LocationName = props => {
       setCurrentLong(position.coords.longitude);
       setCurrentLat(position.coords.latitude);
     });
-    if(props.type === 'car'){
-      setTitle(carLocation);
-    }
-    if(props.type === 'homestay'){
-      setTitle(homestayLocation);
-    }
   };
 
   useEffect(() => {
@@ -70,16 +71,32 @@ export const LocationName = props => {
           resJson.Response.View[0].Result[0]
         ) {
           if (props.type === 'car') {
+            let result =
+              resJson.Response.View[0].Result[0].Location.Address.Label;
             dispatch(
               setCarLocation(
-                resJson.Response.View[0].Result[0].Location.Address.Label,
+                // resJson.Response.View[0].Result[0].Location.Address.Label,
+                result
               ),
             );
           }
           if (props.type === 'homestay') {
+            let result =
+              resJson.Response.View[0].Result[0].Location.Address.Label;
             dispatch(
               setHomestayLocation(
-                resJson.Response.View[0].Result[0].Location.Address.Label,
+                // resJson.Response.View[0].Result[0].Location.Address.Label,
+                result
+              ),
+            );
+          }
+          if (props.type === 'guide') {
+            let result =
+              resJson.Response.View[0].Result[0].Location.Address.Label;
+            dispatch(
+              setGuideLocation(
+                // resJson.Response.View[0].Result[0].Location.Address.Label
+                result,
               ),
             );
           }
@@ -95,7 +112,17 @@ export const LocationName = props => {
       <View style={{flexDirection: 'row', marginTop: 5}}>
         <Icon name="location-outline" size={23} color="#000"></Icon>
         <View style={{flex: 2, marginLeft: 10}}>
-          <Text style={{fontSize: 15, color: '#000'}}>{Title}</Text>
+          {props.type === 'car' && (
+            <Text style={{fontSize: 15, color: '#000'}}>{carLocation}</Text>
+          )}
+          {props.type === 'homestay' && (
+            <Text style={{fontSize: 15, color: '#000'}}>
+              {homestayLocation}
+            </Text>
+          )}
+          {props.type === 'guide' && (
+            <Text style={{fontSize: 15, color: '#000'}}>{guidesLocation}</Text>
+          )}
         </View>
         <View style={{alignItems: 'flex-end', flex: 1}}>
           <TouchableOpacity

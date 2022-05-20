@@ -2,8 +2,6 @@ import React, {useState} from 'react';
 import {
   View,
   Text,
-  TouchableOpacity,
-  ScrollView,
   StyleSheet,
 } from 'react-native';
 import Modal from 'react-native-modal';
@@ -11,7 +9,7 @@ import ModelContent from '../../components/Modal/ModalContent';
 import GradientBackground from '../../components/GradientBackground';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {BackButton} from '../../components/BackButton';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import moment from 'moment';
 import Card from '../../components/Card';
 import {CalendarCar} from '../../components/CalenderPicker/CalenderCar';
@@ -21,9 +19,12 @@ import {GetTotal} from '../../components/Total/GetTotal';
 import {Phone} from '../../components/Phone/Phone';
 import {Mail} from '../../components/JumpMail/Mail';
 import RoundButton from '../../components/RoundButton';
+import { resetCarInfo } from '../../redux/CarRental/actions';
 
 export default function UserCarRentalInfo({navigation, route}) {
   const {id} = route.params;
+  const dispatch = useDispatch();
+
   const {pickUpDate, returnDate} = useSelector(state => state.carReducer);
   const data = useSelector(state => state.carReducer);
   const [isModelPopUp, setIsModelPopUp] = useState(false);
@@ -60,7 +61,6 @@ export default function UserCarRentalInfo({navigation, route}) {
     if (moment(pickUpDate).isAfter(returnDate)) {
       setIsModelPopUp(true);
     } else {
-      console.log('press');
       const completeData = {
         ...data,
         name: item.name,
@@ -69,22 +69,15 @@ export default function UserCarRentalInfo({navigation, route}) {
         availabilityBeforeRent: item.availability,
       };
       try {
-        console.log('press4');
-        postWithAuth(
-          'car-rental/mail',
-          {
-            data: completeData,
-            vendorEmail: 'nicky.lyy2000@gmail.com',
-            // vendorEmail: item.vendorEmail,
-          },
-          () => {
-            navigation.navigate('SignInScreen');
-            
-          },
-        );
+        postWithAuth('car-rental/mail', {
+          data: completeData,
+          vendorEmail: 'nicky.lyy2000@gmail.com',
+          // vendorEmail: item.vendorEmail,
+        });
+        dispatch(resetCarInfo());
+        navigation.navigate('SignInScreen');
       } catch (e) {
         console.log(e);
-        console.log('press23');
       }
     }
   };

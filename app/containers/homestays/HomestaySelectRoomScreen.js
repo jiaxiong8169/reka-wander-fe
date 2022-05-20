@@ -27,7 +27,7 @@ const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 
 export const HomestaySelectRoomScreen = ({navigation, route}) => {
-  const {id} = route.params;
+  const {id,data} = route.params;
   const dispatch = useDispatch();
   const [items, setItems] = useState([]);
   const {getWithoutAuth} = useHttpCall();
@@ -51,7 +51,7 @@ export const HomestaySelectRoomScreen = ({navigation, route}) => {
           dispatch(setHomestayLat(data.loc.coordinates[1]));
           dispatch(setHomestayLong(data.loc.coordinates[0]));
           dispatch(setHomestayData(data));
-          console.log(roomsAdded);
+          // console.log(roomsAdded);
           console.log(totalPrice);
         } // set loading and reload to false indicating finished loading
         setLoading(false);
@@ -107,6 +107,7 @@ export const HomestaySelectRoomScreen = ({navigation, route}) => {
             onPress={() => {
               navigation.navigate('HomestayRent', {
                 id: id,
+                data:data,
               });
             }}>
             Rent Rooms
