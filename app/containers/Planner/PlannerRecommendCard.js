@@ -20,7 +20,6 @@ export default function RecommendedCard({
           color: `#6A5ACD`,
           fontWeight: '600',
           fontFamily: 'sans-serif-light',
-          //   textAlign: 'center',
         }}>
         Recommended {title}
       </Text>

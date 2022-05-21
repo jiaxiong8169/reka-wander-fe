@@ -7,7 +7,6 @@ import {
   Dimensions,
   Image,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import RoundButton from '../../components/RoundButton';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {Input} from 'native-base';
@@ -141,6 +140,22 @@ export const MyHomeScreen = ({navigation}) => {
             width: '100%',
             borderRadius: 10,
             backgroundColor: '#3988c4',
+          }}
+          textStyle={{
+            fontSize: 20,
+            fontWeight: 'bold',
+          }}
+        />
+        <RoundButton
+          onPress={() => {
+            navigation.navigate('MyTripHistory');
+          }}
+          title="VIEW MY TRIP HISTORY"
+          backgroundColor="rgb(117,157,246)"
+          style={{
+            width: '100%',
+            borderRadius: 10,
+            backgroundColor: '#F5362E',
           }}
           textStyle={{
             fontSize: 20,
