@@ -33,31 +33,27 @@ export default function UserDetails(props) {
       </View>
       <View style={{padding: 3, flexDirection: 'row'}}>
         {props.children}
-
-        <Text style={{flex: 2, fontSize: 14, paddingLeft: 5}}>
-          {/* RM250/pax */}
-        </Text>
-        <TouchableOpacity
-          style={{marginTop: 4}}
-          onPress={() => setIsModelPopUp(true)}>
-          <Text style={{fontSize: 10, color: '#00BFFF'}}>Edit</Text>
-          <Modal
-            isVisible={isModelPopUp}
-            onBackdropPress={closeModel}
-            onSwipeComplete={closeModel}
-            useNativeDriverForBackdrop
-            swipeDirection={['left', 'right', 'up', 'down']}
-            animationIn="zoomInDown"
-            animationOut="zoomOutUp"
-            animationInTiming={700}
-            animationOutTiming={700}
-            backdropTransitionInTiming={700}
-            backdropTransitionOutTiming={700}>
-            <ModelContent onPress={closeModel}>
-              {props.editPage}
-            </ModelContent>
-          </Modal>
-        </TouchableOpacity>
+        {!props.noEdit && (
+          <TouchableOpacity
+            style={{marginTop: 4}}
+            onPress={() => setIsModelPopUp(true)}>
+            <Text style={{fontSize: 10, color: '#00BFFF'}}>Edit</Text>
+            <Modal
+              isVisible={isModelPopUp}
+              onBackdropPress={closeModel}
+              onSwipeComplete={closeModel}
+              useNativeDriverForBackdrop
+              swipeDirection={['left', 'right', 'up', 'down']}
+              animationIn="zoomInDown"
+              animationOut="zoomOutUp"
+              animationInTiming={700}
+              animationOutTiming={700}
+              backdropTransitionInTiming={700}
+              backdropTransitionOutTiming={700}>
+              <ModelContent onPress={closeModel}>{props.editPage}</ModelContent>
+            </Modal>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );
