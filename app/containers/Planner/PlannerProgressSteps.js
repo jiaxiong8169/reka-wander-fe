@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, View, Text, ScrollView} from 'react-native';
 import Modal from 'react-native-modal';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 import TripName from './PlannerTripNameScreen';
 import PaxPage from './PlannerPaxScreen';
@@ -16,6 +16,8 @@ import ProgressSteps from '../../components/stepper/ProgressSteps';
 import GradientBackground from '../../components/GradientBackground';
 import ModelContent from '../../components/Modal/ModalContent';
 import InsertDetailsCard from './PlannerInsertDetailsScreen';
+import {PlannerSelectDestinationScreen} from './PlannerSelectDestinationScreen';
+
 export default function PlannerSteps({navigation}) {
   const [isModelPopUp, setIsModelPopUp] = useState(false);
   const [errors, setErrors] = useState(false);
@@ -114,6 +116,14 @@ export default function PlannerSteps({navigation}) {
               <ProgressStep nextBtnTextStyle={nextbuttonTextStyle}>
                 <InsertDetailsCard style={{width: '100%'}}>
                   <TripName />
+                </InsertDetailsCard>
+              </ProgressStep>
+
+              <ProgressStep
+                nextBtnTextStyle={nextbuttonTextStyle}
+                previousBtnTextStyle={previousbuttonTextStyle}>
+                <InsertDetailsCard style={{width: '100%'}}>
+                  <PlannerSelectDestinationScreen />
                 </InsertDetailsCard>
               </ProgressStep>
 

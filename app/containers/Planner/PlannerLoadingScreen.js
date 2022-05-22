@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {StyleSheet, View, Text, Alert, Dimensions} from 'react-native';
+import {StyleSheet, Text, Alert, Dimensions} from 'react-native';
 import Card from '../../components/card/card';
 import Indicator from '../../components/Indicator/Indicator';
 import GradientBackground from '../../components/GradientBackground';
@@ -8,7 +8,6 @@ import {useSelector, useDispatch} from 'react-redux';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {useAuth} from '../../hooks/useAuth';
 import {setTripId, setTripPlan} from '../../redux/Planner/actions';
-import {getLocationPermissionAndExecute} from '../../utils/location-utils';
 import {preventBack} from '../../utils/navigation-utils';
 
 const height = Dimensions.get('window').height;
@@ -18,17 +17,21 @@ export default function LoadingScreen({navigation}) {
 
   const {authData} = useAuth();
   const {postWithAuth} = useHttpCall();
-  const {tripName} = useSelector(state => state.plannerReducer);
-  const {startDate} = useSelector(state => state.plannerReducer);
-  const {endDate} = useSelector(state => state.plannerReducer);
-  const {pax} = useSelector(state => state.plannerReducer);
-  const {budget} = useSelector(state => state.plannerReducer);
-  const {interest} = useSelector(state => state.plannerReducer);
-  const {kids} = useSelector(state => state.plannerReducer);
-  const {rentCar} = useSelector(state => state.plannerReducer);
-  const {rentHomeStay} = useSelector(state => state.plannerReducer);
+  const {
+    tripName,
+    startDate,
+    endDate,
+    pax,
+    budget,
+    interest,
+    kids,
+    rentCar,
+    rentHomeStay,
+    longitude,
+    latitude,
+  } = useSelector(state => state.plannerReducer);
 
-  const postAPI = (long, lat) => {
+  const postAPI = () => {
     const tmp = {
       userId: authData && authData.id ? authData.id : '',
       name: tripName ? tripName : 'My Trip',
@@ -40,10 +43,9 @@ export default function LoadingScreen({navigation}) {
       kids: kids,
       rentCar: rentCar,
       rentHomestay: rentHomeStay,
-      long: long,
-      lat: lat,
+      long: longitude,
+      lat: latitude,
     };
-    console.log(tmp);
     postWithAuth('trips/recommend', tmp)
       .then(({data}) => {
         dispatch(setTripPlan(data));
@@ -56,20 +58,9 @@ export default function LoadingScreen({navigation}) {
       });
   };
 
-  const getLocation = () => {
-    getLocationPermissionAndExecute(
-      position => {
-        postAPI(position.coords.longitude, position.coords.latitude);
-      },
-      () => {
-        navigation.navigate('MyHome');
-      },
-    );
-  };
-
   useEffect(() => {
     preventBack(navigation, 'Loading');
-    getLocation();
+    postAPI();
   }, []);
 
   return (

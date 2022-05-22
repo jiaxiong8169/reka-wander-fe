@@ -10,6 +10,7 @@ export const SET_USER_INTEREST_NAME = 'SET_USER_INTEREST_NAME';
 export const SET_USER_KIDS = 'SET_USER_KIDS';
 export const SET_USER_RENTCAR = 'SET_USER_RENTCAR';
 export const SET_USER_RENTHOMESTAY = 'SET_USER_RENTHOMESTAY';
+export const SET_USER_LONG_LAT = 'SET_USER_LONG_LAT';
 export const SET_TRIP_ID = 'SET_TRIP_ID';
 export const RESET_TRIP = 'RESET_TRIP';
 export const SET_TRIP_PLAN = 'SET_TRIP_PLAN';
@@ -26,6 +27,16 @@ export const setTripName = tripName => dispatch => {
   dispatch({
     type: SET_USER_TRIPNAME,
     payload: tripName,
+  });
+};
+
+export const setUserLongLat = (long, lat) => dispatch => {
+  dispatch({
+    type: SET_USER_LONG_LAT,
+    payload: {
+      long,
+      lat,
+    },
   });
 };
 
