@@ -25,6 +25,7 @@ export const PlannerHistory = ({navigation}) => {
     getWithAuth(
       `trips?userId=${authData.id}&sort=-timestamp&limit=10&filter[q]=${search}`,
     ).then(({data}) => {
+      if (data.length === 0) setFull(true);
       setItems(data);
       setLoading(false);
     });

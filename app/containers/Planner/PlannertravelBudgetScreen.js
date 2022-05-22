@@ -8,32 +8,31 @@ const TravelBudget = () => {
   const dispatch = useDispatch();
 
   return (
-
-      <View style={styles.body_container}>
-        <Text style={styles.question}>Travel budget</Text>
-        <TextInput
-          style={styles.input}
-          keyboardType={'number-pad'}
-          onChangeText={v => {
-            dispatch(setBudget(v));
+    <View style={styles.body_container}>
+      <Text style={styles.question}>Travel budget</Text>
+      <TextInput
+        style={styles.input}
+        keyboardType={'number-pad'}
+        onChangeText={v => {
+          dispatch(setBudget(v));
+        }}
+        placeholder="RM..."
+        value={budget}
+      />
+      <View style={{marginTop: 10}}>
+        <Image
+          source={require('../../assets/budget.png')}
+          style={{
+            padding: 1,
+            aspectRatio: 1,
+            width: '100%',
+            resizeMode: 'contain',
+            alignItems: 'flex-end',
+            height: undefined,
           }}
-          placeholder="RM..."
-          value={budget}
         />
-        <View style={{marginTop: 10}}>
-          <Image
-            source={require('../../assets/budget.png')}
-            style={{
-              padding: 1,
-              aspectRatio: 1,
-              width: '100%',
-              resizeMode: 'contain',
-              alignItems: 'flex-end',
-              height: undefined,
-            }}
-          />
-        </View>
       </View>
+    </View>
   );
 };
 

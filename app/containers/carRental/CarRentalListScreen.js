@@ -34,6 +34,7 @@ export const CarRentalListScreen = ({navigation, route}) => {
     ).then(({data}) => {
       setItems(data);
       setLoading(false);
+      if (data.length === 0) setFull(true);
     });
   }, [search, reload]);
 

@@ -34,7 +34,7 @@ export default function PlannerSteps({navigation}) {
   const checkNumberInput = () => {
     try {
       //check for number input
-      if (parseFloat(budget) < 100) {
+      if (!budget || parseFloat(budget) < 100) {
         setIsModelPopUp(true);
         setErrors(true);
       } else {

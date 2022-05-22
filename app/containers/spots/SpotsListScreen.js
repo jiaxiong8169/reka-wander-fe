@@ -27,6 +27,7 @@ export const SpotsListScreen = ({navigation, route}) => {
           let query = `${type}/nearby?long=${position.coords.longitude}&lat=${position.coords.latitude}&distance=300000&sort=-avgRating&limit=10`;
           console.log(query);
           getWithoutAuth(query).then(({data}) => {
+            if (data.length === 0) setFull(true);
             setItems(data);
             setLoading(false);
           });
@@ -34,6 +35,7 @@ export const SpotsListScreen = ({navigation, route}) => {
         () => {
           setLoading(false);
           setItems([]);
+          if (data.length === 0) setFull(true);
         },
       );
     } else {

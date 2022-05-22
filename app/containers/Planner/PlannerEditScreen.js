@@ -28,6 +28,7 @@ export const EditScreen = ({navigation, route}) => {
     setFull(false);
     getWithoutAuth(`${type}?sort=-avgRating&limit=10&filter[q]=${search}`).then(
       ({data}) => {
+        if (data.length === 0) setFull(true);
         setItems(data);
         setLoading(false);
       },
