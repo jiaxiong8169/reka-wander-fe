@@ -39,6 +39,7 @@ export const GuideListScreen = ({navigation}) => {
     getWithoutAuth(query).then(({data}) => {
       setItems(data);
       setLoading(false);
+      if (data.length === 0) setFull(true);
     });
   }, [reload, search, tab]);
 

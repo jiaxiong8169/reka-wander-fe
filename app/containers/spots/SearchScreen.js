@@ -35,6 +35,7 @@ export const SearchScreen = ({navigation}) => {
     setFull(false);
     getWithoutAuth(`${tab}?sort=-avgRating&limit=10&filter[q]=${search}`).then(
       ({data}) => {
+        if (data.length === 0) setFull(true);
         setItems(data);
         setLoading(false);
       },

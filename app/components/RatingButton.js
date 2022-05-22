@@ -16,7 +16,7 @@ export const RatingButton = ({onPress, rating, editable}) => {
       count={5}
       starSize={50}
       disabled={!editable}
-      half
+      // half
       fullStar={<Icon name={'star'} style={[styles.myStarStyle]} />}
       emptyStar={
         <Icon

@@ -41,6 +41,7 @@ export const HomestayListScreen = ({navigation, route}) => {
     getWithoutAuth(
       `homestays?sort=-avgRating&limit=10&filter[q]=${search}`,
     ).then(({data}) => {
+      if (data.length === 0) setFull(true);
       setItems(data);
       setLoading(false);
     });

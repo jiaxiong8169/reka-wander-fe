@@ -191,7 +191,7 @@ export default function SpotsCommentScreen({navigation, route}) {
       </View>
       {!reviewDataList.find(
         x => x.id === 'newReview' || x.userId === authData.id,
-      ) && (
+      ) ? (
         <View>
           <View style={styles.commentBox}>
             <TextArea
@@ -215,24 +215,48 @@ export default function SpotsCommentScreen({navigation, route}) {
             <Text style={styles.buttonText}>Post</Text>
           </Pressable>
         </View>
+      ) : (
+        reviewDataList
+          .filter(x => x.id === 'newReview' || x.userId === authData.id)
+          .map(e => {
+            return (
+              <CommentCard
+                key={e.id}
+                comment={e.contents}
+                date={new Date(e.timestamp).toLocaleDateString()}
+                time={new Date(e.timestamp).toLocaleTimeString('en-US', {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  hour12: true,
+                })}
+                rating={e.rating}
+                commentorName="Your Reviews"
+                imgSrc={e.userProfileSrc}
+                style={{backgroundColor: '#8ab7ff'}}
+              />
+            );
+          })
       )}
-      {reviewDataList.slice(0, currentLimit).map(e => {
-        return (
-          <CommentCard
-            key={e.id}
-            comment={e.contents}
-            date={new Date(e.timestamp).toLocaleDateString()}
-            time={new Date(e.timestamp).toLocaleTimeString('en-US', {
-              hour: '2-digit',
-              minute: '2-digit',
-              hour12: true,
-            })}
-            rating={e.rating}
-            commentorName={e.userName}
-            imgSrc={e.userProfileSrc}
-          />
-        );
-      })}
+      {reviewDataList
+        .filter(x => x.id !== 'newReview' && x.userId !== authData.id)
+        .slice(0, currentLimit)
+        .map(e => {
+          return (
+            <CommentCard
+              key={e.id}
+              comment={e.contents}
+              date={new Date(e.timestamp).toLocaleDateString()}
+              time={new Date(e.timestamp).toLocaleTimeString('en-US', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true,
+              })}
+              rating={e.rating}
+              commentorName={e.userName}
+              imgSrc={e.userProfileSrc}
+            />
+          );
+        })}
       <LoadMore
         getData={() => setCurrentLimit(oldValue => oldValue + 10)}
         full={reviewDataList.length - currentLimit < 0}

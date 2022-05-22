@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 const CommentCard = props => {
   return (
-    <View style={styles.textContainer}>
+    <View style={[styles.textContainer, props.style]}>
       <Flex direction="row" w="100%">
         <Icon name="person-circle-sharp" size={50} style={{marginRight: 5}} />
         {/* <Avatar
