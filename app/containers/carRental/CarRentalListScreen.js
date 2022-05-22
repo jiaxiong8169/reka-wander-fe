@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import GradientBackground from '../../components/GradientBackground';
 import BlueSubtitle from '../../components/BlueSubtitle';
-import {View, ScrollView, RefreshControl} from 'react-native';
+import {View, RefreshControl} from 'react-native';
 import {Text, Input} from 'native-base';
 import {BackButton} from '../../components/BackButton';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -9,8 +9,14 @@ import Card from '../../components/Card';
 import {LoadMore} from '../../components/LoadMore';
 import CarCardItem from '../../components/CarCardItem';
 import {useHttpCall} from '../../hooks/useHttpCall';
+import {useDispatch, useSelector} from 'react-redux';
+import {setTripPlanbyFieldName} from '../../redux/Planner/actions';
 
-export const CarRentalListScreen = ({navigation}) => {
+export const CarRentalListScreen = ({navigation, route}) => {
+  const dispatch = useDispatch();
+  const fieldName = route?.params?.fieldName;
+  const fieldNameObj = route?.params?.fieldNameObj;
+  const {tripPlan} = useSelector(state => state.plannerReducer);
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState('');
@@ -45,6 +51,27 @@ export const CarRentalListScreen = ({navigation}) => {
       setItems(tmp);
       setLoading(false);
     });
+  };
+
+  const toggleItemSelection = (v, vObj) => {
+    let tmp = JSON.parse(JSON.stringify(tripPlan[fieldName]));
+    let tmpObj = JSON.parse(JSON.stringify(tripPlan[fieldNameObj]));
+    if (tmp) {
+      // for array
+      const index = tmpObj.findIndex(x => x.id === v);
+      if (index !== -1) {
+        tmpObj.splice(index, 1);
+      } else {
+        tmpObj.push(vObj);
+      }
+      tmp = tmpObj.map(obj => obj.id);
+    } else {
+      // for undefined
+      tmp = v;
+      tmpObj = vObj;
+    }
+    dispatch(setTripPlanbyFieldName(fieldName, tmp));
+    dispatch(setTripPlanbyFieldName(fieldNameObj, tmpObj));
   };
 
   return (
@@ -91,9 +118,13 @@ export const CarRentalListScreen = ({navigation}) => {
             name={item.name}
             price={item.price}
             thumbnailSrc={item.thumbnailSrc}
+            item={item}
             onPress={() =>
               navigation.navigate('CarRentalDetails', {id: item.id})
             }
+            withEdit={!!fieldName && !!fieldNameObj}
+            selected={tripPlan[fieldName]}
+            toggleItemSelection={toggleItemSelection}
           />
         ))}
         <LoadMore getData={getData} full={full} loading={loading} />
