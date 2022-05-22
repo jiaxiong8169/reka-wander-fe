@@ -39,6 +39,11 @@ export default function RecommendedCard({
                   fieldName,
                   fieldNameObj,
                 });
+              } else if (type === 'vehicles') {
+                navigation.navigate('CarRentalList', {
+                  fieldName,
+                  fieldNameObj,
+                });
               } else
                 navigation.navigate('Edit', {
                   type,

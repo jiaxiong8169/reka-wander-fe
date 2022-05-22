@@ -89,7 +89,6 @@ export const PackageCardItem = ({
         bg="blue.600"
         _pressed={{bg: 'blue.300', _text: {color: 'white'}}}
         onPress={() => {
-          console.log(item);
           if (!item?.link) return;
           Linking.canOpenURL(item.link).then(supported => {
             if (supported) {
