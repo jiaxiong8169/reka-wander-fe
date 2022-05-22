@@ -3,7 +3,7 @@ import {StyleSheet, View, Text} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {setUserLongLat} from '../../redux/Planner/actions';
 import {getLocationPermissionAndExecute} from '../../utils/location-utils';
-import MapView, {Marker} from 'react-native-maps';
+import MapView, {Marker, Circle} from 'react-native-maps';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {Button, Input} from 'native-base';
 
@@ -13,8 +13,8 @@ export const PlannerSelectDestinationScreen = () => {
   const [region, setRegion] = useState({
     latitude: 5.5619733,
     longitude: 118.0034433,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
+    latitudeDelta: 5,
+    longitudeDelta: 4,
   });
   const dispatch = useDispatch();
 
@@ -113,6 +113,11 @@ export const PlannerSelectDestinationScreen = () => {
           height: 200,
           marginTop: 10,
         }}>
+        <Circle
+          center={{latitude, longitude}}
+          radius={300000}
+          fillColor="rgba(25, 118, 210,0.3)"
+        />
         <Marker
           draggable
           coordinate={{latitude, longitude}}
