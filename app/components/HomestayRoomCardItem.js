@@ -40,20 +40,30 @@ export const HomestayRoomCardItem = props => {
     dispatch(setTotalPrice(totalPrice));
   }, [totalPrice]);
 
-  const addToCart = async (id, name, price, pax, availability, thumbnailSrc, action) => {
+  const addToCart = async (
+    id,
+    name,
+    price,
+    pax,
+    availability,
+    thumbnailSrc,
+    action,
+  ) => {
     dispatch(clearCart());
     let tempRooms = roomsAdded;
     const check_index = tempRooms.findIndex(item => item.id === id);
-    if (action == 'add' && availability>0) {
+    if (action == 'add' && availability > 0) {
       if (check_index !== -1) {
-        if(tempRooms[check_index].availability>tempRooms[check_index].quantity){
+        if (
+          tempRooms[check_index].availability > tempRooms[check_index].quantity
+        ) {
           tempRooms[check_index].quantity++;
-        dispatch(setTotalPrice(getSum(tempRooms)));
-        dispatch(setRoomsAdded(tempRooms));
-        }else{
-          Alert.alert('Max room number selected!')
           dispatch(setTotalPrice(getSum(tempRooms)));
-        dispatch(setRoomsAdded(tempRooms));
+          dispatch(setRoomsAdded(tempRooms));
+        } else {
+          Alert.alert('Max room number selected!');
+          dispatch(setTotalPrice(getSum(tempRooms)));
+          dispatch(setRoomsAdded(tempRooms));
         }
       } else {
         tempRooms.push({
@@ -67,7 +77,7 @@ export const HomestayRoomCardItem = props => {
         });
         dispatch(setTotalPrice(getSum(tempRooms)));
         dispatch(setRoomsAdded(tempRooms));
-        }
+      }
     } else {
       if (check_index !== -1) {
         if (tempRooms[check_index].quantity > 1) {
@@ -83,7 +93,7 @@ export const HomestayRoomCardItem = props => {
     }
   };
 
-  const getSum = async (items) => {
+  const getSum = async items => {
     if (items.filter(({homestayId}) => homestayId === homestayId).length != 0) {
       let total = items
         .filter(({homestayId}) => homestayId === homestayId)
@@ -98,9 +108,9 @@ export const HomestayRoomCardItem = props => {
   const clearItem = async (items, roomId) => {
     if (items.filter(({id}) => id === roomId).length != 0) {
       items.pop({...items.find(p => p.id === roomId), quantity: 0});
-      dispatch(setRoomsAdded(items))
+      dispatch(setRoomsAdded(items));
       dispatch(setTotalPrice(getSum(items)));
-    } 
+    }
   };
 
   return (
@@ -208,14 +218,24 @@ export const HomestayRoomCardItem = props => {
               borderWidth: 0.9,
               borderColor: 'gray',
               padding: 5,
-              paddingHorizontal:10
+              paddingHorizontal: 10,
             }}>
             <TouchableOpacity>
               <Icon
                 name="ios-remove-circle"
                 size={35}
                 color={'#f87171'}
-                onPress={() => addToCart(props.id, props.name, props.price, props.pax, props.availability, props.thumbnailSrc, 'remove')}
+                onPress={() =>
+                  addToCart(
+                    props.id,
+                    props.name,
+                    props.price,
+                    props.pax,
+                    props.availability,
+                    props.thumbnailSrc,
+                    'remove',
+                  )
+                }
               />
             </TouchableOpacity>
             <Text
@@ -230,16 +250,32 @@ export const HomestayRoomCardItem = props => {
                 name="ios-add-circle"
                 size={35}
                 color={'#33c37d'}
-                onPress={() => addToCart(props.id, props.name, props.price, props.pax, props.availability, props.thumbnailSrc, 'add')}              />
+                onPress={() =>
+                  addToCart(
+                    props.id,
+                    props.name,
+                    props.price,
+                    props.pax,
+                    props.availability,
+                    props.thumbnailSrc,
+                    'add',
+                  )
+                }
+              />
             </TouchableOpacity>
-            <Divider orientation="vertical" marginHorizontal={10} bg="blue.500" />
+            <Divider
+              orientation="vertical"
+              marginHorizontal={10}
+              bg="blue.500"
+            />
 
             <TouchableOpacity>
               <Icon
                 name="close-outline"
                 size={20}
                 color={'gray'}
-                onPress={() =>  clearItem(roomsAdded, props.id)}/>
+                onPress={() => clearItem(roomsAdded, props.id)}
+              />
             </TouchableOpacity>
           </View>
           {/* <Button
