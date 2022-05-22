@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Image} from 'react-native';
+import {View, Image, Linking} from 'react-native';
 import Card from './Card';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {Button, Text} from 'native-base';
@@ -89,7 +89,15 @@ export const PackageCardItem = ({
         bg="blue.600"
         _pressed={{bg: 'blue.300', _text: {color: 'white'}}}
         onPress={() => {
-          // TODO: Where to navigate?
+          console.log(item);
+          if (!item?.link) return;
+          Linking.canOpenURL(item.link).then(supported => {
+            if (supported) {
+              Linking.openURL(item.link);
+            } else {
+              Alert.alert('Link unavailable.');
+            }
+          });
         }}
         style={{width: 200, alignSelf: 'flex-end'}}>
         View Details
