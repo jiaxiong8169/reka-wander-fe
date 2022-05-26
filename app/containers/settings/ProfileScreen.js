@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet} from 'react-native';
-import {Button, View, Text, TextField, Avatar, ScrollView} from 'native-base';
+import {View, Avatar, ScrollView} from 'native-base';
 import GradientBackground from '../../components/GradientBackground';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {preventBack} from '../../utils/navigation-utils';
 import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
-import CustomButton from '../../components/CustomButton/CustomButton';
 import {useAuth} from '../../hooks/useAuth';
+import {CustomButton} from '../../components/CustomButton';
 
 export const ProfileScreen = ({navigation}) => {
   const {getWithAuth, putWithAuth} = useHttpCall();
@@ -83,7 +82,9 @@ export const ProfileScreen = ({navigation}) => {
           <CustomButton onPress={() => setIsEditMode(true)}>Edit</CustomButton>
         ) : (
           <>
-            <CustomButton onPress={() => {}}>Change Password</CustomButton>
+            <CustomButton onPress={() => {}} style={{marginBottom: 20}}>
+              Change Password
+            </CustomButton>
             <CustomButton onPress={handleSaveProfile}>Save</CustomButton>
           </>
         )}
@@ -91,10 +92,3 @@ export const ProfileScreen = ({navigation}) => {
     </GradientBackground>
   );
 };
-
-const styles = StyleSheet.create({
-  button: {
-    marginBottom: 8,
-    marginTop: 4,
-  },
-});

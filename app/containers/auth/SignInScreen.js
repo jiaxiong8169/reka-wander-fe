@@ -16,7 +16,7 @@ import PasswordInput from '../../components/PasswordInput/PasswordInput';
 import {useIsFocused} from '@react-navigation/native';
 import {LoadingOverlay} from '../../components/LoadingOverlay';
 import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
-import CustomButton from '../../components/CustomButton/CustomButton';
+import {CustomButton} from '../../components/CustomButton';
 import {preventBack} from '../../utils/navigation-utils';
 import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
 import AppleAuth from '../../components/AppleAuth';

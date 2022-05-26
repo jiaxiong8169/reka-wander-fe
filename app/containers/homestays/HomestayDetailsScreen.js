@@ -18,7 +18,7 @@ import {
   Button,
 } from 'native-base';
 import {BackButton} from '../../components/BackButton';
-import RoundButton from '../../components/RoundButton';
+import {CustomButton} from '../../components/CustomButton';
 import FastImage from 'react-native-fast-image';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useHttpCall} from '../../hooks/useHttpCall';
@@ -184,25 +184,18 @@ export const HomestayDetailsScreen = ({navigation, route}) => {
               RM {item.price ? item.price : item.minPrice}
             </Text>
           </View>
+          <CustomButton
+            colorScheme="secondary"
+            style={{marginTop: 20}}
+            onPress={() => {
+              navigation.navigate('HomestaySelectRoom', {
+                id: item.id,
+                data: item,
+              });
+            }}>
+            Select Rooms
+          </CustomButton>
         </View>
-        {/* <RoundButton title="Rent" backgroundColor="#dc2626" /> */}
-
-        <Button
-          bg="red.600"
-          _pressed={{bg: 'red.500', _text: {color: 'white'}}}
-          rounded={20}
-          size={'lg'}
-          p={3}
-          m={5}
-          style={{position: 'relative', left: 0, right: 0, bottom: 0}}
-          onPress={() => {
-            navigation.navigate('HomestaySelectRoom', {
-              id: item.id,
-            data: item,
-            });
-          }}>
-          Select Rooms
-        </Button>
       </View>
     </GradientBackground>
   );

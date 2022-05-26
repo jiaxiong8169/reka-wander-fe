@@ -20,14 +20,19 @@ import {HomestayRoomCardItem} from '../../components/HomestayRoomCardItem';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useSelector, useDispatch} from 'react-redux';
 import {setHomestayId} from '../../redux/Homestay/actions';
-import RoundButton from '../../components/RoundButton';
-import {setHomestayName, setHomestayLat, setHomestayLong, setHomestayData} from '../../redux/Homestay/actions';
+import {
+  setHomestayName,
+  setHomestayLat,
+  setHomestayLong,
+  setHomestayData,
+} from '../../redux/Homestay/actions';
+import {CustomButton} from '../../components/CustomButton';
 
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 
 export const HomestaySelectRoomScreen = ({navigation, route}) => {
-  const {id,data} = route.params;
+  const {id, data} = route.params;
   const dispatch = useDispatch();
   const [items, setItems] = useState([]);
   const {getWithoutAuth} = useHttpCall();
@@ -98,20 +103,17 @@ export const HomestaySelectRoomScreen = ({navigation, route}) => {
               Total Price : RM {totalPrice._W ? totalPrice._W : 0}
             </Text>
           </View>
-          <Button
+          <CustomButton
             size="md"
-            w={'40%'}
-            bg="red.600"
-            _pressed={{bg: 'red.300', _text: {color: 'white'}}}
-            rounded={100}
+            colorScheme="secondary"
             onPress={() => {
               navigation.navigate('HomestayRent', {
                 id: id,
-                data:data,
+                data: data,
               });
             }}>
             Rent Rooms
-          </Button>
+          </CustomButton>
         </View>
       }>
       <View></View>

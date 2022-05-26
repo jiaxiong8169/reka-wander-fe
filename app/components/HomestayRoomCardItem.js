@@ -5,7 +5,6 @@ import {
   Heading,
   AspectRatio,
   Stack,
-  Button,
   Divider,
   Image,
   Center,
@@ -14,7 +13,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Alert, Dimensions, View} from 'react-native';
 import {useState} from 'react';
-import {useSelector, useDispatch, ReactReduxContext} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {
   setRoomsAdded,
   setTotalPrice,
@@ -278,11 +277,6 @@ export const HomestayRoomCardItem = props => {
               />
             </TouchableOpacity>
           </View>
-          {/* <Button
-              variant="outline"
-              size={'lg'}>
-              Select
-            </Button> */}
         </Stack>
       </Box>
     </Box>

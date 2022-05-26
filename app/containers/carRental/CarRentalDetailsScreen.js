@@ -3,7 +3,7 @@ import GradientBackground from '../../components/GradientBackground';
 import {View, Dimensions, ScrollView, StyleSheet, Image} from 'react-native';
 import {Text, ZStack, Center} from 'native-base';
 import {BackButton} from '../../components/BackButton';
-import RoundButton from '../../components/RoundButton';
+import {CustomButton} from '../../components/CustomButton';
 import FastImage from 'react-native-fast-image';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {RefreshControl} from 'react-native';
@@ -106,17 +106,10 @@ export const CarRentalDetailsScreen = ({navigation, route}) => {
             {item.description}
           </Text>
         </Text>
+        <CustomButton colorScheme="secondary" onPress={onPressHandlerRent}>
+          Rent
+        </CustomButton>
       </View>
-      {/* <Box style={styles.whatsapp}>
-          <Pressable p={1}>
-            <Icon name="logo-whatsapp" size={35} color={'green'}></Icon>
-          </Pressable>
-        </Box> */}
-      <RoundButton
-        title="Rent"
-        backgroundColor="#dc2626"
-        onPress={onPressHandlerRent}
-      />
     </GradientBackground>
   );
 };

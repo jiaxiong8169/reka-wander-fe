@@ -1,9 +1,9 @@
 import React from 'react';
 import {View} from 'react-native';
 import {Text} from 'native-base';
-import {Button} from 'native-base';
 import Card from '../components/Card';
 import moment from 'moment';
+import {CustomButton} from './CustomButton';
 
 export const TripCardItem = ({navigation, item, marginBottom}) => {
   return (
@@ -32,18 +32,15 @@ export const TripCardItem = ({navigation, item, marginBottom}) => {
           {moment(item.endDate).format('dddd, MMMM Do YYYY')}
         </Text>
       </View>
-      <Button
+      <CustomButton
         size="sm"
-        padding="1"
-        bg="blue.600"
-        _pressed={{bg: 'blue.300', _text: {color: 'white'}}}
         onPress={() => {
           navigation.navigate('TripHistoryDetails', {
             id: item.id,
           });
         }}>
         View Details
-      </Button>
+      </CustomButton>
     </Card>
   );
 };

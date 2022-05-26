@@ -25,6 +25,7 @@ import {
 } from '../../redux/Nearby/actions';
 import {BackButton} from '../../components/BackButton';
 import {getLocationPermissionAndExecute} from '../../utils/location-utils';
+import {CustomButton} from '../../components/CustomButton';
 
 const {width} = Dimensions.get('window');
 //you need to preview n items.
@@ -191,17 +192,16 @@ export default function SpotsImagesScreen({navigation, route}) {
           <Text bold fontSize={18} marginLeft={2}>
             {isNearby ? 'Nearby ' : ''} Restaurants {'  '}
           </Text>
-          <Text
-            fontSize={15}
-            color="blue.600"
+          <CustomButton
+            variant="link"
             onPress={() =>
               navigation.navigate('SpotsList', {
                 type: 'restaurants',
                 isNearby: isNearby,
               })
             }>
-            {'View More'}
-          </Text>
+            View More
+          </CustomButton>
         </View>
 
         <FlatList
@@ -249,17 +249,16 @@ export default function SpotsImagesScreen({navigation, route}) {
           <Text bold fontSize={18} marginLeft={2}>
             {isNearby ? 'Nearby ' : ''}Attractions {'  '}
           </Text>
-          <Text
-            fontSize={15}
-            color="blue.600"
+          <CustomButton
+            variant="link"
             onPress={() =>
               navigation.navigate('SpotsList', {
                 type: 'attractions',
                 isNearby: isNearby,
               })
             }>
-            {'View More'}
-          </Text>
+            View More
+          </CustomButton>
         </View>
 
         <FlatList
@@ -307,17 +306,16 @@ export default function SpotsImagesScreen({navigation, route}) {
           <Text bold fontSize={18} marginLeft={2}>
             {isNearby ? 'Nearby ' : ''}Hotels {'  '}
           </Text>
-          <Text
-            fontSize={15}
-            color="blue.600"
+          <CustomButton
+            variant="link"
             onPress={() =>
               navigation.navigate('SpotsList', {
                 type: 'hotels',
                 isNearby: isNearby,
               })
             }>
-            {'View More'}
-          </Text>
+            View More
+          </CustomButton>
         </View>
 
         <FlatList

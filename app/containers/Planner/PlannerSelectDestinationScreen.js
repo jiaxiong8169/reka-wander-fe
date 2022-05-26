@@ -5,7 +5,8 @@ import {setUserLongLat} from '../../redux/Planner/actions';
 import {getLocationPermissionAndExecute} from '../../utils/location-utils';
 import MapView, {Marker, Circle} from 'react-native-maps';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {Button, Input} from 'native-base';
+import {Input} from 'native-base';
+import {CustomButton} from '../../components/CustomButton';
 
 export const PlannerSelectDestinationScreen = () => {
   const {longitude, latitude} = useSelector(state => state.plannerReducer);
@@ -96,15 +97,9 @@ export const PlannerSelectDestinationScreen = () => {
           />
         }
       />
-      <Button
-        w="50%"
-        mt="3"
-        size="xs"
-        bg="blue.500"
-        onPress={() => geocodeByName()}
-        _pressed={{bg: 'blue.300', _text: {color: 'white'}}}>
+      <CustomButton size="xs" onPress={() => geocodeByName()}>
         Go To Location
-      </Button>
+      </CustomButton>
 
       <MapView
         region={region}

@@ -1,9 +1,5 @@
 import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import Modal from 'react-native-modal';
 import ModelContent from '../../components/Modal/ModalContent';
 import GradientBackground from '../../components/GradientBackground';
@@ -18,8 +14,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {GetTotal} from '../../components/Total/GetTotal';
 import {Phone} from '../../components/Phone/Phone';
 import {Mail} from '../../components/JumpMail/Mail';
-import RoundButton from '../../components/RoundButton';
-import { resetCarInfo } from '../../redux/CarRental/actions';
+import {CustomButton} from '../../components/CustomButton';
+import {resetCarInfo} from '../../redux/CarRental/actions';
 
 export default function UserCarRentalInfo({navigation, route}) {
   const {id} = route.params;
@@ -174,12 +170,12 @@ export default function UserCarRentalInfo({navigation, route}) {
           <GetTotal price={item.price} diff={diff} />
         </View>
       )}
-      <RoundButton
-        backgroundColor="#dc2626"
-        title={'Confirm'}
+      <CustomButton
+        colorScheme="secondary"
         onPress={onPressHandler}
-        style={{marginBottom: 40}}
-      />
+        style={{marginBottom: 40}}>
+        Confirm
+      </CustomButton>
       <Modal
         isVisible={isModelPopUp}
         onBackdropPress={closeModel}

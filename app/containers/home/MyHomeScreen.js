@@ -7,7 +7,7 @@ import {
   Dimensions,
   Image,
 } from 'react-native';
-import RoundButton from '../../components/RoundButton';
+import {CustomButton} from '../../components/CustomButton';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {Input} from 'native-base';
 import {MyCircleIcon} from '../../components/CircleIcon';
@@ -130,38 +130,22 @@ export const MyHomeScreen = ({navigation}) => {
             />
           </MyCircleIcon>
         </View>
-        <RoundButton
+        <CustomButton
           onPress={() => {
             navigation.navigate('Planner_Question');
           }}
-          title="PLAN MY TRIP"
-          backgroundColor="rgb(117,157,246)"
           style={{
-            width: '100%',
-            borderRadius: 10,
-            backgroundColor: '#3988c4',
-          }}
-          textStyle={{
-            fontSize: 20,
-            fontWeight: 'bold',
-          }}
-        />
-        <RoundButton
+            marginBottom: 20,
+          }}>
+          PLAN MY TRIP
+        </CustomButton>
+        <CustomButton
           onPress={() => {
             navigation.navigate('MyTripHistory');
           }}
-          title="VIEW MY TRIP HISTORY"
-          backgroundColor="rgb(117,157,246)"
-          style={{
-            width: '100%',
-            borderRadius: 10,
-            backgroundColor: '#F5362E',
-          }}
-          textStyle={{
-            fontSize: 20,
-            fontWeight: 'bold',
-          }}
-        />
+          colorScheme="secondary">
+          VIEW MY TRIP HISTORY
+        </CustomButton>
       </View>
     </GradientBackground>
   );

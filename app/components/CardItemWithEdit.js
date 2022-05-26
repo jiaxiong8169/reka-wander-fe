@@ -2,10 +2,10 @@ import React from 'react';
 import {View, StyleSheet, Image} from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import {Text} from 'native-base';
-import {Button} from 'native-base';
 import Card from '../components/Card';
 import FastImage from 'react-native-fast-image';
 import {RatingButton} from './RatingButton';
+import {CustomButton} from './CustomButton';
 
 const CardItemWithEdit = ({
   item,
@@ -119,11 +119,8 @@ const CardItemWithEdit = ({
             </View>
           </View>
         </View>
-        <Button
+        <CustomButton
           size="sm"
-          padding="1"
-          bg="blue.600"
-          _pressed={{bg: 'blue.300', _text: {color: 'white'}}}
           onPress={() => {
             navigation.navigate('SpotDetails', {
               type: type,
@@ -131,7 +128,7 @@ const CardItemWithEdit = ({
             });
           }}>
           View Details
-        </Button>
+        </CustomButton>
       </View>
     </Card>
   );

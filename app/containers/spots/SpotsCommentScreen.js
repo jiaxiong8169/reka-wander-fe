@@ -2,7 +2,6 @@ import * as React from 'react';
 import {View, StyleSheet, Dimensions, Alert, Pressable} from 'react-native';
 import {Image, RefreshControl} from 'react-native';
 import {Box, Heading, Text, ArrowBackIcon, TextArea} from 'native-base';
-import {ScrollView} from 'react-native';
 import CommentCard from '../../components/CommentCard';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import FastImage from 'react-native-fast-image';
@@ -11,6 +10,7 @@ import {RatingButton} from '../../components/RatingButton';
 import moment from 'moment';
 import {LoadMore} from '../../components/LoadMore';
 import GradientBackground from '../../components/GradientBackground';
+import {CustomButton} from '../../components/CustomButton';
 
 const height = Dimensions.get('window').height;
 
@@ -189,10 +189,14 @@ export default function SpotsCommentScreen({navigation, route}) {
       <View style={[styles.textContainer, {alignItems: 'center'}]}>
         <Heading size="sm">Reviews & Comments</Heading>
       </View>
-      {!reviewDataList.find(
+      {reviewDataList.find(
         x => x.id === 'newReview' || x.userId === authData.id,
       ) ? (
-        <View>
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+          }}>
           <View style={styles.commentBox}>
             <TextArea
               h={20}
@@ -211,9 +215,19 @@ export default function SpotsCommentScreen({navigation, route}) {
             }}>
             <RatingButton rating={rating} editable onPress={setRating} />
           </View>
-          <Pressable style={styles.button} onPress={() => handleReview()}>
-            <Text style={styles.buttonText}>Post</Text>
-          </Pressable>
+          <CustomButton
+            onPress={() => handleReview()}
+            size="sm"
+            colorScheme="secondary"
+            style={{
+              alignSelf: 'flex-end',
+              marginRight: 20,
+              marginBottom: 30,
+              marginTop: -25,
+              // justifySelf: 'flex-end',
+            }}>
+            Post
+          </CustomButton>
         </View>
       ) : (
         reviewDataList

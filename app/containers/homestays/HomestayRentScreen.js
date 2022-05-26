@@ -10,7 +10,7 @@ import {
   Text,
 } from 'react-native';
 import {BackButton} from '../../components/BackButton';
-import RoundButton from '../../components/RoundButton';
+import {CustomButton} from '../../components/CustomButton';
 import FastImage from 'react-native-fast-image';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useHttpCall} from '../../hooks/useHttpCall';
@@ -239,12 +239,12 @@ export const HomestayRentScreen = ({navigation, route}) => {
         </Card>
         <Total totalPrice={totalPrice._W}></Total>
 
-        <RoundButton
-          backgroundColor="#dc2626"
-          title={'Confirm'}
+        <CustomButton
+          colorScheme="secondary"
           onPress={onPressHandler}
-          style={{marginBottom: 40}}
-        />
+          style={{marginBottom: 40}}>
+          Confirm
+        </CustomButton>
       </View>
     </GradientBackground>
   );
