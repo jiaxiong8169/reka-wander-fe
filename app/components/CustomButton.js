@@ -8,13 +8,15 @@ export const CustomButton = ({
   size = 'md',
   style,
   isDisabled = false,
+  variant = 'solid',
 }) => (
   <Button
     onPress={onPress}
     colorScheme={colorScheme}
     style={style}
     size={size}
-    isDisabled={isDisabled}>
+    isDisabled={isDisabled}
+    variant={variant}>
     {typeof children === 'string' ? children.toUpperCase() : children}
   </Button>
 );

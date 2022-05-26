@@ -106,15 +106,10 @@ export const CarRentalDetailsScreen = ({navigation, route}) => {
             {item.description}
           </Text>
         </Text>
+        <CustomButton colorScheme="secondary" onPress={onPressHandlerRent}>
+          Rent
+        </CustomButton>
       </View>
-      {/* <Box style={styles.whatsapp}>
-          <Pressable p={1}>
-            <Icon name="logo-whatsapp" size={35} color={'green'}></Icon>
-          </Pressable>
-        </Box> */}
-      <CustomButton colorScheme="secondary" onPress={onPressHandlerRent}>
-        Rent
-      </CustomButton>
     </GradientBackground>
   );
 };

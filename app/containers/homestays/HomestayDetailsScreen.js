@@ -184,19 +184,18 @@ export const HomestayDetailsScreen = ({navigation, route}) => {
               RM {item.price ? item.price : item.minPrice}
             </Text>
           </View>
+          <CustomButton
+            colorScheme="secondary"
+            style={{marginTop: 20}}
+            onPress={() => {
+              navigation.navigate('HomestaySelectRoom', {
+                id: item.id,
+                data: item,
+              });
+            }}>
+            Select Rooms
+          </CustomButton>
         </View>
-
-        <CustomButton
-          colorScheme="secondary"
-          style={{position: 'relative', left: 0, right: 0, bottom: 0}}
-          onPress={() => {
-            navigation.navigate('HomestaySelectRoom', {
-              id: item.id,
-              data: item,
-            });
-          }}>
-          Select Rooms
-        </CustomButton>
       </View>
     </GradientBackground>
   );

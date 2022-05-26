@@ -1,38 +1,24 @@
 import React, {useEffect} from 'react';
-import {StyleSheet} from 'react-native';
-import {Button, View, Text, Avatar} from 'native-base';
+import {View, Text, Avatar} from 'native-base';
 import GradientBackground from '../../components/GradientBackground';
 import {useAuth} from '../../hooks/useAuth';
-import {useHttpCall} from '../../hooks/useHttpCall';
 import {preventBack} from '../../utils/navigation-utils';
 import {CustomButton} from '../../components/CustomButton';
 
 export const MenuScreen = ({navigation}) => {
   const {authData, signOut} = useAuth();
-  const {getWithAuth} = useHttpCall();
 
   useEffect(() => {
     preventBack(navigation, 'Menu');
   }, [navigation]);
 
-  const getProfile = () => {
-    return getWithAuth('profile', () =>
-      navigation.navigate({name: 'SignInScreen'}),
-    ).then(data => {
-      // TODO: Implement Profile Container
-      console.log(data);
-    });
-  };
-
   return (
     <GradientBackground>
       <View>
         {!authData ? (
-          <Button
-            style={styles.button}
-            onPress={() => navigation.navigate('SignInScreen')}>
+          <CustomButton onPress={() => navigation.navigate('SignInScreen')}>
             Login
-          </Button>
+          </CustomButton>
         ) : (
           <>
             <View>
@@ -56,9 +42,9 @@ export const MenuScreen = ({navigation}) => {
               <Text>Name: {authData?.name ?? ''}</Text>
               <Text>Email: {authData?.email ?? ''}</Text>
             </View>
-            <Button
-              style={styles.button}
-              onPress={() => navigation.navigate('Profile')}>
+            <CustomButton
+              onPress={() => navigation.navigate('Profile')}
+              style={{marginBottom: 20}}>
               Profile
             </CustomButton>
             <CustomButton
@@ -75,10 +61,3 @@ export const MenuScreen = ({navigation}) => {
     </GradientBackground>
   );
 };
-
-const styles = StyleSheet.create({
-  button: {
-    marginBottom: 8,
-    marginTop: 4,
-  },
-});
