@@ -2,12 +2,12 @@ import React from 'react';
 import {View, Image, Linking} from 'react-native';
 import Card from './Card';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {Button, Text} from 'native-base';
+import {Text} from 'native-base';
 import CheckBox from '@react-native-community/checkbox';
+import {CustomButton} from './CustomButton';
 
 export const PackageCardItem = ({
   item,
-  navigation,
   selected,
   setSelected,
   marginBottom,
@@ -83,11 +83,8 @@ export const PackageCardItem = ({
           RM {item.price}
         </Text>
       </View>
-      <Button
+      <CustomButton
         size="sm"
-        padding="1"
-        bg="blue.600"
-        _pressed={{bg: 'blue.300', _text: {color: 'white'}}}
         onPress={() => {
           if (!item?.link) return;
           Linking.canOpenURL(item.link).then(supported => {
@@ -100,7 +97,7 @@ export const PackageCardItem = ({
         }}
         style={{width: 200, alignSelf: 'flex-end'}}>
         View Details
-      </Button>
+      </CustomButton>
     </Card>
   );
 };

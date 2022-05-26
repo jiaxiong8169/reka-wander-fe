@@ -3,7 +3,7 @@ import React, {useEffect, useState, useRef} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
-import CustomButton from '../../components/CustomButton/CustomButton';
+import {CustomButton} from '../../components/CustomButton';
 import {LoadingOverlay} from '../../components/LoadingOverlay';
 import {useHttpCall} from '../../hooks/useHttpCall';
 

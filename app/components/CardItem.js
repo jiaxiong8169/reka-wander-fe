@@ -1,10 +1,10 @@
 import React from 'react';
 import {View, StyleSheet, Image} from 'react-native';
 import {Text} from 'native-base';
-import {Button} from 'native-base';
 import Card from '../components/Card';
 import FastImage from 'react-native-fast-image';
 import {RatingButton} from './RatingButton';
+import {CustomButton} from './CustomButton';
 
 const CardItem = ({item, navigation, type, marginBottom}) => {
   return (
@@ -85,11 +85,8 @@ const CardItem = ({item, navigation, type, marginBottom}) => {
             </View>
           </View>
         </View>
-        <Button
+        <CustomButton
           size="sm"
-          padding="1"
-          bg="blue.600"
-          _pressed={{bg: 'blue.300', _text: {color: 'white'}}}
           onPress={() => {
             navigation.navigate('SpotDetails', {
               type: type,
@@ -97,7 +94,7 @@ const CardItem = ({item, navigation, type, marginBottom}) => {
             });
           }}>
           View Details
-        </Button>
+        </CustomButton>
       </View>
     </Card>
   );

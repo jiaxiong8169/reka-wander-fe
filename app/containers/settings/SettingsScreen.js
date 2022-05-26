@@ -5,6 +5,7 @@ import GradientBackground from '../../components/GradientBackground';
 import {useAuth} from '../../hooks/useAuth';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {preventBack} from '../../utils/navigation-utils';
+import {CustomButton} from '../../components/CustomButton';
 
 export const MenuScreen = ({navigation}) => {
   const {authData, signOut} = useAuth();
@@ -59,15 +60,15 @@ export const MenuScreen = ({navigation}) => {
               style={styles.button}
               onPress={() => navigation.navigate('Profile')}>
               Profile
-            </Button>
-            <Button
-              style={styles.button}
+            </CustomButton>
+            <CustomButton
               onPress={() => {
                 signOut();
                 navigation.navigate('SignInScreen');
-              }}>
+              }}
+              colorScheme="secondary">
               Logout
-            </Button>
+            </CustomButton>
           </>
         )}
       </View>

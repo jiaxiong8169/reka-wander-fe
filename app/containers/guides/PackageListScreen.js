@@ -4,7 +4,7 @@ import GradientBackground from '../../components/GradientBackground';
 import {View, ScrollView, Text} from 'native-base';
 import {PackageCardItem} from '../../components/PackageCardItem';
 import {BackButton} from '../../components/BackButton';
-import RoundButton from '../../components/RoundButton';
+import {CustomButton} from '../../components/CustomButton';
 import {useSelector, useDispatch} from 'react-redux';
 import {setGuidesTotal, setPackages} from '../../redux/Guides/actions';
 import {PackagesSelected} from './GuideSelectedPackages';
@@ -88,7 +88,7 @@ export const PackageListScreen = ({navigation, route}) => {
         lineHeight="xs">
         Total Price : RM {guideTotal}
       </Text>
-      <RoundButton
+      <CustomButton
         onPress={() => {
           // TODO: Navigate to Checkout
           if (price == 0) {
@@ -99,10 +99,10 @@ export const PackageListScreen = ({navigation, route}) => {
             });
           }
         }}
-        title="Checkout"
-        backgroundColor="#dc2626"
-        style={{marginBottom: 40}}
-      />
+        colorScheme="secondary"
+        style={{marginBottom: 40}}>
+        Checkout
+      </CustomButton>
       <Modal
         isVisible={isModelPopUp}
         onBackdropPress={closeModel}
@@ -118,9 +118,8 @@ export const PackageListScreen = ({navigation, route}) => {
         <ModelContent onPress={closeModel} buttonTitle={'Close'}>
           <Text style={{fontSize: 20, marginBottom: 12}}>Opps!</Text>
           <Text>
-            Opps, you did not select any tour guide yet.
-            Please select at least one tour guide plan to proceed to the next step.
-            
+            Opps, you did not select any tour guide yet. Please select at least
+            one tour guide plan to proceed to the next step.
           </Text>
         </ModelContent>
       </Modal>

@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import {Heading, Text} from 'native-base';
 import {ScrollView} from 'react-native';
-import RoundButton from '../../components/RoundButton';
+import {CustomButton} from '../../components/CustomButton';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {useAuth} from '../../hooks/useAuth';
 import {TouchableOpacity} from 'react-native-gesture-handler';
@@ -162,15 +162,15 @@ export const GuideDetailsScreen = ({navigation, route}) => {
           <Text mt="3" mb="10" color={'white'}>
             {item.description}
           </Text>
-          <RoundButton
+          <CustomButton
             onPress={() => {
               navigation.navigate('PackageList', {
                 item,
               });
             }}
-            title="View Packages"
-            backgroundColor="#dc2626"
-          />
+            colorScheme="secondary">
+            View Packages
+          </CustomButton>
         </View>
         <View style={styles.buttonContainer}>
           <View style={{flexDirection: 'row'}}>

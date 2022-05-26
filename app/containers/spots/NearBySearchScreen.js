@@ -1,11 +1,12 @@
 import * as React from 'react';
 import {Text, StyleSheet, Image} from 'react-native';
 import Card from '../../components/Card';
-import {Button, View} from 'native-base';
+import {View} from 'native-base';
 import BlueSubtitle from '../../components/BlueSubtitle';
 import GradientBackground from '../../components/GradientBackground';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {BackButton} from '../../components/BackButton';
+import {CustomButton} from '../../components/CustomButton';
 
 export default function NearBySearchScreen({navigation}) {
   return (
@@ -25,15 +26,11 @@ export default function NearBySearchScreen({navigation}) {
             source={require('../../assets/map.png')}
           />
         </TouchableOpacity>
-        <Button
-          w="50%"
-          m="3"
+        <CustomButton
           size="lg"
-          bg="blue.500"
-          onPress={() => navigation.navigate('SpotsImages', {isNearby: true})}
-          _pressed={{bg: 'blue.300', _text: {color: 'white'}}}>
+          onPress={() => navigation.navigate('SpotsImages', {isNearby: true})}>
           Find Nearby
-        </Button>
+        </CustomButton>
 
         <Text style={styles.h2}>
           Or {'\n'}
