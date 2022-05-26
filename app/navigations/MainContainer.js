@@ -13,11 +13,11 @@ import SpotDetailsScreen from '../containers/spots/SpotDetailsScreen';
 
 //Planner
 import PlannerStack from './PlannerNavigationFunction';
-import {SettingsScreen} from '../containers/settings/SettingsScreen';
 import SpotsImagesScreen from '../containers/spots/SpotsImagesScreen';
 import SpotsCommentScreen from '../containers/spots/SpotsCommentScreen';
 import {SearchScreen} from '../containers/spots/SearchScreen';
 import {GuideStack} from './GuideStack';
+import {ProfileStack} from './MenuStack';
 
 //Screen names
 const Stack = createStackNavigator();
@@ -171,7 +171,7 @@ function MainContainer() {
       />
       <Tab.Screen
         name="Settings"
-        component={SettingsScreen}
+        component={ProfileStack}
         options={{
           headerShown: false,
         }}
