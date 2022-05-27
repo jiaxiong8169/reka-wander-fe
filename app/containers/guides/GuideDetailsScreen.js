@@ -17,7 +17,7 @@ import DeviceInfo from 'react-native-device-info';
 import FastImage from 'react-native-fast-image';
 import Share from 'react-native-share';
 import {RatingButton} from '../../components/RatingButton';
-import {useSelector, useDispatch} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {setGuideLat, setGuideLong} from '../../redux/Guides/actions';
 
 const height = Dimensions.get('window').height;
@@ -173,15 +173,13 @@ export const GuideDetailsScreen = ({navigation, route}) => {
           </CustomButton>
         </View>
         <View style={styles.buttonContainer}>
-          <View style={{flexDirection: 'row'}}>
-            <TouchableOpacity
-              onPress={() => handleLike()}
-              style={{flex: 1, justifyContent: 'center'}}>
-              <Image
-                style={styles.icon}
-                source={require('../../assets/love.png')}
-                tintColor={liked ? 'red' : 'gray'}></Image>
-            </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => handleLike()}
+            style={{flexDirection: 'row'}}>
+            <Image
+              style={styles.icon}
+              source={require('../../assets/love.png')}
+              tintColor={liked ? 'red' : 'gray'}></Image>
             <Text
               ml={'2'}
               bold
@@ -190,39 +188,35 @@ export const GuideDetailsScreen = ({navigation, route}) => {
               style={styles.iconText}>
               {likes}
             </Text>
-          </View>
+          </TouchableOpacity>
           <TouchableOpacity
-            style={{flex: 1, alignSelf: 'center', justifyContent: 'center'}}
+            style={{flexDirection: 'row'}}
             onPress={() =>
               navigation.navigate('SpotsComment', {
                 id: id,
                 type: 'guides',
               })
             }>
-            <View style={{flexDirection: 'row'}}>
-              <Image
-                style={styles.icon}
-                source={require('../../assets/message.png')}
-                tintColor="red"></Image>
-              <Text
-                ml={'2'}
-                bold
-                fontSize={12}
-                color="red.500"
-                style={styles.iconText}>
-                {item.reviews ? item.reviews.length : 0}
-              </Text>
-            </View>
+            <Image
+              style={styles.icon}
+              source={require('../../assets/message.png')}
+              tintColor="red"></Image>
+            <Text
+              ml={'2'}
+              bold
+              fontSize={12}
+              color="red.500"
+              style={styles.iconText}>
+              {item.reviews ? item.reviews.length : 0}
+            </Text>
           </TouchableOpacity>
-          <View style={{flexDirection: 'row'}}>
-            <TouchableOpacity
-              onPress={() => handleShare()}
-              style={{flex: 1, justifyContent: 'center'}}>
-              <Image
-                style={styles.icon}
-                source={require('../../assets/share.png')}
-                tintColor={shared ? 'red' : 'gray'}></Image>
-            </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => handleShare()}
+            style={{flexDirection: 'row'}}>
+            <Image
+              style={styles.icon}
+              source={require('../../assets/share.png')}
+              tintColor={shared ? 'red' : 'gray'}></Image>
             <Text
               ml={'2'}
               bold
@@ -231,7 +225,7 @@ export const GuideDetailsScreen = ({navigation, route}) => {
               style={styles.iconText}>
               {shares}
             </Text>
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
     </ScrollView>

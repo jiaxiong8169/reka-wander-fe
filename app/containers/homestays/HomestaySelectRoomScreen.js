@@ -1,24 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import GradientBackground from '../../components/GradientBackground';
 import BlueSubtitle from '../../components/BlueSubtitle';
-import {View, Dimensions, ScrollView, Image, StyleSheet} from 'react-native';
-import {
-  Text,
-  HStack,
-  Center,
-  Flex,
-  Box,
-  Stack,
-  Button,
-  Divider,
-} from 'native-base';
+import {View, Dimensions, StyleSheet} from 'react-native';
+import {Text} from 'native-base';
 import {BackButton} from '../../components/BackButton';
-import Icon from 'react-native-vector-icons/Ionicons';
 import {useHttpCall} from '../../hooks/useHttpCall';
-import {RefreshControl, TouchableOpacity} from 'react-native';
 import {HomestayRoomCardItem} from '../../components/HomestayRoomCardItem';
 import {useSelector, useDispatch} from 'react-redux';
-import {setHomestayId} from '../../redux/Homestay/actions';
 import {
   setHomestayName,
   setHomestayLat,
@@ -28,7 +16,6 @@ import {
 import {CustomButton} from '../../components/CustomButton';
 
 const height = Dimensions.get('window').height;
-const width = Dimensions.get('window').width;
 
 export const HomestaySelectRoomScreen = ({navigation, route}) => {
   const {id, data} = route.params;
@@ -119,7 +106,7 @@ export const HomestaySelectRoomScreen = ({navigation, route}) => {
       <View style={styles.container}>
         <View style={{flexDirection: 'row', padding: '3%', width: '90%'}}>
           <BackButton navigation={navigation} />
-          <BlueSubtitle key={id} text1={hotelName}></BlueSubtitle>
+          <BlueSubtitle key={id} text1={hotelName} />
         </View>
 
         {items.map(item => (

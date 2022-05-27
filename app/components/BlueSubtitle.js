@@ -1,28 +1,25 @@
+import {Text, View} from 'native-base';
 import React from 'react';
-import {Text} from 'react-native';
 
-const BlueSubtitle = props => {
+const BlueSubtitle = ({text1, text2, style}) => {
   return (
-    <Text
-      style={[
-        {
-          fontSize: props.small ? 30 : 40,
-          color: 'rgb(117,157,246)',
-          fontWeight: '300',
-        },
-        props.style,
-      ]}>
-      {props.text1}
-      <Text
-        style={{
-          fontSize: props.small ? 30 : 40,
-          fontWeight: 'bold',
-          color: 'rgb(117,157,246)',
-        }}>
-        {' '}
-        {props.text2}
-      </Text>
-    </Text>
+    <View
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        ...style,
+      }}>
+      {!!text1 && (
+        <Text fontSize="3xl" color="primary.400">
+          {text1}
+        </Text>
+      )}
+      {!!text2 && (
+        <Text fontSize="xl" color="primary.400">
+          {text2}
+        </Text>
+      )}
+    </View>
   );
 };
 

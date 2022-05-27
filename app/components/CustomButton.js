@@ -16,7 +16,8 @@ export const CustomButton = ({
     style={style}
     size={size}
     isDisabled={isDisabled}
-    variant={variant}>
+    variant={variant}
+    borderRadius="20">
     {typeof children === 'string' ? children.toUpperCase() : children}
   </Button>
 );

@@ -71,11 +71,13 @@ export const GuideListScreen = ({navigation}) => {
           onRefresh={() => setReload(!reload)}
         />
       }>
-      <View style={{flexDirection: 'column', marginBottom: 10}}>
-        <View style={{flexDirection: 'row'}}>
-          <BlueSubtitle text1="Tour Guides" text2={``} />
-        </View>
-      </View>
+      <BlueSubtitle
+        text1="Tour Guides"
+        text2={``}
+        style={{
+          marginBottom: 10,
+        }}
+      />
 
       <CustomTextInput
         placeholder="Search Here..."

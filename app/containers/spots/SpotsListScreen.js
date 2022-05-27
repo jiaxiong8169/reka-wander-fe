@@ -95,11 +95,7 @@ export const SpotsListScreen = ({navigation, route}) => {
       <View style={{flexDirection: 'column', marginBottom: 10}}>
         <View style={{flexDirection: 'row'}}>
           <BackButton navigation={navigation} />
-          <BlueSubtitle
-            text1={isNearby ? 'Nearby' : ''}
-            text2={type[0].toUpperCase() + type.substring(1)}
-            small={isNearby}
-          />
+          <BlueSubtitle text1={type[0].toUpperCase() + type.substring(1)} />
         </View>
       </View>
       {items.map(item => (

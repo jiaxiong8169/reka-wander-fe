@@ -1,35 +1,18 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import GradientBackground from '../../components/GradientBackground';
-import BlueSubtitle from '../../components/BlueSubtitle';
-import {
-  View,
-  Dimensions,
-  ScrollView,
-  Image,
-  StyleSheet,
-  Text,
-} from 'react-native';
+import {View, StyleSheet, Text} from 'react-native';
 import {BackButton} from '../../components/BackButton';
 import {CustomButton} from '../../components/CustomButton';
-import FastImage from 'react-native-fast-image';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {useHttpCall} from '../../hooks/useHttpCall';
-import {RefreshControl} from 'react-native';
-import {RatingButton} from '../../components/RatingButton';
-import {setRoomsAdded} from '../../redux/Homestay/actions';
 import {useSelector, useDispatch} from 'react-redux';
 import Card from '../../components/Card';
 import moment from 'moment';
 import {RoomsSelected} from './HomestayRoomSelected';
 import {LocationName} from '../../components/Location/LocationName';
-import {CalendarHomestay} from '../../components/CalenderPicker/CalenderHomestay';
 import {Mail} from '../../components/JumpMail/Mail';
 import {Phone} from '../../components/Phone/Phone';
 import {Total} from '../../components/Total/Total';
 import {clearCart} from '../../redux/Homestay/actions';
-
-const height = Dimensions.get('window').height;
-const width = Dimensions.get('window').width;
 
 export const HomestayRentScreen = ({navigation, route}) => {
   const {id, data} = route.params;
@@ -39,10 +22,7 @@ export const HomestayRentScreen = ({navigation, route}) => {
   const {checkInDate} = useSelector(state => state.homestayReducer);
   const {checkOutDate} = useSelector(state => state.homestayReducer);
   const {homestayName} = useSelector(state => state.homestayReducer);
-  const {lat} = useSelector(state => state.homestayReducer);
-  const {long} = useSelector(state => state.homestayReducer);
   const {totalPrice} = useSelector(state => state.homestayReducer);
-  const {homestayData} = useSelector(state => state.homestayReducer);
 
   const onPressHandler = () => {
     navigation.navigate('SignInScreen');
