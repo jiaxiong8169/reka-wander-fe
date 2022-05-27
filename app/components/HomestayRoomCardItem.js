@@ -10,8 +10,7 @@ import {
   Center,
 } from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {Alert, Dimensions, View} from 'react-native';
+import {Alert, Dimensions, View, TouchableOpacity} from 'react-native';
 import {useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {

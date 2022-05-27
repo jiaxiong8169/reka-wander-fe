@@ -1,15 +1,13 @@
 import {
   View,
   StyleSheet,
-  ScrollView,
   Dimensions,
   RefreshControl,
-  Alert,
+  TouchableOpacity,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {FlatList} from 'react-native';
 import {SearchIcon, Text} from 'native-base';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import GradientBackground from '../../components/GradientBackground';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import FastImage from 'react-native-fast-image';
@@ -331,12 +329,12 @@ export default function SpotsImagesScreen({navigation, route}) {
           renderItem={({item, index}) => (
             <TouchableOpacity
               style={styles.view}
-              onPress={() =>
+              onPress={() => {
                 navigation.navigate('SpotDetails', {
                   type: isNearby ? 'nearbyHotels' : 'hotels',
                   id: item.id,
-                })
-              }>
+                });
+              }}>
               <FastImage
                 source={{uri: item.thumbnailSrc}}
                 style={{

@@ -2,8 +2,7 @@ import React from 'react';
 import {Text, Box, Center} from 'native-base';
 import Card from './Card';
 import FastImage from 'react-native-fast-image';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {View} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 
 export const HomestayCardItem = ({
@@ -78,20 +77,12 @@ export const HomestayCardItem = ({
           />
         </Card>
         {withEdit && (
-          <TouchableOpacity
-            onPress={() => {
+          <CheckBox
+            onValueChange={() => {
               toggleItemSelection(item.id, item);
-            }}>
-            <View
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'flex-end',
-                paddingRight: 5,
-              }}>
-              <CheckBox value={selected && selected.includes(item.id)} />
-            </View>
-          </TouchableOpacity>
+            }}
+            value={selected && selected.includes(item.id)}
+          />
         )}
       </Card>
     </TouchableOpacity>

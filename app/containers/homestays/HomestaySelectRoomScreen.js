@@ -15,9 +15,8 @@ import {
 import {BackButton} from '../../components/BackButton';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useHttpCall} from '../../hooks/useHttpCall';
-import {RefreshControl} from 'react-native';
+import {RefreshControl, TouchableOpacity} from 'react-native';
 import {HomestayRoomCardItem} from '../../components/HomestayRoomCardItem';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useSelector, useDispatch} from 'react-redux';
 import {setHomestayId} from '../../redux/Homestay/actions';
 import {
