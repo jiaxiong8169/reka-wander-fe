@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import GradientBackground from '../../components/GradientBackground';
 import BlueSubtitle from '../../components/BlueSubtitle';
 import {View, RefreshControl} from 'react-native';
-import {Text, Input} from 'native-base';
+import {Text} from 'native-base';
 import {BackButton} from '../../components/BackButton';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Card from '../../components/Card';
@@ -11,6 +11,7 @@ import CarCardItem from '../../components/CarCardItem';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {useDispatch, useSelector} from 'react-redux';
 import {setTripPlanbyFieldName} from '../../redux/Planner/actions';
+import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 
 export const CarRentalListScreen = ({navigation, route}) => {
   const dispatch = useDispatch();
@@ -96,17 +97,11 @@ export const CarRentalListScreen = ({navigation, route}) => {
         </Text>
       </View>
 
-      <Input
+      <CustomTextInput
         placeholder="Search Here..."
-        width="100%"
-        borderRadius="4"
-        variant="filled"
-        fontSize="14"
         value={search}
         onChangeText={t => setSearch(t)}
-        shadow="5"
-        marginBottom="3"
-        InputLeftElement={
+        startAdornment={
           <Icon
             style={{marginLeft: 10}}
             size={20}

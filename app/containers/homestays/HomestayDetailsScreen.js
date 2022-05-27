@@ -1,29 +1,19 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import GradientBackground from '../../components/GradientBackground';
-import BlueSubtitle from '../../components/BlueSubtitle';
 import {View, Dimensions, ScrollView, Image, StyleSheet} from 'react-native';
 import {
   Text,
-  Input,
   Box,
-  ZStack,
-  Center,
-  Flex,
   Pressable,
   ArrowBackIcon,
   Heading,
   AspectRatio,
   Stack,
   HStack,
-  Button,
 } from 'native-base';
-import {BackButton} from '../../components/BackButton';
 import {CustomButton} from '../../components/CustomButton';
 import FastImage from 'react-native-fast-image';
-import Icon from 'react-native-vector-icons/Ionicons';
 import {useHttpCall} from '../../hooks/useHttpCall';
-import {RefreshControl} from 'react-native';
-import {RatingButton} from '../../components/RatingButton';
 
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;

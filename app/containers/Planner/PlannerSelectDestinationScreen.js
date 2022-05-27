@@ -5,8 +5,8 @@ import {setUserLongLat} from '../../redux/Planner/actions';
 import {getLocationPermissionAndExecute} from '../../utils/location-utils';
 import MapView, {Marker, Circle} from 'react-native-maps';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {Input} from 'native-base';
 import {CustomButton} from '../../components/CustomButton';
+import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 
 export const PlannerSelectDestinationScreen = () => {
   const {longitude, latitude} = useSelector(state => state.plannerReducer);
@@ -84,11 +84,11 @@ export const PlannerSelectDestinationScreen = () => {
   return (
     <View style={styles.body_container}>
       <Text style={styles.question}>Select Your Destination!</Text>
-      <Input
+      <CustomTextInput
         onChangeText={v => setSearch(v)}
         placeholder="Search location..."
         value={search}
-        InputLeftElement={
+        startAdornment={
           <Icon
             style={{marginLeft: 10}}
             size={20}

@@ -1,12 +1,8 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
-
 import Calendar from '../../components/CalenderPicker/CalenderPicker';
-import Card from '../../components/card/card';
 import Modal from 'react-native-modal';
 import ModelContent from '../../components/Modal/ModalContent';
-
-import InsertDetailsCard from './PlannerInsertDetailsScreen';
 
 const ChooseDays = () => {
   const [isModalPopUp, setIsModalPopUp] = useState(false);

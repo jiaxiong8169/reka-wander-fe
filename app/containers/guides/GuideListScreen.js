@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import BlueSubtitle from '../../components/BlueSubtitle';
 import GradientBackground from '../../components/GradientBackground';
-import {Input, View} from 'native-base';
+import {View} from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {LoadMore} from '../../components/LoadMore';
@@ -9,6 +9,7 @@ import {CustomTabs} from '../../components/CustomTabs';
 import Card from '../../components/Card';
 import {RefreshControl} from 'react-native';
 import {GuideCardItem} from '../../components/GuideCardItem';
+import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 
 // list of available tabs
 const tabs = [
@@ -76,17 +77,11 @@ export const GuideListScreen = ({navigation}) => {
         </View>
       </View>
 
-      <Input
+      <CustomTextInput
         placeholder="Search Here..."
-        width="100%"
-        borderRadius="4"
-        variant="filled"
-        fontSize="14"
         value={search}
         onChangeText={t => setSearch(t)}
-        shadow="5"
-        marginBottom="3"
-        InputLeftElement={
+        startAdornment={
           <Icon
             style={{marginLeft: 10}}
             size={20}

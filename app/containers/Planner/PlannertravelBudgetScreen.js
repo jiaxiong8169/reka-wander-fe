@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
-import {StyleSheet, View, Text, TextInput, Image, Alert} from 'react-native';
+import React from 'react';
+import {StyleSheet, View, Text, Image} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
+import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 import {setBudget} from '../../redux/Planner/actions';
 
 const TravelBudget = () => {
@@ -10,8 +11,8 @@ const TravelBudget = () => {
   return (
     <View style={styles.body_container}>
       <Text style={styles.question}>Travel budget</Text>
-      <TextInput
-        style={styles.input}
+      <CustomTextInput
+        type="number"
         keyboardType={'number-pad'}
         onChangeText={v => {
           dispatch(setBudget(v));
