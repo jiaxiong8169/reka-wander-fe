@@ -86,7 +86,7 @@ export const MyHomeScreen = ({navigation}) => {
           }}>
           <MyCircleIcon
             text="Car Rental"
-            onPress={() => navigation.navigate('CarRental')}>
+            onPress={() => navigation.navigate('CarRentalList')}>
             <Image
               source={require('../../assets/car_rental.png')}
               style={{
@@ -100,7 +100,7 @@ export const MyHomeScreen = ({navigation}) => {
           <MyCircleIcon
             text="Homestay"
             onPress={() => {
-              navigation.navigate('Homestay');
+              navigation.navigate('HomestayEdit');
             }}>
             <Image
               source={require('../../assets/Homestay.png')}
@@ -115,7 +115,7 @@ export const MyHomeScreen = ({navigation}) => {
           <MyCircleIcon
             text="Food"
             onPress={() => {
-              navigation.navigate('MyHomeFood', {
+              navigation.navigate('SpotsList', {
                 type: 'restaurants',
               });
             }}>
@@ -132,7 +132,7 @@ export const MyHomeScreen = ({navigation}) => {
         </View>
         <CustomButton
           onPress={() => {
-            navigation.navigate('Planner_Question');
+            navigation.navigate('PlannerSteps');
           }}
           style={{
             marginBottom: 20,

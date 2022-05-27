@@ -1,8 +1,7 @@
 import React from 'react';
 import {Text, Box, Center} from 'native-base';
 import Card from './Card';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {Image, View} from 'react-native';
+import {Image, TouchableOpacity} from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 
 const CarCardItem = props => {
@@ -64,25 +63,14 @@ const CarCardItem = props => {
           source={{uri: props.thumbnailSrc}}
         />
         {props.withEdit && (
-          <TouchableOpacity
-            onPress={() => {
+          <CheckBox
+            onValueChange={() => {
+              console.log('triggered');
               if (!props.toggleItemSelection) return;
               props.toggleItemSelection(props.item?.id, props.item);
-            }}>
-            <View
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'flex-end',
-                paddingRight: 5,
-              }}>
-              <CheckBox
-                value={
-                  props.selected && props.selected.includes(props.item?.id)
-                }
-              />
-            </View>
-          </TouchableOpacity>
+            }}
+            value={props.selected && props.selected.includes(props.item?.id)}
+          />
         )}
       </Card>
     </TouchableOpacity>

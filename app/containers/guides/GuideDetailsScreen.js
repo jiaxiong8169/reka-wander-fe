@@ -5,13 +5,13 @@ import {
   Dimensions,
   RefreshControl,
   Image,
+  TouchableOpacity,
 } from 'react-native';
 import {Heading, Text} from 'native-base';
 import {ScrollView} from 'react-native';
 import {CustomButton} from '../../components/CustomButton';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {useAuth} from '../../hooks/useAuth';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import {BackButton} from '../../components/BackButton';
 import DeviceInfo from 'react-native-device-info';
 import FastImage from 'react-native-fast-image';

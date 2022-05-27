@@ -12,8 +12,6 @@ import Withkids from './PlannerWithkidsScreen';
 import RentHomeStay from './PlannerRentHomeStayScreen';
 import RentCar from './PlannerRentCarScreen';
 import UserDetails from './PlannerUserDetails';
-import RecommendedCardDetails from './PlannerRecommendationCardDetails';
-import RecommendedCard from './PlannerRecommendCard';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {BackButton} from '../../components/BackButton';
 import BlueSubtitle from '../../components/BlueSubtitle';
