@@ -1,16 +1,9 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
-import Card from '../../components/card/card';
+import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
 import GradientBackground from '../../components/GradientBackground';
 import BlueSubtitle from '../../components/BlueSubtitle';
 import {preventBack} from '../../utils/navigation-utils';
+import InsertDetailsCard from '../../components/stepper/InsertDetailsCard';
 
 export default function SuccessConfirmScreen({navigation}) {
   React.useEffect(() => {
@@ -21,56 +14,50 @@ export default function SuccessConfirmScreen({navigation}) {
     navigation.navigate('MyHome');
   };
   return (
-    <ScrollView>
-      <GradientBackground>
-        <BlueSubtitle text1="Hi" text2="Welcome,"></BlueSubtitle>
-        <Text style={styles.subtitle}>Create your destiny</Text>
-        <View style={styles.body}>
-          <Card
-            style={{
-              width: '100%',
-            }}>
-            <View>
-              <Text style={styles.title}>
-                Congrats! Your trip is succesfully planned!
-              </Text>
-            </View>
-            <View
-              style={{
-                marginTop: 10,
-                height: 250,
-                alignItems: 'center',
-                flex: 1,
-              }}>
-              <Image
-                source={require('../../assets/Travel_interest.png')}
-                style={{
-                  aspectRatio: 1,
-                  width: undefined,
-                  resizeMode: 'contain',
-                  height: '100%',
-                }}
-              />
-            </View>
-          </Card>
-          <View style={{marginTop: 20}}>
-            <TouchableOpacity onPress={onPressHandler}>
-              <Text
-                style={{
-                  color: 'white',
-                  padding: 12,
-                  backgroundColor: '#4169E1',
-                  borderRadius: 50,
-                  textAlign: 'center',
-                  marginHorizontal: 80,
-                }}>
-                Back to Home Page
-              </Text>
-            </TouchableOpacity>
+    <GradientBackground>
+      <BlueSubtitle text1="Hi Welcome," text2="Create Your Destiny" />
+      <View style={styles.body}>
+        <InsertDetailsCard>
+          <View>
+            <Text style={styles.title}>
+              Congrats! Your trip is succesfully planned!
+            </Text>
           </View>
+          <View
+            style={{
+              marginTop: 10,
+              height: 250,
+              alignItems: 'center',
+              flex: 1,
+            }}>
+            <Image
+              source={require('../../assets/Travel_interest.png')}
+              style={{
+                aspectRatio: 1,
+                width: undefined,
+                resizeMode: 'contain',
+                height: '100%',
+              }}
+            />
+          </View>
+        </InsertDetailsCard>
+        <View style={{marginTop: 20}}>
+          <TouchableOpacity onPress={onPressHandler}>
+            <Text
+              style={{
+                color: 'white',
+                padding: 12,
+                backgroundColor: '#4169E1',
+                borderRadius: 50,
+                textAlign: 'center',
+                marginHorizontal: 80,
+              }}>
+              Back to Home Page
+            </Text>
+          </TouchableOpacity>
         </View>
-      </GradientBackground>
-    </ScrollView>
+      </View>
+    </GradientBackground>
   );
 }
 

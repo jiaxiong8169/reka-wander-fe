@@ -90,11 +90,8 @@ export const CarRentalListScreen = ({navigation, route}) => {
       <View style={{flexDirection: 'column', marginBottom: 10}}>
         <View style={{flexDirection: 'row'}}>
           <BackButton navigation={navigation} />
-          <BlueSubtitle text1="Hi" text2={`Welcome,`} />
+          <BlueSubtitle text1="Hi Welcome," text2={`Rent Your Car`} />
         </View>
-        <Text fontSize={17} color="rgb(117,157,246)">
-          Rent your car
-        </Text>
       </View>
 
       <CustomTextInput

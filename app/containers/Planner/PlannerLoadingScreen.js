@@ -65,8 +65,7 @@ export default function LoadingScreen({navigation}) {
 
   return (
     <GradientBackground>
-      <BlueSubtitle text1="Hi" text2="Welcome,"></BlueSubtitle>
-      <Text style={styles.subtitle}>Create your destiny</Text>
+      <BlueSubtitle text1="Hi Welcome," text2="Create Your Destiny" />
       <Card
         style={{
           alignItems: 'center',

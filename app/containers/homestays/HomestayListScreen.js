@@ -107,13 +107,13 @@ export const HomestayListScreen = ({navigation, route}) => {
       <View style={{flexDirection: 'column', marginBottom: 10}}>
         <View style={{flexDirection: 'row'}}>
           <BackButton navigation={navigation} />
-          <BlueSubtitle text1="Hi" text2={`Welcome,`} />
+          <BlueSubtitle text1="Hi Welcome," text2={`Book a Homestay`} />
         </View>
-        {!fieldName && (
+        {/* {!fieldName && (
           <Text fontSize={17} color="rgb(117,157,246)">
             Book a Homestay
           </Text>
-        )}
+        )} */}
       </View>
 
       <CustomTextInput

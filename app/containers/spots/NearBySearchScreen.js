@@ -6,15 +6,16 @@ import BlueSubtitle from '../../components/BlueSubtitle';
 import GradientBackground from '../../components/GradientBackground';
 import {BackButton} from '../../components/BackButton';
 import {CustomButton} from '../../components/CustomButton';
+import InsertDetailsCard from '../../components/stepper/InsertDetailsCard';
 
 export default function NearBySearchScreen({navigation}) {
   return (
     <GradientBackground>
       <View style={{flexDirection: 'row', marginBottom: 20}}>
         <BackButton navigation={navigation} />
-        <BlueSubtitle text1="Hi" text2={`Welcome,`} />
+        <BlueSubtitle text1="Hi Welcome," text2={`Search Spots`} />
       </View>
-      <Card style={styles.card}>
+      <InsertDetailsCard>
         <TouchableOpacity
           style={{marginBottom: 20}}
           onPress={() => navigation.navigate('SpotsImages', {isNearby: true})}>
@@ -40,7 +41,7 @@ export default function NearBySearchScreen({navigation}) {
             source={require('../../assets/search.png')}
           />
         </TouchableOpacity>
-      </Card>
+      </InsertDetailsCard>
     </GradientBackground>
   );
 }
