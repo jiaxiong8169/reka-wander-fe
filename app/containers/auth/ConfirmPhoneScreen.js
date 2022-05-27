@@ -7,7 +7,7 @@ import {
   ScrollView,
   Pressable,
 } from 'react-native';
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import {useAuth} from '../../hooks/useAuth';
 import LinearGradient from 'react-native-linear-gradient';
@@ -16,6 +16,7 @@ import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 import OTPInput from './OTPInput';
 import {CustomButton} from '../../components/CustomButton';
 import {LoadingOverlay} from '../../components/LoadingOverlay';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 const OTP_TIMEOUT_SECONDS = 90;
 
@@ -38,6 +39,7 @@ export const ConfirmPhoneScreen = ({route}) => {
 
   const handlePhoneNumberButtonPress = async () => {
     setPhoneNumberEditable(false);
+    console.log(`+${phoneNumberPrefix}${phoneNumber}`);
     signInWithPhoneNumber(`+${phoneNumberPrefix}${phoneNumber}`);
   };
 
@@ -51,6 +53,7 @@ export const ConfirmPhoneScreen = ({route}) => {
       setOTPModalVisible(true);
     } catch (err) {
       console.log(err);
+      setLoading(false);
       authProvider.setAuthError(
         'The format of the phone number provided is incorrect.',
       );
@@ -155,25 +158,28 @@ export const ConfirmPhoneScreen = ({route}) => {
               <Text style={styles.caption}>Let's see if it's your phone!</Text>
             </View>
             <View style={{flex: 1, flexDirection: 'row'}}>
-              <View style={{flex: 1}}>
-                <CustomTextInput
-                  placeholder="60"
-                  value={phoneNumberPrefix}
-                  onChangeText={setPhoneNumberPrefix}
-                  editable={phoneNumberEditable}
-                  maxLength={3}
-                  startAdornment={'+'}
-                />
-              </View>
-              <View style={{flex: 2}}>
-                <CustomTextInput
-                  placeholder="Phone Number"
-                  value={phoneNumber}
-                  onChangeText={setPhoneNumber}
-                  editable={phoneNumberEditable}
-                  autoFocus={true}
-                />
-              </View>
+              <CustomTextInput
+                placeholder="60"
+                value={phoneNumberPrefix}
+                onChangeText={setPhoneNumberPrefix}
+                editable={phoneNumberEditable}
+                maxLength={3}
+                style={{
+                  flex: 1,
+                  marginRight: 10,
+                }}
+                startAdornment={<Icon name="plus" style={{marginLeft: 10}} />}
+              />
+              <CustomTextInput
+                placeholder="Phone Number"
+                value={phoneNumber}
+                onChangeText={setPhoneNumber}
+                editable={phoneNumberEditable}
+                autoFocus={true}
+                style={{
+                  flex: 2,
+                }}
+              />
             </View>
             <View>
               <CustomButton
@@ -281,6 +287,7 @@ const styles = StyleSheet.create({
   },
   caption: {
     textAlign: 'center',
+    marginBottom: 10,
   },
   inputAddOn: {
     backgroundColor: '#aeb3bd',

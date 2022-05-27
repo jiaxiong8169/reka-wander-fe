@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {StyleSheet, View, Text, Image, TextInput} from 'react-native';
+import React from 'react';
+import {StyleSheet, View} from 'react-native';
 import Card from '../../components/card/card';
 
 const InsertDetailsCard = props => {

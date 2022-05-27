@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
-  TextInput,
   StyleSheet,
   TouchableOpacity,
   ScrollView,
@@ -18,7 +17,6 @@ import {LoadingOverlay} from '../../components/LoadingOverlay';
 import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 import {CustomButton} from '../../components/CustomButton';
 import {preventBack} from '../../utils/navigation-utils';
-import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
 import AppleAuth from '../../components/AppleAuth';
 
 const SignInScreen = ({navigation, route}) => {

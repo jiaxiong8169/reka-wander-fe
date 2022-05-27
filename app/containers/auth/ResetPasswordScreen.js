@@ -137,6 +137,7 @@ const styles = StyleSheet.create({
   },
   caption: {
     textAlign: 'center',
+    marginBottom: 10,
   },
   snackbar: {
     backgroundColor: '#8aeba2',

@@ -9,11 +9,11 @@ import {
 } from 'react-native';
 import {CustomButton} from '../../components/CustomButton';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {Input} from 'native-base';
 import {MyCircleIcon} from '../../components/CircleIcon';
 import {preventBack} from '../../utils/navigation-utils';
 import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
 import GradientBackground from '../../components/GradientBackground';
+import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 
 const width = Dimensions.get('window').width;
 
@@ -47,20 +47,16 @@ export const MyHomeScreen = ({navigation}) => {
           </Text>
         </Text>
       </ImageBackground>
-      <Input
+      <CustomTextInput
         placeholder="Search attractions, places, etc."
         width="300"
         height="50"
-        borderRadius="10"
         variant="filled"
-        fontSize="14"
         value={''}
         top="175"
         left={width / 2 - 150}
         onChangeText={e => {}}
-        shadow="3"
-        backgroundColor={'#fff'}
-        InputLeftElement={
+        startAdornment={
           <Icon
             style={{marginLeft: 10}}
             size={20}

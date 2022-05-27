@@ -42,6 +42,8 @@ export default function PlannerSteps({navigation}) {
       }
     } catch (err) {
       console.log(err);
+      setIsModelPopUp(true);
+      setErrors(true);
     }
   };
 
