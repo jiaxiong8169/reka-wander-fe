@@ -11,7 +11,7 @@ import {SearchIcon, Text} from 'native-base';
 import GradientBackground from '../../components/GradientBackground';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import FastImage from 'react-native-fast-image';
-import BlueSubtitle from '../../components/BlueSubtitle';
+import BlueSubtitle from '../../components/texts/BlueSubtitle';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   setRestaurants,

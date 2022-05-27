@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
 import GradientBackground from '../../components/GradientBackground';
-import BlueSubtitle from '../../components/BlueSubtitle';
+import BlueSubtitle from '../../components/texts/BlueSubtitle';
 import {preventBack} from '../../utils/navigation-utils';
 import InsertDetailsCard from '../../components/stepper/InsertDetailsCard';
 

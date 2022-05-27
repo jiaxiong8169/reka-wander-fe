@@ -50,6 +50,7 @@ const AuthProvider = ({children}) => {
     return AuthService.signIn(email, password)
       .then(_authData => {
         setAuthData(_authData);
+        console.log(_authData);
         EncryptedStorage.setItem('auth_data', JSON.stringify(_authData));
         setLoading(false);
         return _authData;
