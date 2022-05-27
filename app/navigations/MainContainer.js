@@ -3,7 +3,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Image} from 'react-native';
 import GradientBackground from '../components/GradientBackground';
 import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
-import PlannerStack from './PlannerNavigationFunction';
+import PlannerStack from './PlannerStack';
 import {GuideStack} from './GuideStack';
 import {SettingsStack} from './SettingsStack';
 import {SpotsStack} from './SpotsStack';
