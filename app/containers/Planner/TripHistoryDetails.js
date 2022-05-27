@@ -14,7 +14,7 @@ import RentCar from './PlannerRentCarScreen';
 import UserDetails from './PlannerUserDetails';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {BackButton} from '../../components/BackButton';
-import BlueSubtitle from '../../components/BlueSubtitle';
+import BlueSubtitle from '../../components/texts/BlueSubtitle';
 
 export const TripHistoryDetails = ({navigation, route}) => {
   const {getWithAuth} = useHttpCall();

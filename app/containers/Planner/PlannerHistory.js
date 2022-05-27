@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import BlueSubtitle from '../../components/BlueSubtitle';
+import BlueSubtitle from '../../components/texts/BlueSubtitle';
 import GradientBackground from '../../components/GradientBackground';
 import {View} from 'native-base';
 import {useHttpCall} from '../../hooks/useHttpCall';

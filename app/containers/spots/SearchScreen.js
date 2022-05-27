@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import CardItem from '../../components/CardItem';
-import BlueSubtitle from '../../components/BlueSubtitle';
+import BlueSubtitle from '../../components/texts/BlueSubtitle';
 import GradientBackground from '../../components/GradientBackground';
 import {Text} from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialIcons';

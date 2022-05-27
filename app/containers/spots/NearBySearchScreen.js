@@ -2,7 +2,7 @@ import * as React from 'react';
 import {Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import Card from '../../components/Card';
 import {View} from 'native-base';
-import BlueSubtitle from '../../components/BlueSubtitle';
+import BlueSubtitle from '../../components/texts/BlueSubtitle';
 import GradientBackground from '../../components/GradientBackground';
 import {BackButton} from '../../components/BackButton';
 import {CustomButton} from '../../components/CustomButton';

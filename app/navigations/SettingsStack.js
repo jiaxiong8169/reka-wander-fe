@@ -2,7 +2,7 @@ import * as React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Provider} from 'react-redux';
 import {store} from '../redux/store';
-import {MenuScreen} from '../containers/settings/SettingsScreen';
+import {SettingsScreen} from '../containers/settings/SettingsScreen';
 import {ProfileScreen} from '../containers/settings/ProfileScreen';
 
 //Screen names
@@ -14,7 +14,7 @@ export const SettingsStack = () => {
       <Stack.Navigator>
         <Stack.Screen
           name="Menu"
-          component={MenuScreen}
+          component={SettingsScreen}
           options={{
             header: () => null,
           }}

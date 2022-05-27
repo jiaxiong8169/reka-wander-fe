@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import GradientBackground from '../../components/GradientBackground';
-import BlueSubtitle from '../../components/BlueSubtitle';
+import BlueSubtitle from '../../components/texts/BlueSubtitle';
 import {View, Dimensions, StyleSheet} from 'react-native';
 import {Text} from 'native-base';
 import {BackButton} from '../../components/BackButton';

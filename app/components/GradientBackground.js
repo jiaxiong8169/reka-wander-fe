@@ -1,17 +1,11 @@
 import LinearGradient from 'react-native-linear-gradient';
 import React from 'react';
-import {StyleSheet, ScrollView, useWindowDimensions, View, Button} from 'react-native';
+import {StyleSheet, ScrollView, View} from 'react-native';
 
 const GradientBackground = props => {
-  const {height} = useWindowDimensions();
-
   const styles = StyleSheet.create({
     p3: {
-      padding: '3%',
-      // minHeight: height ? height : 0,
-    },
-    p0: {
-      // minHeight: height ? height : 0,
+      padding: props.fullWidth ? '0%' : '3%',
     },
   });
 
@@ -22,6 +16,7 @@ const GradientBackground = props => {
         start={{x: 0, y: 0}}
         end={{x: 0, y: 0.5}}
         style={{
+          flex: 1,
           height: '100%',
           width: '100%',
           ...props.style,
@@ -35,21 +30,19 @@ const GradientBackground = props => {
       start={{x: 0, y: 0}}
       end={{x: 0, y: 0.5}}
       style={{
+        flex: 1,
         width: '100%',
         height: '100%',
         ...props.style,
       }}>
       <ScrollView
-      stickyHeaderIndices={props.stickyHeader ? [0] : ''}
+        stickyHeaderIndices={props.stickyHeader ? [0] : ''}
         refreshControl={props.refreshControl}
-        style={props.fullWidth ? styles.p0 : styles.p3}>
+        style={styles.p3}
+        contentContainerStyle={props.contentContainerStyle}>
         {props.children}
       </ScrollView>
-    <View>
-      {
-        props.footer        
-      }
-    </View>
+      <View>{props.footer}</View>
     </LinearGradient>
   );
 };

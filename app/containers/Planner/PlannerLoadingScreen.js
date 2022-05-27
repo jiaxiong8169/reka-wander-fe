@@ -3,7 +3,7 @@ import {StyleSheet, Text, Alert, Dimensions} from 'react-native';
 import Card from '../../components/card/card';
 import Indicator from '../../components/Indicator/Indicator';
 import GradientBackground from '../../components/GradientBackground';
-import BlueSubtitle from '../../components/BlueSubtitle';
+import BlueSubtitle from '../../components/texts/BlueSubtitle';
 import {useSelector, useDispatch} from 'react-redux';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {useAuth} from '../../hooks/useAuth';

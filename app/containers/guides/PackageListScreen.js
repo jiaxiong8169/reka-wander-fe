@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import BlueSubtitle from '../../components/BlueSubtitle';
+import BlueSubtitle from '../../components/texts/BlueSubtitle';
 import GradientBackground from '../../components/GradientBackground';
 import {View, ScrollView, Text} from 'native-base';
 import {PackageCardItem} from '../../components/PackageCardItem';
