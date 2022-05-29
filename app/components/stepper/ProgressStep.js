@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, ScrollView, TouchableOpacity, Text} from 'react-native';
+import {View, ScrollView} from 'react-native';
 import PropTypes from 'prop-types';
 import ProgressButtons from './ProgressButtons';
 import {CustomButton} from '../CustomButton';
@@ -83,15 +83,19 @@ class ProgressStep extends Component {
     );
 
     return (
-      <View style={{flex: 1}}>
+      <>
         {isScrollable ? (
-          <ScrollView {...scrollViewProps}>{this.props.children}</ScrollView>
+          <ScrollView {...scrollViewProps}>
+            {this.props.children}
+            {buttonRow}
+          </ScrollView>
         ) : (
-          <View {...viewProps}>{this.props.children}</View>
+          <View {...viewProps}>
+            {this.props.children}
+            {buttonRow}
+          </View>
         )}
-
-        {buttonRow}
-      </View>
+      </>
     );
   }
 }

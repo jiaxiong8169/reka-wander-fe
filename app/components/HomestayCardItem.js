@@ -1,9 +1,10 @@
 import React from 'react';
-import {Text, Box, Center} from 'native-base';
+import {Box} from 'native-base';
 import Card from './Card';
 import FastImage from 'react-native-fast-image';
 import {TouchableOpacity} from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
+import {CustomText} from './texts/custom-text';
 
 export const HomestayCardItem = ({
   onPress,
@@ -20,12 +21,11 @@ export const HomestayCardItem = ({
       <Card
         style={{
           flexDirection: 'row',
-          flex: 2,
           margin: 10,
-          marginTop: 40,
-          minHeight: 120,
+          padding: 10,
+          height: 150,
         }}>
-        <Center flex="1">
+        <Box>
           <Box
             bg={{
               linearGradient: {
@@ -34,42 +34,33 @@ export const HomestayCardItem = ({
                 end: [1, 0],
               },
             }}
-            mt="-10"
-            p="2"
+            p="3"
             rounded="2xl"
             shadow={5}>
-            <Text
-              style={{textAlign: 'center'}}
-              bold
-              fontSize={20}
-              lineHeight={30}
-              color={'white'}>
+            <CustomText color="white" style={{textAlign: 'center'}}>
               RM {price}
-              {'\n'}
-              <Text fontSize={15} lineHeight={25}>
-                Per Day
-              </Text>
-            </Text>
+            </CustomText>
+            <CustomText color="white" style={{textAlign: 'center'}}>
+              Per Day
+            </CustomText>
           </Box>
-          <Text
+          <CustomText
             bold
-            fontSize={20}
+            fontSize="lg"
             mt={3}
-            style={{maxWidth: 100}}
-            lineHeight={20}
+            style={{textAlign: 'center', width: 100}}
             numberOfLines={2}>
             {name}
-          </Text>
-        </Center>
+          </CustomText>
+        </Box>
         <Card
           style={{
             flex: 1,
-            borderRadius: 0,
-            transform: [{rotate: '-5deg'}, {translateY: -30}],
+            marginHorizontal: 20,
           }}>
           <FastImage
             style={{
-              width: undefined,
+              width: '100%',
               height: '100%',
               resizeMode: 'contain',
             }}

@@ -11,6 +11,7 @@ import moment from 'moment';
 import {LoadMore} from '../../components/LoadMore';
 import GradientBackground from '../../components/GradientBackground';
 import {CustomButton} from '../../components/CustomButton';
+import {CustomText} from '../../components/texts/custom-text';
 
 const height = Dimensions.get('window').height;
 
@@ -22,7 +23,7 @@ export default function SpotsCommentScreen({navigation, route}) {
   const [reload, setReload] = React.useState(true);
   const [loading, setLoading] = React.useState(false);
   const [reviewDataList, setReviewDataList] = React.useState([]);
-  const [rating, setRating] = React.useState(0);
+  const [rating, setRating] = React.useState(5);
   const [textAreaValue, setTextAreaValue] = React.useState('');
   const [currentLimit, setCurrentLimit] = React.useState(10);
 
@@ -144,10 +145,10 @@ export default function SpotsCommentScreen({navigation, route}) {
           </Pressable>
         </Box>
         <View style={styles.textContainer}>
-          <Heading size="2xl">{item.name}</Heading>
-          <Text mt="3" mb="3">
+          <CustomText fontSize="xl">{item.name}</CustomText>
+          <CustomText mt="3" mb="3">
             {item.description}
-          </Text>
+          </CustomText>
           <View
             style={{
               marginRight: 'auto',
@@ -246,7 +247,7 @@ export default function SpotsCommentScreen({navigation, route}) {
                 rating={e.rating}
                 commentorName="Your Reviews"
                 imgSrc={e.userProfileSrc}
-                style={{backgroundColor: '#8ab7ff'}}
+                style={{backgroundColor: '#bbcbfa'}}
               />
             );
           })

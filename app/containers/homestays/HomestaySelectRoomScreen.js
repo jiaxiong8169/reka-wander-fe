@@ -14,6 +14,7 @@ import {
   setHomestayData,
 } from '../../redux/Homestay/actions';
 import {CustomButton} from '../../components/CustomButton';
+import {CustomText} from '../../components/texts/custom-text';
 
 const height = Dimensions.get('window').height;
 
@@ -23,15 +24,11 @@ export const HomestaySelectRoomScreen = ({navigation, route}) => {
   const [items, setItems] = useState([]);
   const {getWithoutAuth} = useHttpCall();
   const [reload, setReload] = React.useState(true);
-  const [loading, setLoading] = React.useState(false);
   const [hotelName, sethotelName] = React.useState('');
-  const {homestayId, roomsAdded, totalPrice} = useSelector(
-    state => state.homestayReducer,
-  );
+  const {totalPrice} = useSelector(state => state.homestayReducer);
 
   React.useEffect(() => {
     if (!reload) return;
-    setLoading(true);
     // try to fetch the data
     getWithoutAuth(`homestays/${id}`)
       .then(({data}) => {
@@ -44,14 +41,11 @@ export const HomestaySelectRoomScreen = ({navigation, route}) => {
           dispatch(setHomestayData(data));
           // console.log(roomsAdded);
           console.log(totalPrice);
-        } // set loading and reload to false indicating finished loading
-        setLoading(false);
+        }
         setReload(false);
       })
       .catch(err => {
         console.log(err);
-        // set loading and reload to false indicating finished loading
-        setLoading(false);
         setReload(false);
       });
   }, [reload, id]);
@@ -70,25 +64,12 @@ export const HomestaySelectRoomScreen = ({navigation, route}) => {
             shadowOpacity: 0.26,
             elevation: 10,
             backgroundColor: 'white',
+            alignItems: 'center',
+            justifyContent: 'space-between',
           }}>
-          <View
-            style={{
-              width: '60%',
-              fontSize: 20,
-              fontWeight: 'bold',
-              flexDirection: 'row',
-              alignItems: 'center',
-              // justifyContent: 'space-evenly',
-            }}>
-            <Text
-              style={{
-                fontSize: 20,
-                fontWeight: 'bold',
-                alignItems: 'center',
-              }}>
-              Total Price : RM {totalPrice._W ? totalPrice._W : 0}
-            </Text>
-          </View>
+          <CustomText fontSize="lg">
+            Total Price : RM {totalPrice._W ? totalPrice._W : 0}
+          </CustomText>
           <CustomButton
             size="md"
             colorScheme="secondary"
@@ -102,7 +83,6 @@ export const HomestaySelectRoomScreen = ({navigation, route}) => {
           </CustomButton>
         </View>
       }>
-      <View></View>
       <View style={styles.container}>
         <View style={{flexDirection: 'row', padding: '3%', width: '90%'}}>
           <BackButton navigation={navigation} />

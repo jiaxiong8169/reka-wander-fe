@@ -2,7 +2,6 @@ import React from 'react';
 import {
   Text,
   Box,
-  Heading,
   AspectRatio,
   Stack,
   Divider,
@@ -10,16 +9,14 @@ import {
   Center,
 } from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {Alert, Dimensions, View, TouchableOpacity} from 'react-native';
-import {useState} from 'react';
+import {Alert, View, TouchableOpacity} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   setRoomsAdded,
   setTotalPrice,
   clearCart,
 } from '../redux/Homestay/actions';
-
-const width = Dimensions.get('window').width;
+import {CustomText} from './texts/custom-text';
 
 const printPersonPerPax = personPerPax => {
   const person = [];
@@ -147,10 +144,10 @@ export const HomestayRoomCardItem = props => {
             />
           </AspectRatio>
           <Center
-            bg="lightBlue.500"
+            bg="primary.400"
             rounded={5}
             _dark={{
-              bg: 'blue.400',
+              bg: 'primary.600',
             }}
             _text={{
               color: 'warmGray.50',
@@ -167,47 +164,21 @@ export const HomestayRoomCardItem = props => {
         </Box>
         <Stack p="4" space={3}>
           <Stack space={2}>
-            <Heading size="md" ml="-1">
-              Twin Room
-            </Heading>
-            <Text
+            <CustomText fontSize="lg">Twin Room</CustomText>
+            <CustomText
               fontSize="xs"
               _light={{
-                color: 'blue.500',
+                color: 'primary.400',
               }}
               _dark={{
-                color: 'blue.400',
+                color: 'primary.400',
               }}
-              fontWeight="500"
-              ml="-0.5"
-              mt="-1">
-              {printPersonPerPax(props.pax)}/ pax
-            </Text>
+              bold>
+              {printPersonPerPax(props.pax)} / pax
+            </CustomText>
           </Stack>
-          <Text fontWeight="400">
-            Free Wifi, Bath, Air conditioning, Flat-screen TV {props.homestayId}
-          </Text>
           <Divider />
-          <Heading alignItems="center" flexDirection="row">
-            RM {props.price}
-          </Heading>
-          {/* <TouchableOpacity
-            // onPress={()=>this.onClickAddCart(item)}
-            style={{
-              backgroundColor: 'white',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: 5,
-              padding: 15,
-              borderWidth: 1,
-              borderColor: '#60a5fa',
-            }}>
-            <Text style={{fontSize: 18, color: '#60a5fa', fontWeight: 'bold'}}>
-              Select Room
-            </Text>
-            <View style={{width: 10}} />
-          </TouchableOpacity> */}
+          <CustomText fontSize="xl">RM {props.price}</CustomText>
           <View
             style={{
               flexDirection: 'row',
@@ -217,11 +188,12 @@ export const HomestayRoomCardItem = props => {
               borderColor: 'gray',
               padding: 5,
               paddingHorizontal: 10,
+              justifyContent: 'center',
             }}>
             <TouchableOpacity>
               <Icon
                 name="ios-remove-circle"
-                size={35}
+                size={25}
                 color={'#f87171'}
                 onPress={() =>
                   addToCart(
@@ -236,17 +208,16 @@ export const HomestayRoomCardItem = props => {
                 }
               />
             </TouchableOpacity>
-            <Text
-              style={{paddingHorizontal: 8, fontWeight: 'bold', fontSize: 18}}>
+            <CustomText fontSize="md" style={{paddingHorizontal: 8}}>
               {tempRooms.findIndex(item => item.id === props.id) !== -1
                 ? tempRooms[tempRooms.findIndex(item => item.id === props.id)]
                     .quantity
                 : 0}
-            </Text>
+            </CustomText>
             <TouchableOpacity>
               <Icon
                 name="ios-add-circle"
-                size={35}
+                size={25}
                 color={'#33c37d'}
                 onPress={() =>
                   addToCart(
@@ -264,7 +235,7 @@ export const HomestayRoomCardItem = props => {
             <Divider
               orientation="vertical"
               marginHorizontal={10}
-              bg="blue.500"
+              bg="gray.400"
             />
 
             <TouchableOpacity>

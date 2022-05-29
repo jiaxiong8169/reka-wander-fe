@@ -1,10 +1,11 @@
 import React from 'react';
-import {View, Image, Linking} from 'react-native';
+import {Image, Linking} from 'react-native';
 import Card from './Card';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {Text} from 'native-base';
+import {View} from 'native-base';
 import CheckBox from '@react-native-community/checkbox';
 import {CustomButton} from './CustomButton';
+import {CustomText} from './texts/custom-text';
 
 export const PackageCardItem = ({
   item,
@@ -30,20 +31,20 @@ export const PackageCardItem = ({
           alignItems: 'center',
           justifyContent: 'flex-end',
         }}>
-        <Text color="gray.600">
+        <CustomText color="gray.600">
           {selected.includes(item.id)
             ? 'Package Selected'
             : 'Package Not Selected'}
-        </Text>
+        </CustomText>
         <CheckBox
           disabled={false}
           value={selected.includes(item.id)}
           onValueChange={() => setSelected(item.id, item)}
         />
       </View>
-      <Text bold fontSize={24} letterSpacing="sm" lineHeight="xs">
+      <CustomText bold fontSize="lg">
         {item.name}
-      </Text>
+      </CustomText>
       <View
         style={{
           flexDirection: 'row',
@@ -55,9 +56,9 @@ export const PackageCardItem = ({
           source={require('../assets/pin.png')}
           tintColor={'#52525b'}
         />
-        <Text marginLeft="1" fontSize={10} color="gray.600">
+        <CustomText marginLeft="1" fontSize={10} color="gray.600">
           {item.location}
-        </Text>
+        </CustomText>
       </View>
       <View
         style={{
@@ -65,9 +66,9 @@ export const PackageCardItem = ({
           marginTop: 4,
         }}>
         <Icon size={15} name="time-outline" />
-        <Text marginLeft="1" fontSize={10} color="gray.600">
+        <CustomText marginLeft="1" fontSize={10} color="gray.600">
           {item.hours} Hours
-        </Text>
+        </CustomText>
       </View>
       <View
         style={{
@@ -79,9 +80,9 @@ export const PackageCardItem = ({
           source={require('../assets/money.png')}
           tintColor={'#52525b'}
         />
-        <Text marginLeft="1" fontSize={10} color="gray.600">
+        <CustomText marginLeft="1" fontSize={10} color="gray.600">
           RM {item.price}
-        </Text>
+        </CustomText>
       </View>
       <CustomButton
         size="sm"

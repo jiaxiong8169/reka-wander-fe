@@ -1,39 +1,35 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
-import {Heading, Text, Flex} from 'native-base';
+import {Flex} from 'native-base';
 import {RatingButton} from './RatingButton';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {CustomText} from './texts/custom-text';
 
 const CommentCard = props => {
   return (
     <View style={[styles.textContainer, props.style]}>
       <Flex direction="row" w="100%">
         <Icon name="person-circle-sharp" size={50} style={{marginRight: 5}} />
-        {/* <Avatar
-          mr="3"
-          source={{
-            uri: props.imgSrc,
-          }}></Avatar> */}
         <View style={{flex: 1}}>
-          <Heading size="sm">{props.commentorName}</Heading>
+          <CustomText fontSize="sm">{props.commentorName}</CustomText>
           <Flex
             direction="row"
             alignItems="center"
             marginTop="1"
             marginBottom="1">
             <RatingButton rating={props.rating} />
-            <Text fontSize={9} marginLeft={2}>
+            <CustomText fontSize={9} marginLeft={2}>
               {props.rating}
-            </Text>
+            </CustomText>
           </Flex>
-          <Text fontSize={10}>{props.comment}</Text>
+          <CustomText fontSize="xs">{props.comment}</CustomText>
           <View style={{marginLeft: 'auto', flexDirection: 'row'}}>
-            <Text marginLeft="1" fontSize={10} color="gray.600">
+            <CustomText marginLeft="1" fontSize={10} color="gray.600">
               {props.date}
-            </Text>
-            <Text marginLeft="3" fontSize={10} color="gray.600">
+            </CustomText>
+            <CustomText marginLeft="3" fontSize={10} color="gray.600">
               {props.time}
-            </Text>
+            </CustomText>
           </View>
         </View>
       </Flex>

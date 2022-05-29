@@ -1,111 +1,23 @@
 import React, {useState} from 'react';
 import GradientBackground from '../../components/GradientBackground';
-import {View, Dimensions, ScrollView, Image, StyleSheet} from 'react-native';
-import {
-  Text,
-  Box,
-  Pressable,
-  ArrowBackIcon,
-  Heading,
-  AspectRatio,
-  Stack,
-  HStack,
-} from 'native-base';
+import {Dimensions, Image, StyleSheet} from 'react-native';
+import {Box, Pressable, ArrowBackIcon, View} from 'native-base';
 import {CustomButton} from '../../components/CustomButton';
 import FastImage from 'react-native-fast-image';
 import {useHttpCall} from '../../hooks/useHttpCall';
+import {CustomText} from '../../components/texts/custom-text';
 
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
-
-const Example = () => {
-  return (
-    <Box alignItems="center">
-      <Box
-        maxW="90%"
-        rounded="20"
-        overflow="hidden"
-        borderColor="coolGray.200"
-        borderWidth="1"
-        style={{
-          shadowColor: 'black',
-          shadowOffset: {width: 0, height: 2},
-          shadowRadius: 6,
-          shadowOpacity: 0.26,
-          elevation: 8,
-        }}
-        _dark={{
-          borderColor: 'coolGray.600',
-          backgroundColor: 'gray.700',
-        }}
-        _web={{
-          shadow: 2,
-          borderWidth: 0,
-        }}
-        _light={{
-          backgroundColor: 'gray.50',
-        }}>
-        <Box>
-          <AspectRatio w="100%" ratio={16 / 9}>
-            <Image
-              source={{
-                uri: 'https://www.holidify.com/images/cmsuploads/compressed/Bangalore_citycover_20190613234056.jpg',
-              }}
-              alt="image"
-            />
-          </AspectRatio>
-        </Box>
-        <Stack p="4" space={3}>
-          <Stack space={2}>
-            <Heading size="md" ml="-1">
-              The Garden City
-            </Heading>
-            <Text
-              fontSize="xs"
-              _light={{
-                color: 'blue.500',
-              }}
-              _dark={{
-                color: 'blue.400',
-              }}
-              fontWeight="500"
-              ml="-0.5"
-              mt="-1">
-              The Silicon Valley of India.
-            </Text>
-          </Stack>
-          <Text fontWeight="400">
-            Bengaluru (also called Bangalore) is the center of India's high-tech
-            industry. The city is also known for its parks and nightlife.
-          </Text>
-          <HStack alignItems="center" space={4} justifyContent="space-between">
-            <HStack alignItems="center">
-              <Text
-                color="coolGray.600"
-                _dark={{
-                  color: 'warmGray.200',
-                }}
-                fontWeight="400">
-                6 mins ago
-              </Text>
-            </HStack>
-          </HStack>
-        </Stack>
-      </Box>
-    </Box>
-  );
-};
 
 export const HomestayDetailsScreen = ({navigation, route}) => {
   const {id} = route.params;
   const [item, setItem] = useState([]);
   const {getWithoutAuth} = useHttpCall();
   const [reload, setReload] = React.useState(true);
-  const [loading, setLoading] = React.useState(false);
 
   React.useEffect(() => {
     if (!reload) return;
-    setLoading(true);
 
     // try to fetch the data
     getWithoutAuth(`homestays/${id}`)
@@ -113,14 +25,10 @@ export const HomestayDetailsScreen = ({navigation, route}) => {
         if (!!data) {
           setItem(data);
         }
-        // set loading and reload to false indicating finished loading
-        setLoading(false);
         setReload(false);
       })
       .catch(err => {
         console.log(err);
-        // set loading and reload to false indicating finished loading
-        setLoading(false);
         setReload(false);
       });
   }, [reload]);
@@ -134,17 +42,10 @@ export const HomestayDetailsScreen = ({navigation, route}) => {
           </Pressable>
         </Box>
         <View style={styles.textContainer}>
-          <Heading size="2xl">{item.name}</Heading>
-          <Text mt="3" mb="3">
+          <CustomText fontSize="2xl">{item.name}</CustomText>
+          <CustomText mt="3" mb="3">
             {item.description}
-          </Text>
-          {/* <View
-            style={{
-              marginRight: 'auto',
-              marginBottom: 6,
-            }}>
-            <RatingButton rating={item.avgRating} />
-          </View> */}
+          </CustomText>
           <View
             style={{
               flexDirection: 'row',
@@ -155,9 +56,9 @@ export const HomestayDetailsScreen = ({navigation, route}) => {
               source={require('../../assets/pin.png')}
               tintColor={'#52525b'}
             />
-            <Text marginLeft="1" fontSize={10} color="gray.600">
+            <CustomText marginLeft="1" fontSize={10} color="gray.600">
               {item.city}
-            </Text>
+            </CustomText>
           </View>
 
           <View
@@ -170,9 +71,9 @@ export const HomestayDetailsScreen = ({navigation, route}) => {
               source={require('../../assets/money.png')}
               tintColor={'#52525b'}
             />
-            <Text marginLeft="1" fontSize={10} color="gray.600">
+            <CustomText marginLeft="1" fontSize={10} color="gray.600">
               RM {item.price ? item.price : item.minPrice}
-            </Text>
+            </CustomText>
           </View>
           <CustomButton
             colorScheme="secondary"

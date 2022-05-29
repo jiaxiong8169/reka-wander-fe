@@ -88,6 +88,7 @@ export default function PlannerSteps({navigation}) {
           <View
             style={{
               paddingHorizontal: 20,
+              flex: 1,
             }}>
             <ProgressSteps {...progressStepsStyle}>
               <ProgressStep>
@@ -173,7 +174,7 @@ export default function PlannerSteps({navigation}) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    display: 'flex',
   },
   title: {
     fontWeight: '300',
