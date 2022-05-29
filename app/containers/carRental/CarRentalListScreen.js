@@ -56,7 +56,6 @@ export const CarRentalListScreen = ({navigation, route}) => {
   };
 
   const toggleItemSelection = (v, vObj) => {
-    console.log('toggled');
     let tmp = JSON.parse(JSON.stringify(tripPlan[fieldName]));
     let tmpObj = JSON.parse(JSON.stringify(tripPlan[fieldNameObj]));
     if (tmp) {
@@ -73,8 +72,6 @@ export const CarRentalListScreen = ({navigation, route}) => {
       tmp = v;
       tmpObj = vObj;
     }
-    console.log(tmp);
-    console.log(tmpObj);
     dispatch(setTripPlanbyFieldName(fieldName, tmp));
     dispatch(setTripPlanbyFieldName(fieldNameObj, tmpObj));
   };

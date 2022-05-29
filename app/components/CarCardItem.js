@@ -1,8 +1,9 @@
 import React from 'react';
-import {Text, Box, Center} from 'native-base';
+import {Box} from 'native-base';
 import Card from './Card';
 import {Image, TouchableOpacity} from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
+import {CustomText} from './texts/custom-text';
 
 const CarCardItem = props => {
   return (
@@ -10,13 +11,11 @@ const CarCardItem = props => {
       <Card
         style={{
           flexDirection: 'row',
-          flex: 2,
           margin: 10,
-          marginTop: 50,
-          paddingLeft: 15,
-          height: 120,
+          padding: 10,
+          height: 150,
         }}>
-        <Center>
+        <Box>
           <Box
             bg={{
               linearGradient: {
@@ -25,37 +24,30 @@ const CarCardItem = props => {
                 end: [1, 0],
               },
             }}
-            mt="-10"
-            p="2"
+            p="3"
             rounded="2xl"
             shadow={5}>
-            <Text
-              style={{textAlign: 'center'}}
-              bold
-              fontSize={20}
-              lineHeight={30}
-              color={'white'}>
+            <CustomText color="white" style={{textAlign: 'center'}}>
               RM {props.price}
-              {'\n'}
-              <Text fontSize={15} lineHeight={25}>
-                Per Day
-              </Text>
-            </Text>
+            </CustomText>
+            <CustomText color="white" style={{textAlign: 'center'}}>
+              Per Day
+            </CustomText>
           </Box>
-          <Text
+          <CustomText
             bold
-            fontSize={20}
+            fontSize="lg"
             mt={3}
-            style={{maxWidth: 100, textAlign: 'center'}}
+            style={{textAlign: 'center', width: 100}}
             lineHeight={20}
             numberOfLines={2}>
             {props.name}
-          </Text>
-        </Center>
+          </CustomText>
+        </Box>
         <Image
           style={{
-            marginTop: -15,
             flex: 1,
+            marginHorizontal: 20,
             width: null,
             height: null,
             resizeMode: 'contain',
