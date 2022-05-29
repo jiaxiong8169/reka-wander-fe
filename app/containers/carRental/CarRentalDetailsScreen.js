@@ -1,22 +1,17 @@
 import React, {useState} from 'react';
 import GradientBackground from '../../components/GradientBackground';
-import {View, Dimensions, ScrollView, StyleSheet, Image} from 'react-native';
-import {Text, ZStack, Center} from 'native-base';
+import {StyleSheet, Image} from 'react-native';
+import {Text, ZStack, Center, View, Box} from 'native-base';
 import {BackButton} from '../../components/BackButton';
 import {CustomButton} from '../../components/CustomButton';
-import FastImage from 'react-native-fast-image';
 import {useHttpCall} from '../../hooks/useHttpCall';
-import {RefreshControl} from 'react-native';
-
-const height = Dimensions.get('window').height;
-const width = Dimensions.get('window').width;
+import {CustomText} from '../../components/texts/custom-text';
 
 export const CarRentalDetailsScreen = ({navigation, route}) => {
   const {id} = route.params;
   const [item, setItem] = useState([]);
   const {getWithoutAuth} = useHttpCall();
   const [reload, setReload] = React.useState(true);
-  const [loading, setLoading] = React.useState(false);
 
   const onPressHandlerRent = () => {
     navigation.navigate('CarRentalUserInfo', {id: item.id});
@@ -24,7 +19,6 @@ export const CarRentalDetailsScreen = ({navigation, route}) => {
 
   React.useEffect(() => {
     if (!reload) return;
-    setLoading(true);
 
     // try to fetch the data
     getWithoutAuth(`vehicles/${id}`)
@@ -32,14 +26,10 @@ export const CarRentalDetailsScreen = ({navigation, route}) => {
         if (!!data) {
           setItem(data);
         }
-        // set loading and reload to false indicating finished loading
-        setLoading(false);
         setReload(false);
       })
       .catch(err => {
         console.log(err);
-        // set loading and reload to false indicating finished loading
-        setLoading(false);
         setReload(false);
       });
   }, [reload]);
@@ -49,23 +39,17 @@ export const CarRentalDetailsScreen = ({navigation, route}) => {
         <BackButton navigation={navigation} />
       </View>
       <View style={styles.containerProducts}>
-        <Text
-          semi-bold
-          fontSize={30}
-          lineHeight={30}
-          color={'gray.500'}
-          maxWidth={'70%'}
-          style={styles.productName}>
-          {item.name}
-          {'\n'}
-          <Text bold fontSize={15} lineHeight={25}>
-            RM {item.price}/day
-          </Text>
-        </Text>
+        <Box>
+          <CustomText bold fontSize="3xl" color={'gray.500'}>
+            {item.name}
+          </CustomText>
+          <CustomText bold>RM {item.price}/day</CustomText>
+        </Box>
+
         <View style={styles.carLeft}>
-          <Text bold color={'gray.500'}>
+          <CustomText bold color={'gray.500'}>
             {item.availability} cars left
-          </Text>
+          </CustomText>
         </View>
       </View>
       <Center>
@@ -86,27 +70,15 @@ export const CarRentalDetailsScreen = ({navigation, route}) => {
           />
         </ZStack>
       </Center>
-      {/* <Center>
-          <ZStack height={220} alignItems="center" justifyContent="center">
-            <View style={styles.semiEllipse}></View>
-            
-          </ZStack>
-        </Center> */}
-      <View style={{paddingHorizontal: '3%'}}>
-        <Text
-          bold
-          fontSize={25}
-          lineHeight={30}
-          color={'gray.500'}
-          pl={5}
-          pr={5}
-          pb={10}>
-          {item.name} Details{'\n'}
-          <Text fontSize={15} lineHeight={25}>
-            {item.description}
-          </Text>
-        </Text>
-        <CustomButton colorScheme="secondary" onPress={onPressHandlerRent}>
+      <View style={{paddingHorizontal: 20}}>
+        <CustomText bold fontSize="xl" color={'gray.500'} pb={5}>
+          Details
+        </CustomText>
+        <CustomText>{item.description}</CustomText>
+        <CustomButton
+          style={{marginTop: 30, marginBottom: 30}}
+          colorScheme="secondary"
+          onPress={onPressHandlerRent}>
           Rent
         </CustomButton>
       </View>
@@ -128,10 +100,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-  },
-  productName: {
-    // alignSelf: 'flex-start',
-    // maxWidth: width - 210,
   },
   carLeft: {
     paddingVertical: 5,

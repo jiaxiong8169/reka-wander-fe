@@ -56,7 +56,7 @@ export default function Recommended({navigation}) {
       startDate: startDate,
       endDate: endDate,
       pax: pax,
-      previousBudget: parseFloat(budget),
+      previousBudget: parseFloat(!!budget ? budget : 0),
       interests: interest,
       kids: kids,
       rentCar: rentCar,
@@ -215,7 +215,7 @@ export default function Recommended({navigation}) {
                   url={require('../../assets/dollar_icon.png')}
                   editPage={<TravelBudget />}>
                   <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
-                    RM{budget}
+                    RM {!!budget ? budget : 0}
                   </Text>
                 </UserDetails>
               </View>

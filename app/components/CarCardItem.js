@@ -39,7 +39,6 @@ const CarCardItem = props => {
             fontSize="lg"
             mt={3}
             style={{textAlign: 'center', width: 100}}
-            lineHeight={20}
             numberOfLines={2}>
             {props.name}
           </CustomText>

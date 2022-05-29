@@ -1,34 +1,30 @@
 import React, {useEffect, useState} from 'react';
 import BlueSubtitle from '../../components/texts/BlueSubtitle';
 import GradientBackground from '../../components/GradientBackground';
-import {View, ScrollView, Text} from 'native-base';
+import {View} from 'native-base';
 import {PackageCardItem} from '../../components/PackageCardItem';
 import {BackButton} from '../../components/BackButton';
 import {CustomButton} from '../../components/CustomButton';
 import {useSelector, useDispatch} from 'react-redux';
 import {setGuidesTotal, setPackages} from '../../redux/Guides/actions';
-import {PackagesSelected} from './GuideSelectedPackages';
-import Card from '../../components/card/card';
 import Modal from 'react-native-modal';
 import ModelContent from '../../components/Modal/ModalContent';
+import {CustomText} from '../../components/texts/custom-text';
 
 export const PackageListScreen = ({navigation, route}) => {
-  const [item, setItem] = useState(route?.params?.item);
   const [selected, setSelected] = useState([]);
   const [price, setPrice] = useState(0);
   const [isModelPopUp, setIsModelPopUp] = useState(false);
 
   const {packages} = useSelector(state => state.guidesReducer);
   const {guideTotal} = useSelector(state => state.guidesReducer);
-  const {guideLat} = useSelector(state => state.guidesReducer);
-  const {guideLong} = useSelector(state => state.guidesReducer);
   const dispatch = useDispatch();
   const closeModel = () => {
     setIsModelPopUp(false);
   };
   useEffect(() => {
     let tmp = 0;
-    item.packages.forEach(p => {
+    route?.params?.item.packages.forEach(p => {
       if (selected.indexOf(p.id) !== -1) {
         tmp += p.price;
       }
@@ -63,8 +59,8 @@ export const PackageListScreen = ({navigation, route}) => {
           <BlueSubtitle text1="Self Customize" text2={``} />
         </View>
       </View>
-      {item &&
-        item.packages.map(p => {
+      {route?.params?.item &&
+        route?.params?.item.packages.map(p => {
           return (
             <PackageCardItem
               item={p}
@@ -76,18 +72,16 @@ export const PackageListScreen = ({navigation, route}) => {
             />
           );
         })}
-      <Text
+      <CustomText
         style={{
           alignSelf: 'center',
           marginTop: 20,
           marginBottom: 15,
         }}
         bold
-        fontSize={24}
-        letterSpacing="sm"
-        lineHeight="xs">
+        fontSize="lg">
         Total Price : RM {guideTotal}
-      </Text>
+      </CustomText>
       <CustomButton
         onPress={() => {
           // TODO: Navigate to Checkout
@@ -95,7 +89,7 @@ export const PackageListScreen = ({navigation, route}) => {
             setIsModelPopUp(true);
           } else {
             navigation.navigate('Confirmation', {
-              item,
+              item: route?.params?.item,
             });
           }
         }}
@@ -116,11 +110,13 @@ export const PackageListScreen = ({navigation, route}) => {
         backdropTransitionInTiming={700}
         backdropTransitionOutTiming={700}>
         <ModelContent onPress={closeModel} buttonTitle={'Close'}>
-          <Text style={{fontSize: 20, marginBottom: 12}}>Opps!</Text>
-          <Text>
+          <CustomText fontSize="lg" marginBottom="3">
+            Opps!
+          </CustomText>
+          <CustomText>
             Opps, you did not select any tour guide yet. Please select at least
             one tour guide plan to proceed to the next step.
-          </Text>
+          </CustomText>
         </ModelContent>
       </Modal>
     </GradientBackground>

@@ -6,6 +6,7 @@ import Card from '../components/Card';
 import FastImage from 'react-native-fast-image';
 import {RatingButton} from './RatingButton';
 import {CustomButton} from './CustomButton';
+import {CustomText} from './texts/custom-text';
 
 const CardItemWithEdit = ({
   item,
@@ -20,7 +21,6 @@ const CardItemWithEdit = ({
       style={{
         minHeight: 150,
         flexDirection: 'row',
-        flex: 1,
         margin: 10,
         marginBottom: marginBottom,
       }}
@@ -37,14 +37,14 @@ const CardItemWithEdit = ({
             justifyContent: 'flex-end',
             paddingRight: 5,
           }}>
-          <Text style={{color: 'blue'}}>
+          <CustomText color="primary.400">
             {selected &&
             (typeof selected === 'string'
               ? selected === item.id
               : selected.includes(item.id))
               ? 'Item Selected  '
               : ''}
-          </Text>
+          </CustomText>
           <CheckBox
             value={
               selected &&
@@ -57,9 +57,7 @@ const CardItemWithEdit = ({
         </View>
         <View style={{flexDirection: 'row', flex: 2}}>
           <View style={{flex: 1}}>
-            <Text bold fontSize={14} letterSpacing="sm" lineHeight="xs">
-              {item.name}
-            </Text>
+            <CustomText bold>{item.name}</CustomText>
             <View
               style={{
                 flexDirection: 'row',
@@ -74,24 +72,25 @@ const CardItemWithEdit = ({
               style={{
                 flexDirection: 'row',
                 marginTop: 4,
+                alignItems: 'center',
               }}>
               <Image
                 style={{width: 15, height: 15}}
                 source={require('../assets/pin.png')}
                 tintColor={'#52525b'}
               />
-              <Text marginLeft="1" fontSize={10} color="gray.600">
+              <CustomText marginLeft="1" fontSize="xs" color="gray.600">
                 {item.city}
-              </Text>
+              </CustomText>
             </View>
             <View
               style={{
                 flexDirection: 'row',
                 marginTop: 4,
               }}>
-              <Text marginLeft="1" fontSize={8} color="gray.400">
+              <CustomText marginLeft="1" fontSize={8} color="gray.400">
                 {!item.reviews ? '' : `${item.reviews.length} reviews`}
-              </Text>
+              </CustomText>
             </View>
           </View>
           <View
@@ -105,17 +104,19 @@ const CardItemWithEdit = ({
               padding: 8,
             }}>
             <View>
-              <Text fontSize="12" color="blue.600" style={{textAlign: 'right'}}>
+              <CustomText
+                fontSize="xs"
+                color="primary.400"
+                style={{textAlign: 'right'}}>
                 {item.perks}
-              </Text>
-              <Text
+              </CustomText>
+              <CustomText
                 bold
-                lineHeight="xs"
-                fontSize="25"
-                color="blue.600"
+                fontSize="3xl"
+                color="primary.400"
                 style={{textAlign: 'right'}}>
                 RM {item.price ? item.price : item.minPrice}
-              </Text>
+              </CustomText>
             </View>
           </View>
         </View>
