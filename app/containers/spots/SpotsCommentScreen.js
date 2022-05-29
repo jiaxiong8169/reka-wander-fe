@@ -85,15 +85,6 @@ export default function SpotsCommentScreen({navigation, route}) {
     }
     if (authData && authData.id) {
       try {
-        console.log(`${currentType}/review`);
-        console.log({
-          targetId: id,
-          rating: rating,
-          userName: authData.name ? authData.name : 'User', // TODO: Enforce user name in auth module
-          userProfileSrc: '',
-          contents: textAreaValue,
-          userId: authData.id,
-        });
         postWithAuth(`${currentType}/review`, {
           targetId: id,
           rating: rating,
@@ -102,7 +93,6 @@ export default function SpotsCommentScreen({navigation, route}) {
           contents: textAreaValue,
           userId: authData.id,
         }).then(d => {
-          console.log(d);
           // add a dummy record to block update review
           setReviewDataList(oldArray => [
             {

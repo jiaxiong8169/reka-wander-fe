@@ -57,7 +57,6 @@ const CarCardItem = props => {
         {props.withEdit && (
           <CheckBox
             onValueChange={() => {
-              console.log('triggered');
               if (!props.toggleItemSelection) return;
               props.toggleItemSelection(props.item?.id, props.item);
             }}
