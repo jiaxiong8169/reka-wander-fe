@@ -92,7 +92,7 @@ export default function SpotsCommentScreen({navigation, route}) {
           userProfileSrc: '',
           contents: textAreaValue,
           userId: authData.id,
-        }).then(() => {
+        }).then(d => {
           // add a dummy record to block update review
           setReviewDataList(oldArray => [
             {
@@ -189,7 +189,7 @@ export default function SpotsCommentScreen({navigation, route}) {
       <View style={[styles.textContainer, {alignItems: 'center'}]}>
         <Heading size="sm">Reviews & Comments</Heading>
       </View>
-      {reviewDataList.find(
+      {!reviewDataList.find(
         x => x.id === 'newReview' || x.userId === authData.id,
       ) ? (
         <View
