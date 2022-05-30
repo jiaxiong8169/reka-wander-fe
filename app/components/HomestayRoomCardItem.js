@@ -1,111 +1,71 @@
 import React from 'react';
-import {
-  Text,
-  Box,
-  AspectRatio,
-  Stack,
-  Divider,
-  Image,
-  Center,
-} from 'native-base';
+import {Box, AspectRatio, Stack, Divider, Image, Center} from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {Alert, View, TouchableOpacity} from 'react-native';
-import {useSelector, useDispatch} from 'react-redux';
-import {
-  setRoomsAdded,
-  setTotalPrice,
-  clearCart,
-} from '../redux/Homestay/actions';
 import {CustomText} from './texts/custom-text';
 
-const printPersonPerPax = personPerPax => {
-  const person = [];
-  for (var i = 0; i < personPerPax; i++) {
-    person.push(<Icon name="person" key={i} size={12} />);
-  }
-  return person;
-};
+export const HomestayRoomCardItem = ({
+  id,
+  name,
+  price,
+  pax,
+  availability,
+  thumbnailSrc,
+  selected,
+  setSelected,
+}) => {
+  const printPersonPerPax = personPerPax => {
+    const person = [];
+    for (var i = 0; i < personPerPax; i++) {
+      person.push(<Icon name="person" key={i} size={12} />);
+    }
+    return person;
+  };
 
-export const HomestayRoomCardItem = props => {
-  const {roomsAdded} = useSelector(state => state.homestayReducer);
-  const {totalPrice} = useSelector(state => state.homestayReducer);
-  const dispatch = useDispatch();
-  let tempRooms = roomsAdded;
-  React.useEffect(() => {
-    dispatch(setTotalPrice(totalPrice));
-  }, [totalPrice]);
-
-  const addToCart = async (
-    id,
-    name,
-    price,
-    pax,
-    availability,
-    thumbnailSrc,
-    action,
-  ) => {
-    dispatch(clearCart());
-    let tempRooms = roomsAdded;
-    const check_index = tempRooms.findIndex(item => item.id === id);
-    if (action == 'add' && availability > 0) {
-      if (check_index !== -1) {
-        if (
-          tempRooms[check_index].availability > tempRooms[check_index].quantity
-        ) {
-          tempRooms[check_index].quantity++;
-          dispatch(setTotalPrice(getSum(tempRooms)));
-          dispatch(setRoomsAdded(tempRooms));
-        } else {
-          Alert.alert('Max room number selected!');
-          dispatch(setTotalPrice(getSum(tempRooms)));
-          dispatch(setRoomsAdded(tempRooms));
-        }
-      } else {
-        tempRooms.push({
-          id,
-          name,
-          price,
-          pax,
-          availability,
-          thumbnailSrc,
-          quantity: 1,
-        });
-        dispatch(setTotalPrice(getSum(tempRooms)));
-        dispatch(setRoomsAdded(tempRooms));
-      }
-    } else {
-      if (check_index !== -1) {
-        if (tempRooms[check_index].quantity > 1) {
-          tempRooms[check_index].quantity--;
-          dispatch(setTotalPrice(getSum(tempRooms)));
-          dispatch(setRoomsAdded(tempRooms));
-        } else {
-          tempRooms.pop({...tempRooms.find(p => p.id === id), quantity: 0});
-          dispatch(setRoomsAdded(tempRooms));
-          dispatch(setTotalPrice(getSum(tempRooms)));
-        }
-      }
+  const removeFromCart = targetId => {
+    const tmp = JSON.parse(JSON.stringify(selected));
+    const index = tmp.map(x => x.id).indexOf(targetId);
+    if (index >= 0) {
+      tmp[index].quantity -= 1;
+      if (tmp[index].quantity <= 0) tmp.splice(index, 1);
+      setSelected(tmp);
     }
   };
 
-  const getSum = async items => {
-    if (items.filter(({homestayId}) => homestayId === homestayId).length != 0) {
-      let total = items
-        .filter(({homestayId}) => homestayId === homestayId)
-        .reduce(function (previousValue, currentValue) {
-          return previousValue + currentValue.quantity * currentValue.price;
-        }, 0);
-      return total;
-    } else {
+  const addToCart = targetId => {
+    const tmp = JSON.parse(JSON.stringify(selected));
+    let target = tmp.find(x => x.id === targetId);
+    if (!target) {
+      target = {
+        id,
+        name,
+        price,
+        pax,
+        availability,
+        thumbnailSrc,
+        quantity: 0,
+      };
+      tmp.push(target);
+    }
+    target.quantity += 1;
+    if (target.quantity > availability) {
+      Alert.alert('Max room number selected!');
+      return;
+    }
+    // add to cart
+    setSelected(tmp);
+  };
+
+  const clearItem = targetId => {
+    setSelected(prev => prev.filter(x => x.id !== targetId));
+  };
+
+  const getQuantity = () => {
+    let target = selected.find(x => x.id === id);
+    if (!target) {
       return 0;
     }
-  };
-  const clearItem = async (items, roomId) => {
-    if (items.filter(({id}) => id === roomId).length != 0) {
-      items.pop({...items.find(p => p.id === roomId), quantity: 0});
-      dispatch(setRoomsAdded(items));
-      dispatch(setTotalPrice(getSum(items)));
-    }
+    return target.quantity;
   };
 
   return (
@@ -138,7 +98,7 @@ export const HomestayRoomCardItem = props => {
           <AspectRatio w="100%" ratio={16 / 9}>
             <Image
               source={{
-                uri: props.thumbnailSrc,
+                uri: thumbnailSrc,
               }}
               alt="image"
             />
@@ -159,7 +119,7 @@ export const HomestayRoomCardItem = props => {
             px="3"
             py="1.5"
             style={{flexDirection: 'row'}}>
-            {props.availability} Left
+            {availability} Left
           </Center>
         </Box>
         <Stack p="4" space={3}>
@@ -174,11 +134,11 @@ export const HomestayRoomCardItem = props => {
                 color: 'primary.400',
               }}
               bold>
-              {printPersonPerPax(props.pax)} / pax
+              {printPersonPerPax(pax)} / pax
             </CustomText>
           </Stack>
           <Divider />
-          <CustomText fontSize="xl">RM {props.price}</CustomText>
+          <CustomText fontSize="xl">RM {price}</CustomText>
           <View
             style={{
               flexDirection: 'row',
@@ -195,41 +155,18 @@ export const HomestayRoomCardItem = props => {
                 name="ios-remove-circle"
                 size={25}
                 color={'#f87171'}
-                onPress={() =>
-                  addToCart(
-                    props.id,
-                    props.name,
-                    props.price,
-                    props.pax,
-                    props.availability,
-                    props.thumbnailSrc,
-                    'remove',
-                  )
-                }
+                onPress={() => removeFromCart(id)}
               />
             </TouchableOpacity>
             <CustomText fontSize="md" style={{paddingHorizontal: 8}}>
-              {tempRooms.findIndex(item => item.id === props.id) !== -1
-                ? tempRooms[tempRooms.findIndex(item => item.id === props.id)]
-                    .quantity
-                : 0}
+              {getQuantity()}
             </CustomText>
             <TouchableOpacity>
               <Icon
                 name="ios-add-circle"
                 size={25}
                 color={'#33c37d'}
-                onPress={() =>
-                  addToCart(
-                    props.id,
-                    props.name,
-                    props.price,
-                    props.pax,
-                    props.availability,
-                    props.thumbnailSrc,
-                    'add',
-                  )
-                }
+                onPress={() => addToCart(id)}
               />
             </TouchableOpacity>
             <Divider
@@ -243,7 +180,7 @@ export const HomestayRoomCardItem = props => {
                 name="close-outline"
                 size={20}
                 color={'gray'}
-                onPress={() => clearItem(roomsAdded, props.id)}
+                onPress={() => clearItem(id)}
               />
             </TouchableOpacity>
           </View>

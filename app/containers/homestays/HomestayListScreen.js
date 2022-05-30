@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import BlueSubtitle from '../../components/texts/BlueSubtitle';
 import GradientBackground from '../../components/GradientBackground';
-import {Text} from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {LoadMore} from '../../components/LoadMore';
@@ -16,6 +15,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setTripPlanbyFieldName} from '../../redux/Planner/actions';
 import {CalendarHomestay} from '../../components/CalenderPicker/CalenderHomestay';
 import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
+import {CustomText} from '../../components/texts/custom-text';
 
 export const HomestayListScreen = ({navigation, route}) => {
   const dispatch = useDispatch();
@@ -27,12 +27,20 @@ export const HomestayListScreen = ({navigation, route}) => {
   const [search, setSearch] = useState('');
   const [full, setFull] = useState(false);
   const {getWithoutAuth} = useHttpCall();
-  const {checkInDate, checkOutDate} = useSelector(
-    state => state.homestayReducer,
-  );
+  const [checkInDate, setCheckInDate] = useState(new Date());
+  const [checkOutDate, setCheckOutDate] = useState(new Date());
+  const [totalDays, setTotalDays] = useState(0);
   const {tripPlan} = useSelector(state => state.plannerReducer);
-  const [diff, setDiff] = React.useState(0);
   const [isModelPopUp, setIsModelPopUp] = useState(false);
+
+  useEffect(() => {
+    if (moment(checkInDate).isAfter(checkOutDate)) setTotalDays(0);
+    else {
+      const diff =
+        (checkOutDate.getTime() - checkInDate.getTime()) / (1000 * 3600 * 24);
+      setTotalDays(diff);
+    }
+  }, [checkInDate, checkOutDate]);
 
   // on load and on search, fetch new 10 records
   useEffect(() => {
@@ -68,13 +76,6 @@ export const HomestayListScreen = ({navigation, route}) => {
     setIsModelPopUp(false);
   };
 
-  React.useEffect(() => {
-    const a = moment(checkInDate);
-    const b = moment(checkOutDate);
-    const D = b.diff(a, 'days');
-    setDiff(D + 1);
-  }, [checkInDate, checkOutDate]);
-
   const toggleItemSelection = (v, vObj) => {
     let tmp = JSON.parse(JSON.stringify(tripPlan[fieldName]));
     let tmpObj = JSON.parse(JSON.stringify(tripPlan[fieldNameObj]));
@@ -109,11 +110,6 @@ export const HomestayListScreen = ({navigation, route}) => {
           <BackButton navigation={navigation} />
           <BlueSubtitle text1="Hi Welcome," text2={`Book a Homestay`} />
         </View>
-        {/* {!fieldName && (
-          <Text fontSize={17} color="rgb(117,157,246)">
-            Book a Homestay
-          </Text>
-        )} */}
       </View>
 
       <CustomTextInput
@@ -137,8 +133,16 @@ export const HomestayListScreen = ({navigation, route}) => {
               paddingBottom: 5,
               justifyContent: 'center',
             }}>
-            <CalendarHomestay mode={'date'} type={'CheckIn'} />
-            <CalendarHomestay mode={'date'} type={'CheckOut'} />
+            <CalendarHomestay
+              value={checkInDate}
+              setValue={setCheckInDate}
+              label="Check In Date"
+            />
+            <CalendarHomestay
+              value={checkOutDate}
+              setValue={setCheckOutDate}
+              label="Check Out Date"
+            />
           </View>
         </View>
       </Card>
@@ -151,10 +155,18 @@ export const HomestayListScreen = ({navigation, route}) => {
             price={item.minPrice}
             thumbnailSrc={item.thumbnailSrc}
             onPress={() => {
-              if (moment(checkInDate).isAfter(checkOutDate)) {
+              if (
+                moment(checkInDate).isSame(checkOutDate) ||
+                moment(checkInDate).isAfter(checkOutDate)
+              ) {
                 setIsModelPopUp(true);
               } else {
-                navigation.navigate('HomestayDetails', {id: item.id});
+                navigation.navigate('HomestayDetails', {
+                  item,
+                  checkInDate: moment(checkInDate).format('DD/MM/YYYY'),
+                  checkOutDate: moment(checkOutDate).format('DD/MM/YYYY'),
+                  totalDays,
+                });
               }
             }}
             withEdit={!!fieldName && !!fieldNameObj}
@@ -175,11 +187,13 @@ export const HomestayListScreen = ({navigation, route}) => {
           backdropTransitionInTiming={700}
           backdropTransitionOutTiming={700}>
           <ModelContent onPress={closeModel} buttonTitle={'Close'}>
-            <Text style={{fontSize: 20, marginBottom: 12}}>Opps!</Text>
-            <Text>
-              Opps your date is invalid, please check your pickup and return
-              date. Make sure your pickup date is always after return date.
-            </Text>
+            <CustomText fontSize="lg" style={{marginBottom: 12}}>
+              Invalid Date
+            </CustomText>
+            <CustomText>
+              Your check in and check out dates are invalid. Please make sure
+              that the check out date is after check in date.
+            </CustomText>
           </ModelContent>
         </Modal>
         <LoadMore getData={getData} full={full} loading={loading} />

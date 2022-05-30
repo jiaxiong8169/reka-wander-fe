@@ -1,55 +1,45 @@
-import React from 'react';
+import React, {useState} from 'react';
 import GradientBackground from '../../components/GradientBackground';
-import {View, StyleSheet, Text} from 'react-native';
+import {View} from 'react-native';
 import {BackButton} from '../../components/BackButton';
 import {CustomButton} from '../../components/CustomButton';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {useSelector, useDispatch} from 'react-redux';
 import Card from '../../components/Card';
-import moment from 'moment';
 import {RoomsSelected} from './HomestayRoomSelected';
-import {LocationName} from '../../components/Location/LocationName';
 import {Mail} from '../../components/JumpMail/Mail';
 import {Phone} from '../../components/Phone/Phone';
 import {Total} from '../../components/Total/Total';
-import {clearCart} from '../../redux/Homestay/actions';
+import BlueSubtitle from '../../components/texts/BlueSubtitle';
+import {CustomText} from '../../components/texts/custom-text';
+import {SimpleLocationName} from '../../components/Location/SimpleLocationName';
 
 export const HomestayRentScreen = ({navigation, route}) => {
-  const {id, data} = route.params;
-  const dispatch = useDispatch();
+  const {item, checkInDate, checkOutDate, totalDays, totalPrice, selected} =
+    route.params;
 
-  const {roomsAdded} = useSelector(state => state.homestayReducer);
-  const {checkInDate} = useSelector(state => state.homestayReducer);
-  const {checkOutDate} = useSelector(state => state.homestayReducer);
-  const {homestayName} = useSelector(state => state.homestayReducer);
-  const {totalPrice} = useSelector(state => state.homestayReducer);
+  const [locationName, setLocationName] = useState('');
 
   const onPressHandler = () => {
     navigation.navigate('SignInScreen');
-    dispatch(clearCart());
-
-    const completeData = {
-      // ...data,
-      // name: item.name,
-      // price: item.price,
-      // priceWithBaby: item.priceWithBaby,
-      // availabilityBeforeRent: item.availability,
-    };
     try {
-      postWithAuth(
-        'car-rental/mail',
-        {
-          data: completeData,
-          vendorEmail: 'nicky.lyy2000@gmail.com',
-          // vendorEmail: item.vendorEmail,
-        },
-        () => {
-          navigation.navigate('SignInScreen');
-        },
-      );
+      // TODO: Send email to vendor
+      // postWithAuth(
+      //   'homestays/mail',
+      //   {
+      //     data: {
+      //       ...data,
+      //       roomsAdded,
+      //       checkInDate,
+      //       checkOutDate,
+      //       totalPrice,
+      //     },
+      //   },
+      //   () => {
+      //     navigation.navigate('SignInScreen');
+      //   },
+      // );
     } catch (e) {
       console.log(e);
-      console.log('press23');
     }
   };
   return (
@@ -58,22 +48,17 @@ export const HomestayRentScreen = ({navigation, route}) => {
         <View style={{flexDirection: 'row', marginBottom: 10}}>
           <BackButton navigation={navigation} />
           <View style={{flex: 5}}>
-            <Text style={{fontWeight: '500', fontSize: 20, color: '#005533'}}>
-              {homestayName}
-            </Text>
+            <BlueSubtitle text1={item?.name} />
           </View>
         </View>
-        <Text
+        <CustomText
+          bold
+          fontSize="lg"
           style={{
-            fontSize: 18,
-            color: '#000',
-            flex: 5,
-            marginTop: 10,
             alignSelf: 'center',
-            fontWeight: '700',
           }}>
           Dates Details
-        </Text>
+        </CustomText>
         <Card style={{margin: 10}}>
           <View
             style={{
@@ -83,12 +68,12 @@ export const HomestayRentScreen = ({navigation, route}) => {
               paddingBottom: 5,
             }}>
             <Icon name="calendar-sharp" size={19} color="#000"></Icon>
-            <Text style={{fontSize: 15, color: '#000', flex: 5, marginLeft: 3}}>
-              CheckIn Date:
-            </Text>
-            <Text style={{fontSize: 15, color: '#000'}}>
-              {moment(checkInDate).format('dddd, MMMM Do YYYY')}
-            </Text>
+            <CustomText style={{flex: 1, marginLeft: 3}}>
+              Check In Date:
+            </CustomText>
+            <CustomText style={{flex: 1, marginLeft: 3}}>
+              {checkInDate}
+            </CustomText>
           </View>
           <View
             style={{
@@ -96,27 +81,24 @@ export const HomestayRentScreen = ({navigation, route}) => {
               paddingTop: 5,
             }}>
             <Icon name="calendar-sharp" size={19} color="#000"></Icon>
-            <Text style={{fontSize: 15, color: '#000', flex: 5, marginLeft: 3}}>
-              CheckOut Date:
-            </Text>
-            <Text style={{fontSize: 15, color: '#000'}}>
-              {moment(checkOutDate).format('dddd, MMMM Do YYYY')}
-            </Text>
+            <CustomText style={{flex: 1, marginLeft: 3}}>
+              Check Out Date:
+            </CustomText>
+            <CustomText style={{flex: 1, marginLeft: 3}}>
+              {checkOutDate}
+            </CustomText>
           </View>
         </Card>
-        <Text
+        <CustomText
+          bold
+          fontSize="lg"
           style={{
-            fontSize: 18,
-            color: '#000',
-            flex: 5,
-            marginTop: 10,
             alignSelf: 'center',
-            fontWeight: '700',
           }}>
           Rooms Selected Details
-        </Text>
+        </CustomText>
         <View>
-          {roomsAdded.length > 0 && (
+          {selected.length > 0 && (
             <Card style={{margin: 10}}>
               <View
                 style={{
@@ -124,51 +106,36 @@ export const HomestayRentScreen = ({navigation, route}) => {
                   width: '100%',
                 }}>
                 <View>
-                  {roomsAdded.map((item, i, rooms) => {
-                    if (i + 1 == rooms.length) {
-                      return (
-                        <RoomsSelected
-                          id={item.id}
-                          key={item.id}
-                          name={item.name}
-                          url={item.thumbnailSrc}
-                          price={item.price}
-                          quantity={item.quantity}
-                        />
-                      );
-                    } else {
-                      return (
-                        <RoomsSelected
-                          style={{
-                            borderBottomColor: '#DCDCDC',
-                            borderBottomWidth: 1,
-                          }}
-                          id={item.id}
-                          key={item.id}
-                          name={item.name}
-                          url={item.thumbnailSrc}
-                          price={item.price}
-                          quantity={item.quantity}
-                        />
-                      );
-                    }
+                  {selected.map((item, i) => {
+                    return (
+                      <RoomsSelected
+                        id={item.id}
+                        key={item.id}
+                        name={item.name}
+                        url={item.thumbnailSrc}
+                        price={item.price}
+                        quantity={item.quantity}
+                        style={{
+                          borderBottomColor:
+                            i !== selected.length - 1 ? '#DCDCDC' : '',
+                          borderBottomWidth: i !== selected.length - 1 ? 1 : 0,
+                        }}
+                      />
+                    );
                   })}
                 </View>
               </View>
             </Card>
           )}
         </View>
-        <Text
+        <CustomText
+          bold
+          fontSize="lg"
           style={{
-            fontSize: 18,
-            color: '#000',
-            flex: 5,
-            marginTop: 10,
             alignSelf: 'center',
-            fontWeight: '700',
           }}>
           More Details
-        </Text>
+        </CustomText>
         <Card style={{margin: 10}}>
           <View
             style={{
@@ -177,11 +144,13 @@ export const HomestayRentScreen = ({navigation, route}) => {
               borderBottomWidth: 1,
               paddingBottom: 5,
             }}>
-            <Text style={{fontSize: 15, color: '#000'}}>Homestay Location</Text>
-            <LocationName
-              lat={data?.loc?.coordinates[1]}
-              long={data?.loc?.coordinates[0]}
-              type={'homestay'}
+            <CustomText>Homestay Location</CustomText>
+            <SimpleLocationName
+              lat={item?.loc?.coordinates[1]}
+              long={item?.loc?.coordinates[0]}
+              value={locationName}
+              setValue={setLocationName}
+              title="Homestay"
             />
           </View>
           <View
@@ -191,15 +160,11 @@ export const HomestayRentScreen = ({navigation, route}) => {
               borderBottomWidth: 1,
               paddingBottom: 5,
             }}>
-            <Text style={{fontSize: 15, color: '#000', marginTop: 5}}>
-              Vendor Name
-            </Text>
+            <CustomText>Vendor Name</CustomText>
             <View style={{flexDirection: 'row', marginTop: 5}}>
               <Icon name="person-outline" size={23} color="#000" />
               <View style={{flex: 3, marginLeft: 10}}>
-                <Text style={{fontSize: 15, color: '#000'}}>
-                  {data.vendorName}
-                </Text>
+                <CustomText>{item.vendorName}</CustomText>
               </View>
             </View>
           </View>
@@ -212,12 +177,11 @@ export const HomestayRentScreen = ({navigation, route}) => {
               borderBottomWidth: 1,
               paddingBottom: 5,
             }}
-            vendorEmail={data.vendorEmail}></Mail>
-          <Phone
-            type={'Vendor'}
-            vendorPhoneNumber={data.vendorPhoneNumber}></Phone>
+            vendorEmail={item.vendorEmail}
+          />
+          <Phone type={'Vendor'} vendorPhoneNumber={item.vendorPhoneNumber} />
         </Card>
-        <Total totalPrice={totalPrice._W}></Total>
+        <Total totalPrice={totalPrice} />
 
         <CustomButton
           colorScheme="secondary"
@@ -229,5 +193,3 @@ export const HomestayRentScreen = ({navigation, route}) => {
     </GradientBackground>
   );
 };
-
-const styles = StyleSheet.create({});

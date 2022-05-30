@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, Linking, TouchableOpacity, Platform} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {CustomText} from '../texts/custom-text';
 
 export const Phone = props => {
   const call = () => {
@@ -15,13 +16,11 @@ export const Phone = props => {
 
   return (
     <View style={{flexDirection: 'column', marginTop: 5}}>
-      <Text style={{fontSize: 15, color: '#000'}}>{props.type} Phone</Text>
+      <CustomText>{props.type} Phone</CustomText>
       <View style={{flexDirection: 'row', marginTop: 5}}>
         <Icon name="call-outline" size={23} color="#000" />
         <View style={{flex: 2, marginLeft: 10}}>
-          <Text style={{fontSize: 15, color: '#000'}}>
-            {props.vendorPhoneNumber}
-          </Text>
+          <CustomText>{props.vendorPhoneNumber}</CustomText>
         </View>
         <View style={{alignItems: 'flex-end', flex: 1}}>
           <TouchableOpacity
