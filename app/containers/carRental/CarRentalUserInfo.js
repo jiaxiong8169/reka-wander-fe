@@ -52,6 +52,14 @@ export default function UserCarRentalInfo({navigation, route}) {
     if (moment(pickUpDate).isAfter(returnDate)) {
       setIsModelPopUp(true);
     } else {
+      postWithAuth('mail/car-vendor', {
+        pickUpDate,
+        returnDate,
+        carLocation: locationName,
+        totalPrice: getTotalPrice(),
+        vehicle: item,
+        user: authData,
+      });
       postWithAuth('mail/car-request', {
         pickUpDate,
         returnDate,
