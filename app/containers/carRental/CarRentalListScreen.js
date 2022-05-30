@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import GradientBackground from '../../components/GradientBackground';
 import BlueSubtitle from '../../components/texts/BlueSubtitle';
 import {View, RefreshControl} from 'react-native';
-import {Text} from 'native-base';
 import {BackButton} from '../../components/BackButton';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Card from '../../components/Card';
@@ -112,9 +111,7 @@ export const CarRentalListScreen = ({navigation, route}) => {
             price={item.price}
             thumbnailSrc={item.thumbnailSrc}
             item={item}
-            onPress={() =>
-              navigation.navigate('CarRentalDetails', {id: item.id})
-            }
+            onPress={() => navigation.navigate('CarRentalDetails', {item})}
             withEdit={!!fieldName && !!fieldNameObj}
             selected={tripPlan[fieldName]}
             toggleItemSelection={toggleItemSelection}

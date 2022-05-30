@@ -13,7 +13,7 @@ import {RefreshControl, View} from 'react-native';
 import {HomestayCardItem} from '../../components/HomestayCardItem';
 import {useDispatch, useSelector} from 'react-redux';
 import {setTripPlanbyFieldName} from '../../redux/Planner/actions';
-import {CalendarHomestay} from '../../components/CalenderPicker/CalenderHomestay';
+import {SimpleCalendar} from '../../components/CalenderPicker/SimpleCalendar';
 import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 import {CustomText} from '../../components/texts/custom-text';
 
@@ -133,12 +133,12 @@ export const HomestayListScreen = ({navigation, route}) => {
               paddingBottom: 5,
               justifyContent: 'center',
             }}>
-            <CalendarHomestay
+            <SimpleCalendar
               value={checkInDate}
               setValue={setCheckInDate}
               label="Check In Date"
             />
-            <CalendarHomestay
+            <SimpleCalendar
               value={checkOutDate}
               setValue={setCheckOutDate}
               label="Check Out Date"
