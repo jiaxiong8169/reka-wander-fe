@@ -1,54 +1,32 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import BlueSubtitle from '../../components/texts/BlueSubtitle';
 import GradientBackground from '../../components/GradientBackground';
 import {View} from 'native-base';
 import {PackageCardItem} from '../../components/PackageCardItem';
 import {BackButton} from '../../components/BackButton';
 import {CustomButton} from '../../components/CustomButton';
-import {useSelector, useDispatch} from 'react-redux';
-import {setGuidesTotal, setPackages} from '../../redux/Guides/actions';
 import Modal from 'react-native-modal';
 import ModelContent from '../../components/Modal/ModalContent';
 import {CustomText} from '../../components/texts/custom-text';
 
 export const PackageListScreen = ({navigation, route}) => {
+  const {item} = route.params;
   const [selected, setSelected] = useState([]);
-  const [price, setPrice] = useState(0);
   const [isModelPopUp, setIsModelPopUp] = useState(false);
 
-  const {packages} = useSelector(state => state.guidesReducer);
-  const {guideTotal} = useSelector(state => state.guidesReducer);
-  const dispatch = useDispatch();
   const closeModel = () => {
     setIsModelPopUp(false);
   };
-  useEffect(() => {
-    let tmp = 0;
-    route?.params?.item.packages.forEach(p => {
-      if (selected.indexOf(p.id) !== -1) {
-        tmp += p.price;
-      }
-    });
-    setPrice(tmp);
-    dispatch(setGuidesTotal(tmp));
-  }, [selected]);
 
-  const toggleSelection = (e, eObj) => {
-    const indexSelected = selected.indexOf(e);
-    let tmp = JSON.parse(JSON.stringify(selected));
-    let tmpObj = JSON.parse(JSON.stringify(packages));
-    if (tmp) {
-      const index = tmpObj.findIndex(x => x.id === e);
-      if (index === -1) {
-        tmpObj.push(eObj);
-        tmp.push(e);
-      } else {
-        tmpObj.splice(index, 1);
-        tmp.splice(indexSelected, 1);
-      }
-      setSelected(tmp);
-      dispatch(setPackages(tmpObj));
+  const toggleSelection = (e, obj) => {
+    const tmp = JSON.parse(JSON.stringify(selected));
+    const index = tmp.map(x => x.id).indexOf(e);
+    if (index >= 0) {
+      tmp.splice(index, 1);
+    } else {
+      tmp.push(obj);
     }
+    setSelected(tmp);
   };
 
   return (
@@ -59,42 +37,32 @@ export const PackageListScreen = ({navigation, route}) => {
           <BlueSubtitle text1="Self Customize" text2={``} />
         </View>
       </View>
-      {route?.params?.item &&
-        route?.params?.item.packages.map(p => {
+      {item &&
+        item.packages.map(p => {
           return (
             <PackageCardItem
               item={p}
               key={p.id}
               navigation={navigation}
-              selected={selected}
+              selected={selected.filter(x => x.id === p.id).length > 0}
               setSelected={toggleSelection}
               marginBottom={10}
             />
           );
         })}
-      <CustomText
-        style={{
-          alignSelf: 'center',
-          marginTop: 20,
-          marginBottom: 15,
-        }}
-        bold
-        fontSize="lg">
-        Total Price : RM {guideTotal}
-      </CustomText>
       <CustomButton
         onPress={() => {
-          // TODO: Navigate to Checkout
-          if (price == 0) {
+          if (selected.length === 0) {
             setIsModelPopUp(true);
           } else {
             navigation.navigate('Confirmation', {
-              item: route?.params?.item,
+              item,
+              selected,
             });
           }
         }}
         colorScheme="secondary"
-        style={{marginBottom: 40}}>
+        style={{marginBottom: 40, marginTop: 30}}>
         Checkout
       </CustomButton>
       <Modal

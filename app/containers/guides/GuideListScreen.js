@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import BlueSubtitle from '../../components/texts/BlueSubtitle';
 import GradientBackground from '../../components/GradientBackground';
-import {View} from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {LoadMore} from '../../components/LoadMore';

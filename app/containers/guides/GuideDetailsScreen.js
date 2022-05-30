@@ -17,8 +17,6 @@ import DeviceInfo from 'react-native-device-info';
 import FastImage from 'react-native-fast-image';
 import Share from 'react-native-share';
 import {RatingButton} from '../../components/RatingButton';
-import {useDispatch} from 'react-redux';
-import {setGuideLat, setGuideLong} from '../../redux/Guides/actions';
 
 const height = Dimensions.get('window').height;
 
@@ -33,7 +31,6 @@ export const GuideDetailsScreen = ({navigation, route}) => {
   const [shared, setShared] = React.useState(false);
   const [likes, setLikes] = React.useState(0);
   const [shares, setShares] = React.useState(0);
-  const dispatch = useDispatch();
 
   function fetchData() {
     setLoading(true);
@@ -55,8 +52,6 @@ export const GuideDetailsScreen = ({navigation, route}) => {
             ),
           );
           setShares(data.shares.length);
-          dispatch(setGuideLat(data.loc.coordinates[1]));
-          dispatch(setGuideLong(data.loc.coordinates[0]));
         }
         // set loading and reload to false indicating finished loading
         setLoading(false);
