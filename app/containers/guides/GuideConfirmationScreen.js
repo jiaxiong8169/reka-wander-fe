@@ -17,6 +17,8 @@ import Snackbar from 'react-native-snackbar';
 import BlueSubtitle from '../../components/texts/BlueSubtitle';
 import {CustomText} from '../../components/texts/custom-text';
 import {SimpleCalendar} from '../../components/CalenderPicker/SimpleCalendar';
+import {useAuth} from '../../hooks/useAuth';
+import {useHttpCall} from '../../hooks/useHttpCall';
 
 export const GuideConfirmationScreen = ({navigation, route}) => {
   const {item, selected} = route.params;
@@ -25,6 +27,8 @@ export const GuideConfirmationScreen = ({navigation, route}) => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [totalDays, setTotalDays] = React.useState(0);
+  const {authData} = useAuth();
+  const {postWithAuth} = useHttpCall();
 
   const closeModel = () => {
     setIsModelPopUp(false);
@@ -51,29 +55,38 @@ export const GuideConfirmationScreen = ({navigation, route}) => {
     if (moment(startDate).isAfter(endDate)) {
       setIsModelPopUp(true);
     } else {
-      Snackbar.show({
-        text: 'Your request has been sent to the vendor successfully, please check your mail box for further updates!',
-        duration: Snackbar.LENGTH_LONG,
+      postWithAuth('mail/guide-vendor', {
+        startDate,
+        endDate,
+        location: locationName,
+        totalPrice: getTotalPrice(),
+        guide: item,
+        user: authData,
+        packages: selected,
       });
-      navigation.navigate('MyHome');
-      // const completeData = {
-      //   // ...data,
-      //   // name: item.name,
-      //   // price: item.price,
-      //   // priceWithBaby: item.price,
-      //   // availabilityBeforeRent: item.price,
-      // };
-      // try {
-      //   postWithAuth('car-rental/mail', {
-      //     data: completeData,
-      //     vendorEmail: 'nicky.lyy2000@gmail.com',
-      //     // vendorEmail: item.vendorEmail,
-      //   });
-      //   dispatch(resetGuide());
-      //   navigation.navigate('SignInScreen');
-      // } catch (e) {
-      //   console.log(e);
-      // }
+      postWithAuth('mail/guide-request', {
+        startDate,
+        endDate,
+        location: locationName,
+        totalPrice: getTotalPrice(),
+        guide: item,
+        user: authData,
+        packages: selected,
+      })
+        .then(() => {
+          Snackbar.show({
+            text: 'Your request has been sent to the vendor successfully, please check your mail box for further updates!',
+            duration: Snackbar.LENGTH_LONG,
+          });
+          navigation.navigate('MyHome');
+        })
+        .catch(e => {
+          Snackbar.show({
+            text: 'Error sending your request, please try again later.',
+            duration: Snackbar.LENGTH_LONG,
+          });
+          console.log(e);
+        });
     }
   };
 

@@ -13,40 +13,49 @@ import BlueSubtitle from '../../components/texts/BlueSubtitle';
 import {CustomText} from '../../components/texts/custom-text';
 import {SimpleLocationName} from '../../components/Location/SimpleLocationName';
 import Snackbar from 'react-native-snackbar';
+import {useHttpCall} from '../../hooks/useHttpCall';
+import {useAuth} from '../../hooks/useAuth';
 
 export const HomestayRentScreen = ({navigation, route}) => {
-  const {item, checkInDate, checkOutDate, totalDays, totalPrice, selected} =
-    route.params;
-
+  const {item, checkInDate, checkOutDate, totalPrice, selected} = route.params;
+  const {authData} = useAuth();
   const [locationName, setLocationName] = useState('');
+  const {postWithAuth} = useHttpCall();
 
   const onPressHandler = () => {
-    Snackbar.show({
-      text: 'Your request has been sent to the vendor successfully, please check your mail box for further updates!',
-      duration: Snackbar.LENGTH_LONG,
+    postWithAuth('mail/homestay-vendor', {
+      checkInDate,
+      checkOutDate,
+      location: locationName,
+      totalPrice: totalPrice,
+      homestay: item,
+      user: authData,
+      rooms: selected,
     });
-    navigation.navigate('SignInScreen');
-    try {
-      // TODO: Send email to vendor
-      // postWithAuth(
-      //   'homestays/mail',
-      //   {
-      //     data: {
-      //       ...data,
-      //       roomsAdded,
-      //       checkInDate,
-      //       checkOutDate,
-      //       totalPrice,
-      //     },
-      //   },
-      //   () => {
-      //     navigation.navigate('SignInScreen');
-      //   },
-      // );
-    } catch (e) {
-      console.log(e);
-    }
+    postWithAuth('mail/homestay-request', {
+      checkInDate,
+      checkOutDate,
+      location: locationName,
+      totalPrice: totalPrice,
+      homestay: item,
+      user: authData,
+    })
+      .then(() => {
+        Snackbar.show({
+          text: 'Your request has been sent to the vendor successfully, please check your mail box for further updates!',
+          duration: Snackbar.LENGTH_LONG,
+        });
+        navigation.navigate('MyHome');
+      })
+      .catch(e => {
+        Snackbar.show({
+          text: 'Error sending your request, please try again later.',
+          duration: Snackbar.LENGTH_LONG,
+        });
+        console.log(e);
+      });
   };
+
   return (
     <GradientBackground>
       <View style={{flexDirection: 'column', marginBottom: 10}}>
