@@ -13,10 +13,6 @@ export const HomestaySelectRoomScreen = ({navigation, route}) => {
   const {item, checkInDate, checkOutDate, totalDays} = route.params;
   const [selected, setSelected] = useState([]);
 
-  useEffect(() => {
-    console.log(selected);
-  }, [selected]);
-
   const getTotalPrice = () => {
     let curr = 0;
     selected.forEach(s => {

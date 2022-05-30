@@ -1,38 +1,18 @@
-import React, {useState} from 'react';
+import React from 'react';
 import GradientBackground from '../../components/GradientBackground';
 import {StyleSheet, Image} from 'react-native';
-import {Text, ZStack, Center, View, Box} from 'native-base';
+import {ZStack, Center, View, Box} from 'native-base';
 import {BackButton} from '../../components/BackButton';
 import {CustomButton} from '../../components/CustomButton';
-import {useHttpCall} from '../../hooks/useHttpCall';
 import {CustomText} from '../../components/texts/custom-text';
 
 export const CarRentalDetailsScreen = ({navigation, route}) => {
-  const {id} = route.params;
-  const [item, setItem] = useState([]);
-  const {getWithoutAuth} = useHttpCall();
-  const [reload, setReload] = React.useState(true);
+  const {item} = route.params;
 
   const onPressHandlerRent = () => {
-    navigation.navigate('CarRentalUserInfo', {id: item.id});
+    navigation.navigate('CarRentalUserInfo', {item});
   };
 
-  React.useEffect(() => {
-    if (!reload) return;
-
-    // try to fetch the data
-    getWithoutAuth(`vehicles/${id}`)
-      .then(({data}) => {
-        if (!!data) {
-          setItem(data);
-        }
-        setReload(false);
-      })
-      .catch(err => {
-        console.log(err);
-        setReload(false);
-      });
-  }, [reload]);
   return (
     <GradientBackground fullWidth={true}>
       <View style={{flexDirection: 'row', padding: '3%'}}>

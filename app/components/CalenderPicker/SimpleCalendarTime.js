@@ -5,13 +5,13 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {View, TouchableOpacity} from 'react-native';
 import {CustomText} from '../texts/custom-text';
 
-export const CalendarHomestay = ({value, setValue, label}) => {
+export const SimpleCalendarTime = ({value, setValue, label}) => {
   const [show, setShow] = useState(false);
   const [displayDate, setDisplayDate] = useState('');
 
   // change display date whenever the value has changed
   useEffect(() => {
-    const formattedDate = value ? moment(value).format('DD/MM/YYYY') : '';
+    const formattedDate = value ? moment(value).format('h:mm a') : '';
     setDisplayDate(formattedDate);
   }, [value]);
 
@@ -29,7 +29,7 @@ export const CalendarHomestay = ({value, setValue, label}) => {
       }}>
       <CustomText color="gray.500">{label}</CustomText>
       <View style={{flexDirection: 'row', margin: 5}}>
-        <Icon name="calendar-sharp" size={28} />
+        <Icon name="time-outline" size={28} />
         <TouchableOpacity
           onPress={() => {
             setShow(true);
@@ -50,7 +50,7 @@ export const CalendarHomestay = ({value, setValue, label}) => {
               testID="dateTimePicker"
               disabled
               value={value}
-              mode="date"
+              mode="time"
               is24Hour={true}
               onChange={onChange}
             />
