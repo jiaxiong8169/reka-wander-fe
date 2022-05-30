@@ -1,41 +1,22 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View} from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {CustomText} from '../texts/custom-text';
 
 export const Total = ({totalPrice}) => {
-
-  // on diff or price change, set new car price
-
   return (
     <View
       style={{
-        flexDirection: 'column',
-        marginTop: 5,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 10,
+        marginBottom: 20,
       }}>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-        <Icon style={{marginRight: 5}} name="pricetag" size={15}></Icon>
-        <Text
-          style={{
-            fontSize: 25,
-            fontWeight: 'bold',
-            marginRight: 10,
-          }}>
-          RM
-        </Text>
-        <Text
-          style={{
-            textAlign: 'right',
-            fontSize: 40,
-            fontWeight: 'bold',
-          }}>
-          {totalPrice}
-        </Text>
-      </View>
+      <Icon style={{marginRight: 5}} name="pricetag" size={20} />
+      <CustomText color="gray.500" fontSize="3xl">
+        RM {totalPrice}
+      </CustomText>
     </View>
   );
 };

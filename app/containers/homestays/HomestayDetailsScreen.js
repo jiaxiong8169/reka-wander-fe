@@ -1,37 +1,17 @@
-import React, {useState} from 'react';
+import React from 'react';
 import GradientBackground from '../../components/GradientBackground';
 import {Dimensions, Image, StyleSheet} from 'react-native';
 import {Box, Pressable, ArrowBackIcon, View} from 'native-base';
 import {CustomButton} from '../../components/CustomButton';
 import FastImage from 'react-native-fast-image';
-import {useHttpCall} from '../../hooks/useHttpCall';
 import {CustomText} from '../../components/texts/custom-text';
 
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 
 export const HomestayDetailsScreen = ({navigation, route}) => {
-  const {id} = route.params;
-  const [item, setItem] = useState([]);
-  const {getWithoutAuth} = useHttpCall();
-  const [reload, setReload] = React.useState(true);
+  const {item, checkInDate, checkOutDate, totalDays} = route.params;
 
-  React.useEffect(() => {
-    if (!reload) return;
-
-    // try to fetch the data
-    getWithoutAuth(`homestays/${id}`)
-      .then(({data}) => {
-        if (!!data) {
-          setItem(data);
-        }
-        setReload(false);
-      })
-      .catch(err => {
-        console.log(err);
-        setReload(false);
-      });
-  }, [reload]);
   return (
     <GradientBackground fullWidth={true}>
       <View style={styles.container}>
@@ -80,8 +60,10 @@ export const HomestayDetailsScreen = ({navigation, route}) => {
             style={{marginTop: 20}}
             onPress={() => {
               navigation.navigate('HomestaySelectRoom', {
-                id: item.id,
-                data: item,
+                item,
+                checkInDate,
+                checkOutDate,
+                totalDays,
               });
             }}>
             Select Rooms
@@ -105,7 +87,6 @@ const styles = StyleSheet.create({
     paddingLeft: 40,
     marginBotton: 60,
     flexDirection: 'row',
-    // maxWidth: width-170,
     justifyContent: 'space-between',
     width: width,
   },

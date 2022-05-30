@@ -6,7 +6,6 @@ import thunk from 'redux-thunk';
 import plannerReducer from './Planner/reducers';
 import nearbyReducer from './Nearby/reducers';
 import carReducer from './CarRental/reducer';
-import homestayReducer from './Homestay/reducer';
 import guidesReducer from './Guides/reducer';
 
 const MIGRATION_DEBUG = false;
@@ -25,7 +24,12 @@ const persistConfig = {
   whitelist: ['nearbyReducer'], // which reducer want to store in async storage
 };
 
-const reducers = combineReducers({plannerReducer, nearbyReducer, carReducer, homestayReducer,guidesReducer});
+const reducers = combineReducers({
+  plannerReducer,
+  nearbyReducer,
+  carReducer,
+  guidesReducer,
+});
 const persistedReducers = persistReducer(persistConfig, reducers);
 
 export const store = createStore(persistedReducers, applyMiddleware(thunk));
