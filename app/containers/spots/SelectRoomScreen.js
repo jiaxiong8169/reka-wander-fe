@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import GradientBackground from '../../components/GradientBackground';
 import BlueSubtitle from '../../components/texts/BlueSubtitle';
 import {View, Dimensions, StyleSheet} from 'react-native';
@@ -6,12 +6,34 @@ import {BackButton} from '../../components/BackButton';
 import {HomestayRoomCardItem} from '../../components/HomestayRoomCardItem';
 import {CustomButton} from '../../components/CustomButton';
 import {CustomText} from '../../components/texts/custom-text';
+import moment from 'moment';
+import Card from '../../components/Card';
+import {SimpleCalendar} from '../../components/CalenderPicker/SimpleCalendar';
+import Modal from 'react-native-modal';
+import ModelContent from '../../components/Modal/ModalContent';
 
 const height = Dimensions.get('window').height;
 
-export const HomestaySelectRoomScreen = ({navigation, route}) => {
-  const {item, checkInDate, checkOutDate, totalDays} = route.params;
+export const SelectRoomScreen = ({navigation, route}) => {
+  const {item} = route.params;
+  const [checkInDate, setCheckInDate] = useState(new Date());
+  const [checkOutDate, setCheckOutDate] = useState(new Date());
+  const [totalDays, setTotalDays] = useState(0);
   const [selected, setSelected] = useState([]);
+  const [isModelPopUp, setIsModelPopUp] = useState(false);
+
+  const closeModel = () => {
+    setIsModelPopUp(false);
+  };
+
+  useEffect(() => {
+    if (moment(checkInDate).isAfter(checkOutDate)) setTotalDays(0);
+    else {
+      const diff =
+        (checkOutDate.getTime() - checkInDate.getTime()) / (1000 * 3600 * 24);
+      setTotalDays(diff);
+    }
+  }, [checkInDate, checkOutDate]);
 
   const getTotalPrice = () => {
     let curr = 0;
@@ -45,16 +67,23 @@ export const HomestaySelectRoomScreen = ({navigation, route}) => {
             size="md"
             colorScheme="secondary"
             onPress={() => {
-              navigation.navigate('HomestayRent', {
-                item,
-                checkInDate,
-                checkOutDate,
-                totalDays,
-                totalPrice: getTotalPrice(),
-                selected,
-              });
+              if (
+                moment(checkInDate).isSame(checkOutDate) ||
+                moment(checkInDate).isAfter(checkOutDate)
+              ) {
+                setIsModelPopUp(true);
+              } else {
+                navigation.navigate('HotelConfirmation', {
+                  item,
+                  checkInDate: moment(checkInDate).format('DD/MM/YYYY'),
+                  checkOutDate: moment(checkOutDate).format('DD/MM/YYYY'),
+                  totalDays,
+                  totalPrice: getTotalPrice(),
+                  selected,
+                });
+              }
             }}>
-            Rent Rooms
+            Book Rooms
           </CustomButton>
         </View>
       }>
@@ -63,6 +92,25 @@ export const HomestaySelectRoomScreen = ({navigation, route}) => {
           <BackButton navigation={navigation} />
           <BlueSubtitle text1={item?.name} />
         </View>
+        <Card style={{marginBottom: 25}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              paddingBottom: 5,
+              justifyContent: 'center',
+            }}>
+            <SimpleCalendar
+              value={checkInDate}
+              setValue={setCheckInDate}
+              label="Check In Date"
+            />
+            <SimpleCalendar
+              value={checkOutDate}
+              setValue={setCheckOutDate}
+              label="Check Out Date"
+            />
+          </View>
+        </Card>
 
         {item?.rooms.map(room => (
           <HomestayRoomCardItem
@@ -77,6 +125,28 @@ export const HomestaySelectRoomScreen = ({navigation, route}) => {
             setSelected={setSelected}
           />
         ))}
+        <Modal
+          isVisible={isModelPopUp}
+          onBackdropPress={closeModel}
+          onSwipeComplete={closeModel}
+          useNativeDriverForBackdrop
+          swipeDirection={['left', 'right', 'up', 'down']}
+          animationIn="zoomInDown"
+          animationOut="zoomOutUp"
+          animationInTiming={700}
+          animationOutTiming={700}
+          backdropTransitionInTiming={700}
+          backdropTransitionOutTiming={700}>
+          <ModelContent onPress={closeModel} buttonTitle={'Close'}>
+            <CustomText fontSize="lg" style={{marginBottom: 12}}>
+              Invalid Date
+            </CustomText>
+            <CustomText>
+              Your check in and check out dates are invalid. Please make sure
+              that the check out date is after check in date.
+            </CustomText>
+          </ModelContent>
+        </Modal>
       </View>
     </GradientBackground>
   );

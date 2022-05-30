@@ -7,6 +7,8 @@ import NearBySearchScreen from '../containers/spots/NearBySearchScreen';
 import SpotDetailsScreen from '../containers/spots/SpotDetailsScreen';
 import SpotsImagesScreen from '../containers/spots/SpotsImagesScreen';
 import {SearchScreen} from '../containers/spots/SearchScreen';
+import {SelectRoomScreen} from '../containers/spots/SelectRoomScreen';
+import {HotelConfirmationScreen} from '../containers/spots/HotelConfirmationScreen';
 
 //Screen names
 const Stack = createNativeStackNavigator();
@@ -60,6 +62,20 @@ export const SpotsStack = () => {
       <Stack.Screen
         name="SpotsComment"
         component={SpotsCommentScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="SelectRoom"
+        component={SelectRoomScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="HotelConfirmation"
+        component={HotelConfirmationScreen}
         options={{
           headerShown: false,
         }}
