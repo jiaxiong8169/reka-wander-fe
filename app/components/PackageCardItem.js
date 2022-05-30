@@ -32,13 +32,11 @@ export const PackageCardItem = ({
           justifyContent: 'flex-end',
         }}>
         <CustomText color="gray.600">
-          {selected.includes(item.id)
-            ? 'Package Selected'
-            : 'Package Not Selected'}
+          {selected ? 'Package Selected' : 'Package Not Selected'}
         </CustomText>
         <CheckBox
           disabled={false}
-          value={selected.includes(item.id)}
+          value={selected}
           onValueChange={() => setSelected(item.id, item)}
         />
       </View>

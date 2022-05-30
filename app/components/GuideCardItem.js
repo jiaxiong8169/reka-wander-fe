@@ -25,7 +25,6 @@ export const GuideCardItem = ({item, navigation, marginBottom}) => {
       <TouchableOpacity
         onPress={() => {
           navigation.navigate('GuideDetails', {
-            type: 'guides',
             id: item.id,
           });
         }}

@@ -12,6 +12,7 @@ import {Total} from '../../components/Total/Total';
 import BlueSubtitle from '../../components/texts/BlueSubtitle';
 import {CustomText} from '../../components/texts/custom-text';
 import {SimpleLocationName} from '../../components/Location/SimpleLocationName';
+import Snackbar from 'react-native-snackbar';
 
 export const HomestayRentScreen = ({navigation, route}) => {
   const {item, checkInDate, checkOutDate, totalDays, totalPrice, selected} =
@@ -20,6 +21,10 @@ export const HomestayRentScreen = ({navigation, route}) => {
   const [locationName, setLocationName] = useState('');
 
   const onPressHandler = () => {
+    Snackbar.show({
+      text: 'Your request has been sent to the vendor successfully, please check your mail box for further updates!',
+      duration: Snackbar.LENGTH_LONG,
+    });
     navigation.navigate('SignInScreen');
     try {
       // TODO: Send email to vendor

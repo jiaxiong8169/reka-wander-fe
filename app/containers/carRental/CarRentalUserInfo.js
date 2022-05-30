@@ -17,6 +17,7 @@ import {Total} from '../../components/Total/Total';
 import {CustomText} from '../../components/texts/custom-text';
 import GradientBackground from '../../components/GradientBackground';
 import Modal from 'react-native-modal';
+import Snackbar from 'react-native-snackbar';
 import ModelContent from '../../components/Modal/ModalContent';
 
 export default function UserCarRentalInfo({navigation, route}) {
@@ -60,9 +61,17 @@ export default function UserCarRentalInfo({navigation, route}) {
         user: authData,
       })
         .then(() => {
+          Snackbar.show({
+            text: 'Your request has been sent to the vendor successfully, please check your mail box for further updates!',
+            duration: Snackbar.LENGTH_LONG,
+          });
           navigation.navigate('MyHome');
         })
         .catch(e => {
+          Snackbar.show({
+            text: 'Error sending your request, please try again later.',
+            duration: Snackbar.LENGTH_LONG,
+          });
           console.log(e);
         });
     }
