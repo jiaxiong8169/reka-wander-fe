@@ -71,7 +71,7 @@ const SignInScreen = ({navigation, route}) => {
 
   const handleRegisterButtonPress = () => {
     checkBeforeRun(() =>
-      navigation.navigate('ConfirmPhone', {email, password}),
+      navigation.navigate('ConfirmPhone', {action: 'create', email, password}),
     );
   };
 

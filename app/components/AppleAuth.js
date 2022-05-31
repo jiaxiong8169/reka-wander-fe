@@ -55,7 +55,11 @@ const AppleAuth = ({navigation, setEmail}) => {
         navigation.replace('MainScreen');
       })
       .catch(err => {
-        navigation.navigate('ConfirmPhone', {email, password: uid});
+        navigation.navigate('ConfirmPhone', {
+          email,
+          password: uid,
+          action: 'create',
+        });
       });
   };
 

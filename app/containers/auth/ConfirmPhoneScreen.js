@@ -16,6 +16,7 @@ import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 import OTPInput from './OTPInput';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import {LoadingOverlay} from '../../components/LoadingOverlay';
+import {useHttpCall} from '../../hooks/useHttpCall';
 
 const OTP_TIMEOUT_SECONDS = 90;
 
@@ -33,8 +34,9 @@ export const ConfirmPhoneScreen = ({route}) => {
   const [authUser, setAuthUser] = useState(undefined);
 
   const authProvider = useAuth();
+  const httpProvider = useHttpCall();
 
-  const {email, password} = route.params;
+  const {action} = route.params;
 
   const handlePhoneNumberButtonPress = async () => {
     setPhoneNumberEditable(false);
@@ -60,6 +62,7 @@ export const ConfirmPhoneScreen = ({route}) => {
 
   async function confirmCode() {
     try {
+      console.log('confirm');
       await confirm.confirm(code); // this will trigger the onAuthStateChanged listener
     } catch (error) {
       console.log(error);
@@ -67,30 +70,59 @@ export const ConfirmPhoneScreen = ({route}) => {
   }
 
   useEffect(() => {
+    console.log({authUser});
     if (authUser) {
-      const regInfo = {
-        email,
-        password,
-        phoneNumber: `${phoneNumberPrefix}${phoneNumber}`,
-      };
-      authProvider
-        .signUp(regInfo)
-        .then(() => {
-          setOTPModalVisible(false);
-        })
-        .catch(err => {
-          console.log({err});
-        })
-        .finally(() => {
-          console.log('sign out');
-          auth().signOut();
-        });
+      switch (action) {
+        case 'update':
+          const {id} = route.params;
+          setLoading(true);
+          httpProvider
+            .putWithAuth(
+              `users/${id}`,
+              {
+                phoneNumber: `${phoneNumberPrefix}${phoneNumber}`,
+              },
+              () => navigation.navigate('SignInScreen'),
+            )
+            .then(data => {
+              const {data: userData} = data;
+              authProvider.setAuthData(({token}) => ({...userData, token}));
+            })
+            .then(() => {
+              setOTPModalVisible(false);
+              setLoading(false);
+            });
+          break;
+        case 'create':
+          const {email, password} = route.params;
+          const regInfo = {
+            email,
+            password,
+            phoneNumber: `${phoneNumberPrefix}${phoneNumber}`,
+          };
+          authProvider
+            .signUp(regInfo)
+            .then(() => {
+              setOTPModalVisible(false);
+            })
+            .catch(err => {
+              console.log({err});
+            })
+            .finally(() => {
+              console.log('sign out');
+              auth().signOut();
+            });
+          break;
+        default:
+          break;
+      }
     }
   }, [authUser]);
 
   useEffect(() => {
     const unsubscribe = auth().onAuthStateChanged(user => {
       if (user) {
+        console.log({user});
         setAuthUser(user);
       }
     });
