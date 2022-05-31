@@ -20,7 +20,6 @@ export default function RecommendedCard({
           color: `#6A5ACD`,
           fontWeight: '600',
           fontFamily: 'sans-serif-light',
-          //   textAlign: 'center',
         }}>
         Recommended {title}
       </Text>
@@ -37,6 +36,11 @@ export default function RecommendedCard({
               // handle homestay separately
               if (type === 'homestays') {
                 navigation.navigate('HomestayEdit', {
+                  fieldName,
+                  fieldNameObj,
+                });
+              } else if (type === 'vehicles') {
+                navigation.navigate('CarRentalList', {
                   fieldName,
                   fieldNameObj,
                 });

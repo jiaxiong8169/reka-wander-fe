@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import {View, ScrollView, TouchableOpacity, Text} from 'react-native';
+import {View, ScrollView} from 'react-native';
 import PropTypes from 'prop-types';
-
 import ProgressButtons from './ProgressButtons';
+import {CustomButton} from '../CustomButton';
+
 class ProgressStep extends Component {
   onNextStep = async () => {
     this.props.onNext && (await this.props.onNext());
@@ -18,6 +19,12 @@ class ProgressStep extends Component {
   onPreviousStep = () => {
     // Changes active index and calls previous function passed by parent
     this.props.onPrevious && this.props.onPrevious();
+
+    // Return out of method before moving to next step if errors exist.
+    if (this.props.errors) {
+      return;
+    }
+
     this.props.setActiveStep(this.props.activeStep - 1);
   };
 
@@ -27,72 +34,40 @@ class ProgressStep extends Component {
   };
 
   renderNextButton = () => {
-    const btnStyle = {
-      textAlign: 'center',
-      padding: 8,
-      ...this.props.nextBtnStyle,
-    };
-
-    const btnTextStyle = {
-      color: '#007AFF',
-      fontSize: 18,
-      ...this.props.nextBtnTextStyle,
-    };
-
-    const disabledBtnText = {
-      color: '#cdcdcd',
-    };
-
-    let textStyle = [btnTextStyle];
-    if (this.props.nextBtnDisabled) textStyle.push(disabledBtnText);
-
     return (
-      <TouchableOpacity
-        style={btnStyle}
+      <CustomButton
         onPress={
           this.props.activeStep === this.props.stepCount - 1
             ? this.onSubmit
             : this.onNextStep
         }
-        disabled={this.props.nextBtnDisabled}>
-        <Text style={textStyle}>
-          {this.props.activeStep === this.props.stepCount - 1
-            ? this.props.finishBtnText
-            : this.props.nextBtnText}
-        </Text>
-      </TouchableOpacity>
+        style={{
+          width: 100,
+          marginLeft: 10,
+          marginRight: 10,
+        }}
+        colorScheme="blue">
+        {this.props.activeStep === this.props.stepCount - 1
+          ? this.props.finishBtnText
+          : this.props.nextBtnText}
+      </CustomButton>
     );
   };
 
   renderPreviousButton = () => {
-    const btnStyle = {
-      textAlign: 'center',
-      padding: 8,
-      ...this.props.previousBtnStyle,
-    };
-
-    const btnTextStyle = {
-      color: '#007AFF',
-      fontSize: 18,
-      ...this.props.previousBtnTextStyle,
-    };
-
-    const disabledBtnText = {
-      color: '#cdcdcd',
-    };
-
-    let textStyle = [btnTextStyle];
-    if (this.props.previousBtnDisabled) textStyle.push(disabledBtnText);
+    if (this.props.activeStep === 0) return <></>;
 
     return (
-      <TouchableOpacity
-        style={btnStyle}
+      <CustomButton
         onPress={this.onPreviousStep}
-        disabled={this.props.previousBtnDisabled}>
-        <Text style={textStyle}>
-          {this.props.activeStep === 0 ? '' : this.props.previousBtnText}
-        </Text>
-      </TouchableOpacity>
+        colorScheme="orange"
+        style={{
+          width: 100,
+          marginLeft: 10,
+          marginRight: 10,
+        }}>
+        {this.props.previousBtnText}
+      </CustomButton>
     );
   };
 
@@ -108,21 +83,24 @@ class ProgressStep extends Component {
     );
 
     return (
-      <View style={{flex: 1}}>
+      <>
         {isScrollable ? (
-          <ScrollView {...scrollViewProps}>{this.props.children}</ScrollView>
+          <ScrollView {...scrollViewProps}>
+            {this.props.children}
+            {buttonRow}
+          </ScrollView>
         ) : (
-          <View {...viewProps}>{this.props.children}</View>
+          <View {...viewProps}>
+            {this.props.children}
+            {buttonRow}
+          </View>
         )}
-
-        {buttonRow}
-      </View>
+      </>
     );
   }
 }
 
 ProgressStep.propTypes = {
-  label: PropTypes.string,
   onNext: PropTypes.func,
   onPrevious: PropTypes.func,
   onSubmit: PropTypes.func,
@@ -131,12 +109,6 @@ ProgressStep.propTypes = {
   previousBtnText: PropTypes.string,
   finishBtnText: PropTypes.string,
   stepCount: PropTypes.number,
-  nextBtnStyle: PropTypes.object,
-  nextBtnTextStyle: PropTypes.object,
-  nextBtnDisabled: PropTypes.bool,
-  previousBtnStyle: PropTypes.object,
-  previousBtnTextStyle: PropTypes.object,
-  previousBtnDisabled: PropTypes.bool,
   scrollViewProps: PropTypes.object,
   viewProps: PropTypes.object,
   errors: PropTypes.bool,
@@ -148,8 +120,6 @@ ProgressStep.defaultProps = {
   nextBtnText: 'Next',
   previousBtnText: 'Previous',
   finishBtnText: 'Finish',
-  nextBtnDisabled: false,
-  previousBtnDisabled: false,
   errors: false,
   removeBtnRow: false,
   scrollable: true,

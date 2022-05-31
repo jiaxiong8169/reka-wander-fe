@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View} from 'react-native';
+import {View} from 'native-base';
 import {times} from 'lodash';
 import PropTypes from 'prop-types';
 import StepIcon from './StepIcon';
@@ -79,16 +79,14 @@ class ProgressSteps extends Component {
     };
 
     return (
-      <View style={{flex: 1}}>
+      <>
         <View style={styles.stepIcons}>{this.renderStepIcons()}</View>
-        <View style={{flex: 1}}>
-          {React.cloneElement(this.props.children[this.state.activeStep], {
-            setActiveStep: this.setActiveStep,
-            activeStep: this.state.activeStep,
-            stepCount: this.state.stepCount,
-          })}
-        </View>
-      </View>
+        {React.cloneElement(this.props.children[this.state.activeStep], {
+          setActiveStep: this.setActiveStep,
+          activeStep: this.state.activeStep,
+          stepCount: this.state.stepCount,
+        })}
+      </>
     );
   }
 }

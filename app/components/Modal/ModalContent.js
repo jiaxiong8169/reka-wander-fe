@@ -1,11 +1,12 @@
 import React from 'react';
-import {Button, View, Text, StyleSheet, Dimensions} from 'react-native';
+import {View, StyleSheet} from 'react-native';
+import {CustomButton} from '../CustomButton';
 
 const ModelContent = props => {
   return (
     <View style={styles.content}>
       <View style={{marginBottom: 15}}>{props.children}</View>
-      <Button testID={'close-button'} onPress={props.onPress} title="Close" color='#6495ED'/>
+      <CustomButton onPress={props.onPress}>Close</CustomButton>
     </View>
   );
 };

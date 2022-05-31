@@ -1,86 +1,15 @@
 import * as React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Image} from 'react-native';
 import GradientBackground from '../components/GradientBackground';
 import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
-
-// Screens
-import SpotsHomeScreen from '../containers/spots/SpotsHomeScreen';
-import {SpotsListScreen} from '../containers/spots/SpotsListScreen';
-import NearBySearchScreen from '../containers/spots/NearBySearchScreen';
-import SpotDetailsScreen from '../containers/spots/SpotDetailsScreen';
-
-//Planner
-import PlannerStack from './PlannerNavigationFunction';
-import SpotsImagesScreen from '../containers/spots/SpotsImagesScreen';
-import SpotsCommentScreen from '../containers/spots/SpotsCommentScreen';
-import {SearchScreen} from '../containers/spots/SearchScreen';
+import PlannerStack from './PlannerStack';
 import {GuideStack} from './GuideStack';
-import {ProfileStack} from './MenuStack';
+import {SettingsStack} from './SettingsStack';
+import {SpotsStack} from './SpotsStack';
 
-//Screen names
-const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
-
-const Temp = () => <GradientBackground></GradientBackground>;
-
-function SpotsHomeStack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="SpotsHome"
-        component={SpotsHomeScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="SpotsList"
-        component={SpotsListScreen}
-        options={{
-          headerShown: false,
-        }}
-        style={{height: 200}}
-      />
-      <Stack.Screen
-        name="NearBySearch"
-        component={NearBySearchScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="SpotDetails"
-        component={SpotDetailsScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="SpotsImages"
-        component={SpotsImagesScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="SpotsSearchManually"
-        component={SearchScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="SpotsComment"
-        component={SpotsCommentScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-    </Stack.Navigator>
-  );
-}
+const Temp = () => <GradientBackground />;
 
 function MainContainer() {
   AndroidKeyboardAdjust.setAdjustNothing();
@@ -143,7 +72,7 @@ function MainContainer() {
       })}>
       <Tab.Screen
         name="Spots"
-        component={SpotsHomeStack}
+        component={SpotsStack}
         options={{
           headerShown: false,
         }}
@@ -171,7 +100,7 @@ function MainContainer() {
       />
       <Tab.Screen
         name="Settings"
-        component={ProfileStack}
+        component={SettingsStack}
         options={{
           headerShown: false,
         }}

@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, Linking, TouchableOpacity, Platform} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {CustomText} from '../texts/custom-text';
 
 export const Mail = props => {
   const mail = () => {
@@ -27,11 +28,11 @@ export const Mail = props => {
 
   return (
     <View style={[props.firstColumn, {marginTop: 5}]}>
-      <Text style={{fontSize: 15, color: '#000'}}>{props.type} Email</Text>
+      <CustomText>{props.type} Email</CustomText>
       <View style={{flexDirection: 'row', marginTop: 5}}>
         <Icon name="mail-outline" size={23} color="#000" />
         <View style={{flex: 2, marginLeft: 10}}>
-          <Text style={{fontSize: 15, color: '#000'}}>{props.vendorEmail}</Text>
+          <CustomText>{props.vendorEmail}</CustomText>
         </View>
         <View style={{alignItems: 'flex-end', flex: 1}}>
           <TouchableOpacity

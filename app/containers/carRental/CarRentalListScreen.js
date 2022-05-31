@@ -1,16 +1,22 @@
 import React, {useEffect, useState} from 'react';
 import GradientBackground from '../../components/GradientBackground';
-import BlueSubtitle from '../../components/BlueSubtitle';
-import {View, ScrollView, RefreshControl} from 'react-native';
-import {Text, Input} from 'native-base';
+import BlueSubtitle from '../../components/texts/BlueSubtitle';
+import {View, RefreshControl} from 'react-native';
 import {BackButton} from '../../components/BackButton';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Card from '../../components/Card';
 import {LoadMore} from '../../components/LoadMore';
 import CarCardItem from '../../components/CarCardItem';
 import {useHttpCall} from '../../hooks/useHttpCall';
+import {useDispatch, useSelector} from 'react-redux';
+import {setTripPlanbyFieldName} from '../../redux/Planner/actions';
+import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 
-export const CarRentalListScreen = ({navigation}) => {
+export const CarRentalListScreen = ({navigation, route}) => {
+  const dispatch = useDispatch();
+  const fieldName = route?.params?.fieldName;
+  const fieldNameObj = route?.params?.fieldNameObj;
+  const {tripPlan} = useSelector(state => state.plannerReducer);
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState('');
@@ -28,6 +34,7 @@ export const CarRentalListScreen = ({navigation}) => {
     ).then(({data}) => {
       setItems(data);
       setLoading(false);
+      if (data.length === 0) setFull(true);
     });
   }, [search, reload]);
 
@@ -47,6 +54,27 @@ export const CarRentalListScreen = ({navigation}) => {
     });
   };
 
+  const toggleItemSelection = (v, vObj) => {
+    let tmp = JSON.parse(JSON.stringify(tripPlan[fieldName]));
+    let tmpObj = JSON.parse(JSON.stringify(tripPlan[fieldNameObj]));
+    if (tmp) {
+      // for array
+      const index = tmpObj.findIndex(x => x.id === v);
+      if (index !== -1) {
+        tmpObj.splice(index, 1);
+      } else {
+        tmpObj.push(vObj);
+      }
+      tmp = tmpObj.map(obj => obj.id);
+    } else {
+      // for undefined
+      tmp = v;
+      tmpObj = vObj;
+    }
+    dispatch(setTripPlanbyFieldName(fieldName, tmp));
+    dispatch(setTripPlanbyFieldName(fieldNameObj, tmpObj));
+  };
+
   return (
     <GradientBackground
       refreshControl={
@@ -58,24 +86,15 @@ export const CarRentalListScreen = ({navigation}) => {
       <View style={{flexDirection: 'column', marginBottom: 10}}>
         <View style={{flexDirection: 'row'}}>
           <BackButton navigation={navigation} />
-          <BlueSubtitle text1="Hi" text2={`Welcome,`} />
+          <BlueSubtitle text1="Hi Welcome," text2={`Rent Your Car`} />
         </View>
-        <Text fontSize={17} color="rgb(117,157,246)">
-          Rent your car
-        </Text>
       </View>
 
-      <Input
+      <CustomTextInput
         placeholder="Search Here..."
-        width="100%"
-        borderRadius="4"
-        variant="filled"
-        fontSize="14"
         value={search}
         onChangeText={t => setSearch(t)}
-        shadow="5"
-        marginBottom="3"
-        InputLeftElement={
+        startAdornment={
           <Icon
             style={{marginLeft: 10}}
             size={20}
@@ -91,9 +110,11 @@ export const CarRentalListScreen = ({navigation}) => {
             name={item.name}
             price={item.price}
             thumbnailSrc={item.thumbnailSrc}
-            onPress={() =>
-              navigation.navigate('CarRentalDetails', {id: item.id})
-            }
+            item={item}
+            onPress={() => navigation.navigate('CarRentalDetails', {item})}
+            withEdit={!!fieldName && !!fieldNameObj}
+            selected={tripPlan[fieldName]}
+            toggleItemSelection={toggleItemSelection}
           />
         ))}
         <LoadMore getData={getData} full={full} loading={loading} />

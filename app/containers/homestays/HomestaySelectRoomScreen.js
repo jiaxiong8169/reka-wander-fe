@@ -1,69 +1,25 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import GradientBackground from '../../components/GradientBackground';
-import BlueSubtitle from '../../components/BlueSubtitle';
-import {View, Dimensions, ScrollView, Image, StyleSheet} from 'react-native';
-import {
-  Text,
-  HStack,
-  Center,
-  Flex,
-  Box,
-  Stack,
-  Button,
-  Divider,
-} from 'native-base';
+import BlueSubtitle from '../../components/texts/BlueSubtitle';
+import {View, Dimensions, StyleSheet} from 'react-native';
 import {BackButton} from '../../components/BackButton';
-import Icon from 'react-native-vector-icons/Ionicons';
-import {useHttpCall} from '../../hooks/useHttpCall';
-import {RefreshControl} from 'react-native';
 import {HomestayRoomCardItem} from '../../components/HomestayRoomCardItem';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {useSelector, useDispatch} from 'react-redux';
-import {setHomestayId} from '../../redux/Homestay/actions';
-import RoundButton from '../../components/RoundButton';
-import {setHomestayName, setHomestayLat, setHomestayLong, setHomestayData} from '../../redux/Homestay/actions';
+import {CustomButton} from '../../components/CustomButton';
+import {CustomText} from '../../components/texts/custom-text';
 
 const height = Dimensions.get('window').height;
-const width = Dimensions.get('window').width;
 
 export const HomestaySelectRoomScreen = ({navigation, route}) => {
-  const {id,data} = route.params;
-  const dispatch = useDispatch();
-  const [items, setItems] = useState([]);
-  const {getWithoutAuth} = useHttpCall();
-  const [reload, setReload] = React.useState(true);
-  const [loading, setLoading] = React.useState(false);
-  const [hotelName, sethotelName] = React.useState('');
-  const {homestayId, roomsAdded, totalPrice} = useSelector(
-    state => state.homestayReducer,
-  );
+  const {item, checkInDate, checkOutDate, totalDays} = route.params;
+  const [selected, setSelected] = useState([]);
 
-  React.useEffect(() => {
-    if (!reload) return;
-    setLoading(true);
-    // try to fetch the data
-    getWithoutAuth(`homestays/${id}`)
-      .then(({data}) => {
-        if (!!data) {
-          setItems(data.rooms);
-          sethotelName(data.name);
-          dispatch(setHomestayName(data.name));
-          dispatch(setHomestayLat(data.loc.coordinates[1]));
-          dispatch(setHomestayLong(data.loc.coordinates[0]));
-          dispatch(setHomestayData(data));
-          // console.log(roomsAdded);
-          console.log(totalPrice);
-        } // set loading and reload to false indicating finished loading
-        setLoading(false);
-        setReload(false);
-      })
-      .catch(err => {
-        console.log(err);
-        // set loading and reload to false indicating finished loading
-        setLoading(false);
-        setReload(false);
-      });
-  }, [reload, id]);
+  const getTotalPrice = () => {
+    let curr = 0;
+    selected.forEach(s => {
+      curr += s.price * totalDays * s.quantity;
+    });
+    return curr.toFixed(2);
+  };
 
   return (
     <GradientBackground
@@ -79,57 +35,46 @@ export const HomestaySelectRoomScreen = ({navigation, route}) => {
             shadowOpacity: 0.26,
             elevation: 10,
             backgroundColor: 'white',
+            alignItems: 'center',
+            justifyContent: 'space-between',
           }}>
-          <View
-            style={{
-              width: '60%',
-              fontSize: 20,
-              fontWeight: 'bold',
-              flexDirection: 'row',
-              alignItems: 'center',
-              // justifyContent: 'space-evenly',
-            }}>
-            <Text
-              style={{
-                fontSize: 20,
-                fontWeight: 'bold',
-                alignItems: 'center',
-              }}>
-              Total Price : RM {totalPrice._W ? totalPrice._W : 0}
-            </Text>
-          </View>
-          <Button
+          <CustomText fontSize="lg">
+            Total Price : RM {getTotalPrice()}
+          </CustomText>
+          <CustomButton
             size="md"
-            w={'40%'}
-            bg="red.600"
-            _pressed={{bg: 'red.300', _text: {color: 'white'}}}
-            rounded={100}
+            colorScheme="secondary"
             onPress={() => {
               navigation.navigate('HomestayRent', {
-                id: id,
-                data:data,
+                item,
+                checkInDate,
+                checkOutDate,
+                totalDays,
+                totalPrice: getTotalPrice(),
+                selected,
               });
             }}>
             Rent Rooms
-          </Button>
+          </CustomButton>
         </View>
       }>
-      <View></View>
       <View style={styles.container}>
         <View style={{flexDirection: 'row', padding: '3%', width: '90%'}}>
           <BackButton navigation={navigation} />
-          <BlueSubtitle key={id} text1={hotelName}></BlueSubtitle>
+          <BlueSubtitle text1={item?.name} />
         </View>
 
-        {items.map(item => (
+        {item?.rooms.map(room => (
           <HomestayRoomCardItem
-            key={item.id}
-            id={item.id}
-            name={item.name}
-            price={item.price}
-            pax={item.pax}
-            availability={item.availability}
-            thumbnailSrc={item.thumnailSrc}
+            key={room.id}
+            id={room.id}
+            name={room.name}
+            price={room.price}
+            pax={room.pax}
+            availability={room.availability}
+            thumbnailSrc={room.thumnailSrc}
+            selected={selected}
+            setSelected={setSelected}
           />
         ))}
       </View>

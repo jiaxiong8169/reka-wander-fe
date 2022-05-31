@@ -1,84 +1,87 @@
-import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-} from 'react-native';
-import Modal from 'react-native-modal';
-import ModelContent from '../../components/Modal/ModalContent';
-import GradientBackground from '../../components/GradientBackground';
+import React, {useEffect, useState} from 'react';
+import {View} from 'react-native';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {BackButton} from '../../components/BackButton';
-import {useSelector, useDispatch} from 'react-redux';
 import moment from 'moment';
 import Card from '../../components/Card';
-import {CalendarCar} from '../../components/CalenderPicker/CalenderCar';
-import {LocationName} from '../../components/Location/LocationName';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {GetTotal} from '../../components/Total/GetTotal';
 import {Phone} from '../../components/Phone/Phone';
 import {Mail} from '../../components/JumpMail/Mail';
-import RoundButton from '../../components/RoundButton';
-import { resetCarInfo } from '../../redux/CarRental/actions';
+import {CustomButton} from '../../components/CustomButton';
+import {useAuth} from '../../hooks/useAuth';
+import BlueSubtitle from '../../components/texts/BlueSubtitle';
+import {SimpleCalendar} from '../../components/CalenderPicker/SimpleCalendar';
+import {SimpleCalendarTime} from '../../components/CalenderPicker/SimpleCalendarTime';
+import {SimpleLocationName} from '../../components/Location/SimpleLocationName';
+import {Total} from '../../components/Total/Total';
+import {CustomText} from '../../components/texts/custom-text';
+import GradientBackground from '../../components/GradientBackground';
+import Modal from 'react-native-modal';
+import Snackbar from 'react-native-snackbar';
+import ModelContent from '../../components/Modal/ModalContent';
 
 export default function UserCarRentalInfo({navigation, route}) {
-  const {id} = route.params;
-  const dispatch = useDispatch();
-
-  const {pickUpDate, returnDate} = useSelector(state => state.carReducer);
-  const data = useSelector(state => state.carReducer);
+  const {authData} = useAuth();
+  const {item} = route.params;
+  const [pickUpDate, setPickUpDate] = useState(new Date());
+  const [returnDate, setReturnDate] = useState(new Date());
   const [isModelPopUp, setIsModelPopUp] = useState(false);
-  const [item, setItem] = useState([]);
-  const {getWithoutAuth, postWithAuth} = useHttpCall();
-  const [diff, setDiff] = React.useState(0);
+  const {postWithAuth} = useHttpCall();
+  const [totalDays, setTotalDays] = React.useState(0);
+  const [locationName, setLocationName] = useState('');
+
+  useEffect(() => {
+    if (moment(pickUpDate).isAfter(returnDate)) setTotalDays(0);
+    else {
+      const diff =
+        (returnDate.getTime() - pickUpDate.getTime()) / (1000 * 3600 * 24);
+      setTotalDays(diff + 1);
+    }
+  }, [pickUpDate, returnDate]);
 
   const closeModel = () => {
     setIsModelPopUp(false);
   };
 
-  // on load, get vehicle data
-  React.useEffect(() => {
-    // try to fetch the data
-    getWithoutAuth(`vehicles/${id}`)
-      .then(({data}) => {
-        if (!!data) {
-          setItem(data);
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }, []);
-
-  React.useEffect(() => {
-    const a = moment(pickUpDate);
-    const b = moment(returnDate);
-    const D = b.diff(a, 'days');
-    setDiff(D + 1);
-  }, [pickUpDate, returnDate]);
+  const getTotalPrice = () => {
+    const curr = item.price * totalDays;
+    return curr.toFixed(2);
+  };
 
   const onPressHandler = () => {
     if (moment(pickUpDate).isAfter(returnDate)) {
       setIsModelPopUp(true);
     } else {
-      const completeData = {
-        ...data,
-        name: item.name,
-        price: item.price,
-        priceWithBaby: item.priceWithBaby,
-        availabilityBeforeRent: item.availability,
-      };
-      try {
-        postWithAuth('car-rental/mail', {
-          data: completeData,
-          vendorEmail: 'nicky.lyy2000@gmail.com',
-          // vendorEmail: item.vendorEmail,
+      postWithAuth('mail/car-vendor', {
+        pickUpDate,
+        returnDate,
+        carLocation: locationName,
+        totalPrice: getTotalPrice(),
+        vehicle: item,
+        user: authData,
+      });
+      postWithAuth('mail/car-request', {
+        pickUpDate,
+        returnDate,
+        carLocation: locationName,
+        totalPrice: getTotalPrice(),
+        vehicle: item,
+        user: authData,
+      })
+        .then(() => {
+          Snackbar.show({
+            text: 'Your request has been sent to the vendor successfully, please check your mail box for further updates!',
+            duration: Snackbar.LENGTH_LONG,
+          });
+          navigation.navigate('MyHome');
+        })
+        .catch(e => {
+          Snackbar.show({
+            text: 'Error sending your request, please try again later.',
+            duration: Snackbar.LENGTH_LONG,
+          });
+          console.log(e);
         });
-        dispatch(resetCarInfo());
-        navigation.navigate('SignInScreen');
-      } catch (e) {
-        console.log(e);
-      }
     }
   };
 
@@ -87,99 +90,133 @@ export default function UserCarRentalInfo({navigation, route}) {
       <View style={{flexDirection: 'column', marginBottom: 10}}>
         <View style={{flexDirection: 'row'}}>
           <BackButton navigation={navigation} />
-          {/* <Text style={{fontWeight: '500', fontSize: 28, color: '#005533'}}>
-            {item.name}
-          </Text> */}
+          <BlueSubtitle text1={item.name} />
         </View>
-        <Text color="rgb(117,157,246)">
-          Fill in all fields to book{' '}
-          <Text style={{fontWeight: '500', fontSize: 20, color: '#005533'}}>
-            {item.name}
-          </Text>
-        </Text>
       </View>
 
-      <Text style={styles.Subtitle}>Pickup Details</Text>
+      <CustomText
+        bold
+        fontSize="lg"
+        style={{
+          alignSelf: 'center',
+        }}>
+        Pickup Details
+      </CustomText>
       <Card style={{margin: 10}}>
-        <View>
-          <View style={styles.firstColumn}>
-            <CalendarCar mode={'date'} type={'Pickup'} />
-          </View>
-          <View style={{flexDirection: 'column', marginTop: 5}}>
-            <CalendarCar mode={'time'} type={'Pickup'} />
-          </View>
-        </View>
+        <SimpleCalendar
+          value={pickUpDate}
+          setValue={setPickUpDate}
+          label="Pick Up Date"
+        />
+        <SimpleCalendarTime
+          value={pickUpDate}
+          setValue={setPickUpDate}
+          label="Pick Up Time"
+        />
       </Card>
 
-      <Text style={styles.Subtitle}>Return Details</Text>
+      <CustomText
+        bold
+        fontSize="lg"
+        style={{
+          alignSelf: 'center',
+        }}>
+        Return Details
+      </CustomText>
       <Card style={{margin: 10}}>
         <View>
-          <View style={styles.firstColumn}>
-            <CalendarCar mode={'date'} type={'Return'} />
-          </View>
-          <View style={{flexDirection: 'column', marginTop: 5}}>
-            <CalendarCar mode={'time'} type={'Return'} />
-          </View>
-        </View>
-      </Card>
-
-      <Text style={styles.Subtitle}>Car Details</Text>
-      <Card style={{margin: 10}}>
-        <View>
-          <View style={styles.firstColumn}>
-            <Text style={{fontSize: 15, color: '#000'}}>Car Location</Text>
-            <LocationName
-              lat={item?.loc?.coordinates[1]}
-              long={item?.loc?.coordinates[0]}
-              type={'car'}
+          <View>
+            <SimpleCalendar
+              value={returnDate}
+              setValue={setReturnDate}
+              label="Return Date"
             />
           </View>
-          <View style={[styles.firstColumn, {marginTop: 5}]}>
-            <Text style={{fontSize: 15, color: '#000'}}>Price</Text>
-            <View style={{flexDirection: 'row', marginTop: 5}}>
-              <Icon name="cash-outline" size={23} color="#000" />
-              <View style={{flex: 3, marginLeft: 10}}>
-                <Text style={{fontSize: 15, color: '#000'}}>
-                  RM{item.price} per day
-                </Text>
-              </View>
-            </View>
+          <View style={{flexDirection: 'column', marginTop: 5}}>
+            <SimpleCalendarTime
+              value={returnDate}
+              setValue={setReturnDate}
+              label="Return Time"
+            />
           </View>
-          <View style={[styles.firstColumn, {marginTop: 5}]}>
-            <Text style={{fontSize: 15, color: '#000'}}>Vendor Name</Text>
-            <View style={{flexDirection: 'row', marginTop: 5}}>
-              <Icon name="person-outline" size={23} color="#000" />
-              <View style={{flex: 3, marginLeft: 10}}>
-                <Text style={{fontSize: 15, color: '#000'}}>
-                  {item.vendorName}
-                </Text>
-              </View>
-            </View>
-          </View>
-          <Mail
-            type={'Vendor'}
-            firstColumn={styles.firstColumn}
-            vendorEmail={item.vendorEmail}></Mail>
-          <Phone
-            type={'Vendor'}
-            vendorPhoneNumber={item.vendorPhoneNumber}></Phone>
         </View>
       </Card>
 
-      {!!diff && (
-        <View>
-          <Text style={[styles.Subtitle, {fontSize: 20, fontWeight: 'bold'}]}>
-            Rental Details
-          </Text>
-          <GetTotal price={item.price} diff={diff} />
+      <CustomText
+        bold
+        fontSize="lg"
+        style={{
+          alignSelf: 'center',
+        }}>
+        More Details
+      </CustomText>
+      <Card style={{margin: 10}}>
+        <View
+          style={{
+            flexDirection: 'column',
+            borderBottomColor: '#DCDCDC',
+            borderBottomWidth: 1,
+            paddingBottom: 5,
+          }}>
+          <CustomText>Car Location</CustomText>
+          <SimpleLocationName
+            lat={item?.loc?.coordinates[1]}
+            long={item?.loc?.coordinates[0]}
+            value={locationName}
+            setValue={setLocationName}
+            title="Car Rental"
+          />
         </View>
-      )}
-      <RoundButton
-        backgroundColor="#dc2626"
-        title={'Confirm'}
+        <View
+          style={{
+            flexDirection: 'column',
+            borderBottomColor: '#DCDCDC',
+            borderBottomWidth: 1,
+            paddingBottom: 5,
+          }}>
+          <CustomText>Price</CustomText>
+          <View style={{flexDirection: 'row', marginTop: 5}}>
+            <Icon name="cash-outline" size={23} color="#000" />
+            <View style={{flex: 3, marginLeft: 10}}>
+              <CustomText>RM {item.price} per day</CustomText>
+            </View>
+          </View>
+        </View>
+        <View
+          style={{
+            flexDirection: 'column',
+            borderBottomColor: '#DCDCDC',
+            borderBottomWidth: 1,
+            paddingBottom: 5,
+          }}>
+          <CustomText>Vendor Name</CustomText>
+          <View style={{flexDirection: 'row', marginTop: 5}}>
+            <Icon name="person-outline" size={23} color="#000" />
+            <View style={{flex: 3, marginLeft: 10}}>
+              <CustomText>{item.vendorName}</CustomText>
+            </View>
+          </View>
+        </View>
+        <Mail
+          type={'Vendor'}
+          firstColumn={{
+            flexDirection: 'column',
+            borderBottomColor: '#DCDCDC',
+            borderBottomWidth: 1,
+            paddingBottom: 5,
+          }}
+          vendorEmail={item.vendorEmail}
+        />
+        <Phone type={'Vendor'} vendorPhoneNumber={item.vendorPhoneNumber} />
+      </Card>
+
+      <Total totalPrice={getTotalPrice()} />
+      <CustomButton
+        colorScheme="secondary"
         onPress={onPressHandler}
-        style={{marginBottom: 40}}
-      />
+        style={{marginBottom: 40}}>
+        Confirm
+      </CustomButton>
       <Modal
         isVisible={isModelPopUp}
         onBackdropPress={closeModel}
@@ -193,30 +230,15 @@ export default function UserCarRentalInfo({navigation, route}) {
         backdropTransitionInTiming={700}
         backdropTransitionOutTiming={700}>
         <ModelContent onPress={closeModel} buttonTitle={'Close'}>
-          <Text style={{fontSize: 20, marginBottom: 12}}>Opps!</Text>
-          <Text>
-            Opps your date is invalid, please check your pickup and return date.
-            Make sure your pickup date is always after return date.
-          </Text>
+          <CustomText fontSize="lg" style={{marginBottom: 12}}>
+            Invalid Date
+          </CustomText>
+          <CustomText>
+            Your pick up and return dates are invalid. Please make sure that the
+            return date is after pick up date.
+          </CustomText>
         </ModelContent>
       </Modal>
     </GradientBackground>
   );
 }
-
-const styles = StyleSheet.create({
-  Subtitle: {
-    margin: 3,
-    fontSize: 17,
-    color: `#009B66`,
-    fontWeight: '700',
-    fontFamily: 'sans-serif-light',
-    textAlign: 'center',
-  },
-  firstColumn: {
-    flexDirection: 'column',
-    borderBottomColor: '#000',
-    borderBottomWidth: 1,
-    paddingBottom: 5,
-  },
-});

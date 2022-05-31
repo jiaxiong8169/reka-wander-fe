@@ -29,7 +29,7 @@ export default function RecommendedCardDetails({
             borderColor: '#000',
             borderBottomWidth: 1,
             paddingBottom: 10,
-            width:'100%'
+            width: '100%',
           },
           styles,
         ]}>

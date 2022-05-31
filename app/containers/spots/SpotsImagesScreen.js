@@ -1,19 +1,17 @@
 import {
   View,
   StyleSheet,
-  ScrollView,
   Dimensions,
   RefreshControl,
-  Alert,
+  TouchableOpacity,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {FlatList} from 'react-native';
 import {SearchIcon, Text} from 'native-base';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import GradientBackground from '../../components/GradientBackground';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import FastImage from 'react-native-fast-image';
-import BlueSubtitle from '../../components/BlueSubtitle';
+import BlueSubtitle from '../../components/texts/BlueSubtitle';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   setRestaurants,
@@ -25,6 +23,7 @@ import {
 } from '../../redux/Nearby/actions';
 import {BackButton} from '../../components/BackButton';
 import {getLocationPermissionAndExecute} from '../../utils/location-utils';
+import {CustomButton} from '../../components/CustomButton';
 
 const {width} = Dimensions.get('window');
 //you need to preview n items.
@@ -191,17 +190,16 @@ export default function SpotsImagesScreen({navigation, route}) {
           <Text bold fontSize={18} marginLeft={2}>
             {isNearby ? 'Nearby ' : ''} Restaurants {'  '}
           </Text>
-          <Text
-            fontSize={15}
-            color="blue.600"
+          <CustomButton
+            variant="link"
             onPress={() =>
               navigation.navigate('SpotsList', {
                 type: 'restaurants',
                 isNearby: isNearby,
               })
             }>
-            {'View More'}
-          </Text>
+            View More
+          </CustomButton>
         </View>
 
         <FlatList
@@ -249,17 +247,16 @@ export default function SpotsImagesScreen({navigation, route}) {
           <Text bold fontSize={18} marginLeft={2}>
             {isNearby ? 'Nearby ' : ''}Attractions {'  '}
           </Text>
-          <Text
-            fontSize={15}
-            color="blue.600"
+          <CustomButton
+            variant="link"
             onPress={() =>
               navigation.navigate('SpotsList', {
                 type: 'attractions',
                 isNearby: isNearby,
               })
             }>
-            {'View More'}
-          </Text>
+            View More
+          </CustomButton>
         </View>
 
         <FlatList
@@ -307,17 +304,16 @@ export default function SpotsImagesScreen({navigation, route}) {
           <Text bold fontSize={18} marginLeft={2}>
             {isNearby ? 'Nearby ' : ''}Hotels {'  '}
           </Text>
-          <Text
-            fontSize={15}
-            color="blue.600"
+          <CustomButton
+            variant="link"
             onPress={() =>
               navigation.navigate('SpotsList', {
                 type: 'hotels',
                 isNearby: isNearby,
               })
             }>
-            {'View More'}
-          </Text>
+            View More
+          </CustomButton>
         </View>
 
         <FlatList
@@ -333,12 +329,12 @@ export default function SpotsImagesScreen({navigation, route}) {
           renderItem={({item, index}) => (
             <TouchableOpacity
               style={styles.view}
-              onPress={() =>
+              onPress={() => {
                 navigation.navigate('SpotDetails', {
                   type: isNearby ? 'nearbyHotels' : 'hotels',
                   id: item.id,
-                })
-              }>
+                });
+              }}>
               <FastImage
                 source={{uri: item.thumbnailSrc}}
                 style={{

@@ -2,7 +2,6 @@ import * as React from 'react';
 import {View, StyleSheet, Dimensions, Alert, Pressable} from 'react-native';
 import {Image, RefreshControl} from 'react-native';
 import {Box, Heading, Text, ArrowBackIcon, TextArea} from 'native-base';
-import {ScrollView} from 'react-native';
 import CommentCard from '../../components/CommentCard';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import FastImage from 'react-native-fast-image';
@@ -11,6 +10,8 @@ import {RatingButton} from '../../components/RatingButton';
 import moment from 'moment';
 import {LoadMore} from '../../components/LoadMore';
 import GradientBackground from '../../components/GradientBackground';
+import {CustomButton} from '../../components/CustomButton';
+import {CustomText} from '../../components/texts/custom-text';
 
 const height = Dimensions.get('window').height;
 
@@ -22,7 +23,7 @@ export default function SpotsCommentScreen({navigation, route}) {
   const [reload, setReload] = React.useState(true);
   const [loading, setLoading] = React.useState(false);
   const [reviewDataList, setReviewDataList] = React.useState([]);
-  const [rating, setRating] = React.useState(0);
+  const [rating, setRating] = React.useState(5);
   const [textAreaValue, setTextAreaValue] = React.useState('');
   const [currentLimit, setCurrentLimit] = React.useState(10);
 
@@ -92,7 +93,7 @@ export default function SpotsCommentScreen({navigation, route}) {
           userProfileSrc: '',
           contents: textAreaValue,
           userId: authData.id,
-        }).then(() => {
+        }).then(d => {
           // add a dummy record to block update review
           setReviewDataList(oldArray => [
             {
@@ -144,10 +145,10 @@ export default function SpotsCommentScreen({navigation, route}) {
           </Pressable>
         </Box>
         <View style={styles.textContainer}>
-          <Heading size="2xl">{item.name}</Heading>
-          <Text mt="3" mb="3">
+          <CustomText fontSize="xl">{item.name}</CustomText>
+          <CustomText mt="3" mb="3">
             {item.description}
-          </Text>
+          </CustomText>
           <View
             style={{
               marginRight: 'auto',
@@ -191,8 +192,12 @@ export default function SpotsCommentScreen({navigation, route}) {
       </View>
       {!reviewDataList.find(
         x => x.id === 'newReview' || x.userId === authData.id,
-      ) && (
-        <View>
+      ) ? (
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+          }}>
           <View style={styles.commentBox}>
             <TextArea
               h={20}
@@ -211,28 +216,62 @@ export default function SpotsCommentScreen({navigation, route}) {
             }}>
             <RatingButton rating={rating} editable onPress={setRating} />
           </View>
-          <Pressable style={styles.button} onPress={() => handleReview()}>
-            <Text style={styles.buttonText}>Post</Text>
-          </Pressable>
+          <CustomButton
+            onPress={() => handleReview()}
+            size="sm"
+            colorScheme="secondary"
+            style={{
+              alignSelf: 'flex-end',
+              marginRight: 20,
+              marginBottom: 30,
+              marginTop: -25,
+              // justifySelf: 'flex-end',
+            }}>
+            Post
+          </CustomButton>
         </View>
+      ) : (
+        reviewDataList
+          .filter(x => x.id === 'newReview' || x.userId === authData.id)
+          .map(e => {
+            return (
+              <CommentCard
+                key={e.id}
+                comment={e.contents}
+                date={new Date(e.timestamp).toLocaleDateString()}
+                time={new Date(e.timestamp).toLocaleTimeString('en-US', {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  hour12: true,
+                })}
+                rating={e.rating}
+                commentorName="Your Reviews"
+                imgSrc={e.userProfileSrc}
+                style={{backgroundColor: '#bbcbfa'}}
+              />
+            );
+          })
       )}
-      {reviewDataList.slice(0, currentLimit).map(e => {
-        return (
-          <CommentCard
-            key={e.id}
-            comment={e.contents}
-            date={new Date(e.timestamp).toLocaleDateString()}
-            time={new Date(e.timestamp).toLocaleTimeString('en-US', {
-              hour: '2-digit',
-              minute: '2-digit',
-              hour12: true,
-            })}
-            rating={e.rating}
-            commentorName={e.userName}
-            imgSrc={e.userProfileSrc}
-          />
-        );
-      })}
+      {reviewDataList
+        .filter(x => x.id !== 'newReview' && x.userId !== authData.id)
+        .slice(0, currentLimit)
+        .map(e => {
+          return (
+            <CommentCard
+              key={e.id}
+              comment={e.contents}
+              date={new Date(e.timestamp).toLocaleDateString()}
+              time={new Date(e.timestamp).toLocaleTimeString('en-US', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true,
+              })}
+              rating={e.rating}
+              commentorName={e.userName}
+              imgSrc={e.userProfileSrc}
+            />
+          );
+        })}
       <LoadMore
         getData={() => setCurrentLimit(oldValue => oldValue + 10)}
         full={reviewDataList.length - currentLimit < 0}

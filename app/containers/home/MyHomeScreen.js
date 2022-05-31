@@ -7,14 +7,13 @@ import {
   Dimensions,
   Image,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import RoundButton from '../../components/RoundButton';
+import {CustomButton} from '../../components/CustomButton';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {Input} from 'native-base';
 import {MyCircleIcon} from '../../components/CircleIcon';
 import {preventBack} from '../../utils/navigation-utils';
 import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
 import GradientBackground from '../../components/GradientBackground';
+import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 
 const width = Dimensions.get('window').width;
 
@@ -48,20 +47,16 @@ export const MyHomeScreen = ({navigation}) => {
           </Text>
         </Text>
       </ImageBackground>
-      <Input
+      <CustomTextInput
         placeholder="Search attractions, places, etc."
         width="300"
         height="50"
-        borderRadius="10"
         variant="filled"
-        fontSize="14"
         value={''}
         top="175"
         left={width / 2 - 150}
         onChangeText={e => {}}
-        shadow="3"
-        backgroundColor={'#fff'}
-        InputLeftElement={
+        startAdornment={
           <Icon
             style={{marginLeft: 10}}
             size={20}
@@ -87,7 +82,7 @@ export const MyHomeScreen = ({navigation}) => {
           }}>
           <MyCircleIcon
             text="Car Rental"
-            onPress={() => navigation.navigate('CarRental')}>
+            onPress={() => navigation.navigate('CarRentalList')}>
             <Image
               source={require('../../assets/car_rental.png')}
               style={{
@@ -101,7 +96,7 @@ export const MyHomeScreen = ({navigation}) => {
           <MyCircleIcon
             text="Homestay"
             onPress={() => {
-              navigation.navigate('Homestay');
+              navigation.navigate('HomestayEdit');
             }}>
             <Image
               source={require('../../assets/Homestay.png')}
@@ -116,7 +111,7 @@ export const MyHomeScreen = ({navigation}) => {
           <MyCircleIcon
             text="Food"
             onPress={() => {
-              navigation.navigate('MyHomeFood', {
+              navigation.navigate('SpotsList', {
                 type: 'restaurants',
               });
             }}>
@@ -131,22 +126,22 @@ export const MyHomeScreen = ({navigation}) => {
             />
           </MyCircleIcon>
         </View>
-        <RoundButton
+        <CustomButton
           onPress={() => {
-            navigation.navigate('Planner_Question');
+            navigation.navigate('PlannerSteps');
           }}
-          title="PLAN MY TRIP"
-          backgroundColor="rgb(117,157,246)"
           style={{
-            width: '100%',
-            borderRadius: 10,
-            backgroundColor: '#3988c4',
+            marginBottom: 20,
+          }}>
+          PLAN MY TRIP
+        </CustomButton>
+        <CustomButton
+          onPress={() => {
+            navigation.navigate('MyTripHistory');
           }}
-          textStyle={{
-            fontSize: 20,
-            fontWeight: 'bold',
-          }}
-        />
+          colorScheme="secondary">
+          VIEW MY TRIP HISTORY
+        </CustomButton>
       </View>
     </GradientBackground>
   );

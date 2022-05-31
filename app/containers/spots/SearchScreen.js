@@ -1,22 +1,22 @@
 import React, {useEffect, useState} from 'react';
 import CardItem from '../../components/CardItem';
-import BlueSubtitle from '../../components/BlueSubtitle';
+import BlueSubtitle from '../../components/texts/BlueSubtitle';
 import GradientBackground from '../../components/GradientBackground';
-import {Text, Input, ScrollView} from 'native-base';
+import {Text} from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {LoadMore} from '../../components/LoadMore';
 import {BackButton} from '../../components/BackButton';
 import {CustomTabs} from '../../components/CustomTabs';
 import Card from '../../components/Card';
-import {Dimensions, RefreshControl, View} from 'react-native';
+import {RefreshControl, View} from 'react-native';
+import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 
 // list of available tabs
 const tabs = [
   {id: 'attractions', name: 'Tourist Spots'},
   {id: 'hotels', name: 'Hotels'},
   {id: 'restaurants', name: 'Food'},
-  // {id: 'vehicles', name: 'Transport'},
 ];
 
 export const SearchScreen = ({navigation}) => {
@@ -35,6 +35,7 @@ export const SearchScreen = ({navigation}) => {
     setFull(false);
     getWithoutAuth(`${tab}?sort=-avgRating&limit=10&filter[q]=${search}`).then(
       ({data}) => {
+        if (data.length === 0) setFull(true);
         setItems(data);
         setLoading(false);
       },
@@ -68,24 +69,15 @@ export const SearchScreen = ({navigation}) => {
       <View style={{flexDirection: 'column', marginBottom: 10}}>
         <View style={{flexDirection: 'row'}}>
           <BackButton navigation={navigation} />
-          <BlueSubtitle text1="Hi" text2={`Welcome,`} />
+          <BlueSubtitle text1="Hi Welcome," text2={`Suggestions For You`} />
         </View>
-        <Text fontSize={17} color="rgb(117,157,246)">
-          Here there is some suggestion for you.
-        </Text>
       </View>
 
-      <Input
+      <CustomTextInput
         placeholder="Search Here..."
-        width="100%"
-        borderRadius="4"
-        variant="filled"
-        fontSize="14"
         value={search}
         onChangeText={t => setSearch(t)}
-        shadow="5"
-        marginBottom="3"
-        InputLeftElement={
+        startAdornment={
           <Icon
             style={{marginLeft: 10}}
             size={20}

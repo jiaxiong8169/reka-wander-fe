@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import {Popup} from 'react-native-map-link';
 import {getLocationPermissionAndExecute} from '../../utils/location-utils';
-import RoundButton from '../RoundButton';
+import {CustomButton} from '../CustomButton';
 
 export const LocationButton = ({targetLat, targetLong}) => {
   const [currentLong, setCurrentLong] = useState();
@@ -40,11 +40,9 @@ export const LocationButton = ({targetLat, targetLong}) => {
 
   return (
     <View>
-      <RoundButton
-        title="Direction"
-        backgroundColor="#dc2626"
-        onPress={onPressHandler}
-      />
+      <CustomButton colorScheme="secondary" onPress={onPressHandler}>
+        Direction
+      </CustomButton>
       <Popup
         isVisible={isModelPopUp}
         onCancelPressed={closeModel}

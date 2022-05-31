@@ -1,13 +1,14 @@
 import React from 'react';
-import {View, Image} from 'react-native';
+import {Image, Linking} from 'react-native';
 import Card from './Card';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {Button, Text} from 'native-base';
+import {View} from 'native-base';
 import CheckBox from '@react-native-community/checkbox';
+import {CustomButton} from './CustomButton';
+import {CustomText} from './texts/custom-text';
 
 export const PackageCardItem = ({
   item,
-  navigation,
   selected,
   setSelected,
   marginBottom,
@@ -30,20 +31,18 @@ export const PackageCardItem = ({
           alignItems: 'center',
           justifyContent: 'flex-end',
         }}>
-        <Text color="gray.600">
-          {selected.includes(item.id)
-            ? 'Package Selected'
-            : 'Package Not Selected'}
-        </Text>
+        <CustomText color="gray.600">
+          {selected ? 'Package Selected' : 'Package Not Selected'}
+        </CustomText>
         <CheckBox
           disabled={false}
-          value={selected.includes(item.id)}
+          value={selected}
           onValueChange={() => setSelected(item.id, item)}
         />
       </View>
-      <Text bold fontSize={24} letterSpacing="sm" lineHeight="xs">
+      <CustomText bold fontSize="lg">
         {item.name}
-      </Text>
+      </CustomText>
       <View
         style={{
           flexDirection: 'row',
@@ -55,9 +54,9 @@ export const PackageCardItem = ({
           source={require('../assets/pin.png')}
           tintColor={'#52525b'}
         />
-        <Text marginLeft="1" fontSize={10} color="gray.600">
+        <CustomText marginLeft="1" fontSize={10} color="gray.600">
           {item.location}
-        </Text>
+        </CustomText>
       </View>
       <View
         style={{
@@ -65,9 +64,9 @@ export const PackageCardItem = ({
           marginTop: 4,
         }}>
         <Icon size={15} name="time-outline" />
-        <Text marginLeft="1" fontSize={10} color="gray.600">
+        <CustomText marginLeft="1" fontSize={10} color="gray.600">
           {item.hours} Hours
-        </Text>
+        </CustomText>
       </View>
       <View
         style={{
@@ -79,21 +78,25 @@ export const PackageCardItem = ({
           source={require('../assets/money.png')}
           tintColor={'#52525b'}
         />
-        <Text marginLeft="1" fontSize={10} color="gray.600">
+        <CustomText marginLeft="1" fontSize={10} color="gray.600">
           RM {item.price}
-        </Text>
+        </CustomText>
       </View>
-      <Button
+      <CustomButton
         size="sm"
-        padding="1"
-        bg="blue.600"
-        _pressed={{bg: 'blue.300', _text: {color: 'white'}}}
         onPress={() => {
-          // TODO: Where to navigate?
+          if (!item?.link) return;
+          Linking.canOpenURL(item.link).then(supported => {
+            if (supported) {
+              Linking.openURL(item.link);
+            } else {
+              Alert.alert('Link unavailable.');
+            }
+          });
         }}
         style={{width: 200, alignSelf: 'flex-end'}}>
         View Details
-      </Button>
+      </CustomButton>
     </Card>
   );
 };

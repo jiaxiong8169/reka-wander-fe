@@ -1,6 +1,5 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import Stars from 'react-native-stars';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -16,7 +15,7 @@ export const RatingButton = ({onPress, rating, editable}) => {
       count={5}
       starSize={50}
       disabled={!editable}
-      half
+      // half
       fullStar={<Icon name={'star'} style={[styles.myStarStyle]} />}
       emptyStar={
         <Icon

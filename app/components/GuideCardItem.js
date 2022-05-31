@@ -1,13 +1,9 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  ImageBackground,
-  TouchableOpacity,
-} from 'react-native';
-import {Text} from 'native-base';
+import {ImageBackground, TouchableOpacity} from 'react-native';
+import {View} from 'native-base';
 import FastImage from 'react-native-fast-image';
 import {RatingButton} from './RatingButton';
+import {CustomText} from './texts/custom-text';
 
 export const GuideCardItem = ({item, navigation, marginBottom}) => {
   return (
@@ -29,7 +25,6 @@ export const GuideCardItem = ({item, navigation, marginBottom}) => {
       <TouchableOpacity
         onPress={() => {
           navigation.navigate('GuideDetails', {
-            type: 'guides',
             id: item.id,
           });
         }}
@@ -46,17 +41,10 @@ export const GuideCardItem = ({item, navigation, marginBottom}) => {
             justifyContent: 'flex-end',
             flexDirection: 'column',
           }}>
-          <Text
-            bold
-            fontSize={30}
-            letterSpacing="sm"
-            lineHeight="xs"
-            style={{color: '#000'}}>
+          <CustomText bold fontSize="xl">
             {item.name.toUpperCase()}
-          </Text>
-          <Text fontSize={12} color="#000">
-            {item.city}
-          </Text>
+          </CustomText>
+          <CustomText fontSize="xs">{item.city}</CustomText>
           <View
             style={{
               flexDirection: 'row',
@@ -81,12 +69,3 @@ export const GuideCardItem = ({item, navigation, marginBottom}) => {
     </ImageBackground>
   );
 };
-const styles = StyleSheet.create({
-  lineStyle: {
-    borderWidth: 0.2,
-    borderColor: '#rgb(204,204,204)',
-  },
-  button: {
-    borderRadius: 100,
-  },
-});

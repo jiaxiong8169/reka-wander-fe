@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import CardItem from '../../components/CardItem';
-import BlueSubtitle from '../../components/BlueSubtitle';
+import BlueSubtitle from '../../components/texts/BlueSubtitle';
 import GradientBackground from '../../components/GradientBackground';
 import {View, ScrollView} from 'native-base';
 import {useHttpCall} from '../../hooks/useHttpCall';
@@ -27,6 +27,7 @@ export const SpotsListScreen = ({navigation, route}) => {
           let query = `${type}/nearby?long=${position.coords.longitude}&lat=${position.coords.latitude}&distance=300000&sort=-avgRating&limit=10`;
           console.log(query);
           getWithoutAuth(query).then(({data}) => {
+            if (data.length === 0) setFull(true);
             setItems(data);
             setLoading(false);
           });
@@ -34,6 +35,7 @@ export const SpotsListScreen = ({navigation, route}) => {
         () => {
           setLoading(false);
           setItems([]);
+          if (data.length === 0) setFull(true);
         },
       );
     } else {
@@ -93,11 +95,7 @@ export const SpotsListScreen = ({navigation, route}) => {
       <View style={{flexDirection: 'column', marginBottom: 10}}>
         <View style={{flexDirection: 'row'}}>
           <BackButton navigation={navigation} />
-          <BlueSubtitle
-            text1={isNearby ? 'Nearby' : ''}
-            text2={type[0].toUpperCase() + type.substring(1)}
-            small={isNearby}
-          />
+          <BlueSubtitle text1={type[0].toUpperCase() + type.substring(1)} />
         </View>
       </View>
       {items.map(item => (

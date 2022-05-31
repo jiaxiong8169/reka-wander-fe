@@ -2,10 +2,9 @@ import * as React from 'react';
 import {View, StyleSheet, Dimensions, RefreshControl} from 'react-native';
 import {Image} from 'react-native';
 import {Heading, Text} from 'native-base';
-import {ScrollView} from 'react-native';
+import {ScrollView, TouchableOpacity} from 'react-native';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {useAuth} from '../../hooks/useAuth';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import FastImage from 'react-native-fast-image';
 import {useSelector, useDispatch} from 'react-redux';
 import {
@@ -21,6 +20,7 @@ import DeviceInfo from 'react-native-device-info';
 import Share from 'react-native-share';
 import {RatingButton} from '../../components/RatingButton';
 import {LocationButton} from '../../components/Location/LocationButton';
+import {CustomButton} from '../../components/CustomButton';
 
 const height = Dimensions.get('window').height;
 
@@ -235,21 +235,32 @@ export default function SpotDetailsScreen({navigation, route}) {
           <Text mt="3" mb="10" color={'white'}>
             {item.description}
           </Text>
-          <LocationButton
-            targetLat={item?.loc?.coordinates[1]}
-            targetLong={item?.loc?.coordinates[0]}
-          />
+          {type === 'hotels' || type === 'nearbyHotels' ? (
+            <CustomButton
+              colorScheme="secondary"
+              style={{marginTop: 20}}
+              onPress={() => {
+                navigation.navigate('SelectRoom', {
+                  item,
+                });
+              }}>
+              Select Rooms
+            </CustomButton>
+          ) : (
+            <LocationButton
+              targetLat={item?.loc?.coordinates[1]}
+              targetLong={item?.loc?.coordinates[0]}
+            />
+          )}
         </View>
         <View style={styles.buttonContainer}>
-          <View style={{flexDirection: 'row'}}>
-            <TouchableOpacity
-              onPress={() => handleLike()}
-              style={{flex: 1, justifyContent: 'center'}}>
-              <Image
-                style={styles.icon}
-                source={require('../../assets/love.png')}
-                tintColor={liked ? 'red' : 'gray'}></Image>
-            </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => handleLike()}
+            style={{flexDirection: 'row'}}>
+            <Image
+              style={styles.icon}
+              source={require('../../assets/love.png')}
+              tintColor={liked ? 'red' : 'gray'}></Image>
             <Text
               ml={'2'}
               bold
@@ -258,39 +269,35 @@ export default function SpotDetailsScreen({navigation, route}) {
               style={styles.iconText}>
               {likes}
             </Text>
-          </View>
+          </TouchableOpacity>
           <TouchableOpacity
-            style={{flex: 1, alignSelf: 'center', justifyContent: 'center'}}
+            style={{flexDirection: 'row'}}
             onPress={() =>
               navigation.navigate('SpotsComment', {
                 id: id,
                 type: type,
               })
             }>
-            <View style={{flexDirection: 'row'}}>
-              <Image
-                style={styles.icon}
-                source={require('../../assets/message.png')}
-                tintColor="red"></Image>
-              <Text
-                ml={'2'}
-                bold
-                fontSize={12}
-                color="red.500"
-                style={styles.iconText}>
-                {item.reviews ? item.reviews.length : 0}
-              </Text>
-            </View>
+            <Image
+              style={styles.icon}
+              source={require('../../assets/message.png')}
+              tintColor="red"></Image>
+            <Text
+              ml={'2'}
+              bold
+              fontSize={12}
+              color="red.500"
+              style={styles.iconText}>
+              {item.reviews ? item.reviews.length : 0}
+            </Text>
           </TouchableOpacity>
-          <View style={{flexDirection: 'row'}}>
-            <TouchableOpacity
-              onPress={() => handleShare()}
-              style={{flex: 1, justifyContent: 'center'}}>
-              <Image
-                style={styles.icon}
-                source={require('../../assets/share.png')}
-                tintColor={shared ? 'red' : 'gray'}></Image>
-            </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => handleShare()}
+            style={{flexDirection: 'row'}}>
+            <Image
+              style={styles.icon}
+              source={require('../../assets/share.png')}
+              tintColor={shared ? 'red' : 'gray'}></Image>
             <Text
               ml={'2'}
               bold
@@ -299,7 +306,7 @@ export default function SpotDetailsScreen({navigation, route}) {
               style={styles.iconText}>
               {shares}
             </Text>
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
     </ScrollView>
@@ -330,11 +337,10 @@ const styles = StyleSheet.create({
     left: '15%',
     right: 0,
     top: height * 0.33,
-    paddingLeft: '10%',
-    paddingRight: '10%',
-    flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
   },
   container: {
     flex: 1,

@@ -12,6 +12,7 @@ import {
   RESET_TRIP,
   SET_TRIP_PLAN,
   SET_TRIP_PLAN_BY_FIELDNAME,
+  SET_USER_LONG_LAT,
 } from './actions';
 import moment from 'moment';
 
@@ -69,6 +70,12 @@ function plannerReducer(state = initialState, action) {
       return {...state, rentHomeStay: action.payload};
     case SET_TRIP_PLAN:
       return {...state, tripPlan: action.payload};
+    case SET_USER_LONG_LAT:
+      return {
+        ...state,
+        longitude: action.payload.long,
+        latitude: action.payload.lat,
+      };
     case SET_TRIP_PLAN_BY_FIELDNAME:
       return {
         ...state,

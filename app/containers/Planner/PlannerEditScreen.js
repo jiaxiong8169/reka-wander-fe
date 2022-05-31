@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import CardItemWithEdit from '../../components/CardItemWithEdit';
-import BlueSubtitle from '../../components/BlueSubtitle';
+import BlueSubtitle from '../../components/texts/BlueSubtitle';
 import GradientBackground from '../../components/GradientBackground';
-import {Input, View, ScrollView} from 'native-base';
+import {View, ScrollView} from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {LoadMore} from '../../components/LoadMore';
@@ -10,6 +10,7 @@ import {BackButton} from '../../components/BackButton';
 import {useSelector, useDispatch} from 'react-redux';
 import {setTripPlanbyFieldName} from '../../redux/Planner/actions';
 import {RefreshControl} from 'react-native';
+import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 
 export const EditScreen = ({navigation, route}) => {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ export const EditScreen = ({navigation, route}) => {
     setFull(false);
     getWithoutAuth(`${type}?sort=-avgRating&limit=10&filter[q]=${search}`).then(
       ({data}) => {
+        if (data.length === 0) setFull(true);
         setItems(data);
         setLoading(false);
       },
@@ -86,16 +88,11 @@ export const EditScreen = ({navigation, route}) => {
         </View>
       </View>
 
-      <Input
+      <CustomTextInput
         placeholder="Search Here..."
-        width="100%"
-        borderRadius="4"
-        variant="filled"
-        fontSize="14"
         value={search}
         onChangeText={t => setSearch(t)}
-        shadow="5"
-        InputLeftElement={
+        startAdornment={
           <Icon
             style={{marginLeft: 10}}
             size={20}

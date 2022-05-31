@@ -1,37 +1,25 @@
 import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {View, Text, TouchableOpacity} from 'react-native';
-import {useSelector, useDispatch} from 'react-redux';
-import {setCarLocation} from '../../redux/CarRental/actions';
-import {setHomestayLocation} from '../../redux/Homestay/actions';
-import {setGuideLocation} from '../../redux/Guides/actions';
+import {View, TouchableOpacity} from 'react-native';
 import {Popup} from 'react-native-map-link';
 import {getLocationPermissionAndExecute} from '../../utils/location-utils';
+import {CustomText} from '../texts/custom-text';
 
-export const LocationName = props => {
-  const {carLocation} = useSelector(state => state.carReducer);
-  const {homestayLocation} = useSelector(state => state.homestayReducer);
-  const {guidesLocation} = useSelector(state => state.guidesReducer);
-  const dispatch = useDispatch();
+export const SimpleLocationName = ({lat, long, value, setValue, title}) => {
   const [currentLong, setCurrentLong] = useState();
   const [currentLat, setCurrentLat] = useState();
-  const [Title, setTitle] = useState();
   const [isModelPopUp, setIsModelPopUp] = useState(false);
+
   const closeModel = () => {
     setIsModelPopUp(false);
   };
 
   const options = {
-    latitude: props.lat,
-    longitude: props.long,
+    latitude: lat,
+    longitude: long,
     sourceLatitude: currentLat,
     sourceLongitude: currentLong,
-    title:
-      props.type === 'car'
-        ? carLocation
-        : props.type === 'homestay'
-        ? homestayLocation
-        : guidesLocation,
+    title: title,
     dialogTitle: '',
     dialogMessage: '',
     cancelText: 'Cancel',
@@ -50,10 +38,10 @@ export const LocationName = props => {
 
   useEffect(() => {
     // do nothing if lat and long are nothing
-    if (!props.lat || !props.long) return;
-    getAddressFromCoordinates(props.lat, props.long);
+    if (!lat || !long) return;
+    getAddressFromCoordinates(lat, long);
     getLocation();
-  }, [props.lat, props.long]);
+  }, [lat, long]);
 
   const getAddressFromCoordinates = (lat, long) => {
     //here api
@@ -70,36 +58,7 @@ export const LocationName = props => {
           resJson.Response.View[0].Result &&
           resJson.Response.View[0].Result[0]
         ) {
-          if (props.type === 'car') {
-            let result =
-              resJson.Response.View[0].Result[0].Location.Address.Label;
-            dispatch(
-              setCarLocation(
-                // resJson.Response.View[0].Result[0].Location.Address.Label,
-                result
-              ),
-            );
-          }
-          if (props.type === 'homestay') {
-            let result =
-              resJson.Response.View[0].Result[0].Location.Address.Label;
-            dispatch(
-              setHomestayLocation(
-                // resJson.Response.View[0].Result[0].Location.Address.Label,
-                result
-              ),
-            );
-          }
-          if (props.type === 'guide') {
-            let result =
-              resJson.Response.View[0].Result[0].Location.Address.Label;
-            dispatch(
-              setGuideLocation(
-                // resJson.Response.View[0].Result[0].Location.Address.Label
-                result,
-              ),
-            );
-          }
+          setValue(resJson.Response.View[0].Result[0].Location.Address.Label);
         }
       })
       .catch(e => {
@@ -112,17 +71,7 @@ export const LocationName = props => {
       <View style={{flexDirection: 'row', marginTop: 5}}>
         <Icon name="location-outline" size={23} color="#000"></Icon>
         <View style={{flex: 2, marginLeft: 10}}>
-          {props.type === 'car' && (
-            <Text style={{fontSize: 15, color: '#000'}}>{carLocation}</Text>
-          )}
-          {props.type === 'homestay' && (
-            <Text style={{fontSize: 15, color: '#000'}}>
-              {homestayLocation}
-            </Text>
-          )}
-          {props.type === 'guide' && (
-            <Text style={{fontSize: 15, color: '#000'}}>{guidesLocation}</Text>
-          )}
+          <CustomText>{value}</CustomText>
         </View>
         <View style={{alignItems: 'flex-end', flex: 1}}>
           <TouchableOpacity

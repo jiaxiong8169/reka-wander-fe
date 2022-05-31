@@ -1,16 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import GradientBackground from '../../components/GradientBackground';
-import BlueSubtitle from '../../components/BlueSubtitle';
-import {
-  View,
-  Dimensions,
-  ScrollView,
-  Image,
-  StyleSheet,
-  Text,
-} from 'react-native';
+import React from 'react';
+import {View, Text} from 'react-native';
 import FastImage from 'react-native-fast-image';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 export const RoomsSelected = ({style, id, name, url, price, quantity}) => {
   return (

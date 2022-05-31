@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {View, Text, Image, TouchableOpacity, ScrollView} from 'react-native';
+import React, {useEffect} from 'react';
+import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
 import moment from 'moment';
 import {useSelector, useDispatch} from 'react-redux';
 import Card from '../../components/card/card';
@@ -12,19 +12,15 @@ import TravelInterest from './PlannerTravelinterestScreen';
 import Withkids from './PlannerWithkidsScreen';
 import RentHomeStay from './PlannerRentHomeStayScreen';
 import RentCar from './PlannerRentCarScreen';
-import {resetTrip, setTripName} from '../../redux/Planner/actions';
+import {resetTrip} from '../../redux/Planner/actions';
 import UserDetails from './PlannerUserDetails';
 import RecommendedCardDetails from './PlannerRecommendationCardDetails';
 import RecommendedCard from './PlannerRecommendCard';
-
 import {useHttpCall} from '../../hooks/useHttpCall';
-import {useAuth} from '../../hooks/useAuth';
 import {preventBack} from '../../utils/navigation-utils';
 
 export default function Recommended({navigation}) {
   const dispatch = useDispatch();
-
-  const {authData} = useAuth();
   const {tripName} = useSelector(state => state.plannerReducer);
   const {startDate} = useSelector(state => state.plannerReducer);
   const {endDate} = useSelector(state => state.plannerReducer);
@@ -60,7 +56,7 @@ export default function Recommended({navigation}) {
       startDate: startDate,
       endDate: endDate,
       pax: pax,
-      previousBudget: parseFloat(budget),
+      previousBudget: parseFloat(!!budget ? budget : 0),
       interests: interest,
       kids: kids,
       rentCar: rentCar,
@@ -200,19 +196,6 @@ export default function Recommended({navigation}) {
               <View
                 style={{flexDirection: 'column', borderBottomColor: '#000'}}>
                 <UserDetails
-                  title={'Budget'}
-                  styles={{paddingTop: 10}}
-                  url={require('../../assets/dollar_icon.png')}
-                  editPage={<TravelBudget />}>
-                  <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
-                    RM{budget}
-                  </Text>
-                </UserDetails>
-              </View>
-
-              <View
-                style={{flexDirection: 'column', borderBottomColor: '#000'}}>
-                <UserDetails
                   title={'Car'}
                   styles={{paddingTop: 10}}
                   url={require('../../assets/car_icon.png')}
@@ -220,6 +203,19 @@ export default function Recommended({navigation}) {
                   editPage={<RentCar />}>
                   <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
                     {rentCars}
+                  </Text>
+                </UserDetails>
+              </View>
+
+              <View
+                style={{flexDirection: 'column', borderBottomColor: '#000'}}>
+                <UserDetails
+                  title={'Budget'}
+                  styles={{paddingTop: 10}}
+                  url={require('../../assets/dollar_icon.png')}
+                  editPage={<TravelBudget />}>
+                  <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
+                    RM {!!budget ? budget : 0}
                   </Text>
                 </UserDetails>
               </View>
@@ -264,7 +260,6 @@ export default function Recommended({navigation}) {
                   styles={{paddingTop: 10}}
                   name={item.name}>
                   {item.description.substring(0, 100) + '...'}
-                  <Text>abc</Text>
                 </RecommendedCardDetails>
               ))}
             </RecommendedCard>

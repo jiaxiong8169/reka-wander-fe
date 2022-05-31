@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, View, Text, ScrollView} from 'react-native';
 import Modal from 'react-native-modal';
-import {useSelector, useDispatch} from 'react-redux';
-
+import {useSelector} from 'react-redux';
 import TripName from './PlannerTripNameScreen';
 import PaxPage from './PlannerPaxScreen';
 import ChooseDays from './PlannerCalendarScreen';
@@ -15,7 +14,9 @@ import ProgressStep from '../../components/stepper/ProgressStep';
 import ProgressSteps from '../../components/stepper/ProgressSteps';
 import GradientBackground from '../../components/GradientBackground';
 import ModelContent from '../../components/Modal/ModalContent';
-import InsertDetailsCard from './PlannerInsertDetailsScreen';
+import InsertDetailsCard from '../../components/stepper/InsertDetailsCard';
+import {PlannerSelectDestinationScreen} from './PlannerSelectDestinationScreen';
+
 export default function PlannerSteps({navigation}) {
   const [isModelPopUp, setIsModelPopUp] = useState(false);
   const [errors, setErrors] = useState(false);
@@ -32,7 +33,7 @@ export default function PlannerSteps({navigation}) {
   const checkNumberInput = () => {
     try {
       //check for number input
-      if (parseFloat(budget) < 100) {
+      if (!budget || parseFloat(budget) < 100) {
         setIsModelPopUp(true);
         setErrors(true);
       } else {
@@ -40,31 +41,9 @@ export default function PlannerSteps({navigation}) {
       }
     } catch (err) {
       console.log(err);
+      setIsModelPopUp(true);
+      setErrors(true);
     }
-  };
-
-  const nextbuttonTextStyle = {
-    backgroundColor: '#4169E1',
-    minWidth: '35%',
-    borderRadius: 50,
-    textAlign: 'center',
-    color: 'white',
-    padding: 12,
-    marginHorizontal: 20,
-    marginBottom: 20,
-  };
-
-  const previousbuttonTextStyle = {
-    backgroundColor: 'white',
-    minWidth: '35%',
-    borderRadius: 50,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: '#4169E1',
-    color: '#4169E1',
-    textAlign: 'center',
-    marginHorizontal: 20,
-    marginBottom: 20,
   };
 
   const progressStepsStyle = {
@@ -109,60 +88,53 @@ export default function PlannerSteps({navigation}) {
           <View
             style={{
               paddingHorizontal: 20,
+              flex: 1,
             }}>
             <ProgressSteps {...progressStepsStyle}>
-              <ProgressStep nextBtnTextStyle={nextbuttonTextStyle}>
-                <InsertDetailsCard style={{width: '100%'}}>
+              <ProgressStep>
+                <InsertDetailsCard>
                   <TripName />
                 </InsertDetailsCard>
               </ProgressStep>
 
-              <ProgressStep
-                nextBtnTextStyle={nextbuttonTextStyle}
-                previousBtnTextStyle={previousbuttonTextStyle}>
-                <InsertDetailsCard style={{width: '100%'}}>
+              <ProgressStep>
+                <InsertDetailsCard>
+                  <PlannerSelectDestinationScreen />
+                </InsertDetailsCard>
+              </ProgressStep>
+
+              <ProgressStep>
+                <InsertDetailsCard>
                   <PaxPage />
                 </InsertDetailsCard>
               </ProgressStep>
 
-              <ProgressStep
-                nextBtnTextStyle={nextbuttonTextStyle}
-                previousBtnTextStyle={previousbuttonTextStyle}>
+              <ProgressStep>
                 <InsertDetailsCard>
                   <ChooseDays />
                 </InsertDetailsCard>
               </ProgressStep>
 
-              <ProgressStep
-                nextBtnTextStyle={nextbuttonTextStyle}
-                previousBtnTextStyle={previousbuttonTextStyle}>
-                <InsertDetailsCard style={{width: '100%'}}>
+              <ProgressStep>
+                <InsertDetailsCard>
                   <TravelInterest />
                 </InsertDetailsCard>
               </ProgressStep>
 
-              <ProgressStep
-                nextBtnTextStyle={nextbuttonTextStyle}
-                previousBtnTextStyle={previousbuttonTextStyle}>
-                <InsertDetailsCard style={{width: '100%'}}>
+              <ProgressStep>
+                <InsertDetailsCard>
                   <Withkids />
                 </InsertDetailsCard>
               </ProgressStep>
 
-              <ProgressStep
-                nextBtnTextStyle={nextbuttonTextStyle}
-                previousBtnTextStyle={previousbuttonTextStyle}>
-                <InsertDetailsCard style={{width: '100%'}}>
+              <ProgressStep>
+                <InsertDetailsCard>
                   <RentHomeStay />
                 </InsertDetailsCard>
               </ProgressStep>
 
-              <ProgressStep
-                nextBtnTextStyle={nextbuttonTextStyle}
-                previousBtnTextStyle={previousbuttonTextStyle}
-                onNext={checkNumberInput}
-                errors={errors}>
-                <InsertDetailsCard style={{width: '100%'}}>
+              <ProgressStep onNext={checkNumberInput} errors={errors}>
+                <InsertDetailsCard>
                   <TravelBudget />
                 </InsertDetailsCard>
                 <Modal
@@ -187,10 +159,7 @@ export default function PlannerSteps({navigation}) {
                 </Modal>
               </ProgressStep>
 
-              <ProgressStep
-                onSubmit={onPressHandler}
-                nextBtnTextStyle={nextbuttonTextStyle}
-                previousBtnTextStyle={previousbuttonTextStyle}>
+              <ProgressStep onSubmit={onPressHandler}>
                 <InsertDetailsCard style={{width: '100%'}}>
                   <RentCar />
                 </InsertDetailsCard>
@@ -205,7 +174,7 @@ export default function PlannerSteps({navigation}) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    display: 'flex',
   },
   title: {
     fontWeight: '300',

@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import BlueSubtitle from '../../components/BlueSubtitle';
+import BlueSubtitle from '../../components/texts/BlueSubtitle';
 import GradientBackground from '../../components/GradientBackground';
-import {Input, View} from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {LoadMore} from '../../components/LoadMore';
@@ -9,6 +8,7 @@ import {CustomTabs} from '../../components/CustomTabs';
 import Card from '../../components/Card';
 import {RefreshControl} from 'react-native';
 import {GuideCardItem} from '../../components/GuideCardItem';
+import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 
 // list of available tabs
 const tabs = [
@@ -39,6 +39,7 @@ export const GuideListScreen = ({navigation}) => {
     getWithoutAuth(query).then(({data}) => {
       setItems(data);
       setLoading(false);
+      if (data.length === 0) setFull(true);
     });
   }, [reload, search, tab]);
 
@@ -69,23 +70,19 @@ export const GuideListScreen = ({navigation}) => {
           onRefresh={() => setReload(!reload)}
         />
       }>
-      <View style={{flexDirection: 'column', marginBottom: 10}}>
-        <View style={{flexDirection: 'row'}}>
-          <BlueSubtitle text1="Tour Guides" text2={``} />
-        </View>
-      </View>
+      <BlueSubtitle
+        text1="Tour Guides"
+        text2={``}
+        style={{
+          marginBottom: 10,
+        }}
+      />
 
-      <Input
+      <CustomTextInput
         placeholder="Search Here..."
-        width="100%"
-        borderRadius="4"
-        variant="filled"
-        fontSize="14"
         value={search}
         onChangeText={t => setSearch(t)}
-        shadow="5"
-        marginBottom="3"
-        InputLeftElement={
+        startAdornment={
           <Icon
             style={{marginLeft: 10}}
             size={20}
