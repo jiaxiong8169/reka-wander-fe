@@ -7,7 +7,7 @@ import {CustomButton} from '../../components/CustomButton';
 import {LoadingOverlay} from '../../components/LoadingOverlay';
 import {useHttpCall} from '../../hooks/useHttpCall';
 
-export const ResetPasswordScreen = ({navigation}) => {
+export const ForgetPasswordScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [snackbarVisible, setSnackbarVisible] = useState(false);

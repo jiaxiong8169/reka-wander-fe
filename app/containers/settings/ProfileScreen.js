@@ -1,16 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, StyleSheet} from 'react-native';
-import {Button, View, Text, TextField, Avatar, ScrollView} from 'native-base';
+import {View, Avatar} from 'native-base';
 import GradientBackground from '../../components/GradientBackground';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 import {useAuth} from '../../hooks/useAuth';
-import {LoadingOverlay} from '../../components/LoadingOverlay';
-import {BackButton} from '../../components/BackButton';
 import {CustomButton} from '../../components/CustomButton';
 
-export const ProfileScreen = ({navigation}) => {
-  const {putWithAuth} = useHttpCall();
+export const ProfileScreen = ({navigation, route}) => {
+  const {getWithAuth, putWithAuth} = useHttpCall();
   const {authData, setAuthData} = useAuth();
 
   const [loading, setLoading] = useState(false);
@@ -23,6 +20,10 @@ export const ProfileScreen = ({navigation}) => {
   useEffect(() => {
     getProfile();
   }, [navigation]);
+
+  useEffect(() => {
+    setPhoneNumber(route?.params?.phoneNumber);
+  }, [route?.params?.phoneNumber]);
 
   const getProfile = () => {
     setLoading(true);
@@ -110,23 +111,11 @@ export const ProfileScreen = ({navigation}) => {
       />
       <CustomTextInput
         fieldLabel={'Phone Number'}
-        value={phoneNumber}
-        editable={isEditMode}
-        onChangeText={setPhoneNumber}
-        style={{
-          marginBottom: 20,
-        }}
-      />
-      <View style={{flex: 1, flexDirection: 'row'}}>
-        <View style={{flex: 2}}>
-          <CustomTextInput
-            fieldLabel={'Phone Number'}
-            defaultValue={phoneNumber}
-            editable={false}></CustomTextInput>
-        </View>
-        {isEditMode && (
-          <View style={{alignSelf: 'center'}}>
-            <Button
+        defaultValue={phoneNumber}
+        editable={false}
+        endAdornment={
+          isEditMode && (
+            <CustomButton
               onPress={() => {
                 navigation.navigate('ConfirmPhone', {
                   action: 'update',
@@ -134,22 +123,21 @@ export const ProfileScreen = ({navigation}) => {
                 });
               }}>
               Change
-            </Button>
-          </View>
-        )}
-      </View>
+            </CustomButton>
+          )
+        }></CustomTextInput>
       <View style={{flex: 1, flexDirection: 'row'}}>
         <View style={{flex: 2}}>
           <CustomTextInput
             fieldLabel={'Password'}
             defaultValue={'********'}
-            editable={false}></CustomTextInput>
+            editable={false}
+            endAdornment={
+              isEditMode && (
+                <CustomButton onPress={() => {}}>Change</CustomButton>
+              )
+            }></CustomTextInput>
         </View>
-        {isEditMode && (
-          <View style={{alignSelf: 'center'}}>
-            <Button>Change</Button>
-          </View>
-        )}
       </View>
       {!isEditMode ? (
         <CustomButton

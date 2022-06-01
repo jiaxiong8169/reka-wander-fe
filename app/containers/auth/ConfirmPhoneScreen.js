@@ -21,7 +21,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 
 const OTP_TIMEOUT_SECONDS = 90;
 
-export const ConfirmPhoneScreen = ({route}) => {
+export const ConfirmPhoneScreen = ({navigation, route}) => {
   const [code, setCode] = useState('');
   const [confirm, setConfirm] = useState(undefined);
   const [phoneNumberPrefix, setPhoneNumberPrefix] = useState('60');
@@ -94,6 +94,16 @@ export const ConfirmPhoneScreen = ({route}) => {
             .then(() => {
               setOTPModalVisible(false);
               setLoading(false);
+            })
+            .finally(() => {
+              console.log('sign out');
+              auth()
+                .signOut()
+                .then(() => {
+                  navigation.navigate('Profile', {
+                    phoneNumber: `+${phoneNumberPrefix}${phoneNumber}`,
+                  });
+                });
             });
           break;
         case 'create':
