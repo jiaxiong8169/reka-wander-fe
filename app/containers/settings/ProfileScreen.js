@@ -35,7 +35,10 @@ export const ProfileScreen = ({navigation, route}) => {
         const {data: userData} = data;
         setFields(userData);
       })
-      .then(() => {
+      .catch(err => {
+        console.log(err);
+      })
+      .finally(() => {
         setLoading(false);
       });
   };
@@ -58,7 +61,7 @@ export const ProfileScreen = ({navigation, route}) => {
         setAuthData(({token}) => ({...userData, token}));
         setFields(userData);
       })
-      .then(() => {
+      .finally(() => {
         setLoading(false);
       });
   };
@@ -126,19 +129,20 @@ export const ProfileScreen = ({navigation, route}) => {
             </CustomButton>
           )
         }></CustomTextInput>
-      <View style={{flex: 1, flexDirection: 'row'}}>
-        <View style={{flex: 2}}>
-          <CustomTextInput
-            fieldLabel={'Password'}
-            defaultValue={'********'}
-            editable={false}
-            endAdornment={
-              isEditMode && (
-                <CustomButton onPress={() => {}}>Change</CustomButton>
-              )
-            }></CustomTextInput>
-        </View>
-      </View>
+      <CustomTextInput
+        fieldLabel={'Password'}
+        defaultValue={'********'}
+        editable={false}
+        endAdornment={
+          isEditMode && (
+            <CustomButton
+              onPress={() => {
+                navigation.navigate('ChangePassword');
+              }}>
+              Change
+            </CustomButton>
+          )
+        }></CustomTextInput>
       {!isEditMode ? (
         <CustomButton
           onPress={() => setIsEditMode(true)}
@@ -149,19 +153,11 @@ export const ProfileScreen = ({navigation, route}) => {
           Edit
         </CustomButton>
       ) : (
-        <>
-          <CustomButton
-            onPress={() => {}}
-            colorScheme="secondary"
-            style={{marginBottom: 20, width: '100%', maxWidth: 200}}>
-            Change Password
-          </CustomButton>
-          <CustomButton
-            style={{width: '100%', maxWidth: 200}}
-            onPress={handleSaveProfile}>
-            Save
-          </CustomButton>
-        </>
+        <CustomButton
+          style={{width: '100%', maxWidth: 200}}
+          onPress={handleSaveProfile}>
+          Save
+        </CustomButton>
       )}
     </GradientBackground>
   );

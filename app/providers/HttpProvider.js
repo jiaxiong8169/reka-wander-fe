@@ -67,6 +67,7 @@ const HttpProvider = ({children}) => {
       .catch(err => {
         console.log(err);
         err.response.json().then(data => setAuthError(data.message));
+        throw err;
       });
   };
 
@@ -134,7 +135,13 @@ const HttpProvider = ({children}) => {
 
   return (
     <HttpContext.Provider
-      value={{postWithAuth, postWithoutAuth, getWithAuth, getWithoutAuth, putWithAuth}}>
+      value={{
+        postWithAuth,
+        postWithoutAuth,
+        getWithAuth,
+        getWithoutAuth,
+        putWithAuth,
+      }}>
       {children}
     </HttpContext.Provider>
   );

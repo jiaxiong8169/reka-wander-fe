@@ -95,6 +95,9 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
               setOTPModalVisible(false);
               setLoading(false);
             })
+            .catch(() => {
+              // TODO: add error handling
+            })
             .finally(() => {
               console.log('sign out');
               auth()

@@ -74,6 +74,7 @@ export default function Recommended({navigation}) {
         navigation.navigate('Success');
       })
       .catch(err => {
+        // TODO: check if this will be redundant
         Alert.alert('Error', JSON.stringify(err));
         navigation.navigate('MyHome');
       });
