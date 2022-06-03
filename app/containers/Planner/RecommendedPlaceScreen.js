@@ -12,7 +12,7 @@ import TravelInterest from './PlannerTravelinterestScreen';
 import Withkids from './PlannerWithkidsScreen';
 import RentHomeStay from './PlannerRentHomeStayScreen';
 import RentCar from './PlannerRentCarScreen';
-import {PlannerSelectDestinationScreen} from './PlannerSelectDestinationScreen';
+import PlannerSelectDestinationScreen from './PlannerSelectDestinationScreen';
 import {resetTrip} from '../../redux/Planner/actions';
 import UserDetails from './PlannerUserDetails';
 import RecommendedCardDetails from './PlannerRecommendationCardDetails';

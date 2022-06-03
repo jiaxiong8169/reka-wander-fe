@@ -8,7 +8,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {CustomButton} from '../../components/CustomButton';
 import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 
-export default PlannerSelectDestinationScreen = () => {
+const PlannerSelectDestinationScreen = () => {
   const {longitude, latitude} = useSelector(state => state.plannerReducer);
   const [search, setSearch] = useState('');
   const [region, setRegion] = useState({
@@ -178,3 +178,5 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 });
+
+export default PlannerSelectDestinationScreen;
