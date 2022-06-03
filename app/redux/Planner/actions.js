@@ -11,6 +11,7 @@ export const SET_USER_KIDS = 'SET_USER_KIDS';
 export const SET_USER_RENTCAR = 'SET_USER_RENTCAR';
 export const SET_USER_RENTHOMESTAY = 'SET_USER_RENTHOMESTAY';
 export const SET_USER_LONG_LAT = 'SET_USER_LONG_LAT';
+export const SET_USER_DESTINATION = 'SET_USER_DESTINATION';
 export const SET_TRIP_ID = 'SET_TRIP_ID';
 export const RESET_TRIP = 'RESET_TRIP';
 export const SET_TRIP_PLAN = 'SET_TRIP_PLAN';
@@ -39,6 +40,13 @@ export const setUserLongLat = (long, lat) => dispatch => {
     },
   });
 };
+
+export const setUserDestination = destination => dispatch => {
+  dispatch({
+    type: SET_USER_DESTINATION,
+    payload: destination,
+  })
+}
 
 export const setStartDate = startDate => dispatch => {
   // check if startDate is not empty
