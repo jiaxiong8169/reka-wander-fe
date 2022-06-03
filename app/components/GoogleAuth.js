@@ -55,7 +55,11 @@ const GoogleAuth = ({navigation, setEmail}) => {
       })
       .catch(() => {
         // without signing out, the auth state listener will assume that the user is authenticated
-        navigation.push('ConfirmPhone', {email, password: uid});
+        navigation.push('ConfirmPhone', {
+          action: 'create',
+          email,
+          password: uid,
+        });
       });
   };
 

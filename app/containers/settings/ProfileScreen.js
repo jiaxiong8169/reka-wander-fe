@@ -1,22 +1,52 @@
-import React, {useState} from 'react';
-import {Avatar} from 'native-base';
+import React, {useEffect, useState} from 'react';
+import {View, Avatar} from 'native-base';
 import GradientBackground from '../../components/GradientBackground';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 import {useAuth} from '../../hooks/useAuth';
 import {CustomButton} from '../../components/CustomButton';
 
-export const ProfileScreen = ({navigation}) => {
-  const {putWithAuth} = useHttpCall();
+export const ProfileScreen = ({navigation, route}) => {
+  const {getWithAuth, putWithAuth} = useHttpCall();
   const {authData, setAuthData} = useAuth();
+
+  const [loading, setLoading] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
-  const [username, setUsername] = useState(authData.name);
-  const [email, setEmail] = useState(authData.email);
-  const [phoneNumber, setPhoneNumber] = useState(authData.phoneNumber);
-  const [profileSrc, setProfileSrc] = useState(authData.profileSrc);
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [profileSrc, setProfileSrc] = useState('');
+
+  useEffect(() => {
+    getProfile();
+  }, [navigation]);
+
+  useEffect(() => {
+    setPhoneNumber(route?.params?.phoneNumber);
+  }, [route?.params?.phoneNumber]);
+
+  const getProfile = () => {
+    setLoading(true);
+    return getWithAuth('profile', () =>
+      navigation.navigate({name: 'SignInScreen'}),
+    )
+      .then(data => {
+        // TODO: Implement Profile Container
+        const {data: userData} = data;
+        setFields(userData);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
 
   const handleSaveProfile = () => {
     setIsEditMode(false);
+    console.log(authData);
+    setLoading(true);
     putWithAuth(
       `users/${authData.id}`,
       {
@@ -25,9 +55,22 @@ export const ProfileScreen = ({navigation}) => {
         phoneNumber: phoneNumber,
       },
       () => navigation.navigate('SignInScreen'),
-    ).then(data => {
-      setAuthData(data?.data);
-    });
+    )
+      .then(data => {
+        const {data: userData} = data;
+        setAuthData(({token}) => ({...userData, token}));
+        setFields(userData);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const setFields = userData => {
+    setUsername(userData.name ?? '');
+    setEmail(userData.email ?? '');
+    setPhoneNumber(userData.phoneNumber ?? '');
+    setProfileSrc(userData.profileSrc ?? '');
   };
 
   return (
@@ -71,13 +114,35 @@ export const ProfileScreen = ({navigation}) => {
       />
       <CustomTextInput
         fieldLabel={'Phone Number'}
-        value={phoneNumber}
-        editable={isEditMode}
-        onChangeText={setPhoneNumber}
-        style={{
-          marginBottom: 20,
-        }}
-      />
+        defaultValue={phoneNumber}
+        editable={false}
+        endAdornment={
+          isEditMode && (
+            <CustomButton
+              onPress={() => {
+                navigation.navigate('ConfirmPhone', {
+                  action: 'update',
+                  id: authData.id,
+                });
+              }}>
+              Change
+            </CustomButton>
+          )
+        }></CustomTextInput>
+      <CustomTextInput
+        fieldLabel={'Password'}
+        defaultValue={'********'}
+        editable={false}
+        endAdornment={
+          isEditMode && (
+            <CustomButton
+              onPress={() => {
+                navigation.navigate('ChangePassword');
+              }}>
+              Change
+            </CustomButton>
+          )
+        }></CustomTextInput>
       {!isEditMode ? (
         <CustomButton
           onPress={() => setIsEditMode(true)}
@@ -88,19 +153,11 @@ export const ProfileScreen = ({navigation}) => {
           Edit
         </CustomButton>
       ) : (
-        <>
-          <CustomButton
-            onPress={() => {}}
-            colorScheme="secondary"
-            style={{marginBottom: 20, width: '100%', maxWidth: 200}}>
-            Change Password
-          </CustomButton>
-          <CustomButton
-            style={{width: '100%', maxWidth: 200}}
-            onPress={handleSaveProfile}>
-            Save
-          </CustomButton>
-        </>
+        <CustomButton
+          style={{width: '100%', maxWidth: 200}}
+          onPress={handleSaveProfile}>
+          Save
+        </CustomButton>
       )}
     </GradientBackground>
   );

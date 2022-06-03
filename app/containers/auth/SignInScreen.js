@@ -69,7 +69,7 @@ const SignInScreen = ({navigation, route}) => {
 
   const handleRegisterButtonPress = () => {
     checkBeforeRun(() =>
-      navigation.navigate('ConfirmPhone', {email, password}),
+      navigation.navigate('ConfirmPhone', {action: 'create', email, password}),
     );
   };
 
@@ -146,7 +146,8 @@ const SignInScreen = ({navigation, route}) => {
             </View>
             {!isRegister && (
               <View style={{flex: 1, justifyContent: 'flex-end'}}>
-                <Pressable onPress={() => navigation.navigate('ResetPassword')}>
+                <Pressable
+                  onPress={() => navigation.navigate('ForgetPassword')}>
                   <Text style={{textAlign: 'right', marginHorizontal: 5}}>
                     Forgot password
                   </Text>

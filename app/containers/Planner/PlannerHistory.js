@@ -24,11 +24,17 @@ export const PlannerHistory = ({navigation}) => {
     setFull(false);
     getWithAuth(
       `trips?userId=${authData.id}&sort=-timestamp&limit=10&filter[q]=${search}`,
-    ).then(({data}) => {
-      if (data.length === 0) setFull(true);
-      setItems(data);
-      setLoading(false);
-    });
+    )
+      .then(({data}) => {
+        if (data.length === 0) setFull(true);
+        setItems(data);
+      })
+      .catch(() => {
+        // TODO: add error handling
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
   // getData fetch more data and append to the items array
@@ -37,14 +43,20 @@ export const PlannerHistory = ({navigation}) => {
     setLoading(true);
     getWithAuth(
       `trips?userId=${authData.id}&sort=-timestamp&offset=${items.length}&limit=10&filter[q]=${search}`,
-    ).then(({data}) => {
-      let tmp = JSON.parse(JSON.stringify(items));
-      Array.prototype.push.apply(tmp, data);
-      if (tmp.length === items.length) setFull(true);
-      else setFull(false);
-      setItems(tmp);
-      setLoading(false);
-    });
+    )
+      .then(({data}) => {
+        let tmp = JSON.parse(JSON.stringify(items));
+        Array.prototype.push.apply(tmp, data);
+        if (tmp.length === items.length) setFull(true);
+        else setFull(false);
+        setItems(tmp);
+      })
+      .catch(() => {
+        // TODO: add error handling
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (

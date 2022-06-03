@@ -24,9 +24,13 @@ export const TripHistoryDetails = ({navigation, route}) => {
   // on load, fetch item
   useEffect(() => {
     if (!id) return;
-    getWithAuth(`trips/${id}`).then(({data}) => {
-      setTrip(data);
-    });
+    getWithAuth(`trips/${id}`)
+      .then(({data}) => {
+        setTrip(data);
+      })
+      .catch(() => {
+        // TODO: add error handling
+      });
   }, [id]);
 
   return (
