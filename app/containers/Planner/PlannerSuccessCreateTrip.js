@@ -63,7 +63,7 @@ export default function SuccessConfirmScreen({navigation}) {
 
 const styles = StyleSheet.create({
   body: {
-    // flex: 1,
+    flex: 1,
     // height: '60%',
     // marginBottom: 20,
     marginTop: 30,
