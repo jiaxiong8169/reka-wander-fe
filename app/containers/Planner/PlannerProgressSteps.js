@@ -15,7 +15,7 @@ import ProgressSteps from '../../components/stepper/ProgressSteps';
 import GradientBackground from '../../components/GradientBackground';
 import ModelContent from '../../components/Modal/ModalContent';
 import InsertDetailsCard from '../../components/stepper/InsertDetailsCard';
-import {PlannerSelectDestinationScreen} from './PlannerSelectDestinationScreen';
+import PlannerSelectDestinationScreen from './PlannerSelectDestinationScreen';
 
 export default function PlannerSteps({navigation}) {
   const [isModelPopUp, setIsModelPopUp] = useState(false);

@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import {setUserLongLat} from '../../redux/Planner/actions';
+import {setUserLongLat, setUserDestination} from '../../redux/Planner/actions';
 import {getLocationPermissionAndExecute} from '../../utils/location-utils';
 import MapView, {Marker, Circle} from 'react-native-maps';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {CustomButton} from '../../components/CustomButton';
 import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 
-export const PlannerSelectDestinationScreen = () => {
+const PlannerSelectDestinationScreen = () => {
   const {longitude, latitude} = useSelector(state => state.plannerReducer);
   const [search, setSearch] = useState('');
   const [region, setRegion] = useState({
@@ -70,8 +70,32 @@ export const PlannerSelectDestinationScreen = () => {
       });
   };
 
+  const getAddressFromCoordinates = (lat, long) => {
+    //here api
+    //api key belongs to nic0
+    const url = `https://reverse.geocoder.ls.hereapi.com/6.2/reversegeocode.json?prox=${lat}%2C${long}&mode=retrieveAddresses&maxresults=1&gen=9&apiKey=xjMLk-nY3LGNoIEdTQnh53EMb5TbZVmo10tdpYNFVss`;
+    fetch(url)
+      .then(res => res.json())
+      .then(resJson => {
+        if (
+          resJson &&
+          resJson.Response &&
+          resJson.Response.View &&
+          resJson.Response.View[0] &&
+          resJson.Response.View[0].Result &&
+          resJson.Response.View[0].Result[0]
+        ) {
+          dispatch(setUserDestination(resJson.Response.View[0].Result[0].Location.Address.Label));
+        }
+      })
+      .catch(e => {
+        console.log('Error in getAddressFromCoordinates', e);
+      });
+  };
+
   // on enter the screen, set long lat to user's current location
   useEffect(() => {
+    getAddressFromCoordinates(latitude, longitude);
     if (!longitude && !latitude) getLocation();
     else
       setRegion(prev => ({
@@ -144,7 +168,7 @@ const styles = StyleSheet.create({
   },
   body_container: {
     alignItems: 'center',
-    width: '100%',
+    // width: '100%',
   },
   question: {
     color: '#000000',
@@ -154,3 +178,5 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 });
+
+export default PlannerSelectDestinationScreen;

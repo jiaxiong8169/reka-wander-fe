@@ -12,6 +12,7 @@ import TravelInterest from './PlannerTravelinterestScreen';
 import Withkids from './PlannerWithkidsScreen';
 import RentHomeStay from './PlannerRentHomeStayScreen';
 import RentCar from './PlannerRentCarScreen';
+import PlannerSelectDestinationScreen from './PlannerSelectDestinationScreen';
 import {resetTrip} from '../../redux/Planner/actions';
 import UserDetails from './PlannerUserDetails';
 import RecommendedCardDetails from './PlannerRecommendationCardDetails';
@@ -29,6 +30,7 @@ export default function Recommended({navigation}) {
   const {interest} = useSelector(state => state.plannerReducer);
   const {kids} = useSelector(state => state.plannerReducer);
   const {rentHomeStay} = useSelector(state => state.plannerReducer);
+  const {destination} = useSelector(state => state.plannerReducer);
   const {rentCar} = useSelector(state => state.plannerReducer);
   const {tripId} = useSelector(state => state.plannerReducer);
   const {tripPlan} = useSelector(state => state.plannerReducer);
@@ -115,6 +117,19 @@ export default function Recommended({navigation}) {
                   editPage={<TripName />}>
                   <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
                     {tripName ? tripName : 'My Trip'}
+                  </Text>
+                </UserDetails>
+              </View>
+
+              <View
+                style={{flexDirection: 'column', borderBottomColor: '#000'}}>
+                <UserDetails
+                  title={'Destination'}
+                  styles={{paddingTop: 10}}
+                  url={require('../../assets/pin.png')}
+                  editPage={<PlannerSelectDestinationScreen />}>
+                  <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
+                    {destination}
                   </Text>
                 </UserDetails>
               </View>

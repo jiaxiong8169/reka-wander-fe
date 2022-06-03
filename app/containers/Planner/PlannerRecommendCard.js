@@ -51,7 +51,7 @@ export default function RecommendedCard({
                   fieldNameObj,
                 });
             }}>
-            <Text style={{fontSize: 10, color: '#00BFFF'}}>Edit</Text>
+            <Text style={{fontSize: 14, color: '#6A5ACD'}}>Edit</Text>
           </TouchableOpacity>
         </View>
       </Card>
