@@ -5,6 +5,7 @@ import {useHttpCall} from '../../hooks/useHttpCall';
 import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 import {useAuth} from '../../hooks/useAuth';
 import {CustomButton} from '../../components/CustomButton';
+import {BackButton} from '../../components/BackButton';
 
 export const ProfileScreen = ({navigation, route}) => {
   const {getWithAuth, putWithAuth} = useHttpCall();
@@ -22,7 +23,7 @@ export const ProfileScreen = ({navigation, route}) => {
   }, [navigation]);
 
   useEffect(() => {
-    setPhoneNumber(route?.params?.phoneNumber);
+    if (route?.params?.phoneNumber) setPhoneNumber(route.params.phoneNumber);
   }, [route?.params?.phoneNumber]);
 
   const getProfile = () => {
@@ -74,91 +75,93 @@ export const ProfileScreen = ({navigation, route}) => {
   };
 
   return (
-    <GradientBackground
-      contentContainerStyle={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flex: 1,
-        padding: '10%',
-      }}>
-      <Avatar
-        bg="amber.400"
-        src={{uri: profileSrc}}
-        size="2xl"
-        marginBottom={5}>
-        {username
-          .split(' ')
-          .slice(0, 2)
-          .map(token => token.charAt(0))
-          .join('')}
-      </Avatar>
-      <CustomTextInput
-        fieldLabel={'Username'}
-        value={username}
-        editable={isEditMode}
-        onChangeText={setUsername}
+    <GradientBackground>
+      <View style={{flexDirection: 'row', padding: '3%'}}>
+        <BackButton navigation={navigation} />
+      </View>
+      <View
         style={{
-          marginBottom: 5,
-        }}
-      />
-      <CustomTextInput
-        fieldLabel={'Email'}
-        value={email}
-        editable={isEditMode}
-        onChangeText={setEmail}
-        style={{
-          marginBottom: 5,
-        }}
-      />
-      <CustomTextInput
-        fieldLabel={'Phone Number'}
-        defaultValue={phoneNumber}
-        editable={false}
-        endAdornment={
-          isEditMode && (
-            <CustomButton
-              onPress={() => {
-                navigation.navigate('ConfirmPhone', {
-                  action: 'update',
-                  id: authData.id,
-                });
-              }}>
-              Change
-            </CustomButton>
-          )
-        }></CustomTextInput>
-      <CustomTextInput
-        fieldLabel={'Password'}
-        defaultValue={'********'}
-        editable={false}
-        endAdornment={
-          isEditMode && (
-            <CustomButton
-              onPress={() => {
-                navigation.navigate('ChangePassword');
-              }}>
-              Change
-            </CustomButton>
-          )
-        }></CustomTextInput>
-      {!isEditMode ? (
-        <CustomButton
-          onPress={() => setIsEditMode(true)}
+          alignItems: 'center',
+          paddingHorizontal: '10%',
+          paddingVertical: '5%',
+        }}>
+        <Avatar
+          bg="amber.400"
+          src={{uri: profileSrc}}
+          size="2xl"
+          marginBottom={5}>
+          {username
+            .split(' ')
+            .slice(0, 2)
+            .map(token => token.charAt(0))
+            .join('')}
+        </Avatar>
+        <CustomTextInput
+          fieldLabel={'Username'}
+          value={username}
+          editable={isEditMode}
+          onChangeText={setUsername}
           style={{
-            width: '100%',
-            maxWidth: 200,
-          }}>
-          Edit
-        </CustomButton>
-      ) : (
-        <CustomButton
-          style={{width: '100%', maxWidth: 200}}
-          onPress={handleSaveProfile}>
-          Save
-        </CustomButton>
-      )}
+            marginBottom: 5,
+          }}
+        />
+        <CustomTextInput
+          fieldLabel={'Email'}
+          value={email}
+          editable={isEditMode}
+          onChangeText={setEmail}
+          style={{
+            marginBottom: 5,
+          }}
+        />
+        <CustomTextInput
+          fieldLabel={'Phone Number'}
+          defaultValue={phoneNumber}
+          editable={false}
+          endAdornment={
+            isEditMode && (
+              <CustomButton
+                onPress={() => {
+                  navigation.navigate('ConfirmPhone', {
+                    action: 'update',
+                    id: authData.id,
+                  });
+                }}>
+                Change
+              </CustomButton>
+            )
+          }></CustomTextInput>
+        <CustomTextInput
+          fieldLabel={'Password'}
+          defaultValue={'********'}
+          editable={false}
+          endAdornment={
+            isEditMode && (
+              <CustomButton
+                onPress={() => {
+                  navigation.navigate('ChangePassword');
+                }}>
+                Change
+              </CustomButton>
+            )
+          }></CustomTextInput>
+        {!isEditMode ? (
+          <CustomButton
+            onPress={() => setIsEditMode(true)}
+            style={{
+              width: '100%',
+              maxWidth: 200,
+            }}>
+            Edit
+          </CustomButton>
+        ) : (
+          <CustomButton
+            style={{width: '100%', maxWidth: 200}}
+            onPress={handleSaveProfile}>
+            Save
+          </CustomButton>
+        )}
+      </View>
     </GradientBackground>
   );
 };

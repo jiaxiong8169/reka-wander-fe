@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {Text} from 'react-native';
+import {Text, View} from 'react-native';
 import {CustomButton} from '../../components/CustomButton';
 import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 import GradientBackground from '../../components/GradientBackground';
 import {useHttpCall} from '../../hooks/useHttpCall';
+import {BackButton} from '../../components/BackButton';
 
 export const ChangePasswordScreen = ({navigation}) => {
   const [oldPassword, setOldPassword] = useState('');
@@ -44,36 +45,39 @@ export const ChangePasswordScreen = ({navigation}) => {
   }, [oldPassword, newPassword, confirmPassword]);
 
   return (
-    <GradientBackground
-      contentContainerStyle={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flex: 1,
-        padding: '10%',
-      }}>
-      <CustomTextInput
-        fieldLabel="Old Password"
-        value={oldPassword}
-        onChangeText={setOldPassword}
-        type="password"></CustomTextInput>
-      <CustomTextInput
-        fieldLabel="New Password"
-        value={newPassword}
-        onChangeText={setNewPassword}
-        type="password"></CustomTextInput>
-      <CustomTextInput
-        fieldLabel="Confirm Password"
-        value={confirmPassword}
-        onChangeText={setConfirmPassword}
-        type="password"></CustomTextInput>
-      {passwordNotMatch && (
-        <Text style={{color: 'red'}}>Password does not match.</Text>
-      )}
-      <CustomButton onPress={handleChangePassword} isDisabled={disableButton}>
-        Change password
-      </CustomButton>
+    <GradientBackground>
+      <View style={{flexDirection: 'row', padding: '3%'}}>
+        <BackButton navigation={navigation} />
+      </View>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'column',
+          padding: '10%',
+          alignItems: 'center',
+        }}>
+        <CustomTextInput
+          fieldLabel="Old Password"
+          value={oldPassword}
+          onChangeText={setOldPassword}
+          type="password"></CustomTextInput>
+        <CustomTextInput
+          fieldLabel="New Password"
+          value={newPassword}
+          onChangeText={setNewPassword}
+          type="password"></CustomTextInput>
+        <CustomTextInput
+          fieldLabel="Confirm Password"
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+          type="password"></CustomTextInput>
+        {passwordNotMatch && (
+          <Text style={{color: 'red'}}>Password does not match.</Text>
+        )}
+        <CustomButton onPress={handleChangePassword} isDisabled={disableButton}>
+          Change password
+        </CustomButton>
+      </View>
     </GradientBackground>
   );
 };
