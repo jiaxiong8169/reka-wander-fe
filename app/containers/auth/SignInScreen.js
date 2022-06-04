@@ -6,10 +6,10 @@ import {
   TouchableOpacity,
   ScrollView,
   Pressable,
+  ImageBackground,
 } from 'react-native';
 import {useAuth} from '../../hooks/useAuth';
 import GoogleAuth from '../../components/GoogleAuth';
-import LinearGradient from 'react-native-linear-gradient';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import PasswordInput from '../../components/PasswordInput/PasswordInput';
 import {useIsFocused} from '@react-navigation/native';
@@ -18,6 +18,7 @@ import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 import {CustomButton} from '../../components/CustomButton';
 import {preventBack} from '../../utils/navigation-utils';
 import AppleAuth from '../../components/AppleAuth';
+import {Image, Box, VStack, Flex} from 'native-base';
 
 const SignInScreen = ({navigation, route}) => {
   const {loading, authData, signIn, setAuthError} = useAuth();
@@ -75,194 +76,170 @@ const SignInScreen = ({navigation, route}) => {
 
   return (
     <SafeAreaView>
-      <LinearGradient
-        colors={['#CFDDFC', 'white']}
-        start={{x: 0, y: 0}}
-        end={{x: 0, y: 0.5}}
-        style={{height: '100%', width: '100%'}}>
-        {loading && <LoadingOverlay />}
-        <View style={styles.container}>
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <View
-              style={[
-                styles.containerMargin,
-                {flex: 1, justifyContent: 'center'},
-              ]}>
-              <Text style={styles.titleStyle}>Hello Traveller!</Text>
-            </View>
-            <View
-              style={{
-                flex: 1,
-                flexDirection: 'row',
-                justifyContent: 'center',
-                marginBottom: 10,
-              }}>
-              <Pressable
-                onPress={() => setIsRegister(false)}
-                style={[styles.toggleLeft]}>
-                <View
+      {loading && <LoadingOverlay />}
+      <View style={{width: '100%', height: '100%', backgroundColor: 'black'}}>
+        <ImageBackground
+          source={require('../../assets/signin-background.jpg')}
+          alt="background"
+          style={{
+            width: undefined,
+            height: undefined,
+            flex: 1,
+          }}
+          imageStyle={{opacity: 0.4}}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{
+              alignItems: 'center',
+              paddingVertical: 40,
+              paddingHorizontal: 20,
+            }}>
+            <Image
+              source={require('../../assets/white-logo.png')}
+              alt="background"
+              size="lg"
+              style={{marginBottom: 60}}
+            />
+            <Box border="0" borderRadius="md" width="100%">
+              <VStack space="0">
+                <Flex
+                  direction="row"
+                  w="100%"
+                  style={{
+                    textAlign: 'center',
+                  }}
+                  m={0}>
+                  <Pressable
+                    onPress={() => setIsRegister(false)}
+                    style={[
+                      {width: '50%'},
+                      !isRegister && {
+                        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                        borderTopRightRadius: 30,
+                      },
+                    ]}>
+                    <Text
+                      style={{
+                        color: 'white',
+                        fontSize: 24,
+                        textAlign: 'center',
+                        padding: 10,
+                      }}>
+                      LOGIN
+                    </Text>
+                  </Pressable>
+                  <Pressable
+                    onPress={() => setIsRegister(true)}
+                    style={[
+                      {width: '50%'},
+                      isRegister && {
+                        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                        borderTopLeftRadius: 30,
+                      },
+                    ]}>
+                    <Text
+                      style={{
+                        color: 'white',
+                        fontSize: 24,
+                        textAlign: 'center',
+                        padding: 10,
+                      }}>
+                      SIGN UP
+                    </Text>
+                  </Pressable>
+                </Flex>
+                <Box
+                  px="4"
+                  py="10"
                   style={[
+                    {
+                      backgroundColor: 'rgba(0,0,0,0.4)',
+                      alignItems: 'center',
+                      borderBottomLeftRadius: 30,
+                      borderBottomRightRadius: 30,
+                    },
                     isRegister
-                      ? styles.toggleInactiveLeft
-                      : styles.toggleActive,
+                      ? {borderTopLeftRadius: 30}
+                      : {borderTopRightRadius: 30},
                   ]}>
-                  <Text
-                    style={
-                      isRegister
-                        ? styles.toggleTextInactive
-                        : styles.toggleTextActive
-                    }>
-                    Sign In
-                  </Text>
-                </View>
-              </Pressable>
-              <Pressable
-                onPress={() => setIsRegister(true)}
-                style={[styles.toggleRight]}>
-                <View
-                  style={[
-                    isRegister
-                      ? styles.toggleActive
-                      : styles.toggleInactiveRight,
-                  ]}>
-                  <Text
-                    style={
-                      isRegister
-                        ? styles.toggleTextActive
-                        : styles.toggleTextInactive
-                    }>
-                    Sign Up
-                  </Text>
-                </View>
-              </Pressable>
-            </View>
-            <View style={{flex: 2, justifyContent: 'center'}}>
-              <CustomTextInput
-                placeholder={'Email'}
-                value={email}
-                onChangeText={setEmail}
-              />
-              <PasswordInput password={password} setPassword={setPassword} />
-            </View>
-            {!isRegister && (
-              <View style={{flex: 1, justifyContent: 'flex-end'}}>
-                <Pressable
-                  onPress={() => navigation.navigate('ForgetPassword')}>
-                  <Text style={{textAlign: 'right', marginHorizontal: 5}}>
-                    Forgot password
-                  </Text>
-                </Pressable>
-              </View>
-            )}
-            <View styles={{flex: 1, alignItems: 'center'}}>
-              <View style={[styles.buttonContainer]}>
-                {isRegister ? (
-                  <CustomButton onPress={handleRegisterButtonPress}>
-                    Register
-                  </CustomButton>
-                ) : (
-                  <CustomButton onPress={handleLoginButtonPress}>
-                    Login
-                  </CustomButton>
-                )}
-                <View style={[styles.otherMethod, {marginTop: 20}]}>
-                  <View style={styles.continueWithText}>
-                    <Text>{isRegister ? 'Register' : 'Login'} with</Text>
-                  </View>
-                  <View
+                  <CustomTextInput
+                    placeholder={'Email'}
+                    value={email}
+                    onChangeText={setEmail}
+                    style={{}}
+                  />
+                  <PasswordInput
+                    password={password}
+                    setPassword={setPassword}
+                  />
+                  <Box
                     style={{
-                      flex: 1,
-                      flexDirection: 'row',
+                      width: '100%',
+                      alignItems: 'flex-end',
+                      marginBottom: 8,
                     }}>
+                    {!isRegister && (
+                      <Pressable
+                        onPress={() => navigation.navigate('ForgetPassword')}>
+                        <Text
+                          style={{
+                            marginHorizontal: 5,
+                            color: 'white',
+                            // textAlign: 'right',
+                          }}>
+                          Forgot password
+                        </Text>
+                      </Pressable>
+                    )}
+                  </Box>
+                  {isRegister ? (
+                    <CustomButton
+                      onPress={handleRegisterButtonPress}
+                      style={{backgroundColor: 'white', width: '50%'}}>
+                      <Text style={{color: '#056794'}}>SIGN UP</Text>
+                    </CustomButton>
+                  ) : (
+                    <CustomButton
+                      onPress={handleLoginButtonPress}
+                      style={{backgroundColor: 'white', width: '50%'}}>
+                      <Text style={{color: '#056794'}}>LOGIN</Text>
+                    </CustomButton>
+                  )}
+                  <Box style={[styles.otherMethod, {marginTop: 20}]}>
+                    <Text style={[styles.continueWithText, {color: 'white'}]}>
+                      or {isRegister ? 'Sign Up' : 'Login'} with
+                    </Text>
+                  </Box>
+                  <Flex direction="row" mb={4}>
                     <GoogleAuth navigation={navigation} />
                     <AppleAuth navigation={navigation} />
-                  </View>
-                </View>
-              </View>
-            </View>
-            <View style={{flex: 1, alignSelf: 'center', marginTop: 20}}>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate({name: 'MainScreen'});
-                }}>
-                <Text>
-                  Continue as <Text style={{fontWeight: 'bold'}}>VISITOR</Text>
-                </Text>
-              </TouchableOpacity>
-            </View>
+                  </Flex>
+                  <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate({name: 'MainScreen'});
+                    }}>
+                    <Text style={{color: 'white'}}>
+                      Continue as{' '}
+                      <Text style={{fontWeight: 'bold'}}>VISITOR</Text>
+                    </Text>
+                  </TouchableOpacity>
+                </Box>
+              </VStack>
+            </Box>
           </ScrollView>
-        </View>
-      </LinearGradient>
+        </ImageBackground>
+      </View>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  titleStyle: {fontSize: 30, fontWeight: 'bold'},
-  subtitleStyle: {fontSize: 20},
   continueWithText: {
     marginBottom: 10,
-  },
-  container: {
-    flex: 1,
-    padding: 20,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'stretch',
-  },
-  buttonContainer: {
-    margin: 9,
-    padding: 10,
   },
   otherMethod: {
     padding: 3,
     alignItems: 'center',
-  },
-  placeholder: {color: 'black'},
-  containerMargin: {
-    marginBottom: 40,
-  },
-  toggleLeft: {
-    borderTopLeftRadius: 50,
-    borderBottomLeftRadius: 50,
-    backgroundColor: '#94c9d6',
-  },
-  toggleRight: {
-    backgroundColor: '#94c9d6',
-    borderTopRightRadius: 50,
-    borderBottomRightRadius: 50,
-    paddingRight: -4,
-  },
-  toggleActive: {
-    paddingVertical: 20,
-    paddingHorizontal: 30,
-    borderRadius: 50,
-    backgroundColor: '#0891B2',
-    elevation: 10,
-    shadowOffset: {
-      width: 5,
-      height: 3,
-    },
-    shadowColor: '#3c507d',
-    shadowOpacity: 2,
-  },
-  toggleInactiveLeft: {
-    paddingVertical: 20,
-    paddingHorizontal: 30,
-    paddingRight: 10,
-  },
-  toggleInactiveRight: {
-    paddingVertical: 20,
-    paddingHorizontal: 30,
-    paddingLeft: 10,
-  },
-  toggleTextActive: {
-    fontSize: 18,
-    color: '#94c9d6',
-  },
-  toggleTextInactive: {
-    fontSize: 18,
-    color: '#0891B2',
   },
 });
 

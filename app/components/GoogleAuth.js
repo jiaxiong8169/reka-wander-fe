@@ -78,8 +78,8 @@ const GoogleAuth = ({navigation, setEmail}) => {
 const styles = StyleSheet.create({
   otherMethod: {
     padding: 2,
-    height: 60,
-    width: 60,
+    height: 40,
+    width: 40,
     borderColor: '#e0eaff',
     borderRadius: 50,
     justifyContent: 'center',
@@ -97,8 +97,8 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   image: {
-    height: 40,
-    width: 40,
+    height: 30,
+    width: 30,
     resizeMode: 'contain',
   },
 });
