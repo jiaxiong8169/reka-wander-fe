@@ -10,7 +10,8 @@ import {
 import React, {useEffect, useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import {useAuth} from '../../hooks/useAuth';
-import LinearGradient from 'react-native-linear-gradient';
+import GradientBackground from '../../components/GradientBackground';
+import {BackButton} from '../../components/BackButton';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 import OTPInput from './OTPInput';
@@ -177,123 +178,119 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
   }, [resendTimeLeft]);
 
   return (
-    <SafeAreaView>
-      <LinearGradient
-        colors={['#CFDDFC', 'white']}
-        start={{x: 0, y: 0}}
-        end={{x: 0, y: 0.5}}
-        style={{height: '100%', width: '100%'}}>
-        {loading && <LoadingOverlay />}
-        <View style={styles.container}>
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={{flex: 3}}>
-              <Image
-                source={require('../../assets/paper_plane_2.png')}
-                style={[styles.img]}
-                resizeMode={'contain'}></Image>
-            </View>
-            <View
+    <GradientBackground>
+      {loading && <LoadingOverlay />}
+      <View style={{flexDirection: 'row', padding: '3%'}}>
+        <BackButton navigation={navigation} />
+      </View>
+      <View style={styles.container}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={{flex: 3}}>
+            <Image
+              source={require('../../assets/paper_plane_2.png')}
+              style={[styles.img]}
+              resizeMode={'contain'}></Image>
+          </View>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: 50,
+            }}>
+            <Text style={styles.title}>OTP Verification</Text>
+            <Text style={styles.caption}>Let's see if it's your phone!</Text>
+          </View>
+          <View style={{flex: 1, flexDirection: 'row'}}>
+            <CustomTextInput
+              placeholder="60"
+              value={phoneNumberPrefix}
+              onChangeText={setPhoneNumberPrefix}
+              editable={phoneNumberEditable}
+              maxLength={3}
               style={{
                 flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginTop: 50,
-              }}>
-              <Text style={styles.title}>OTP Verification</Text>
-              <Text style={styles.caption}>Let's see if it's your phone!</Text>
+                marginRight: 10,
+              }}
+              startAdornment={<Icon name="plus" style={{marginLeft: 10}} />}
+            />
+            <CustomTextInput
+              placeholder="Phone Number"
+              value={phoneNumber}
+              onChangeText={setPhoneNumber}
+              editable={phoneNumberEditable}
+              autoFocus={true}
+              style={{
+                flex: 2,
+              }}
+            />
+          </View>
+          <View>
+            <CustomButton
+              style={
+                phoneNumberEditable
+                  ? styles.enabledButton
+                  : styles.disabledButton
+              }
+              onPress={handlePhoneNumberButtonPress}
+              disabled={!phoneNumberEditable}>
+              Send OTP
+            </CustomButton>
+          </View>
+        </ScrollView>
+      </View>
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={otpModalVisible}
+        onRequestClose={() => {
+          setOTPModalVisible(false);
+        }}>
+        <GradientBackground>
+          <ScrollView contentContainerStyle={{flex: 1}}>
+            <View style={{flexDirection: 'row', padding: '3%'}}>
+              <BackButton navigation={navigation} />
             </View>
-            <View style={{flex: 1, flexDirection: 'row'}}>
-              <CustomTextInput
-                placeholder="60"
-                value={phoneNumberPrefix}
-                onChangeText={setPhoneNumberPrefix}
-                editable={phoneNumberEditable}
-                maxLength={3}
+            <View style={styles.container}>
+              <View
                 style={{
-                  flex: 1,
-                  marginRight: 10,
-                }}
-                startAdornment={<Icon name="plus" style={{marginLeft: 10}} />}
-              />
-              <CustomTextInput
-                placeholder="Phone Number"
-                value={phoneNumber}
-                onChangeText={setPhoneNumber}
-                editable={phoneNumberEditable}
-                autoFocus={true}
-                style={{
-                  flex: 2,
-                }}
-              />
-            </View>
-            <View>
-              <CustomButton
-                style={
-                  phoneNumberEditable
-                    ? styles.enabledButton
-                    : styles.disabledButton
-                }
-                onPress={handlePhoneNumberButtonPress}
-                disabled={!phoneNumberEditable}>
-                Send OTP
-              </CustomButton>
+                  flex: 4,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <Text>Verifying your number!</Text>
+                <Text>We have sent an OTP on your number</Text>
+                <Text>{`+${phoneNumberPrefix}${phoneNumber}`}</Text>
+              </View>
+              <View style={{flex: 4, alignItems: 'center'}}>
+                <OTPInput setCode={setCode} editable={!!confirm}></OTPInput>
+                {resendTimeLeft !== 0 ? (
+                  <Text>Resend in {resendTimeLeft} seconds</Text>
+                ) : otpResendLimit > 0 ? (
+                  <Pressable onPress={handlePhoneNumberButtonPress}>
+                    <Text>Resend OTP password</Text>
+                  </Pressable>
+                ) : (
+                  <Text>
+                    Resent limit reached. Please enter a new phone number.
+                  </Text>
+                )}
+              </View>
+              <View style={{justifyContent: 'flex-end'}}>
+                <CustomButton
+                  onPress={() => confirmCode()}
+                  disabled={!!!confirm}
+                  style={
+                    !!confirm ? styles.enabledButton : styles.disabledButton
+                  }>
+                  Confirm
+                </CustomButton>
+              </View>
             </View>
           </ScrollView>
-        </View>
-        <Modal
-          animationType="slide"
-          transparent={false}
-          visible={otpModalVisible}
-          onRequestClose={() => {
-            setOTPModalVisible(false);
-          }}>
-          <LinearGradient
-            colors={['#CFDDFC', 'white']}
-            start={{x: 0, y: 0}}
-            end={{x: 0, y: 0.5}}
-            style={{height: '100%', width: '100%'}}>
-            <ScrollView contentContainerStyle={{flex: 1}}>
-              <View style={styles.container}>
-                <View
-                  style={{
-                    flex: 4,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}>
-                  <Text>Verifying your number!</Text>
-                  <Text>We have sent an OTP on your number</Text>
-                  <Text>{`+${phoneNumberPrefix}${phoneNumber}`}</Text>
-                </View>
-                <View style={{flex: 4, alignItems: 'center'}}>
-                  <OTPInput setCode={setCode} editable={!!confirm}></OTPInput>
-                  {resendTimeLeft !== 0 ? (
-                    <Text>Resend in {resendTimeLeft} seconds</Text>
-                  ) : otpResendLimit > 0 ? (
-                    <Pressable onPress={handlePhoneNumberButtonPress}>
-                      <Text>Resend OTP password</Text>
-                    </Pressable>
-                  ) : (
-                    <Text>
-                      Resent limit reached. Please enter a new phone number.
-                    </Text>
-                  )}
-                </View>
-                <View style={{justifyContent: 'flex-end'}}>
-                  <CustomButton
-                    onPress={() => confirmCode()}
-                    disabled={!!!confirm}
-                    style={
-                      !!confirm ? styles.enabledButton : styles.disabledButton
-                    }>
-                    Confirm
-                  </CustomButton>
-                </View>
-              </View>
-            </ScrollView>
-          </LinearGradient>
-        </Modal>
-      </LinearGradient>
-    </SafeAreaView>
+        </GradientBackground>
+      </Modal>
+    </GradientBackground>
   );
 };
 
