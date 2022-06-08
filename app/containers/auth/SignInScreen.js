@@ -101,7 +101,7 @@ const SignInScreen = ({navigation, route}) => {
       {loading && <LoadingOverlay />}
       <View style={{width: '100%', height: '100%', backgroundColor: 'black'}}>
         <ImageBackground
-          source={require('../../assets/signin-background.jpg')}
+          source={require('../../assets/signin-background.webp')}
           alt="background"
           style={{
             width: undefined,
