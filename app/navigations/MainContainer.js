@@ -2,7 +2,6 @@ import * as React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Image} from 'react-native';
 import GradientBackground from '../components/GradientBackground';
-import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
 import PlannerStack from './PlannerStack';
 import {GuideStack} from './GuideStack';
 import {SettingsStack} from './SettingsStack';
@@ -12,8 +11,6 @@ const Tab = createBottomTabNavigator();
 const Temp = () => <GradientBackground />;
 
 function MainContainer() {
-  AndroidKeyboardAdjust.setAdjustNothing();
-
   return (
     <Tab.Navigator
       initialRouteName={'Home'}
@@ -69,6 +66,7 @@ function MainContainer() {
         activeTintColor: '#0061FF',
         inactiveTintColor: 'grey',
         tabBarStyle: {height: 60, paddingBottom: 10, paddingTop: 10},
+        tabBarHideOnKeyboard: true,
       })}>
       <Tab.Screen
         name="Spots"

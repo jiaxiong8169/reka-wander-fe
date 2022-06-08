@@ -11,15 +11,12 @@ import {CustomButton} from '../../components/CustomButton';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {MyCircleIcon} from '../../components/CircleIcon';
 import {preventBack} from '../../utils/navigation-utils';
-import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
 import GradientBackground from '../../components/GradientBackground';
 import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 
 const width = Dimensions.get('window').width;
 
 export const MyHomeScreen = ({navigation}) => {
-  AndroidKeyboardAdjust.setAdjustNothing();
-
   useEffect(() => {
     preventBack(navigation, 'MyHome');
   }, [navigation]);

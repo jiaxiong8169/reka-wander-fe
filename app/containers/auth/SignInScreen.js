@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useMemo} from 'react';
 import {
   View,
   Text,
@@ -18,7 +18,7 @@ import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 import {CustomButton} from '../../components/CustomButton';
 import {preventBack} from '../../utils/navigation-utils';
 import AppleAuth from '../../components/AppleAuth';
-import {Image, Box, VStack, Flex} from 'native-base';
+import {Image, Box, VStack, Flex, PresenceTransition} from 'native-base';
 
 const SignInScreen = ({navigation, route}) => {
   const {loading, authData, signIn, setAuthError} = useAuth();
@@ -27,6 +27,21 @@ const SignInScreen = ({navigation, route}) => {
   const [password, setPassword] = useState('');
   const [isRegister, setIsRegister] = useState(false);
   const isFocused = useIsFocused();
+  const [isOpen, setIsOpen] = useState(false);
+  // isRegisterSlow is needed so that the content changes only
+  const [isRegisterSlow, setIsRegisterSlow] = useState(isRegister);
+  const initial = useMemo(() => {
+    if (isRegisterSlow)
+      return {
+        translateX: 10,
+        opacity: 0,
+      };
+    else
+      return {
+        translateX: -10,
+        opacity: 0,
+      };
+  }, [isRegisterSlow]);
 
   useEffect(() => {
     preventBack(navigation, 'SignIn');
@@ -46,6 +61,13 @@ const SignInScreen = ({navigation, route}) => {
 
   useEffect(() => {
     clearLoginFields();
+    setIsOpen(false);
+    // isOpen is set twice (second time in a timeout) in order to toggle the transition
+    // since some of the element is similar for both login and sign up
+    setTimeout(() => {
+      setIsOpen(true);
+      setIsRegisterSlow(isRegister);
+    }, 250);
   }, [isRegister]);
 
   const checkBeforeRun = func => {
@@ -157,72 +179,85 @@ const SignInScreen = ({navigation, route}) => {
                       alignItems: 'center',
                       borderBottomLeftRadius: 30,
                       borderBottomRightRadius: 30,
+                      bottom: 0.5,
                     },
                     isRegister
                       ? {borderTopLeftRadius: 30}
                       : {borderTopRightRadius: 30},
                   ]}>
-                  <CustomTextInput
-                    placeholder={'Email'}
-                    value={email}
-                    onChangeText={setEmail}
-                    style={{}}
-                  />
-                  <PasswordInput
-                    password={password}
-                    setPassword={setPassword}
-                  />
-                  <Box
-                    style={{
-                      width: '100%',
-                      alignItems: 'flex-end',
-                      marginBottom: 8,
-                    }}>
-                    {!isRegister && (
-                      <Pressable
-                        onPress={() => navigation.navigate('ForgetPassword')}>
-                        <Text
-                          style={{
-                            marginHorizontal: 5,
-                            color: 'white',
-                            // textAlign: 'right',
-                          }}>
-                          Forgot password
-                        </Text>
-                      </Pressable>
+                  <PresenceTransition
+                    visible={isOpen}
+                    initial={initial}
+                    animate={{
+                      translateX: 0,
+                      opacity: 1,
+                      transition: {
+                        duration: 250,
+                      },
+                    }}
+                    style={{width: '100%', alignItems: 'center'}}>
+                    <CustomTextInput
+                      placeholder={'Email'}
+                      value={email}
+                      onChangeText={setEmail}
+                      style={{}}
+                    />
+                    <PasswordInput
+                      password={password}
+                      setPassword={setPassword}
+                    />
+                    <Box
+                      style={{
+                        width: '100%',
+                        alignItems: 'flex-end',
+                        marginBottom: 8,
+                      }}>
+                      {!isRegisterSlow && (
+                        <Pressable
+                          onPress={() => navigation.navigate('ForgetPassword')}>
+                          <Text
+                            style={{
+                              marginHorizontal: 5,
+                              color: 'white',
+                              // textAlign: 'right',
+                            }}>
+                            Forgot password
+                          </Text>
+                        </Pressable>
+                      )}
+                    </Box>
+                    {isRegisterSlow ? (
+                      <CustomButton
+                        onPress={handleRegisterButtonPress}
+                        style={{backgroundColor: 'white', width: '50%'}}>
+                        <Text style={{color: '#056794'}}>SIGN UP</Text>
+                      </CustomButton>
+                    ) : (
+                      <CustomButton
+                        onPress={handleLoginButtonPress}
+                        style={{backgroundColor: 'white', width: '50%'}}>
+                        <Text style={{color: '#056794'}}>LOGIN</Text>
+                      </CustomButton>
                     )}
-                  </Box>
-                  {isRegister ? (
-                    <CustomButton
-                      onPress={handleRegisterButtonPress}
-                      style={{backgroundColor: 'white', width: '50%'}}>
-                      <Text style={{color: '#056794'}}>SIGN UP</Text>
-                    </CustomButton>
-                  ) : (
-                    <CustomButton
-                      onPress={handleLoginButtonPress}
-                      style={{backgroundColor: 'white', width: '50%'}}>
-                      <Text style={{color: '#056794'}}>LOGIN</Text>
-                    </CustomButton>
-                  )}
-                  <Box style={[styles.otherMethod, {marginTop: 20}]}>
-                    <Text style={[styles.continueWithText, {color: 'white'}]}>
-                      or {isRegister ? 'Sign Up' : 'Login'} with
-                    </Text>
-                  </Box>
-                  <Flex direction="row" mb={4}>
-                    <GoogleAuth navigation={navigation} />
-                    <AppleAuth navigation={navigation} />
-                  </Flex>
-                  <TouchableOpacity
-                    onPress={() => {
-                      navigation.navigate({name: 'MainScreen'});
-                    }}>
-                    <Text style={{color: 'white'}}>
-                      Continue as{' '}
-                      <Text style={{fontWeight: 'bold'}}>VISITOR</Text>
-                    </Text>
-                  </TouchableOpacity>
+                    <Box style={[styles.otherMethod, {marginTop: 20}]}>
+                      <Text style={[styles.continueWithText, {color: 'white'}]}>
+                        or {isRegisterSlow ? 'Sign Up' : 'Login'} with
+                      </Text>
+                    </Box>
+                    <Flex direction="row" mb={4}>
+                      <GoogleAuth navigation={navigation} />
+                      <AppleAuth navigation={navigation} />
+                    </Flex>
+                    <TouchableOpacity
+                      onPress={() => {
+                        navigation.navigate({name: 'MainScreen'});
+                      }}>
+                      <Text style={{color: 'white'}}>
+                        Continue as{' '}
+                        <Text style={{fontWeight: 'bold'}}>VISITOR</Text>
+                      </Text>
+                    </TouchableOpacity>
+                  </PresenceTransition>
                 </Box>
               </VStack>
             </Box>
