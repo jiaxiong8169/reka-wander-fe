@@ -1,20 +1,9 @@
 import React, {useEffect} from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  ImageBackground,
-  Dimensions,
-  Image,
-} from 'react-native';
+import {StyleSheet, View, Text, ImageBackground, Image} from 'react-native';
 import {CustomButton} from '../../components/CustomButton';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import {MyCircleIcon} from '../../components/CircleIcon';
 import {preventBack} from '../../utils/navigation-utils';
 import GradientBackground from '../../components/GradientBackground';
-import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
-
-const width = Dimensions.get('window').width;
 
 export const MyHomeScreen = ({navigation}) => {
   useEffect(() => {
@@ -44,24 +33,6 @@ export const MyHomeScreen = ({navigation}) => {
           </Text>
         </Text>
       </ImageBackground>
-      <CustomTextInput
-        placeholder="Search attractions, places, etc."
-        width="300"
-        height="50"
-        variant="filled"
-        value={''}
-        top="175"
-        left={width / 2 - 150}
-        onChangeText={e => {}}
-        startAdornment={
-          <Icon
-            style={{marginLeft: 10}}
-            size={20}
-            color="#BDBDBD"
-            name="search"
-          />
-        }
-      />
       <View style={styles.container}>
         <Text
           style={{
@@ -148,9 +119,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 30,
-    marginTop: 200,
-    // alignItems: 'center',
-    // justifyContent: 'center',
+    marginTop: 220,
   },
   title: {
     fontWeight: '300',
