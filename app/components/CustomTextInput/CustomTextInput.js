@@ -27,6 +27,9 @@ const CustomTextInput = ({
         onChangeText={onChangeText}
         InputLeftElement={startAdornment ? startAdornment : <></>}
         InputRightElement={endAdornment ? endAdornment : <></>}
+        _focus={{
+          backgroundColor: 'white',
+        }}
         {...props}
       />
     </View>
