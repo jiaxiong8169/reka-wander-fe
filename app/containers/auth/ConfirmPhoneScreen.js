@@ -184,60 +184,59 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
         <BackButton navigation={navigation} />
       </View>
       <View style={styles.container}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={{flex: 3}}>
-            <Image
-              source={require('../../assets/paper_plane_2.png')}
-              style={[styles.img]}
-              resizeMode={'contain'}></Image>
-          </View>
-          <View
+        <Image
+          source={require('../../assets/paper_plane_2_cropped.png')}
+          style={[
+            styles.img,
+            {
+              flex: 3,
+            },
+          ]}
+          resizeMode={'contain'}></Image>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 50,
+          }}>
+          <Text style={styles.title}>OTP Verification</Text>
+          <Text style={styles.caption}>Let's see if it's your phone!</Text>
+        </View>
+        <View style={{flex: 1, flexDirection: 'row'}}>
+          <CustomTextInput
+            placeholder="60"
+            value={phoneNumberPrefix}
+            onChangeText={setPhoneNumberPrefix}
+            editable={phoneNumberEditable}
+            maxLength={3}
             style={{
               flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginTop: 50,
-            }}>
-            <Text style={styles.title}>OTP Verification</Text>
-            <Text style={styles.caption}>Let's see if it's your phone!</Text>
-          </View>
-          <View style={{flex: 1, flexDirection: 'row'}}>
-            <CustomTextInput
-              placeholder="60"
-              value={phoneNumberPrefix}
-              onChangeText={setPhoneNumberPrefix}
-              editable={phoneNumberEditable}
-              maxLength={3}
-              style={{
-                flex: 1,
-                marginRight: 10,
-              }}
-              startAdornment={<Icon name="plus" style={{marginLeft: 10}} />}
-            />
-            <CustomTextInput
-              placeholder="Phone Number"
-              value={phoneNumber}
-              onChangeText={setPhoneNumber}
-              editable={phoneNumberEditable}
-              autoFocus={true}
-              style={{
-                flex: 2,
-              }}
-            />
-          </View>
-          <View>
-            <CustomButton
-              style={
-                phoneNumberEditable
-                  ? styles.enabledButton
-                  : styles.disabledButton
-              }
-              onPress={handlePhoneNumberButtonPress}
-              disabled={!phoneNumberEditable}>
-              Send OTP
-            </CustomButton>
-          </View>
-        </ScrollView>
+              marginRight: 10,
+            }}
+            startAdornment={<Icon name="plus" style={{marginLeft: 10}} />}
+          />
+          <CustomTextInput
+            placeholder="Phone Number"
+            value={phoneNumber}
+            onChangeText={setPhoneNumber}
+            editable={phoneNumberEditable}
+            autoFocus={true}
+            style={{
+              flex: 2,
+            }}
+          />
+        </View>
+        <View>
+          <CustomButton
+            style={
+              phoneNumberEditable ? styles.enabledButton : styles.disabledButton
+            }
+            onPress={handlePhoneNumberButtonPress}
+            disabled={!phoneNumberEditable}>
+            Send OTP
+          </CustomButton>
+        </View>
       </View>
       <Modal
         animationType="slide"
