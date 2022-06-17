@@ -1,7 +1,6 @@
 import React from 'react';
-import {Box} from 'native-base';
+import {Box, Image} from 'native-base';
 import Card from './Card';
-import FastImage from 'react-native-fast-image';
 import {TouchableOpacity} from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import {CustomText} from './texts/custom-text';
@@ -58,7 +57,7 @@ export const HomestayCardItem = ({
             flex: 1,
             marginHorizontal: 20,
           }}>
-          <FastImage
+          <Image
             style={{
               width: '100%',
               height: '100%',

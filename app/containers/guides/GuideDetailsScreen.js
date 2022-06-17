@@ -14,7 +14,6 @@ import {useHttpCall} from '../../hooks/useHttpCall';
 import {useAuth} from '../../hooks/useAuth';
 import {BackButton} from '../../components/BackButton';
 import DeviceInfo from 'react-native-device-info';
-import FastImage from 'react-native-fast-image';
 import Share from 'react-native-share';
 import {RatingButton} from '../../components/RatingButton';
 
@@ -131,7 +130,7 @@ export const GuideDetailsScreen = ({navigation, route}) => {
         />
       }>
       <View style={styles.container}>
-        <FastImage style={styles.image} source={{uri: item.thumbnailSrc}} />
+        <Image style={styles.image} source={{uri: item.thumbnailSrc}} />
         <BackButton navigation={navigation} absolute />
 
         <View style={styles.textContainer}>

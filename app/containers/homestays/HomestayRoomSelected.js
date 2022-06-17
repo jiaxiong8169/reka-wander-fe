@@ -1,6 +1,6 @@
+import {Image} from 'native-base';
 import React from 'react';
 import {View, Text} from 'react-native';
-import FastImage from 'react-native-fast-image';
 
 export const RoomsSelected = ({style, id, name, url, price, quantity}) => {
   return (
@@ -17,7 +17,7 @@ export const RoomsSelected = ({style, id, name, url, price, quantity}) => {
       ]}>
       <View style={{flexDirection: 'row', width: '100%'}}>
         <View style={{flex: 2}}>
-          <FastImage
+          <Image
             style={{
               flex: 1,
               width: undefined,

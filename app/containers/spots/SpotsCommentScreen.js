@@ -4,7 +4,6 @@ import {Image, RefreshControl} from 'react-native';
 import {Box, Heading, Text, ArrowBackIcon, TextArea} from 'native-base';
 import CommentCard from '../../components/CommentCard';
 import {useHttpCall} from '../../hooks/useHttpCall';
-import FastImage from 'react-native-fast-image';
 import {useAuth} from '../../hooks/useAuth';
 import {RatingButton} from '../../components/RatingButton';
 import {LoadMore} from '../../components/LoadMore';
@@ -130,7 +129,7 @@ export default function SpotsCommentScreen({navigation, route}) {
         />
       }>
       <View style={styles.container}>
-        <FastImage style={styles.image} source={{uri: item.thumbnailSrc}} />
+        <Image style={styles.image} source={{uri: item.thumbnailSrc}} />
         <Box style={styles.backButton}>
           <Pressable onPress={() => navigation.goBack()}>
             <ArrowBackIcon size="8" m="1" color="white" />
