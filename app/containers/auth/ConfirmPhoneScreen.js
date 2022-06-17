@@ -246,7 +246,9 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
           setOTPModalVisible(false);
         }}>
         <GradientBackground>
-          <ScrollView contentContainerStyle={{flex: 1}}>
+          <ScrollView
+            contentContainerStyle={{flex: 1}}
+            keyboardShouldPersistTaps="handled">
             <View style={{flexDirection: 'row', padding: '3%'}}>
               <BackButton navigation={navigation} />
             </View>

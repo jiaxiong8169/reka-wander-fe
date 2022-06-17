@@ -12,6 +12,7 @@ const TravelBudget = () => {
     <View style={styles.body_container}>
       <Text style={styles.question}>Travel budget</Text>
       <CustomTextInput
+        autoFocus={true}
         type="number"
         keyboardType={'number-pad'}
         onChangeText={v => {

@@ -35,7 +35,9 @@ export const TripHistoryDetails = ({navigation, route}) => {
 
   return (
     <GradientBackground>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled">
         <View style={{flexDirection: 'column', marginBottom: 10}}>
           <View style={{flexDirection: 'row'}}>
             <BackButton navigation={navigation} />

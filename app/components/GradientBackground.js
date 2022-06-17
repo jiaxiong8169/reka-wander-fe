@@ -39,6 +39,7 @@ const GradientBackground = props => {
         stickyHeaderIndices={props.stickyHeader ? [0] : ''}
         refreshControl={props.refreshControl}
         style={styles.p3}
+        keyboardShouldPersistTaps="handled"
         contentContainerStyle={props.contentContainerStyle}>
         {props.children}
       </ScrollView>

@@ -85,7 +85,11 @@ const PlannerSelectDestinationScreen = () => {
           resJson.Response.View[0].Result &&
           resJson.Response.View[0].Result[0]
         ) {
-          dispatch(setUserDestination(resJson.Response.View[0].Result[0].Location.Address.Label));
+          dispatch(
+            setUserDestination(
+              resJson.Response.View[0].Result[0].Location.Address.Label,
+            ),
+          );
         }
       })
       .catch(e => {
@@ -112,6 +116,7 @@ const PlannerSelectDestinationScreen = () => {
         onChangeText={v => setSearch(v)}
         placeholder="Search location..."
         value={search}
+        autoFocus={true}
         startAdornment={
           <Icon
             style={{marginLeft: 10}}

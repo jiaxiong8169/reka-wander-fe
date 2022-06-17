@@ -122,6 +122,7 @@ export const GuideDetailsScreen = ({navigation, route}) => {
 
   return (
     <ScrollView
+      keyboardShouldPersistTaps="handled"
       showsVerticalScrollIndicator={false}
       refreshControl={
         <RefreshControl

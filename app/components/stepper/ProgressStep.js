@@ -85,7 +85,7 @@ class ProgressStep extends Component {
     return (
       <>
         {isScrollable ? (
-          <ScrollView {...scrollViewProps}>
+          <ScrollView {...scrollViewProps} keyboardShouldPersistTaps="handled">
             {this.props.children}
             {buttonRow}
           </ScrollView>

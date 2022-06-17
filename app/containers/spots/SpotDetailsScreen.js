@@ -196,6 +196,7 @@ export default function SpotDetailsScreen({navigation, route}) {
 
   return (
     <ScrollView
+      keyboardShouldPersistTaps="handled"
       showsVerticalScrollIndicator={false}
       refreshControl={
         <RefreshControl
