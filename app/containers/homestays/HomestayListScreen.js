@@ -104,100 +104,109 @@ export const HomestayListScreen = ({navigation, route}) => {
           refreshing={false}
           onRefresh={() => setReload(!reload)}
         />
-      }>
-      <View style={{flexDirection: 'column', marginBottom: 10}}>
-        <View style={{flexDirection: 'row'}}>
-          <BackButton navigation={navigation} />
-          <BlueSubtitle text1="Hi Welcome," text2={`Book a Homestay`} />
-        </View>
-      </View>
-
-      <CustomTextInput
-        placeholder="Search Here..."
-        value={search}
-        onChangeText={t => setSearch(t)}
-        startAdornment={
-          <Icon
-            style={{marginLeft: 10}}
-            size={20}
-            color="#BDBDBD"
-            name="search"
-          />
-        }
+      }
+      contentContainerStyle={{
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+      }}
+      stickyHeader={true}>
+      <BackButton
+        navigation={navigation}
+        style={{width: '20%', marginTop: 15}}
       />
-      <Card style={{marginBottom: 25}}>
-        <View>
-          <View
-            style={{
-              flexDirection: 'row',
-              paddingBottom: 5,
-              justifyContent: 'center',
-            }}>
-            <SimpleCalendar
-              value={checkInDate}
-              setValue={setCheckInDate}
-              label="Check In Date"
+      <BlueSubtitle
+        text1="Hi Welcome,"
+        text2={`Book a Homestay`}
+        style={{width: '80%', marginBottom: 10}}
+      />
+      <View style={{flexDirection: 'column', width: '100%'}}>
+        <CustomTextInput
+          placeholder="Search Here..."
+          value={search}
+          onChangeText={t => setSearch(t)}
+          startAdornment={
+            <Icon
+              style={{marginLeft: 10}}
+              size={20}
+              color="#BDBDBD"
+              name="search"
             />
-            <SimpleCalendar
-              value={checkOutDate}
-              setValue={setCheckOutDate}
-              label="Check Out Date"
-            />
+          }
+        />
+        <Card style={{marginBottom: 25}}>
+          <View>
+            <View
+              style={{
+                flexDirection: 'row',
+                paddingBottom: 5,
+                justifyContent: 'center',
+              }}>
+              <SimpleCalendar
+                value={checkInDate}
+                setValue={setCheckInDate}
+                label="Check In Date"
+              />
+              <SimpleCalendar
+                value={checkOutDate}
+                setValue={setCheckOutDate}
+                label="Check Out Date"
+              />
+            </View>
           </View>
-        </View>
-      </Card>
-      <Card style={{marginBottom: 10}}>
-        {items.map(item => (
-          <HomestayCardItem
-            key={item.id}
-            item={item}
-            name={item.name}
-            price={item.minPrice}
-            thumbnailSrc={item.thumbnailSrc}
-            onPress={() => {
-              if (
-                moment(checkInDate).isSame(checkOutDate) ||
-                moment(checkInDate).isAfter(checkOutDate)
-              ) {
-                setIsModelPopUp(true);
-              } else {
-                navigation.navigate('HomestayDetails', {
-                  item,
-                  checkInDate: moment(checkInDate).format('DD/MM/YYYY'),
-                  checkOutDate: moment(checkOutDate).format('DD/MM/YYYY'),
-                  totalDays,
-                });
-              }
-            }}
-            withEdit={!!fieldName && !!fieldNameObj}
-            selected={tripPlan[fieldName]}
-            toggleItemSelection={toggleItemSelection}
-          />
-        ))}
-        <Modal
-          isVisible={isModelPopUp}
-          onBackdropPress={closeModel}
-          onSwipeComplete={closeModel}
-          useNativeDriverForBackdrop
-          swipeDirection={['left', 'right', 'up', 'down']}
-          animationIn="zoomInDown"
-          animationOut="zoomOutUp"
-          animationInTiming={700}
-          animationOutTiming={700}
-          backdropTransitionInTiming={700}
-          backdropTransitionOutTiming={700}>
-          <ModelContent onPress={closeModel} buttonTitle={'Close'}>
-            <CustomText fontSize="lg" style={{marginBottom: 12}}>
-              Invalid Date
-            </CustomText>
-            <CustomText>
-              Your check in and check out dates are invalid. Please make sure
-              that the check out date is after check in date.
-            </CustomText>
-          </ModelContent>
-        </Modal>
-        <LoadMore getData={getData} full={full} loading={loading} />
-      </Card>
+        </Card>
+        <Card style={{marginBottom: 10}}>
+          {items.map(item => (
+            <HomestayCardItem
+              key={item.id}
+              item={item}
+              name={item.name}
+              price={item.minPrice}
+              thumbnailSrc={item.thumbnailSrc}
+              onPress={() => {
+                if (
+                  moment(checkInDate).isSame(checkOutDate) ||
+                  moment(checkInDate).isAfter(checkOutDate)
+                ) {
+                  setIsModelPopUp(true);
+                } else {
+                  navigation.navigate('HomestayDetails', {
+                    item,
+                    checkInDate: moment(checkInDate).format('DD/MM/YYYY'),
+                    checkOutDate: moment(checkOutDate).format('DD/MM/YYYY'),
+                    totalDays,
+                  });
+                }
+              }}
+              withEdit={!!fieldName && !!fieldNameObj}
+              selected={tripPlan[fieldName]}
+              toggleItemSelection={toggleItemSelection}
+            />
+          ))}
+          <Modal
+            isVisible={isModelPopUp}
+            onBackdropPress={closeModel}
+            onSwipeComplete={closeModel}
+            useNativeDriverForBackdrop
+            swipeDirection={['left', 'right', 'up', 'down']}
+            animationIn="zoomInDown"
+            animationOut="zoomOutUp"
+            animationInTiming={700}
+            animationOutTiming={700}
+            backdropTransitionInTiming={700}
+            backdropTransitionOutTiming={700}>
+            <ModelContent onPress={closeModel} buttonTitle={'Close'}>
+              <CustomText fontSize="lg" style={{marginBottom: 12}}>
+                Invalid Date
+              </CustomText>
+              <CustomText>
+                Your check in and check out dates are invalid. Please make sure
+                that the check out date is after check in date.
+              </CustomText>
+            </ModelContent>
+          </Modal>
+          <LoadMore getData={getData} full={full} loading={loading} />
+        </Card>
+      </View>
     </GradientBackground>
   );
 };

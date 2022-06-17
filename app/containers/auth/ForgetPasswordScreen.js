@@ -53,7 +53,9 @@ export const ForgetPasswordScreen = ({navigation}) => {
         style={{height: '100%', width: '100%'}}>
         {loading && <LoadingOverlay />}
         <View style={styles.container}>
-          <ScrollView showsVerticalScrollIndicator={false}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled">
             <View style={{flex: 3}}>
               <Image
                 source={require('../../assets/forgot-password.png')}

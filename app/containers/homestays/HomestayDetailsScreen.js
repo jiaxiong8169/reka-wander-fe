@@ -12,14 +12,9 @@ export const HomestayDetailsScreen = ({navigation, route}) => {
   const {item, checkInDate, checkOutDate, totalDays} = route.params;
 
   return (
-    <GradientBackground fullWidth={true}>
+    <GradientBackground fullWidth={true} navigation={navigation}>
       <View style={styles.container}>
         <Image style={styles.image} source={{uri: item.thumbnailSrc}} />
-        <Box style={styles.backButton}>
-          <Pressable onPress={() => navigation.goBack()}>
-            <ArrowBackIcon size="8" m="1" color="white" />
-          </Pressable>
-        </Box>
         <View style={styles.textContainer}>
           <CustomText fontSize="2xl">{item.name}</CustomText>
           <CustomText mt="3" mb="3">

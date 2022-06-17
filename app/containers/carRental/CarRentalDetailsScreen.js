@@ -14,8 +14,8 @@ export const CarRentalDetailsScreen = ({navigation, route}) => {
   };
 
   return (
-    <GradientBackground fullWidth={true}>
-      <View style={{flexDirection: 'row', padding: '3%'}}>
+    <GradientBackground fullWidth={true} stickyHeader={true}>
+      <View style={{alignItems: 'flex-start'}}>
         <BackButton navigation={navigation} />
       </View>
       <View style={styles.containerProducts}>

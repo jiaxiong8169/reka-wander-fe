@@ -80,38 +80,45 @@ export const EditScreen = ({navigation, route}) => {
           refreshing={false}
           onRefresh={() => setReload(!reload)}
         />
-      }>
-      <View style={{flexDirection: 'column', marginBottom: 10}}>
-        <View style={{flexDirection: 'row'}}>
-          <BackButton navigation={navigation} />
-          <BlueSubtitle text1={`Edit ${type}`} text2={``} />
-        </View>
-      </View>
-
-      <CustomTextInput
-        placeholder="Search Here..."
-        value={search}
-        onChangeText={t => setSearch(t)}
-        startAdornment={
-          <Icon
-            style={{marginLeft: 10}}
-            size={20}
-            color="#BDBDBD"
-            name="search"
-          />
-        }
+      }
+      contentContainerStyle={{
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+      }}
+      stickyHeader={true}>
+      <BackButton navigation={navigation} style={{width: '20%'}} />
+      <BlueSubtitle
+        text1={`Edit ${type}`}
+        text2={``}
+        style={{width: '80%', marginBottom: 10}}
       />
-      {items.map(item => (
-        <CardItemWithEdit
-          item={item}
-          key={item.id}
-          navigation={navigation}
-          type={type}
-          marginBottom={10}
-          selected={tripPlan[fieldName]}
-          toggleItemSelection={toggleItemSelection}
+
+      <View style={{flexDirection: 'column', marginBottom: 10, width: '100%'}}>
+        <CustomTextInput
+          placeholder="Search Here..."
+          value={search}
+          onChangeText={t => setSearch(t)}
+          startAdornment={
+            <Icon
+              style={{marginLeft: 10}}
+              size={20}
+              color="#BDBDBD"
+              name="search"
+            />
+          }
         />
-      ))}
+        {items.map(item => (
+          <CardItemWithEdit
+            item={item}
+            key={item.id}
+            navigation={navigation}
+            type={type}
+            marginBottom={10}
+            selected={tripPlan[fieldName]}
+            toggleItemSelection={toggleItemSelection}
+          />
+        ))}
+      </View>
       <LoadMore getData={getData} full={full} loading={loading} />
     </GradientBackground>
   );

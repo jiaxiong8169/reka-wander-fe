@@ -84,7 +84,9 @@ export default function Recommended({navigation}) {
 
   return (
     <GradientBackground>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled">
         <View>
           <Text style={{fontWeight: '300', fontSize: 40, color: `#4169E1`}}>
             Hi{' '}

@@ -69,6 +69,7 @@ export default function PlannerSteps({navigation}) {
     <GradientBackground>
       <ScrollView
         nestedScrollEnabled={true}
+        keyboardShouldPersistTaps="handled"
         contentContainerStyle={{flexGrow: 1}}
         showsVerticalScrollIndicator={false}>
         <View style={styles.container}>

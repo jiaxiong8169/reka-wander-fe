@@ -12,6 +12,7 @@ const TripName = () => {
     <View style={styles.body_container}>
       <Text style={styles.question}>Give Your Trip a name!</Text>
       <CustomTextInput
+        autoFocus={true}
         onChangeText={v => dispatch(setTripName(v))}
         placeholder="Type Your trip name here..."
         value={tripName}

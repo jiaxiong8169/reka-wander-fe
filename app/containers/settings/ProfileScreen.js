@@ -75,8 +75,11 @@ export const ProfileScreen = ({navigation, route}) => {
   };
 
   return (
-    <GradientBackground>
-      <View style={{flexDirection: 'row', padding: '3%'}}>
+    <GradientBackground stickyHeader={true}>
+      <View
+        style={{
+          alignItems: 'flex-start',
+        }}>
         <BackButton navigation={navigation} />
       </View>
       <View

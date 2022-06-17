@@ -10,38 +10,52 @@ import InsertDetailsCard from '../../components/stepper/InsertDetailsCard';
 
 export default function NearBySearchScreen({navigation}) {
   return (
-    <GradientBackground>
-      <View style={{flexDirection: 'row', marginBottom: 20}}>
-        <BackButton navigation={navigation} />
-        <BlueSubtitle text1="Hi Welcome," text2={`Search Spots`} />
-      </View>
-      <InsertDetailsCard>
-        <TouchableOpacity
-          style={{marginBottom: 20}}
-          onPress={() => navigation.navigate('SpotsImages', {isNearby: true})}>
-          <Image
-            style={styles.image}
-            source={require('../../assets/map.png')}
-          />
-          <CustomButton
-            size="lg"
+    <GradientBackground
+      contentContainerStyle={{
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+      }}
+      stickyHeader={true}>
+      <BackButton
+        navigation={navigation}
+        style={{width: '20%', marginTop: 15}}
+      />
+      <BlueSubtitle
+        text1="Hi Welcome,"
+        text2={`Search Spots`}
+        style={{width: '80%', marginBottom: 10}}
+      />
+      <View style={{flexDirection: 'column', marginBottom: 20, width: '100%'}}>
+        <InsertDetailsCard>
+          <TouchableOpacity
+            style={{marginBottom: 20}}
             onPress={() =>
               navigation.navigate('SpotsImages', {isNearby: true})
             }>
-            Find Nearby
-          </CustomButton>
-        </TouchableOpacity>
-        <Text style={styles.h2}>Or</Text>
-        <TouchableOpacity
-          style={{marginBottom: 20}}
-          onPress={() => navigation.navigate('SpotsSearchManually')}>
-          <Text style={styles.h2}>Search Manually</Text>
-          <Image
-            style={styles.image}
-            source={require('../../assets/search.png')}
-          />
-        </TouchableOpacity>
-      </InsertDetailsCard>
+            <Image
+              style={styles.image}
+              source={require('../../assets/map.png')}
+            />
+            <CustomButton
+              size="lg"
+              onPress={() =>
+                navigation.navigate('SpotsImages', {isNearby: true})
+              }>
+              Find Nearby
+            </CustomButton>
+          </TouchableOpacity>
+          <Text style={styles.h2}>Or</Text>
+          <TouchableOpacity
+            style={{marginBottom: 20}}
+            onPress={() => navigation.navigate('SpotsSearchManually')}>
+            <Text style={styles.h2}>Search Manually</Text>
+            <Image
+              style={styles.image}
+              source={require('../../assets/search.png')}
+            />
+          </TouchableOpacity>
+        </InsertDetailsCard>
+      </View>
     </GradientBackground>
   );
 }

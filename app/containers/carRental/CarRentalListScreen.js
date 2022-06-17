@@ -82,28 +82,38 @@ export const CarRentalListScreen = ({navigation, route}) => {
           refreshing={false}
           onRefresh={() => setReload(!reload)}
         />
-      }>
-      <View style={{flexDirection: 'column', marginBottom: 10}}>
-        <View style={{flexDirection: 'row'}}>
-          <BackButton navigation={navigation} />
-          <BlueSubtitle text1="Hi Welcome," text2={`Rent Your Car`} />
-        </View>
+      }
+      contentContainerStyle={{
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+      }}
+      stickyHeader={true}>
+      <BackButton
+        navigation={navigation}
+        style={{width: '20%', marginTop: 15}}
+      />
+      <BlueSubtitle
+        text1="Hi Welcome,"
+        text2={`Rent Your Car`}
+        style={{width: '80%', marginBottom: 10}}
+      />
+      <View style={{width: '100%'}}>
+        <CustomTextInput
+          placeholder="Search Here..."
+          value={search}
+          onChangeText={t => setSearch(t)}
+          startAdornment={
+            <Icon
+              style={{marginLeft: 10}}
+              size={20}
+              color="#BDBDBD"
+              name="search"
+            />
+          }
+        />
       </View>
 
-      <CustomTextInput
-        placeholder="Search Here..."
-        value={search}
-        onChangeText={t => setSearch(t)}
-        startAdornment={
-          <Icon
-            style={{marginLeft: 10}}
-            size={20}
-            color="#BDBDBD"
-            name="search"
-          />
-        }
-      />
-      <Card style={{marginBottom: 10}}>
+      <Card style={{width: '100%', marginBottom: 10}}>
         {items.map(item => (
           <CarCardItem
             key={item.id}

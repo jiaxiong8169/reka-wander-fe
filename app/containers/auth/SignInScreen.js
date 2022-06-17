@@ -111,6 +111,7 @@ const SignInScreen = ({navigation, route}) => {
           imageStyle={{opacity: 0.4}}>
           <ScrollView
             showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
             contentContainerStyle={{
               alignItems: 'center',
               paddingVertical: 40,
