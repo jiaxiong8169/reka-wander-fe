@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import GradientBackground from '../../components/GradientBackground';
 import BlueSubtitle from '../../components/texts/BlueSubtitle';
-import {View, Dimensions, StyleSheet} from 'react-native';
+import {View, Dimensions, StyleSheet, Alert} from 'react-native';
 import {BackButton} from '../../components/BackButton';
 import {HomestayRoomCardItem} from '../../components/HomestayRoomCardItem';
 import {CustomButton} from '../../components/CustomButton';
@@ -45,6 +45,11 @@ export const HomestaySelectRoomScreen = ({navigation, route}) => {
             size="md"
             colorScheme="secondary"
             onPress={() => {
+              // check total price
+              if (getTotalPrice() <= 0) {
+                Alert.alert('You must select at least a room!');
+                return;
+              }
               navigation.navigate('HomestayRent', {
                 item,
                 checkInDate,

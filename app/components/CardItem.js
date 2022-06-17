@@ -83,6 +83,14 @@ const CardItem = ({item, navigation, type, marginBottom}) => {
                 style={{textAlign: 'right'}}>
                 RM {item.price ? item.price : item.minPrice}
               </CustomText>
+              {type === 'restaurants' && (
+                <CustomText
+                  fontSize="xs"
+                  color="primary.400"
+                  style={{textAlign: 'right'}}>
+                  average per pax
+                </CustomText>
+              )}
             </View>
           </View>
         </View>

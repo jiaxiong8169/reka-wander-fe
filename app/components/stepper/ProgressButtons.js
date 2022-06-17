@@ -7,6 +7,7 @@ const ProgressButtons = props => (
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
+      marginBottom: 30,
     }}>
     {props.renderPreviousButton()}
     {props.renderNextButton()}
