@@ -15,11 +15,27 @@ import UserDetails from './PlannerUserDetails';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {BackButton} from '../../components/BackButton';
 import BlueSubtitle from '../../components/texts/BlueSubtitle';
+import RecommendedCard from './PlannerRecommendCard';
+import RecommendedCardDetails from './PlannerRecommendationCardDetails';
+import {RecommendedCardWithData} from '../../components/card/recommended-card-with-data';
 
 export const TripHistoryDetails = ({navigation, route}) => {
   const {getWithAuth} = useHttpCall();
   const {id} = route.params;
   const [trip, setTrip] = useState({});
+  const [attractions, setAttractions] = useState([]);
+  const [restaurants, setRestaurants] = useState([]);
+  const [homestays, setHomestays] = useState([]);
+  const [hotels, setHotels] = useState([]);
+  const [vehicles, setVehicles] = useState([]);
+
+  const fetchDataList = (type, values, setResults) => {
+    const promises = values.map(id => getWithAuth(`${type}/${id}`));
+    Promise.all(promises).then(val => {
+      let tmp = val.map(v => v.data);
+      setResults(tmp);
+    });
+  };
 
   // on load, fetch item
   useEffect(() => {
@@ -27,9 +43,14 @@ export const TripHistoryDetails = ({navigation, route}) => {
     getWithAuth(`trips/${id}`)
       .then(({data}) => {
         setTrip(data);
+        fetchDataList('restaurants', data.restaurants, setRestaurants);
+        fetchDataList('attractions', data.attractions, setAttractions);
+        fetchDataList('homestays', data.homestays, setHomestays);
+        fetchDataList('hotels', data.hotels, setHotels);
+        fetchDataList('vehicles', data.vehicles, setVehicles);
       })
-      .catch(() => {
-        // TODO: add error handling
+      .catch(e => {
+        console.log(e);
       });
   }, [id]);
 
@@ -162,132 +183,52 @@ export const TripHistoryDetails = ({navigation, route}) => {
                   url={require('../../assets/dollar_icon.png')}
                   editPage={<TravelBudget />}>
                   <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
-                    RM{trip?.budget}
+                    RM{trip?.previousBudget}
                   </Text>
                 </UserDetails>
               </View>
             </View>
           </Card>
-          {/* {trip?.hotelObjects && trip.hotelObjects.length > 0 && (
-            <RecommendedCard
-              title={'Hotel'}
-              styles={{flexDirection: 'column'}}
-              type={'hotels'}
-              navigation={navigation}
-              fieldName={'hotels'}
-              fieldNameObj={'hotelObjects'}>
-              {tripPlan.hotelObjects.map(item => (
-                <RecommendedCardDetails
-                  item={item}
-                  perks={item.perks}
-                  type={'hotels'}
-                  url={item.thumbnailSrc}
-                  id={item.id}
-                  key={item.id}
-                  navigation={navigation}
-                  styles={{paddingTop: 10}}
-                  name={item.name}>
-                  {item.description.substring(0, 100) + '...'}
-                </RecommendedCardDetails>
-              ))}
-            </RecommendedCard>
-          )}
-          {trip?.homestayObjects && trip.homestayObjects.length > 0 && (
-            <RecommendedCard
-              title={'Homestay'}
-              styles={{flexDirection: 'column'}}
-              type={'homestays'}
-              navigation={navigation}
-              fieldName={'homestays'}
-              fieldNameObj={'homestayObjects'}>
-              {tripPlan.homestayObjects.map(item => (
-                <RecommendedCardDetails
-                  item={item}
-                  key={item.id}
-                  perks={item.perks}
-                  type={'homestays'}
-                  url={item.thumbnailSrc}
-                  id={item.id}
-                  navigation={navigation}
-                  styles={{paddingTop: 10}}
-                  name={item.name}>
-                  {item.description.substring(0, 100) + '...'}
-                </RecommendedCardDetails>
-              ))}
-            </RecommendedCard>
-          )}
-          {trip?.vehicleObjects && trip.vehicleObjects.length > 0 && (
-            <RecommendedCard
-              title={'Car'}
-              styles={{flexDirection: 'column'}}
-              type={'vehicles'}
-              navigation={navigation}
-              fieldName={'vehicles'}
-              fieldNameObj={'vehicleObjects'}>
-              {tripPlan.vehicleObjects.map(item => (
-                <RecommendedCardDetails
-                  item={item}
-                  key={item.id}
-                  perks={item.perks}
-                  type={'vehicles'}
-                  url={item.thumbnailSrc}
-                  id={item.id}
-                  navigation={navigation}
-                  styles={{paddingTop: 10}}
-                  name={item.name}>
-                  {item.description.substring(0, 100) + '...'}
-                </RecommendedCardDetails>
-              ))}
-            </RecommendedCard>
-          )}
-          {trip?.attractionObjects && trip.attractionObjects.length > 0 && (
-            <RecommendedCard
-              title={'Attractions'}
-              styles={{flexDirection: 'column'}}
-              type={'attractions'}
-              navigation={navigation}
-              fieldName={'attractions'}
-              fieldNameObj={'attractionObjects'}>
-              {tripPlan.attractionObjects.map(item => (
-                <RecommendedCardDetails
-                  item={item}
-                  key={item.id}
-                  perks={item.perks}
-                  type={'attractions'}
-                  url={item.thumbnailSrc}
-                  id={item.id}
-                  navigation={navigation}
-                  styles={{paddingTop: 10}}
-                  name={item.name}>
-                  {item.description.substring(0, 100) + '...'}
-                </RecommendedCardDetails>
-              ))}
-            </RecommendedCard>
-          )}
-          {trip?.restaurantObjects && trip.restaurantObjects.length > 0 && (
-            <RecommendedCard
-              title={'Restaurants'}
-              styles={{flexDirection: 'column'}}
-              type={'restaurants'}
-              navigation={navigation}
-              fieldName={'restaurants'}
-              fieldNameObj={'restaurantObjects'}>
-              {tripPlan.restaurantObjects.map(item => (
-                <RecommendedCardDetails
-                  item={item}
-                  perks={item.perks}
-                  type={'restaurants'}
-                  url={item.thumbnailSrc}
-                  id={item.id}
-                  key={item.id}
-                  navigation={navigation}
-                  styles={{paddingTop: 10}}
-                  name={item.name}>
-                  {item.description.substring(0, 100) + '...'}
-                </RecommendedCardDetails>
-              ))}
-            </RecommendedCard>
-          )} */}
+          <RecommendedCardWithData
+            navigation={navigation}
+            title="Hotel"
+            type="hotels"
+            data={hotels}
+            startDate={trip.startDate}
+            endDate={trip.endDate}
+          />
+          <RecommendedCardWithData
+            navigation={navigation}
+            title="Homestay"
+            type="homestays"
+            data={homestays}
+            startDate={trip.startDate}
+            endDate={trip.endDate}
+          />
+          <RecommendedCardWithData
+            navigation={navigation}
+            title="Cars"
+            type="vehicles"
+            data={vehicles}
+            startDate={trip.startDate}
+            endDate={trip.endDate}
+          />
+          <RecommendedCardWithData
+            navigation={navigation}
+            title="Attractions"
+            type="attractions"
+            data={attractions}
+            startDate={trip.startDate}
+            endDate={trip.endDate}
+          />
+          <RecommendedCardWithData
+            navigation={navigation}
+            title="Restaurants"
+            type="restaurants"
+            data={restaurants}
+            startDate={trip.startDate}
+            endDate={trip.endDate}
+          />
         </View>
       </ScrollView>
     </GradientBackground>

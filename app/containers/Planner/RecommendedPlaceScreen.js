@@ -273,8 +273,9 @@ export default function Recommended({navigation}) {
                   id={item.id}
                   key={item.id}
                   navigation={navigation}
-                  styles={{paddingTop: 10}}
-                  name={item.name}>
+                  name={item.name}
+                  startDate={startDate}
+                  endDate={endDate}>
                   {item.description.substring(0, 100) + '...'}
                 </RecommendedCardDetails>
               ))}
@@ -316,8 +317,9 @@ export default function Recommended({navigation}) {
                   url={item.thumbnailSrc}
                   id={item.id}
                   navigation={navigation}
-                  styles={{paddingTop: 10}}
-                  name={item.name}>
+                  name={item.name}
+                  startDate={startDate}
+                  endDate={endDate}>
                   {item.description.substring(0, 100) + '...'}
                 </RecommendedCardDetails>
               ))}
@@ -359,8 +361,9 @@ export default function Recommended({navigation}) {
                   url={item.thumbnailSrc}
                   id={item.id}
                   navigation={navigation}
-                  styles={{paddingTop: 10}}
-                  name={item.name}>
+                  name={item.name}
+                  startDate={startDate}
+                  endDate={endDate}>
                   {item.description.substring(0, 100) + '...'}
                 </RecommendedCardDetails>
               ))}
@@ -403,8 +406,9 @@ export default function Recommended({navigation}) {
                   url={item.thumbnailSrc}
                   id={item.id}
                   navigation={navigation}
-                  styles={{paddingTop: 10}}
-                  name={item.name}>
+                  name={item.name}
+                  startDate={startDate}
+                  endDate={endDate}>
                   {item.description.substring(0, 100) + '...'}
                 </RecommendedCardDetails>
               ))}
@@ -446,8 +450,9 @@ export default function Recommended({navigation}) {
                   id={item.id}
                   key={item.id}
                   navigation={navigation}
-                  styles={{paddingTop: 10}}
-                  name={item.name}>
+                  name={item.name}
+                  startDate={startDate}
+                  endDate={endDate}>
                   {item.description.substring(0, 100) + '...'}
                 </RecommendedCardDetails>
               ))}

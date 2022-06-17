@@ -22,6 +22,8 @@ import {PlannerHistory} from '../containers/Planner/PlannerHistory';
 import {TripHistoryDetails} from '../containers/Planner/TripHistoryDetails';
 import {CarRentalListScreen} from '../containers/carRental/CarRentalListScreen';
 import {CarRentalDetailsScreen} from '../containers/carRental/CarRentalDetailsScreen';
+import {SelectRoomScreen} from '../containers/spots/SelectRoomScreen';
+import {HotelConfirmationScreen} from '../containers/spots/HotelConfirmationScreen';
 
 const Stack = createStackNavigator();
 
@@ -115,6 +117,20 @@ export default function PlannerStack() {
           <Stack.Screen
             name="SpotsComment"
             component={SpotsCommentScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="SelectRoom"
+            component={SelectRoomScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="HotelConfirmation"
+            component={HotelConfirmationScreen}
             options={{
               headerShown: false,
             }}

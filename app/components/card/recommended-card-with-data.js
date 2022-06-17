@@ -1,16 +1,71 @@
 import {Image} from 'native-base';
 import React from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
+import Card from './card';
 import moment from 'moment';
 
-export default function RecommendedCardDetails({
+export const RecommendedCardWithData = ({
+  navigation,
+  title,
+  data,
+  type,
+  startDate,
+  endDate,
+}) => {
+  return (
+    <View>
+      <Text
+        style={{
+          margin: 5,
+          fontSize: 20,
+          color: `#6A5ACD`,
+          fontWeight: '600',
+          fontFamily: 'sans-serif-light',
+        }}>
+        Recommended {title}
+      </Text>
+      <Card style={{marginVertical: 10}}>
+        <View>
+          {data.length === 0 && (
+            <Text
+              style={{
+                fontSize: 15,
+                color: '#000',
+                fontFamily: 'sans-serif-light',
+                textAlign: 'center',
+              }}>
+              None is Selected.
+            </Text>
+          )}
+          {data.map(d => (
+            <RecommendedCardDetails
+              key={d.id}
+              navigation={navigation}
+              perks={d.perks}
+              url={d.thumbnailSrc}
+              id={d.id}
+              name={d.name}
+              type={type}
+              item={d}
+              description={d?.description?.substring(0, 100) + '...'}
+              startDate={startDate}
+              endDate={endDate}
+            />
+          ))}
+        </View>
+      </Card>
+    </View>
+  );
+};
+
+function RecommendedCardDetails({
   navigation,
   perks,
   url,
   id,
   name,
   type,
-  children,
+  description,
   item,
   startDate,
   endDate,
@@ -59,11 +114,13 @@ export default function RecommendedCardDetails({
         <Image
           style={{
             flex: 1,
-            width: undefined,
+            width: null,
+            height: null,
             resizeMode: 'cover',
             borderRadius: 5,
             paddingRight: 8,
           }}
+          alt="spot"
           source={{uri: url}}
         />
 
@@ -87,7 +144,7 @@ export default function RecommendedCardDetails({
               fontSize: 11,
               color: '#000',
             }}>
-            {children}
+            {description}
           </Text>
           <View
             style={{
