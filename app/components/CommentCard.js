@@ -1,14 +1,30 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
-import {Flex} from 'native-base';
+import {View, StyleSheet, TouchableOpacity} from 'react-native';
+import {Flex, Pressable} from 'native-base';
 import {RatingButton} from './RatingButton';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {CustomText} from './texts/custom-text';
+import {CustomButton} from './CustomButton';
 
 const CommentCard = props => {
   return (
     <View style={[styles.textContainer, props.style]}>
       <Flex direction="row" w="100%">
+        {props.canEdit && (
+          <CustomButton
+            variant="link"
+            onPress={() => {
+              if (!!props.setEditReview) props.setEditReview(true);
+            }}
+            size="xs"
+            style={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+            }}>
+            Edit
+          </CustomButton>
+        )}
         <Icon name="person-circle-sharp" size={50} style={{marginRight: 5}} />
         <View style={{flex: 1}}>
           <CustomText fontSize="sm">{props.commentorName}</CustomText>
@@ -47,11 +63,6 @@ const styles = StyleSheet.create({
   textContainer: {
     backgroundColor: 'white',
     borderRadius: 20,
-    position: 'relative',
-    right: 0,
-    left: 0,
-    top: -16,
-    width: '90%',
     padding: 10,
     marginHorizontal: 20,
     shadowColor: 'black',
@@ -59,7 +70,7 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     shadowOpacity: 0.26,
     elevation: 8,
-    marginBottom: 10,
+    marginVertical: 10,
     alignSelf: 'center',
   },
 });

@@ -1,9 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, Image} from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
-import {Text} from 'native-base';
 import Card from '../components/Card';
-import FastImage from 'react-native-fast-image';
 import {RatingButton} from './RatingButton';
 import {CustomButton} from './CustomButton';
 import {CustomText} from './texts/custom-text';
@@ -25,11 +23,11 @@ const CardItemWithEdit = ({
         marginBottom: marginBottom,
       }}
       key={item.id}>
-      <FastImage
+      <Image
         style={{flex: 1, height: undefined, borderRadius: 5}}
         source={{uri: item.thumbnailSrc}}
       />
-      <View style={{flex: 3, flexDirection: 'column', marginLeft: 10}}>
+      <View style={{flex: 2, flexDirection: 'column', marginLeft: 10}}>
         <View
           style={{
             display: 'flex',
@@ -117,11 +115,19 @@ const CardItemWithEdit = ({
                 style={{textAlign: 'right'}}>
                 RM {item.price ? item.price : item.minPrice}
               </CustomText>
+              {type === 'restaurants' && (
+                <CustomText
+                  fontSize="xs"
+                  color="primary.400"
+                  style={{textAlign: 'right'}}>
+                  average per pax
+                </CustomText>
+              )}
             </View>
           </View>
         </View>
         <CustomButton
-          size="sm"
+          size="xs"
           onPress={() => {
             navigation.navigate('SpotDetails', {
               type: type,

@@ -1,7 +1,6 @@
 import React from 'react';
 import {ImageBackground, TouchableOpacity} from 'react-native';
-import {View} from 'native-base';
-import FastImage from 'react-native-fast-image';
+import {Image, View} from 'native-base';
 import {RatingButton} from './RatingButton';
 import {CustomText} from './texts/custom-text';
 
@@ -55,7 +54,7 @@ export const GuideCardItem = ({item, navigation, marginBottom}) => {
             <RatingButton rating={item.avgRating} />
           </View>
         </View>
-        <FastImage
+        <Image
           style={{
             width: undefined,
             flex: 2,

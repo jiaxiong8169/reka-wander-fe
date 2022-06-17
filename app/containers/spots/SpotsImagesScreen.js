@@ -1,16 +1,9 @@
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  RefreshControl,
-  TouchableOpacity,
-} from 'react-native';
+import {View, StyleSheet, RefreshControl, TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {FlatList} from 'react-native';
-import {SearchIcon, Text} from 'native-base';
+import {Image, SearchIcon, Text} from 'native-base';
 import GradientBackground from '../../components/GradientBackground';
 import {useHttpCall} from '../../hooks/useHttpCall';
-import FastImage from 'react-native-fast-image';
 import BlueSubtitle from '../../components/texts/BlueSubtitle';
 import {useSelector, useDispatch} from 'react-redux';
 import {
@@ -24,15 +17,18 @@ import {
 import {BackButton} from '../../components/BackButton';
 import {getLocationPermissionAndExecute} from '../../utils/location-utils';
 import {CustomButton} from '../../components/CustomButton';
+import {CustomText} from '../../components/texts/custom-text';
+import {RatingButton} from '../../components/RatingButton';
 
-const {width} = Dimensions.get('window');
-//you need to preview n items.
-const previewCount = 3;
-//to center items
-//the screen will show `previewCount` + 1/4 firstItemWidth + 1/4 lastItemWidth
-//so for example if previewCount = 3
-//itemWidth will be =>>> itemWidth = screenWidth / (3 + 1/4 + 1/4)
-const itemWidth = width / (previewCount + 0.5);
+// const {width} = Dimensions.get('window');
+// you need to preview n items.
+// const previewCount = 3;
+// to center items
+// the screen will show `previewCount` + 1/4 firstItemWidth + 1/4 lastItemWidth
+// so for example if previewCount = 3
+// itemWidth will be =>>> itemWidth = screenWidth / (3 + 1/4 + 1/4)
+// const itemWidth = width / (previewCount + 0.5);
+const itemWidth = 180;
 const startScroll = 0;
 
 export default function SpotsImagesScreen({navigation, route}) {
@@ -213,25 +209,39 @@ export default function SpotsImagesScreen({navigation, route}) {
           showsHorizontalScrollIndicator={false}
           data={isNearby ? nearbyRestaurants : restaurants}
           renderItem={({item, index}) => (
-            <TouchableOpacity
-              style={styles.view}
-              onPress={() =>
-                navigation.navigate('SpotDetails', {
-                  type: isNearby ? 'nearbyRestaurants' : 'restaurants',
-                  id: item.id,
-                })
-              }>
-              <FastImage
-                source={{uri: item.thumbnailSrc}}
-                style={{
-                  flex: 1,
-                  width: null,
-                  height: null,
-                  resizeMode: 'cover',
-                  borderRadius: 10,
-                }}
-              />
-            </TouchableOpacity>
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                width: itemWidth,
+                padding: 5,
+                justifyContent: 'flex-start',
+                alignItems: 'flex-start',
+              }}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('SpotDetails', {
+                    type: isNearby ? 'nearbyRestaurants' : 'restaurants',
+                    id: item.id,
+                  })
+                }>
+                <Image
+                  source={{uri: item.thumbnailSrc}}
+                  height={140}
+                  width={itemWidth}
+                  style={{
+                    resizeMode: 'cover',
+                    borderRadius: 10,
+                  }}
+                  alt="spot"
+                />
+              </TouchableOpacity>
+              <CustomText>{item.name}</CustomText>
+              <RatingButton rating={item.avgRating} />
+              <CustomText fontSize="xs" color="gray.600">
+                {item.city}
+              </CustomText>
+            </View>
           )}
         />
       </View>
@@ -270,25 +280,39 @@ export default function SpotsImagesScreen({navigation, route}) {
           showsHorizontalScrollIndicator={false}
           data={isNearby ? nearbyAttractions : attractions}
           renderItem={({item, index}) => (
-            <TouchableOpacity
-              style={styles.view}
-              onPress={() =>
-                navigation.navigate('SpotDetails', {
-                  type: isNearby ? 'nearbyAttractions' : 'attractions',
-                  id: item.id,
-                })
-              }>
-              <FastImage
-                source={{uri: item.thumbnailSrc}}
-                style={{
-                  flex: 1,
-                  width: null,
-                  height: null,
-                  resizeMode: 'cover',
-                  borderRadius: 10,
-                }}
-              />
-            </TouchableOpacity>
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                width: itemWidth,
+                padding: 5,
+                justifyContent: 'flex-start',
+                alignItems: 'flex-start',
+              }}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('SpotDetails', {
+                    type: isNearby ? 'nearbyAttractions' : 'attractions',
+                    id: item.id,
+                  })
+                }>
+                <Image
+                  source={{uri: item.thumbnailSrc}}
+                  height={140}
+                  width={itemWidth}
+                  style={{
+                    resizeMode: 'cover',
+                    borderRadius: 10,
+                  }}
+                  alt="spot"
+                />
+              </TouchableOpacity>
+              <CustomText>{item.name}</CustomText>
+              <RatingButton rating={item.avgRating} />
+              <CustomText fontSize="xs" color="gray.600">
+                {item.city}
+              </CustomText>
+            </View>
           )}
         />
       </View>
@@ -327,25 +351,39 @@ export default function SpotsImagesScreen({navigation, route}) {
           showsHorizontalScrollIndicator={false}
           data={isNearby ? nearbyHotels : hotels}
           renderItem={({item, index}) => (
-            <TouchableOpacity
-              style={styles.view}
-              onPress={() => {
-                navigation.navigate('SpotDetails', {
-                  type: isNearby ? 'nearbyHotels' : 'hotels',
-                  id: item.id,
-                });
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                width: itemWidth,
+                padding: 5,
+                justifyContent: 'flex-start',
+                alignItems: 'flex-start',
               }}>
-              <FastImage
-                source={{uri: item.thumbnailSrc}}
-                style={{
-                  flex: 1,
-                  width: null,
-                  height: null,
-                  resizeMode: 'cover',
-                  borderRadius: 10,
-                }}
-              />
-            </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('SpotDetails', {
+                    type: isNearby ? 'nearbyHotels' : 'hotels',
+                    id: item.id,
+                  })
+                }>
+                <Image
+                  source={{uri: item.thumbnailSrc}}
+                  height={140}
+                  width={itemWidth}
+                  style={{
+                    resizeMode: 'cover',
+                    borderRadius: 10,
+                  }}
+                  alt="spot"
+                />
+              </TouchableOpacity>
+              <CustomText>{item.name}</CustomText>
+              <RatingButton rating={item.avgRating} />
+              <CustomText fontSize="xs" color="gray.600">
+                {item.city}
+              </CustomText>
+            </View>
           )}
         />
       </View>
@@ -354,9 +392,7 @@ export default function SpotsImagesScreen({navigation, route}) {
 }
 const styles = StyleSheet.create({
   view: {
-    backgroundColor: '#eee',
-    width: itemWidth - 20, //20 is margin left and right
-    margin: 10,
+    width: itemWidth,
     height: 140,
     borderRadius: 10,
   },

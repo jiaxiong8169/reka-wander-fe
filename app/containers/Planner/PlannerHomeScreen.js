@@ -1,12 +1,16 @@
 import React, {useEffect} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import EncryptedStorage from 'react-native-encrypted-storage';
 
 export default function HomePage({navigation}) {
   // redirect to the planner page after 2 seconds
   useEffect(() => {
     let timer1 = setTimeout(() => {
-      navigation.replace('SignInScreen');
+      EncryptedStorage.getItem('auth_data').then(d => {
+        if (!!d) navigation.replace('MainScreen');
+        else navigation.replace('SignInScreen');
+      });
     }, 1000);
 
     return () => {
