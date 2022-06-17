@@ -158,24 +158,31 @@ export default function SpotsImagesScreen({navigation, route}) {
           refreshing={loading1 || loading2 || loading3}
           onRefresh={() => setReload(true)}
         />
-      }>
+      }
+      contentContainerStyle={{
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+      }}
+      stickyHeader={isNearby}>
       {!isNearby && (
         <SearchIcon
           size="6"
           mx={2}
-          style={{alignSelf: 'flex-end'}}
           onPress={() => navigation.navigate('NearBySearch')}
         />
       )}
       {isNearby && (
-        <View style={{flexDirection: 'column', marginBottom: 10}}>
-          <View style={{flexDirection: 'row'}}>
-            <BackButton navigation={navigation} />
-            <BlueSubtitle text1={isNearby ? 'Nearby Spots' : ''} text2={''} />
-          </View>
-        </View>
+        <BackButton navigation={navigation} style={{width: '20%'}} />
       )}
-      <View style={{marginBottom: 10}}>
+      {isNearby && (
+        <BlueSubtitle
+          text1={isNearby ? 'Nearby Spots' : ''}
+          text2={''}
+          style={{width: '80%', marginBottom: 10}}
+        />
+      )}
+
+      <View style={{flexDirection: 'column', marginBottom: 10, width: '100%'}}>
         <View
           style={{
             display: 'flex',

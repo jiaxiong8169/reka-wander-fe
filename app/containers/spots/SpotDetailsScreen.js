@@ -195,121 +195,121 @@ export default function SpotDetailsScreen({navigation, route}) {
   };
 
   return (
-    <ScrollView
-      keyboardShouldPersistTaps="handled"
-      showsVerticalScrollIndicator={false}
-      refreshControl={
-        <RefreshControl
-          refreshing={loading}
-          onRefresh={() => setReload(true)}
-        />
-      }>
-      <View style={styles.container}>
-        <Image style={styles.image} source={{uri: item.thumbnailSrc}} />
-        <View style={{flex: 1}}></View>
-        <BackButton navigation={navigation} absolute />
+    <View>
+      <BackButton navigation={navigation} absolute />
+      <ScrollView
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={loading}
+            onRefresh={() => setReload(true)}
+          />
+        }>
+        <View style={styles.container}>
+          <Image style={styles.image} source={{uri: item.thumbnailSrc}} />
+          <View style={styles.textContainer}>
+            <Heading size="2xl" color={'white'}>
+              {item.name}
+            </Heading>
 
-        <View style={styles.textContainer}>
-          <Heading size="2xl" color={'white'}>
-            {item.name}
-          </Heading>
-
-          <Text fontSize={14} color="white">
-            {item.city}
-          </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-            }}>
-            <Text bold fontSize={14} color="white">
-              {item.category}
+            <Text fontSize={14} color="white">
+              {item.city}
             </Text>
-          </View>
-          <View
-            style={{
-              marginRight: 'auto',
-              marginTop: 6,
-            }}>
-            <RatingButton rating={item.avgRating} />
-          </View>
-          <Text mt="3" mb="10" color={'white'}>
-            {item.description}
-          </Text>
-          {type === 'hotels' || type === 'nearbyHotels' ? (
-            <CustomButton
-              colorScheme="secondary"
-              style={{marginTop: 20}}
-              onPress={() => {
-                navigation.navigate('SelectRoom', {
-                  item,
-                });
+            <View
+              style={{
+                flexDirection: 'row',
               }}>
-              Select Rooms
-            </CustomButton>
-          ) : (
-            <LocationButton
-              targetLat={item?.loc?.coordinates[1]}
-              targetLong={item?.loc?.coordinates[0]}
-            />
-          )}
+              <Text bold fontSize={14} color="white">
+                {item.category}
+              </Text>
+            </View>
+            <View
+              style={{
+                marginRight: 'auto',
+                marginTop: 6,
+              }}>
+              <RatingButton rating={item.avgRating} />
+            </View>
+            <Text mt="3" mb="10" color={'white'}>
+              {item.description}
+            </Text>
+            {type === 'hotels' || type === 'nearbyHotels' ? (
+              <CustomButton
+                colorScheme="secondary"
+                style={{marginTop: 20}}
+                onPress={() => {
+                  navigation.navigate('SelectRoom', {
+                    item,
+                  });
+                }}>
+                Select Rooms
+              </CustomButton>
+            ) : (
+              <LocationButton
+                targetLat={item?.loc?.coordinates[1]}
+                targetLong={item?.loc?.coordinates[0]}
+              />
+            )}
+          </View>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              onPress={() => handleLike()}
+              style={{flexDirection: 'row'}}>
+              <Image
+                style={styles.icon}
+                source={require('../../assets/love.png')}
+                tintColor={liked ? 'red' : 'gray'}></Image>
+              <Text
+                ml={'2'}
+                bold
+                fontSize={12}
+                color={liked ? 'red.500' : 'gray.500'}
+                style={styles.iconText}>
+                {likes}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{flexDirection: 'row'}}
+              onPress={() =>
+                navigation.navigate('SpotsComment', {
+                  id: id,
+                  type: type,
+                })
+              }>
+              <Image
+                style={styles.icon}
+                source={require('../../assets/message.png')}
+                tintColor="red"></Image>
+              <Text
+                ml={'2'}
+                bold
+                fontSize={12}
+                color="red.500"
+                style={styles.iconText}>
+                {item.reviews ? item.reviews.length : 0}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => handleShare()}
+              style={{flexDirection: 'row'}}>
+              <Image
+                style={styles.icon}
+                source={require('../../assets/share.png')}
+                tintColor={shared ? 'red' : 'gray'}></Image>
+              <Text
+                ml={'2'}
+                bold
+                fontSize={12}
+                color={shared ? 'red.500' : 'gray.500'}
+                style={styles.iconText}>
+                {shares}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            onPress={() => handleLike()}
-            style={{flexDirection: 'row'}}>
-            <Image
-              style={styles.icon}
-              source={require('../../assets/love.png')}
-              tintColor={liked ? 'red' : 'gray'}></Image>
-            <Text
-              ml={'2'}
-              bold
-              fontSize={12}
-              color={liked ? 'red.500' : 'gray.500'}
-              style={styles.iconText}>
-              {likes}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{flexDirection: 'row'}}
-            onPress={() =>
-              navigation.navigate('SpotsComment', {
-                id: id,
-                type: type,
-              })
-            }>
-            <Image
-              style={styles.icon}
-              source={require('../../assets/message.png')}
-              tintColor="red"></Image>
-            <Text
-              ml={'2'}
-              bold
-              fontSize={12}
-              color="red.500"
-              style={styles.iconText}>
-              {item.reviews ? item.reviews.length : 0}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => handleShare()}
-            style={{flexDirection: 'row'}}>
-            <Image
-              style={styles.icon}
-              source={require('../../assets/share.png')}
-              tintColor={shared ? 'red' : 'gray'}></Image>
-            <Text
-              ml={'2'}
-              bold
-              fontSize={12}
-              color={shared ? 'red.500' : 'gray.500'}
-              style={styles.iconText}>
-              {shares}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 }
 

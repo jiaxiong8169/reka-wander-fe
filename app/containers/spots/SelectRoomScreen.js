@@ -91,12 +91,18 @@ export const SelectRoomScreen = ({navigation, route}) => {
             Book Rooms
           </CustomButton>
         </View>
-      }>
-      <View style={styles.container}>
-        <View style={{flexDirection: 'row', padding: '3%', width: '90%'}}>
-          <BackButton navigation={navigation} />
-          <BlueSubtitle text1={item?.name} />
-        </View>
+      }
+      contentContainerStyle={{
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+      }}
+      stickyHeader={true}>
+      <BackButton navigation={navigation} style={{width: '20%'}} />
+      <BlueSubtitle
+        text1={item?.name}
+        style={{width: '80%', marginBottom: 10}}
+      />
+      <View style={[styles.container, {width: '100%'}]}>
         <Card style={{marginBottom: 25}}>
           <View
             style={{
@@ -192,7 +198,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   container: {
-    flex: 1,
     flexDirection: 'column',
     position: 'relative',
     marginBottom: 20,

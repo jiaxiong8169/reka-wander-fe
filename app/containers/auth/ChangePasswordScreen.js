@@ -45,8 +45,8 @@ export const ChangePasswordScreen = ({navigation}) => {
   }, [oldPassword, newPassword, confirmPassword]);
 
   return (
-    <GradientBackground>
-      <View style={{flexDirection: 'row', padding: '3%'}}>
+    <GradientBackground stickyHeader={true}>
+      <View style={{alignItems: 'flex-start'}}>
         <BackButton navigation={navigation} />
       </View>
       <View

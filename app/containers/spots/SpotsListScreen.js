@@ -91,23 +91,29 @@ export const SpotsListScreen = ({navigation, route}) => {
           refreshing={false}
           onRefresh={() => setReload(!reload)}
         />
-      }>
-      <View style={{flexDirection: 'column', marginBottom: 10}}>
-        <View style={{flexDirection: 'row'}}>
-          <BackButton navigation={navigation} />
-          <BlueSubtitle text1={type[0].toUpperCase() + type.substring(1)} />
-        </View>
+      }
+      contentContainerStyle={{
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+      }}
+      stickyHeader={true}>
+      <BackButton navigation={navigation} style={{width: '20%'}} />
+      <BlueSubtitle
+        text1={type[0].toUpperCase() + type.substring(1)}
+        style={{width: '80%', marginBottom: 10}}
+      />
+      <View style={{flexDirection: 'column', marginBottom: 10, width: '100%'}}>
+        {items.map(item => (
+          <CardItem
+            item={item}
+            key={item.id}
+            navigation={navigation}
+            type={type}
+            marginBottom={10}
+          />
+        ))}
+        <LoadMore getData={getData} full={full} loading={loading} />
       </View>
-      {items.map(item => (
-        <CardItem
-          item={item}
-          key={item.id}
-          navigation={navigation}
-          type={type}
-          marginBottom={10}
-        />
-      ))}
-      <LoadMore getData={getData} full={full} loading={loading} />
     </GradientBackground>
   );
 };

@@ -34,143 +34,139 @@ export const TripHistoryDetails = ({navigation, route}) => {
   }, [id]);
 
   return (
-    <GradientBackground>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps="handled">
-        <View style={{flexDirection: 'column', marginBottom: 10}}>
-          <View style={{flexDirection: 'row'}}>
-            <BackButton navigation={navigation} />
-            <BlueSubtitle text1={trip?.name} text2={``} />
-          </View>
-        </View>
-        <View>
-          <Card style={{marginVertical: 10}}>
-            <View>
-              <View
-                style={{flexDirection: 'column', borderBottomColor: '#000'}}>
-                <UserDetails
-                  noEdit
-                  title={'Trip Name'}
-                  url={require('../../assets/kid_icon.png')}
-                  editPage={<TripName />}>
-                  <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
-                    {trip?.name}
-                  </Text>
-                </UserDetails>
-              </View>
-
-              <View
-                style={{flexDirection: 'column', borderBottomColor: '#000'}}>
-                <UserDetails
-                  noEdit
-                  title={'Pax'}
-                  styles={{paddingTop: 10}}
-                  url={require('../../assets/pax_icon.png')}
-                  editPage={<PaxPage />}>
-                  <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
-                    {trip?.pax}
-                  </Text>
-                </UserDetails>
-              </View>
-
-              <View
-                style={{flexDirection: 'column', borderBottomColor: '#000'}}>
-                <UserDetails
-                  noEdit
-                  title={'Date'}
-                  styles={{paddingTop: 10}}
-                  url={require('../../assets/calendar_icon.png')}
-                  editPage={<ChooseDays />}>
-                  <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
-                    {moment(trip?.startDate).format('YYYY-MM-DD')} -{' '}
-                    {moment(trip?.endDate).format('YYYY-MM-DD')}
-                  </Text>
-                </UserDetails>
-              </View>
-
-              <View
-                style={{flexDirection: 'column', borderBottomColor: '#000'}}>
-                <UserDetails
-                  noEdit
-                  title={'Travel Interests'}
-                  styles={{paddingTop: 10}}
-                  url={require('../../assets/travelInterest_icon.jpg')}
-                  editPage={<TravelInterest />}>
-                  <View style={{flex: 3, paddingLeft: 5}}>
-                    {!trip?.interests || trip?.interests.length === 0 ? (
-                      <View key={'Everything'}>
-                        <Text style={{fontSize: 14}}>- Everything</Text>
-                      </View>
-                    ) : (
-                      trip?.interests.map(e => (
-                        <View key={e}>
-                          <Text style={{fontSize: 14}}>- {e}</Text>
-                        </View>
-                      ))
-                    )}
-                  </View>
-                </UserDetails>
-              </View>
-
-              <View style={{flexDirection: 'column'}}>
-                <UserDetails
-                  noEdit
-                  title={'Kids'}
-                  styles={{paddingTop: 10}}
-                  url={require('../../assets/child_icon.jpg')}
-                  editPage={<Withkids />}>
-                  <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
-                    {trip?.kids ? 'Yes' : 'No'}
-                  </Text>
-                </UserDetails>
-              </View>
-
-              <View style={{flexDirection: 'column'}}>
-                <UserDetails
-                  noEdit
-                  title={'Homestay'}
-                  types={'Homestay'}
-                  styles={{paddingTop: 10}}
-                  url={require('../../assets/Home.png')}
-                  editPage={<RentHomeStay />}>
-                  <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
-                    {trip?.rentHomeStay ? 'Yes' : 'No'}
-                  </Text>
-                </UserDetails>
-              </View>
-
-              <View
-                style={{flexDirection: 'column', borderBottomColor: '#000'}}>
-                <UserDetails
-                  noEdit
-                  title={'Car'}
-                  styles={{paddingTop: 10}}
-                  url={require('../../assets/car_icon.png')}
-                  imageStyle={{margin: 2}}
-                  editPage={<RentCar />}>
-                  <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
-                    {trip?.rentCar ? 'Yes' : 'No'}
-                  </Text>
-                </UserDetails>
-              </View>
-
-              <View
-                style={{flexDirection: 'column', borderBottomColor: '#000'}}>
-                <UserDetails
-                  noEdit
-                  title={'Budget'}
-                  styles={{paddingTop: 10}}
-                  url={require('../../assets/dollar_icon.png')}
-                  editPage={<TravelBudget />}>
-                  <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
-                    RM{trip?.budget}
-                  </Text>
-                </UserDetails>
-              </View>
+    <GradientBackground
+      contentContainerStyle={{
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+      }}
+      stickyHeader={true}>
+      <BackButton navigation={navigation} style={{width: '20%'}} />
+      <BlueSubtitle
+        text1={trip?.name}
+        text2={``}
+        style={{width: '80%', marginBottom: 10}}
+      />
+      <View style={{flexDirection: 'column', marginBottom: 10, width: '100%'}}>
+        <Card style={{marginVertical: 10}}>
+          <View>
+            <View style={{flexDirection: 'column', borderBottomColor: '#000'}}>
+              <UserDetails
+                noEdit
+                title={'Trip Name'}
+                url={require('../../assets/kid_icon.png')}
+                editPage={<TripName />}>
+                <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
+                  {trip?.name}
+                </Text>
+              </UserDetails>
             </View>
-          </Card>
-          {/* {trip?.hotelObjects && trip.hotelObjects.length > 0 && (
+
+            <View style={{flexDirection: 'column', borderBottomColor: '#000'}}>
+              <UserDetails
+                noEdit
+                title={'Pax'}
+                styles={{paddingTop: 10}}
+                url={require('../../assets/pax_icon.png')}
+                editPage={<PaxPage />}>
+                <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
+                  {trip?.pax}
+                </Text>
+              </UserDetails>
+            </View>
+
+            <View style={{flexDirection: 'column', borderBottomColor: '#000'}}>
+              <UserDetails
+                noEdit
+                title={'Date'}
+                styles={{paddingTop: 10}}
+                url={require('../../assets/calendar_icon.png')}
+                editPage={<ChooseDays />}>
+                <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
+                  {moment(trip?.startDate).format('YYYY-MM-DD')} -{' '}
+                  {moment(trip?.endDate).format('YYYY-MM-DD')}
+                </Text>
+              </UserDetails>
+            </View>
+
+            <View style={{flexDirection: 'column', borderBottomColor: '#000'}}>
+              <UserDetails
+                noEdit
+                title={'Travel Interests'}
+                styles={{paddingTop: 10}}
+                url={require('../../assets/travelInterest_icon.jpg')}
+                editPage={<TravelInterest />}>
+                <View style={{flex: 3, paddingLeft: 5}}>
+                  {!trip?.interests || trip?.interests.length === 0 ? (
+                    <View key={'Everything'}>
+                      <Text style={{fontSize: 14}}>- Everything</Text>
+                    </View>
+                  ) : (
+                    trip?.interests.map(e => (
+                      <View key={e}>
+                        <Text style={{fontSize: 14}}>- {e}</Text>
+                      </View>
+                    ))
+                  )}
+                </View>
+              </UserDetails>
+            </View>
+
+            <View style={{flexDirection: 'column'}}>
+              <UserDetails
+                noEdit
+                title={'Kids'}
+                styles={{paddingTop: 10}}
+                url={require('../../assets/child_icon.jpg')}
+                editPage={<Withkids />}>
+                <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
+                  {trip?.kids ? 'Yes' : 'No'}
+                </Text>
+              </UserDetails>
+            </View>
+
+            <View style={{flexDirection: 'column'}}>
+              <UserDetails
+                noEdit
+                title={'Homestay'}
+                types={'Homestay'}
+                styles={{paddingTop: 10}}
+                url={require('../../assets/Home.png')}
+                editPage={<RentHomeStay />}>
+                <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
+                  {trip?.rentHomeStay ? 'Yes' : 'No'}
+                </Text>
+              </UserDetails>
+            </View>
+
+            <View style={{flexDirection: 'column', borderBottomColor: '#000'}}>
+              <UserDetails
+                noEdit
+                title={'Car'}
+                styles={{paddingTop: 10}}
+                url={require('../../assets/car_icon.png')}
+                imageStyle={{margin: 2}}
+                editPage={<RentCar />}>
+                <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
+                  {trip?.rentCar ? 'Yes' : 'No'}
+                </Text>
+              </UserDetails>
+            </View>
+
+            <View style={{flexDirection: 'column', borderBottomColor: '#000'}}>
+              <UserDetails
+                noEdit
+                title={'Budget'}
+                styles={{paddingTop: 10}}
+                url={require('../../assets/dollar_icon.png')}
+                editPage={<TravelBudget />}>
+                <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
+                  RM{trip?.budget}
+                </Text>
+              </UserDetails>
+            </View>
+          </View>
+        </Card>
+        {/* {trip?.hotelObjects && trip.hotelObjects.length > 0 && (
             <RecommendedCard
               title={'Hotel'}
               styles={{flexDirection: 'column'}}
@@ -290,8 +286,7 @@ export const TripHistoryDetails = ({navigation, route}) => {
               ))}
             </RecommendedCard>
           )} */}
-        </View>
-      </ScrollView>
+      </View>
     </GradientBackground>
   );
 };

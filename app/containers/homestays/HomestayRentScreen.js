@@ -57,14 +57,18 @@ export const HomestayRentScreen = ({navigation, route}) => {
   };
 
   return (
-    <GradientBackground>
-      <View style={{flexDirection: 'column', marginBottom: 10}}>
-        <View style={{flexDirection: 'row', marginBottom: 10}}>
-          <BackButton navigation={navigation} />
-          <View style={{flex: 5}}>
-            <BlueSubtitle text1={item?.name} />
-          </View>
-        </View>
+    <GradientBackground
+      contentContainerStyle={{
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+      }}
+      stickyHeader={true}>
+      <BackButton navigation={navigation} style={{width: '20%'}} />
+      <BlueSubtitle
+        text1={item?.name}
+        style={{width: '80%', marginBottom: 10}}
+      />
+      <View style={{flexDirection: 'column', marginBottom: 10, width: '100%'}}>
         <CustomText
           bold
           fontSize="lg"

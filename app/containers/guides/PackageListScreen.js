@@ -30,41 +30,48 @@ export const PackageListScreen = ({navigation, route}) => {
   };
 
   return (
-    <GradientBackground>
-      <View style={{flexDirection: 'column', marginBottom: 10}}>
-        <View style={{flexDirection: 'row'}}>
-          <BackButton navigation={navigation} />
-          <BlueSubtitle text1="Self Customize" text2={``} />
-        </View>
+    <GradientBackground
+      stickyHeader={true}
+      contentContainerStyle={{
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+      }}>
+      <BackButton navigation={navigation} style={{width: '20%'}} />
+      <BlueSubtitle
+        text1="Self Customize"
+        text2={``}
+        style={{width: '80%', marginBottom: 10}}
+      />
+      <View style={{flexDirection: 'column', marginBottom: 10, width: '100%'}}>
+        {item &&
+          item.packages.map(p => {
+            return (
+              <PackageCardItem
+                item={p}
+                key={p.id}
+                navigation={navigation}
+                selected={selected.filter(x => x.id === p.id).length > 0}
+                setSelected={toggleSelection}
+                marginBottom={10}
+              />
+            );
+          })}
+        <CustomButton
+          onPress={() => {
+            if (selected.length === 0) {
+              setIsModelPopUp(true);
+            } else {
+              navigation.navigate('Confirmation', {
+                item,
+                selected,
+              });
+            }
+          }}
+          colorScheme="secondary"
+          style={{marginBottom: 40, marginTop: 30}}>
+          Checkout
+        </CustomButton>
       </View>
-      {item &&
-        item.packages.map(p => {
-          return (
-            <PackageCardItem
-              item={p}
-              key={p.id}
-              navigation={navigation}
-              selected={selected.filter(x => x.id === p.id).length > 0}
-              setSelected={toggleSelection}
-              marginBottom={10}
-            />
-          );
-        })}
-      <CustomButton
-        onPress={() => {
-          if (selected.length === 0) {
-            setIsModelPopUp(true);
-          } else {
-            navigation.navigate('Confirmation', {
-              item,
-              selected,
-            });
-          }
-        }}
-        colorScheme="secondary"
-        style={{marginBottom: 40, marginTop: 30}}>
-        Checkout
-      </CustomButton>
       <Modal
         isVisible={isModelPopUp}
         onBackdropPress={closeModel}

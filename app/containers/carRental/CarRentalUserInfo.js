@@ -86,137 +86,139 @@ export default function UserCarRentalInfo({navigation, route}) {
   };
 
   return (
-    <GradientBackground>
-      <View style={{flexDirection: 'column', marginBottom: 10}}>
-        <View style={{flexDirection: 'row'}}>
-          <BackButton navigation={navigation} />
-          <BlueSubtitle text1={item.name} />
-        </View>
-      </View>
-
-      <CustomText
-        bold
-        fontSize="lg"
-        style={{
-          alignSelf: 'center',
-        }}>
-        Pickup Details
-      </CustomText>
-      <Card style={{margin: 10}}>
-        <SimpleCalendar
-          value={pickUpDate}
-          setValue={setPickUpDate}
-          label="Pick Up Date"
-        />
-        <SimpleCalendarTime
-          value={pickUpDate}
-          setValue={setPickUpDate}
-          label="Pick Up Time"
-        />
-      </Card>
-
-      <CustomText
-        bold
-        fontSize="lg"
-        style={{
-          alignSelf: 'center',
-        }}>
-        Return Details
-      </CustomText>
-      <Card style={{margin: 10}}>
-        <View>
-          <View>
-            <SimpleCalendar
-              value={returnDate}
-              setValue={setReturnDate}
-              label="Return Date"
-            />
-          </View>
-          <View style={{flexDirection: 'column', marginTop: 5}}>
-            <SimpleCalendarTime
-              value={returnDate}
-              setValue={setReturnDate}
-              label="Return Time"
-            />
-          </View>
-        </View>
-      </Card>
-
-      <CustomText
-        bold
-        fontSize="lg"
-        style={{
-          alignSelf: 'center',
-        }}>
-        More Details
-      </CustomText>
-      <Card style={{margin: 10}}>
-        <View
+    <GradientBackground
+      stickyHeader={true}
+      contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap'}}>
+      <BackButton navigation={navigation} style={{width: '20%'}} />
+      <BlueSubtitle
+        text1={item.name}
+        style={{width: '80%', marginBottom: 10}}
+      />
+      <View style={{flexDirection: 'column', width: '100%'}}>
+        <CustomText
+          bold
+          fontSize="lg"
           style={{
-            flexDirection: 'column',
-            borderBottomColor: '#DCDCDC',
-            borderBottomWidth: 1,
-            paddingBottom: 5,
+            alignSelf: 'center',
           }}>
-          <CustomText>Car Location</CustomText>
-          <SimpleLocationName
-            lat={item?.loc?.coordinates[1]}
-            long={item?.loc?.coordinates[0]}
-            value={locationName}
-            setValue={setLocationName}
-            title="Car Rental"
+          Pickup Details
+        </CustomText>
+        <Card style={{margin: 10}}>
+          <SimpleCalendar
+            value={pickUpDate}
+            setValue={setPickUpDate}
+            label="Pick Up Date"
           />
-        </View>
-        <View
-          style={{
-            flexDirection: 'column',
-            borderBottomColor: '#DCDCDC',
-            borderBottomWidth: 1,
-            paddingBottom: 5,
-          }}>
-          <CustomText>Price</CustomText>
-          <View style={{flexDirection: 'row', marginTop: 5}}>
-            <Icon name="cash-outline" size={23} color="#000" />
-            <View style={{flex: 3, marginLeft: 10}}>
-              <CustomText>RM {item.price} per day</CustomText>
-            </View>
-          </View>
-        </View>
-        <View
-          style={{
-            flexDirection: 'column',
-            borderBottomColor: '#DCDCDC',
-            borderBottomWidth: 1,
-            paddingBottom: 5,
-          }}>
-          <CustomText>Vendor Name</CustomText>
-          <View style={{flexDirection: 'row', marginTop: 5}}>
-            <Icon name="person-outline" size={23} color="#000" />
-            <View style={{flex: 3, marginLeft: 10}}>
-              <CustomText>{item.vendorName}</CustomText>
-            </View>
-          </View>
-        </View>
-        <Mail
-          type={'Vendor'}
-          firstColumn={{
-            flexDirection: 'column',
-            borderBottomColor: '#DCDCDC',
-            borderBottomWidth: 1,
-            paddingBottom: 5,
-          }}
-          vendorEmail={item.vendorEmail}
-        />
-        <Phone type={'Vendor'} vendorPhoneNumber={item.vendorPhoneNumber} />
-      </Card>
+          <SimpleCalendarTime
+            value={pickUpDate}
+            setValue={setPickUpDate}
+            label="Pick Up Time"
+          />
+        </Card>
 
-      <Total totalPrice={getTotalPrice()} />
-      <CustomButton
-        colorScheme="secondary"
-        onPress={onPressHandler}
-        style={{marginBottom: 40}}>
-        Confirm
-      </CustomButton>
+        <CustomText
+          bold
+          fontSize="lg"
+          style={{
+            alignSelf: 'center',
+          }}>
+          Return Details
+        </CustomText>
+        <Card style={{margin: 10}}>
+          <View>
+            <View>
+              <SimpleCalendar
+                value={returnDate}
+                setValue={setReturnDate}
+                label="Return Date"
+              />
+            </View>
+            <View style={{flexDirection: 'column', marginTop: 5}}>
+              <SimpleCalendarTime
+                value={returnDate}
+                setValue={setReturnDate}
+                label="Return Time"
+              />
+            </View>
+          </View>
+        </Card>
+
+        <CustomText
+          bold
+          fontSize="lg"
+          style={{
+            alignSelf: 'center',
+          }}>
+          More Details
+        </CustomText>
+        <Card style={{margin: 10}}>
+          <View
+            style={{
+              flexDirection: 'column',
+              borderBottomColor: '#DCDCDC',
+              borderBottomWidth: 1,
+              paddingBottom: 5,
+            }}>
+            <CustomText>Car Location</CustomText>
+            <SimpleLocationName
+              lat={item?.loc?.coordinates[1]}
+              long={item?.loc?.coordinates[0]}
+              value={locationName}
+              setValue={setLocationName}
+              title="Car Rental"
+            />
+          </View>
+          <View
+            style={{
+              flexDirection: 'column',
+              borderBottomColor: '#DCDCDC',
+              borderBottomWidth: 1,
+              paddingBottom: 5,
+            }}>
+            <CustomText>Price</CustomText>
+            <View style={{flexDirection: 'row', marginTop: 5}}>
+              <Icon name="cash-outline" size={23} color="#000" />
+              <View style={{flex: 3, marginLeft: 10}}>
+                <CustomText>RM {item.price} per day</CustomText>
+              </View>
+            </View>
+          </View>
+          <View
+            style={{
+              flexDirection: 'column',
+              borderBottomColor: '#DCDCDC',
+              borderBottomWidth: 1,
+              paddingBottom: 5,
+            }}>
+            <CustomText>Vendor Name</CustomText>
+            <View style={{flexDirection: 'row', marginTop: 5}}>
+              <Icon name="person-outline" size={23} color="#000" />
+              <View style={{flex: 3, marginLeft: 10}}>
+                <CustomText>{item.vendorName}</CustomText>
+              </View>
+            </View>
+          </View>
+          <Mail
+            type={'Vendor'}
+            firstColumn={{
+              flexDirection: 'column',
+              borderBottomColor: '#DCDCDC',
+              borderBottomWidth: 1,
+              paddingBottom: 5,
+            }}
+            vendorEmail={item.vendorEmail}
+          />
+          <Phone type={'Vendor'} vendorPhoneNumber={item.vendorPhoneNumber} />
+        </Card>
+
+        <Total totalPrice={getTotalPrice()} />
+        <CustomButton
+          colorScheme="secondary"
+          onPress={onPressHandler}
+          style={{marginBottom: 40}}>
+          Confirm
+        </CustomButton>
+      </View>
       <Modal
         isVisible={isModelPopUp}
         onBackdropPress={closeModel}

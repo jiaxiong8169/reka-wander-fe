@@ -1,11 +1,19 @@
 import LinearGradient from 'react-native-linear-gradient';
 import React from 'react';
 import {StyleSheet, ScrollView, View} from 'react-native';
-
+import {BackButton} from './BackButton';
 const GradientBackground = props => {
   const styles = StyleSheet.create({
     p3: {
       padding: props.fullWidth ? '0%' : '3%',
+    },
+    backButton: {
+      position: 'absolute',
+      left: 20,
+      top: 20,
+      alignSelf: 'flex-start',
+      borderRadius: 5,
+      backgroundColor: 'rgba(69, 69 , 69, 0.7)',
     },
   });
 
@@ -35,6 +43,9 @@ const GradientBackground = props => {
         height: '100%',
         ...props.style,
       }}>
+      {props.navigation && (
+        <BackButton navigation={props.navigation} absolute />
+      )}
       <ScrollView
         stickyHeaderIndices={props.stickyHeader ? [0] : ''}
         refreshControl={props.refreshControl}

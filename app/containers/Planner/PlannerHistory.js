@@ -66,22 +66,29 @@ export const PlannerHistory = ({navigation}) => {
           refreshing={false}
           onRefresh={() => setReload(!reload)}
         />
-      }>
-      <View style={{flexDirection: 'column', marginBottom: 10}}>
-        <View style={{flexDirection: 'row'}}>
-          <BackButton navigation={navigation} />
-          <BlueSubtitle text1={`My Trip History`} text2={``} />
-        </View>
+      }
+      contentContainerStyle={{
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+      }}
+      stickyHeader={true}>
+      <BackButton navigation={navigation} style={{width: '20%'}} />
+      <BlueSubtitle
+        text1={`My Trip History`}
+        text2={``}
+        style={{width: '80%', marginBottom: 10}}
+      />
+      <View style={{flexDirection: 'column', marginBottom: 10, width: '100%'}}>
+        {items.map(item => (
+          <TripCardItem
+            item={item}
+            key={item.id}
+            navigation={navigation}
+            marginBottom={10}
+          />
+        ))}
+        <LoadMore getData={getData} full={full} loading={loading} />
       </View>
-      {items.map(item => (
-        <TripCardItem
-          item={item}
-          key={item.id}
-          navigation={navigation}
-          marginBottom={10}
-        />
-      ))}
-      <LoadMore getData={getData} full={full} loading={loading} />
     </GradientBackground>
   );
 };

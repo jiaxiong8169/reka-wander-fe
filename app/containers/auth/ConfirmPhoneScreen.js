@@ -178,9 +178,10 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
   }, [resendTimeLeft]);
 
   return (
-    <GradientBackground>
-      {loading && <LoadingOverlay />}
-      <View style={{flexDirection: 'row', padding: '3%'}}>
+    <GradientBackground
+      stickyHeader={true}
+      contentContainerStyle={{flexGrow: 1}}>
+      <View style={{alignItems: 'flex-start'}}>
         <BackButton navigation={navigation} />
       </View>
       <View style={styles.container}>
@@ -189,7 +190,7 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
           style={[
             styles.img,
             {
-              flex: 3,
+              flex: 4,
             },
           ]}
           resizeMode={'contain'}></Image>
@@ -229,9 +230,14 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
         </View>
         <View>
           <CustomButton
-            style={
-              phoneNumberEditable ? styles.enabledButton : styles.disabledButton
-            }
+            style={[
+              phoneNumberEditable
+                ? styles.enabledButton
+                : styles.disabledButton,
+              {
+                flex: 1,
+              },
+            ]}
             onPress={handlePhoneNumberButtonPress}
             disabled={!phoneNumberEditable}>
             Send OTP
@@ -245,50 +251,49 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
         onRequestClose={() => {
           setOTPModalVisible(false);
         }}>
-        <GradientBackground>
-          <ScrollView
-            contentContainerStyle={{flex: 1}}
-            keyboardShouldPersistTaps="handled">
-            <View style={{flexDirection: 'row', padding: '3%'}}>
-              <BackButton navigation={navigation} />
+        <GradientBackground
+          stickyHeader={true}
+          contentContainerStyle={{flexGrow: 1}}>
+          <View style={{alignItems: 'flex-start'}}>
+            <BackButton navigation={navigation} />
+          </View>
+          <View style={styles.container}>
+            <View
+              style={{
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Text>Verifying your number!</Text>
+              <Text>We have sent an OTP on your number</Text>
+              <Text>{`+${phoneNumberPrefix}${phoneNumber}`}</Text>
             </View>
-            <View style={styles.container}>
-              <View
-                style={{
-                  flex: 4,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Text>Verifying your number!</Text>
-                <Text>We have sent an OTP on your number</Text>
-                <Text>{`+${phoneNumberPrefix}${phoneNumber}`}</Text>
-              </View>
-              <View style={{flex: 4, alignItems: 'center'}}>
-                <OTPInput setCode={setCode} editable={!!confirm}></OTPInput>
-                {resendTimeLeft !== 0 ? (
-                  <Text>Resend in {resendTimeLeft} seconds</Text>
-                ) : otpResendLimit > 0 ? (
-                  <Pressable onPress={handlePhoneNumberButtonPress}>
-                    <Text>Resend OTP password</Text>
-                  </Pressable>
-                ) : (
-                  <Text>
-                    Resent limit reached. Please enter a new phone number.
-                  </Text>
-                )}
-              </View>
-              <View style={{justifyContent: 'flex-end'}}>
-                <CustomButton
-                  onPress={() => confirmCode()}
-                  disabled={!!!confirm}
-                  style={
-                    !!confirm ? styles.enabledButton : styles.disabledButton
-                  }>
-                  Confirm
-                </CustomButton>
-              </View>
+            <View style={{flex: 1, alignItems: 'center'}}>
+              <OTPInput setCode={setCode} editable={!!confirm}></OTPInput>
+              {resendTimeLeft !== 0 ? (
+                <Text>Resend in {resendTimeLeft} seconds</Text>
+              ) : otpResendLimit > 0 ? (
+                <Pressable onPress={handlePhoneNumberButtonPress}>
+                  <Text>Resend OTP password</Text>
+                </Pressable>
+              ) : (
+                <Text>
+                  Resent limit reached. Please enter a new phone number.
+                </Text>
+              )}
             </View>
-          </ScrollView>
+            <View style={{justifyContent: 'flex-end', flex: 1}}>
+              <CustomButton
+                onPress={() => confirmCode()}
+                disabled={!!!confirm}
+                style={
+                  !!confirm ? styles.enabledButton : styles.disabledButton
+                }>
+                Confirm
+              </CustomButton>
+            </View>
+          </View>
+          {loading && <LoadingOverlay />}
         </GradientBackground>
       </Modal>
     </GradientBackground>
@@ -321,8 +326,8 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   img: {
+    height: 200,
     width: '100%',
-    height: 400,
   },
   title: {
     textAlign: 'center',
