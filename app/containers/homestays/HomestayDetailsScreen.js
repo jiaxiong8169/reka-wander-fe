@@ -3,7 +3,6 @@ import GradientBackground from '../../components/GradientBackground';
 import {Dimensions, Image, StyleSheet} from 'react-native';
 import {Box, Pressable, ArrowBackIcon, View} from 'native-base';
 import {CustomButton} from '../../components/CustomButton';
-import FastImage from 'react-native-fast-image';
 import {CustomText} from '../../components/texts/custom-text';
 
 const height = Dimensions.get('window').height;
@@ -15,7 +14,7 @@ export const HomestayDetailsScreen = ({navigation, route}) => {
   return (
     <GradientBackground fullWidth={true}>
       <View style={styles.container}>
-        <FastImage style={styles.image} source={{uri: item.thumbnailSrc}} />
+        <Image style={styles.image} source={{uri: item.thumbnailSrc}} />
         <Box style={styles.backButton}>
           <Pressable onPress={() => navigation.goBack()}>
             <ArrowBackIcon size="8" m="1" color="white" />

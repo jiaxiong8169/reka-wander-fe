@@ -1,7 +1,6 @@
 import React from 'react';
 import {View, StyleSheet, Image} from 'react-native';
 import Card from '../components/Card';
-import FastImage from 'react-native-fast-image';
 import {RatingButton} from './RatingButton';
 import {CustomButton} from './CustomButton';
 import {CustomText} from './texts/custom-text';
@@ -16,11 +15,11 @@ const CardItem = ({item, navigation, type, marginBottom}) => {
         marginBottom: marginBottom,
       }}
       key={item.id}>
-      <FastImage
+      <Image
         style={{flex: 1, height: undefined, borderRadius: 5}}
         source={{uri: item.thumbnailSrc}}
       />
-      <View style={{flex: 3, flexDirection: 'column', marginLeft: 10}}>
+      <View style={{flex: 2, flexDirection: 'column', marginLeft: 10}}>
         <View style={{flexDirection: 'row', flex: 2}}>
           <View style={{flex: 1}}>
             <CustomText bold>{item.name}</CustomText>
@@ -95,7 +94,7 @@ const CardItem = ({item, navigation, type, marginBottom}) => {
           </View>
         </View>
         <CustomButton
-          size="sm"
+          size="xs"
           onPress={() => {
             navigation.navigate('SpotDetails', {
               type: type,

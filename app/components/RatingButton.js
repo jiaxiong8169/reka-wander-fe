@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 TouchableOpacity.defaultProps = {activeOpacity: 0.7};
 
-export const RatingButton = ({onPress, rating, editable}) => {
+export const RatingButton = ({onPress, rating, editable, style}) => {
   // for selection
   if (editable) {
     return (
@@ -23,6 +23,7 @@ export const RatingButton = ({onPress, rating, editable}) => {
           />
         }
         halfStar={<Icon name={'star-half'} style={[styles.myStarStyle]} />}
+        style={style}
       />
     );
   }
@@ -43,6 +44,7 @@ export const RatingButton = ({onPress, rating, editable}) => {
         />
       }
       halfStar={<Icon name={'star-half'} style={[styles.myStarStyle]} />}
+      style={style}
     />
   );
 };

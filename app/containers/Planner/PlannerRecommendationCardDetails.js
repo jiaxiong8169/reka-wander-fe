@@ -1,6 +1,6 @@
+import {Image} from 'native-base';
 import React from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
-import FastImage from 'react-native-fast-image';
 
 export default function RecommendedCardDetails({
   navigation,
@@ -33,7 +33,7 @@ export default function RecommendedCardDetails({
           },
           styles,
         ]}>
-        <FastImage
+        <Image
           style={{
             flex: 1,
             width: undefined,

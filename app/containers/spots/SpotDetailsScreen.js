@@ -5,7 +5,6 @@ import {Heading, Text} from 'native-base';
 import {ScrollView, TouchableOpacity} from 'react-native';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {useAuth} from '../../hooks/useAuth';
-import FastImage from 'react-native-fast-image';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   setNearbyAttractions,
@@ -205,7 +204,7 @@ export default function SpotDetailsScreen({navigation, route}) {
         />
       }>
       <View style={styles.container}>
-        <FastImage style={styles.image} source={{uri: item.thumbnailSrc}} />
+        <Image style={styles.image} source={{uri: item.thumbnailSrc}} />
         <View style={{flex: 1}}></View>
         <BackButton navigation={navigation} absolute />
 
