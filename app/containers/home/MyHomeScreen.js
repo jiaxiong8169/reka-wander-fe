@@ -1,9 +1,15 @@
 import React, {useEffect} from 'react';
-import {StyleSheet, View, Text, ImageBackground, Image} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  ImageBackground,
+  TouchableOpacity,
+} from 'react-native';
 import {CustomButton} from '../../components/CustomButton';
-import {MyCircleIcon} from '../../components/CircleIcon';
 import {preventBack} from '../../utils/navigation-utils';
 import GradientBackground from '../../components/GradientBackground';
+import {CustomText} from '../../components/texts/custom-text';
 
 export const MyHomeScreen = ({navigation}) => {
   useEffect(() => {
@@ -16,11 +22,8 @@ export const MyHomeScreen = ({navigation}) => {
         source={require('../../assets/home_scenery.jpg')}
         style={{
           width: '100%',
-          height: 200,
+          height: 150,
           justifyContent: 'center',
-          position: 'absolute',
-          top: 0,
-          left: 0,
         }}>
         <Text style={styles.title}>
           Hi{' '}
@@ -33,83 +36,143 @@ export const MyHomeScreen = ({navigation}) => {
           </Text>
         </Text>
       </ImageBackground>
-      <View style={styles.container}>
-        <Text
-          style={{
-            color: '#2e2e2e',
-            fontWeight: 'bold',
-          }}>
-          Explore
-        </Text>
-        <View
-          style={{
-            marginVertical: 20,
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-evenly',
-          }}>
-          <MyCircleIcon
-            text="Car Rental"
-            onPress={() => navigation.navigate('CarRentalList')}>
-            <Image
-              source={require('../../assets/car_rental.png')}
-              style={{
-                width: '100%',
-                height: undefined,
-                aspectRatio: 1,
-                resizeMode: 'contain',
-              }}
-            />
-          </MyCircleIcon>
-          <MyCircleIcon
-            text="Homestay"
-            onPress={() => {
-              navigation.navigate('HomestayEdit');
-            }}>
-            <Image
-              source={require('../../assets/Homestay.png')}
-              style={{
-                width: '100%',
-                height: undefined,
-                aspectRatio: 1,
-                resizeMode: 'contain',
-              }}
-            />
-          </MyCircleIcon>
-          <MyCircleIcon
-            text="Food"
-            onPress={() => {
-              navigation.navigate('SpotsList', {
-                type: 'restaurants',
-              });
-            }}>
-            <Image
-              source={require('../../assets/Food.png')}
-              style={{
-                width: '100%',
-                height: undefined,
-                aspectRatio: 1,
-                resizeMode: 'contain',
-              }}
-            />
-          </MyCircleIcon>
-        </View>
+      <View
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          paddingVertical: 20,
+          paddingHorizontal: 5,
+        }}>
         <CustomButton
           onPress={() => {
             navigation.navigate('PlannerSteps');
           }}
           style={{
-            marginBottom: 20,
+            marginRight: 10,
+            flex: 1,
           }}>
           PLAN MY TRIP
         </CustomButton>
         <CustomButton
+          size="sm"
           onPress={() => {
             navigation.navigate('MyTripHistory');
           }}
-          colorScheme="secondary">
+          colorScheme="secondary"
+          style={{
+            flex: 1,
+          }}>
           VIEW MY TRIP HISTORY
         </CustomButton>
+      </View>
+      <View style={styles.container}>
+        <CustomText
+          style={{
+            color: '#2e2e2e',
+            fontWeight: 'bold',
+            marginLeft: 10,
+            marginBottom: 10,
+          }}
+          fontSize="md">
+          Explore
+        </CustomText>
+        <TouchableOpacity onPress={() => navigation.navigate('HomestayEdit')}>
+          <ImageBackground
+            source={require('../../assets/home_homestay.jpg')}
+            style={{
+              width: '100%',
+              height: 120,
+              marginVertical: 5,
+            }}
+            imageStyle={{
+              borderRadius: 10,
+            }}>
+            <View
+              style={{
+                backgroundColor: 'rgba(0,0,0,0.4)',
+                height: '100%',
+                borderRadius: 10,
+                justifyContent: 'center',
+              }}>
+              <CustomText
+                style={{
+                  color: 'white',
+                  marginLeft: 20,
+                }}
+                fontSize="3xl">
+                Homestay
+              </CustomText>
+            </View>
+          </ImageBackground>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('SpotsList', {
+              type: 'restaurants',
+            });
+          }}>
+          <ImageBackground
+            source={require('../../assets/home_food.jpg')}
+            style={{
+              width: '100%',
+              height: 120,
+              justifyContent: 'center',
+              marginVertical: 5,
+            }}
+            imageStyle={{
+              borderRadius: 10,
+            }}>
+            <View
+              style={{
+                backgroundColor: 'rgba(0,0,0,0.4)',
+                height: '100%',
+                borderRadius: 10,
+                justifyContent: 'center',
+              }}>
+              <CustomText
+                style={{
+                  color: 'white',
+                  marginLeft: 20,
+                }}
+                fontSize="3xl">
+                Food
+              </CustomText>
+            </View>
+          </ImageBackground>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => navigation.navigate('CarRentalList')}>
+          <ImageBackground
+            source={require('../../assets/home_car.jpg')}
+            style={{
+              width: '100%',
+              height: 120,
+              justifyContent: 'center',
+              marginVertical: 5,
+            }}
+            imageStyle={{
+              borderRadius: 10,
+            }}>
+            <View
+              style={{
+                backgroundColor: 'rgba(0,0,0,0.4)',
+                height: '100%',
+                borderRadius: 10,
+                justifyContent: 'center',
+              }}>
+              <CustomText
+                style={{
+                  color: 'white',
+                  marginLeft: 20,
+                }}
+                fontSize="3xl">
+                Car Rental
+              </CustomText>
+            </View>
+          </ImageBackground>
+        </TouchableOpacity>
       </View>
     </GradientBackground>
   );
@@ -118,8 +181,7 @@ export const MyHomeScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 30,
-    marginTop: 220,
+    paddingHorizontal: 5,
   },
   title: {
     fontWeight: '300',
