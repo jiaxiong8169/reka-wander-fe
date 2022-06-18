@@ -60,6 +60,7 @@ export const GuideCardItem = ({item, navigation, marginBottom}) => {
             flex: 2,
             height: undefined,
           }}
+          alt="thumbnail"
           source={{
             uri: item.thumbnailTransparentSrc,
           }}

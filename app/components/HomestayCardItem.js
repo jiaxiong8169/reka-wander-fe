@@ -63,6 +63,7 @@ export const HomestayCardItem = ({
               height: '100%',
               resizeMode: 'contain',
             }}
+            alt="thumbnail"
             source={{uri: thumbnailSrc}}
           />
         </Card>

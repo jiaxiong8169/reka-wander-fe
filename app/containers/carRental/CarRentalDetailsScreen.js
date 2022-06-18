@@ -44,6 +44,7 @@ export const CarRentalDetailsScreen = ({navigation, route}) => {
               height: 220,
               resizeMode: 'contain',
             }}
+            alt="thumbnail"
             source={{
               uri: item.thumbnailSrc,
             }}

@@ -60,6 +60,7 @@ function MainContainer() {
               style={{width: 20, height: 20}}
               source={tabIcons[tabIconSource]}
               tintColor={color}
+              alt="tab"
             />
           );
         },

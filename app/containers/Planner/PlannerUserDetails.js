@@ -25,6 +25,7 @@ export default function UserDetails(props) {
             {flex: 1, height: undefined, resizeMode: 'contain'},
             props.imageStyle,
           ]}
+          alt="url"
           source={props.url}
         />
         <Text style={{flex: 7, fontSize: 15, color: '#000'}}>

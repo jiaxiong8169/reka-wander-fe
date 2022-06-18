@@ -32,6 +32,7 @@ const TravelBudget = () => {
             alignItems: 'flex-end',
             height: undefined,
           }}
+          alt="budget"
         />
       </View>
     </View>

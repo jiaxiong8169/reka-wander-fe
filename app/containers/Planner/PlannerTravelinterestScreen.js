@@ -11,26 +11,26 @@ import Interest from '../../components/dropdown/interest';
 const TravelInterest = () => {
   return (
     <TouchableWithoutFeedback>
-   
-        <View style={styles.body_container}>
-          <View style={{alignItems: 'center'}}>
-            <Text style={styles.question}>Travel interest</Text>
-          </View>
-          <Interest />
-          <View style={{marginTop: 10}}>
-            <Image
-              source={require('../../assets/Travel_interest.png')}
-              style={{
-                padding: 1,
-                aspectRatio: 1,
-                width: '100%',
-                resizeMode: 'contain',
-                alignItems: 'flex-end',
-                height: undefined,
-              }}
-            />
-          </View>
+      <View style={styles.body_container}>
+        <View style={{alignItems: 'center'}}>
+          <Text style={styles.question}>Travel interest</Text>
         </View>
+        <Interest />
+        <View style={{marginTop: 10}}>
+          <Image
+            source={require('../../assets/Travel_interest.png')}
+            style={{
+              padding: 1,
+              aspectRatio: 1,
+              width: '100%',
+              resizeMode: 'contain',
+              alignItems: 'flex-end',
+              height: undefined,
+            }}
+            alt="interests"
+          />
+        </View>
+      </View>
     </TouchableWithoutFeedback>
   );
 };

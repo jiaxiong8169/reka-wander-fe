@@ -241,7 +241,7 @@ export default function SpotsImagesScreen({navigation, route}) {
                     resizeMode: 'cover',
                     borderRadius: 10,
                   }}
-                  alt="spot"
+                  alt="thumbnail"
                 />
               </TouchableOpacity>
               <CustomText>{item.name}</CustomText>

@@ -60,7 +60,9 @@ export const ForgetPasswordScreen = ({navigation}) => {
               <Image
                 source={require('../../assets/forgot-password.png')}
                 style={[styles.img]}
-                resizeMode={'contain'}></Image>
+                resizeMode={'contain'}
+                alt="Forgot Password"
+              />
             </View>
             <View
               style={{

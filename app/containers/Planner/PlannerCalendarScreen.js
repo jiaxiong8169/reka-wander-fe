@@ -40,6 +40,7 @@ const ChooseDays = () => {
             <Image
               source={require('../../assets/calender.gif')}
               style={{width: 220, height: 200}}
+              alt="calendar"
             />
           </ModelContent>
         </Modal>

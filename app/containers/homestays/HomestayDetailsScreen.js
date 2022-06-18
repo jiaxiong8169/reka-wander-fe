@@ -14,7 +14,11 @@ export const HomestayDetailsScreen = ({navigation, route}) => {
   return (
     <GradientBackground fullWidth={true} navigation={navigation}>
       <View style={styles.container}>
-        <Image style={styles.image} source={{uri: item.thumbnailSrc}} />
+        <Image
+          alt="thumbnail"
+          style={styles.image}
+          source={{uri: item.thumbnailSrc}}
+        />
         <View style={styles.textContainer}>
           <CustomText fontSize="2xl">{item.name}</CustomText>
           <CustomText mt="3" mb="3">
@@ -29,6 +33,7 @@ export const HomestayDetailsScreen = ({navigation, route}) => {
               style={{width: 15, height: 15}}
               source={require('../../assets/pin.png')}
               tintColor={'#52525b'}
+              alt="city"
             />
             <CustomText marginLeft="1" fontSize={10} color="gray.600">
               {item.city}
@@ -44,6 +49,7 @@ export const HomestayDetailsScreen = ({navigation, route}) => {
               style={{width: 15, height: 15}}
               source={require('../../assets/money.png')}
               tintColor={'#52525b'}
+              alt="price"
             />
             <CustomText marginLeft="1" fontSize={10} color="gray.600">
               RM {item.price ? item.price : item.minPrice}

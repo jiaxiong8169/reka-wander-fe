@@ -193,7 +193,9 @@ export const ConfirmPhoneScreen = ({navigation, route}) => {
               flex: 4,
             },
           ]}
-          resizeMode={'contain'}></Image>
+          alt="OTP"
+          resizeMode={'contain'}
+        />
         <View
           style={{
             flex: 1,

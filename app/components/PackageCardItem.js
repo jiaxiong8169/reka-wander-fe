@@ -53,6 +53,7 @@ export const PackageCardItem = ({
           style={{width: 15, height: 15}}
           source={require('../assets/pin.png')}
           tintColor={'#52525b'}
+          alt="pin"
         />
         <CustomText marginLeft="1" fontSize={10} color="gray.600">
           {item.location}
@@ -77,6 +78,7 @@ export const PackageCardItem = ({
           style={{width: 15, height: 15}}
           source={require('../assets/money.png')}
           tintColor={'#52525b'}
+          alt="price"
         />
         <CustomText marginLeft="1" fontSize={10} color="gray.600">
           RM {item.price}
