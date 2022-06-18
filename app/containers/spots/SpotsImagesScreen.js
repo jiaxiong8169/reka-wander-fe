@@ -162,6 +162,7 @@ export default function SpotsImagesScreen({navigation, route}) {
       contentContainerStyle={{
         flexDirection: 'row',
         flexWrap: 'wrap',
+        justifyContent: 'flex-end',
       }}
       stickyHeader={isNearby}>
       {!isNearby && (
