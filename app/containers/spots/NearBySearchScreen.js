@@ -35,6 +35,7 @@ export default function NearBySearchScreen({navigation}) {
             <Image
               style={styles.image}
               source={require('../../assets/map.png')}
+              alt="map"
             />
             <CustomButton
               size="lg"
@@ -52,6 +53,7 @@ export default function NearBySearchScreen({navigation}) {
             <Image
               style={styles.image}
               source={require('../../assets/search.png')}
+              alt="search"
             />
           </TouchableOpacity>
         </InsertDetailsCard>

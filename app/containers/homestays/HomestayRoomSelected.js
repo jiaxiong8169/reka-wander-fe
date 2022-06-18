@@ -26,6 +26,7 @@ export const RoomsSelected = ({style, id, name, url, price, quantity}) => {
               paddingRight: 8,
             }}
             source={{uri: url}}
+            alt="room"
           />
         </View>
         <View

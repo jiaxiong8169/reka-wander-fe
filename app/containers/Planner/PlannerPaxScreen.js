@@ -4,25 +4,25 @@ import SelectPax from '../../components/dropdown/Pax';
 
 const PaxPage = () => {
   return (
-  
-      <View style={styles.body_container}>
-        <Text style={styles.question}>How many Pax?</Text>
-        <SelectPax />
+    <View style={styles.body_container}>
+      <Text style={styles.question}>How many Pax?</Text>
+      <SelectPax />
 
-        <View style={{marginTop: 10}}>
-          <Image
-            source={require('../../assets/People.png')}
-            style={{
-              padding: 1,
-              aspectRatio: 1,
-              width: '100%',
-              resizeMode: 'contain',
-              alignItems: 'flex-end',
-              height: undefined,
-            }}
-          />
-        </View>
+      <View style={{marginTop: 10}}>
+        <Image
+          source={require('../../assets/People.png')}
+          style={{
+            padding: 1,
+            aspectRatio: 1,
+            width: '100%',
+            resizeMode: 'contain',
+            alignItems: 'flex-end',
+            height: undefined,
+          }}
+          alt="people"
+        />
       </View>
+    </View>
   );
 };
 

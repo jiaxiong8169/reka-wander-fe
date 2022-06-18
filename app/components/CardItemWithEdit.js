@@ -26,6 +26,7 @@ const CardItemWithEdit = ({
       <Image
         style={{flex: 1, height: undefined, borderRadius: 5}}
         source={{uri: item.thumbnailSrc}}
+        alt="thumbnail"
       />
       <View style={{flex: 2, flexDirection: 'column', marginLeft: 10}}>
         <View
@@ -76,6 +77,7 @@ const CardItemWithEdit = ({
                 style={{width: 15, height: 15}}
                 source={require('../assets/pin.png')}
                 tintColor={'#52525b'}
+                alt="pin"
               />
               <CustomText marginLeft="1" fontSize="xs" color="gray.600">
                 {item.city}

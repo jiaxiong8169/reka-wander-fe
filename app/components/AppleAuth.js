@@ -70,6 +70,7 @@ const AppleAuth = ({navigation, setEmail}) => {
       <Image
         source={require('../assets/apple-signin.png')}
         style={styles.image}
+        alt="Apple Sign In"
       />
     </Pressable>
   );

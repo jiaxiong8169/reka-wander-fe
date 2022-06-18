@@ -100,7 +100,7 @@ export const HomestayRoomCardItem = ({
               source={{
                 uri: thumbnailSrc,
               }}
-              alt="image"
+              alt="thumbnail"
             />
           </AspectRatio>
           <Center

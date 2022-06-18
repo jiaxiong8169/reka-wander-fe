@@ -27,6 +27,7 @@ const TripName = () => {
           alignItems: 'flex-end',
           height: undefined,
         }}
+        alt="people"
       />
     </View>
   );

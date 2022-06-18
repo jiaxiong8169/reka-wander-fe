@@ -38,6 +38,7 @@ export default function SuccessConfirmScreen({navigation}) {
                 resizeMode: 'contain',
                 height: '100%',
               }}
+              alt="interests"
             />
           </View>
         </InsertDetailsCard>

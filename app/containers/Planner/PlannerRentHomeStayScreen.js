@@ -48,6 +48,7 @@ const RentHomeStay = () => {
             alignItems: 'flex-end',
             height: undefined,
           }}
+          alt="kids"
         />
       </View>
     </View>

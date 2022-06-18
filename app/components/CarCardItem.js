@@ -51,6 +51,7 @@ const CarCardItem = props => {
             height: null,
             resizeMode: 'contain',
           }}
+          alt="edit"
           source={{uri: props.thumbnailSrc}}
         />
         {props.withEdit && (

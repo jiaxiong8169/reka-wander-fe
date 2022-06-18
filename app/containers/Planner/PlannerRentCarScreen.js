@@ -48,6 +48,7 @@ const RentCar = () => {
             alignItems: 'flex-end',
             height: undefined,
           }}
+          alt="kids"
         />
       </View>
     </View>

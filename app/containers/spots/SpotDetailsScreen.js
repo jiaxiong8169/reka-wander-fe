@@ -207,7 +207,11 @@ export default function SpotDetailsScreen({navigation, route}) {
           />
         }>
         <View style={styles.container}>
-          <Image style={styles.image} source={{uri: item.thumbnailSrc}} />
+          <Image
+            alt="thumbnail"
+            style={styles.image}
+            source={{uri: item.thumbnailSrc}}
+          />
           <View style={styles.textContainer}>
             <Heading size="2xl" color={'white'}>
               {item.name}
@@ -257,9 +261,11 @@ export default function SpotDetailsScreen({navigation, route}) {
               onPress={() => handleLike()}
               style={{flexDirection: 'row'}}>
               <Image
+                alt="like"
                 style={styles.icon}
                 source={require('../../assets/love.png')}
-                tintColor={liked ? 'red' : 'gray'}></Image>
+                tintColor={liked ? 'red' : 'gray'}
+              />
               <Text
                 ml={'2'}
                 bold
@@ -279,8 +285,10 @@ export default function SpotDetailsScreen({navigation, route}) {
               }>
               <Image
                 style={styles.icon}
+                alt="message"
                 source={require('../../assets/message.png')}
-                tintColor="red"></Image>
+                tintColor="red"
+              />
               <Text
                 ml={'2'}
                 bold
@@ -296,7 +304,9 @@ export default function SpotDetailsScreen({navigation, route}) {
               <Image
                 style={styles.icon}
                 source={require('../../assets/share.png')}
-                tintColor={shared ? 'red' : 'gray'}></Image>
+                alt="share"
+                tintColor={shared ? 'red' : 'gray'}
+              />
               <Text
                 ml={'2'}
                 bold

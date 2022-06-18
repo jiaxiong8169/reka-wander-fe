@@ -65,6 +65,7 @@ export default function RecommendedCardDetails({
             paddingRight: 8,
           }}
           source={{uri: url}}
+          alt="recommendation"
         />
 
         <View

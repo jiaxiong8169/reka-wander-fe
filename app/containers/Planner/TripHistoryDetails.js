@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, ScrollView} from 'react-native';
+import {View, Text} from 'react-native';
 import moment from 'moment';
 import Card from '../../components/card/card';
 import GradientBackground from '../../components/GradientBackground';
@@ -15,8 +15,6 @@ import UserDetails from './PlannerUserDetails';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {BackButton} from '../../components/BackButton';
 import BlueSubtitle from '../../components/texts/BlueSubtitle';
-import RecommendedCard from './PlannerRecommendCard';
-import RecommendedCardDetails from './PlannerRecommendationCardDetails';
 import {RecommendedCardWithData} from '../../components/card/recommended-card-with-data';
 
 export const TripHistoryDetails = ({navigation, route}) => {
@@ -43,6 +41,7 @@ export const TripHistoryDetails = ({navigation, route}) => {
     getWithAuth(`trips/${id}`)
       .then(({data}) => {
         setTrip(data);
+        console.log(data);
         fetchDataList('restaurants', data.restaurants, setRestaurants);
         fetchDataList('attractions', data.attractions, setAttractions);
         fetchDataList('homestays', data.homestays, setHomestays);

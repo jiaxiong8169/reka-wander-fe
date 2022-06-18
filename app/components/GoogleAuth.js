@@ -70,6 +70,7 @@ const GoogleAuth = ({navigation, setEmail}) => {
       <Image
         source={require('../assets/google-signin.png')}
         style={styles.image}
+        alt="Google Sign In"
       />
     </Pressable>
   );
