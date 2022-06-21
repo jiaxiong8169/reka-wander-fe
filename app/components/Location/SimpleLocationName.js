@@ -19,7 +19,7 @@ export const SimpleLocationName = ({lat, long, value, setValue, title}) => {
     longitude: long,
     sourceLatitude: currentLat,
     sourceLongitude: currentLong,
-    title: title,
+    title: value,
     dialogTitle: '',
     dialogMessage: '',
     cancelText: 'Cancel',
