@@ -20,6 +20,7 @@ export const PlannerHistory = ({navigation}) => {
 
   // on load and on search, fetch 10 new trip histories
   useEffect(() => {
+    if(!authData?.id) return;
     setLoading(true);
     setFull(false);
     getWithAuth(
@@ -35,10 +36,11 @@ export const PlannerHistory = ({navigation}) => {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [authData, search]);
 
   // getData fetch more data and append to the items array
   const getData = () => {
+    if(!authData?.id) return;
     if (full) return;
     setLoading(true);
     getWithAuth(

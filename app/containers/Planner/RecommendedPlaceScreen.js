@@ -19,6 +19,7 @@ import RecommendedCardDetails from './PlannerRecommendationCardDetails';
 import RecommendedCard from './PlannerRecommendCard';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {preventBack} from '../../utils/navigation-utils';
+import {useAuth} from '../../hooks/useAuth';
 
 export default function Recommended({navigation}) {
   const dispatch = useDispatch();
@@ -43,6 +44,7 @@ export default function Recommended({navigation}) {
   const rentHomeStays = rentHomeStay == true ? 'Yes' : 'No';
   const rentCars = rentCar == true ? 'Yes' : 'No';
   const {putWithAuth} = useHttpCall();
+  const {authData} = useAuth();
 
   // add navigation listener to prevent back
   useEffect(() => {
@@ -52,6 +54,12 @@ export default function Recommended({navigation}) {
   useEffect(() => {}, [tripPlan]);
 
   const updateAPI = () => {
+    // if visitor, straight navigate to home page
+    if (!authData?.id) {
+      dispatch(resetTrip());
+      navigation.navigate('Success');
+      return;
+    }
     console.log(tripPlan['attractions']);
     const tmp = {
       name: tripName ? tripName : 'My Trip',

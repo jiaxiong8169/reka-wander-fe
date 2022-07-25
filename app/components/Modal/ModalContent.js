@@ -6,7 +6,9 @@ const ModelContent = props => {
   return (
     <View style={styles.content}>
       <View style={{marginBottom: 15}}>{props.children}</View>
-      <CustomButton onPress={props.onPress}>Close</CustomButton>
+      <CustomButton onPress={props.onPress}>
+        {!!props.buttonTitle ? props.buttonTitle : 'Close'}
+      </CustomButton>
     </View>
   );
 };

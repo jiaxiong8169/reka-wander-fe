@@ -10,8 +10,11 @@ import {CustomButton} from '../../components/CustomButton';
 import {preventBack} from '../../utils/navigation-utils';
 import GradientBackground from '../../components/GradientBackground';
 import {CustomText} from '../../components/texts/custom-text';
+import { useAuth } from '../../hooks/useAuth';
 
 export const MyHomeScreen = ({navigation}) => {
+  const {authData} = useAuth();
+
   useEffect(() => {
     preventBack(navigation, 'MyHome');
   }, [navigation]);
@@ -62,7 +65,9 @@ export const MyHomeScreen = ({navigation}) => {
           colorScheme="secondary"
           style={{
             flex: 1,
-          }}>
+          }}
+          isDisabled={!authData?.id}
+          >
           VIEW MY TRIP HISTORY
         </CustomButton>
       </View>
