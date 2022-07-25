@@ -57,7 +57,7 @@ export default function SpotsCommentScreen({navigation, route}) {
             tmp.reverse();
             setReviewDataList(tmp);
             // set my review
-            const myRev = tmp.find(t => t.userId === authData.id);
+            const myRev = tmp.find(t => t.userId === authData?.id);
             setMyReview(myRev);
             // set text area and rating values if my review exits
             if (!!myRev) {
@@ -183,7 +183,7 @@ export default function SpotsCommentScreen({navigation, route}) {
       <View style={[styles.textContainer, {alignItems: 'center'}]}>
         <Heading size="sm">Reviews & Comments</Heading>
       </View>
-      {(!myReview || (!!myReview && editReview)) && (
+      {!!authData?.id && (!myReview || (!!myReview && editReview)) && (
         <View
           style={{
             display: 'flex',
@@ -238,7 +238,7 @@ export default function SpotsCommentScreen({navigation, route}) {
         />
       )}
       {reviewDataList
-        .filter(x => x.id !== 'newReview' && x.userId !== authData.id)
+        .filter(x => x.id !== 'newReview' && x.userId !== authData?.id)
         .slice(0, currentLimit)
         .map(e => {
           return (

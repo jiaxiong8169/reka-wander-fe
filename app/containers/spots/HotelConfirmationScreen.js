@@ -23,6 +23,11 @@ export const HotelConfirmationScreen = ({navigation, route}) => {
   const {postWithAuth} = useHttpCall();
 
   const onPressHandler = () => {
+    // if not logged in, navigate user to login page
+    if (!authData?.id) {
+      navigation.navigate('SignInScreen');
+      return;
+    }
     postWithAuth('mail/hotel-vendor', {
       checkInDate,
       checkOutDate,
@@ -205,7 +210,7 @@ export const HotelConfirmationScreen = ({navigation, route}) => {
           colorScheme="secondary"
           onPress={onPressHandler}
           style={{marginBottom: 40}}>
-          Confirm
+          {!!authData?.id ? 'Confirm' : 'Log In To Proceed'}
         </CustomButton>
       </View>
     </GradientBackground>

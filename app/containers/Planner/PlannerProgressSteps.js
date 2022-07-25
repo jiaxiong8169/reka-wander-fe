@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Text, ScrollView} from 'react-native';
 import Modal from 'react-native-modal';
 import {useSelector} from 'react-redux';
@@ -16,11 +16,20 @@ import GradientBackground from '../../components/GradientBackground';
 import ModelContent from '../../components/Modal/ModalContent';
 import InsertDetailsCard from '../../components/stepper/InsertDetailsCard';
 import PlannerSelectDestinationScreen from './PlannerSelectDestinationScreen';
+import {useAuth} from '../../hooks/useAuth';
 
 export default function PlannerSteps({navigation}) {
+  const {authData} = useAuth();
   const [isModelPopUp, setIsModelPopUp] = useState(false);
+  const [isWarningModelPopUp, setIsWarningModelPopUp] = useState(false);
   const [errors, setErrors] = useState(false);
   const {budget} = useSelector(state => state.plannerReducer);
+
+  useEffect(() => {
+    if (!authData?.id) {
+      setIsWarningModelPopUp(true);
+    }
+  }, [authData]);
 
   const closeModel = () => {
     setIsModelPopUp(false);
@@ -96,6 +105,38 @@ export default function PlannerSteps({navigation}) {
                 <InsertDetailsCard>
                   <TripName />
                 </InsertDetailsCard>
+                <Modal
+                  isVisible={isWarningModelPopUp}
+                  onBackdropPress={() => {
+                    setIsWarningModelPopUp(false);
+                  }}
+                  onSwipeComplete={() => {
+                    setIsWarningModelPopUp(false);
+                  }}
+                  useNativeDriverForBackdrop
+                  swipeDirection={['left', 'right', 'up', 'down']}
+                  animationIn="zoomInDown"
+                  animationOut="zoomOutUp"
+                  animationInTiming={700}
+                  animationOutTiming={700}
+                  backdropTransitionInTiming={700}
+                  backdropTransitionOutTiming={700}>
+                  <ModelContent
+                    onPress={() => {
+                      setIsWarningModelPopUp(false);
+                    }}
+                    buttonTitle={'I Understand'}>
+                    <Text style={{fontSize: 20, marginBottom: 12}}>
+                      Visitor's trip plan will not be saved.
+                    </Text>
+                    <Text>
+                      We have detected that you entered as a visitor. Please
+                      take note that a visitor's trip plan will not be saved
+                      into the system. If you wish to save the trip plan, please
+                      sign up a Reka Wander account!
+                    </Text>
+                  </ModelContent>
+                </Modal>
               </ProgressStep>
 
               <ProgressStep>

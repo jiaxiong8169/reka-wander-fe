@@ -52,6 +52,11 @@ export const GuideConfirmationScreen = ({navigation, route}) => {
   };
 
   const onPressHandler = () => {
+    // if not logged in, navigate user to login page
+    if (!authData?.id) {
+      navigation.navigate('SignInScreen');
+      return;
+    }
     if (moment(startDate).isAfter(endDate)) {
       setIsModelPopUp(true);
     } else {
@@ -229,7 +234,7 @@ export const GuideConfirmationScreen = ({navigation, route}) => {
           colorScheme="secondary"
           onPress={onPressHandler}
           style={{marginBottom: 40}}>
-          Confirm
+          {!!authData?.id ? 'Confirm' : 'Log In To Proceed'}
         </CustomButton>
         <Modal
           isVisible={isModelPopUp}
