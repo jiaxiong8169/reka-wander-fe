@@ -20,11 +20,11 @@ export const PlannerHistory = ({navigation}) => {
 
   // on load and on search, fetch 10 new trip histories
   useEffect(() => {
-    if(!authData?.id) return;
+    if (!authData?.id) return;
     setLoading(true);
     setFull(false);
     getWithAuth(
-      `trips?userId=${authData.id}&sort=-timestamp&limit=10&filter[q]=${search}`,
+      `trips?filter[userId]=${authData.id}&sort=-timestamp&limit=10&filter[q]=${search}`,
     )
       .then(({data}) => {
         if (data.length === 0) setFull(true);
@@ -40,11 +40,11 @@ export const PlannerHistory = ({navigation}) => {
 
   // getData fetch more data and append to the items array
   const getData = () => {
-    if(!authData?.id) return;
+    if (!authData?.id) return;
     if (full) return;
     setLoading(true);
     getWithAuth(
-      `trips?userId=${authData.id}&sort=-timestamp&offset=${items.length}&limit=10&filter[q]=${search}`,
+      `trips?filter[userId]=${authData.id}&sort=-timestamp&offset=${items.length}&limit=10&filter[q]=${search}`,
     )
       .then(({data}) => {
         let tmp = JSON.parse(JSON.stringify(items));
