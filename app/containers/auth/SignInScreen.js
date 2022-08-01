@@ -120,8 +120,8 @@ const SignInScreen = ({navigation, route}) => {
             <Image
               source={require('../../assets/white-logo.png')}
               alt="background"
-              size="lg"
-              style={{marginBottom: 60}}
+              size="xl"
+              style={{marginBottom: 40, resizeMode: "contain"}}
             />
             <Box border="0" borderRadius="md" width="100%">
               <VStack space="0">
