@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, Text, TouchableOpacity, ScrollView,RefreshControl} from 'react-native';
 import moment from 'moment';
 import {useSelector, useDispatch} from 'react-redux';
 import Card from '../../components/card/card';
@@ -23,6 +23,7 @@ import {useAuth} from '../../hooks/useAuth';
 
 export default function Recommended({navigation}) {
   const dispatch = useDispatch();
+  const [reload, setReload] = useState(true);
   const {tripName} = useSelector(state => state.plannerReducer);
   const {startDate} = useSelector(state => state.plannerReducer);
   const {endDate} = useSelector(state => state.plannerReducer);
@@ -52,6 +53,10 @@ export default function Recommended({navigation}) {
   }, [navigation]);
 
   useEffect(() => {}, [tripPlan]);
+
+  // useEffect(() => {
+  //   navigation.replace('Loading');
+  // }, [reload]);
 
   const updateAPI = () => {
     // if visitor, straight navigate to home page
@@ -91,7 +96,13 @@ export default function Recommended({navigation}) {
   };
 
   return (
-    <GradientBackground>
+    <GradientBackground
+    refreshControl={
+      <RefreshControl
+        refreshing={false}
+        onRefresh={() => navigation.replace('Loading')}
+      />
+    }>
       <ScrollView
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled">
@@ -119,6 +130,7 @@ export default function Recommended({navigation}) {
           </Text>
           <Card style={{marginVertical: 10}}>
             <View>
+              <Text style={{marginBottom: 15,fontSize:15,fontWeight: '500',textAlign: 'center',color: `#000080`,}}>Please pull down to <Text style={{color: `#ff4500`,}}>REFRESH</Text> the page after you edit your trip details</Text>
               <View
                 style={{flexDirection: 'column', borderBottomColor: '#000'}}>
                 <UserDetails
@@ -137,7 +149,8 @@ export default function Recommended({navigation}) {
                   title={'Destination'}
                   styles={{paddingTop: 10}}
                   url={require('../../assets/pin.png')}
-                  editPage={<PlannerSelectDestinationScreen />}>
+                  editPage={<PlannerSelectDestinationScreen />}
+                  >
                   <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
                     {destination}
                   </Text>
