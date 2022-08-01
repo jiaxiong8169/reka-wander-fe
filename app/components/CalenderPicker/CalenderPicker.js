@@ -41,10 +41,13 @@ class Calendar extends Component {
           style={styles.container}
           minDate={minDate}
           maxDate={maxDate}
+          // selectedDisableDatesTextStyle={{fontColor:"#FFFFFF"}}
           selectedDayColor="#4169E1"
+          allowBackwardRangeSelect={true}
           selectedDayTextColor="#FFFFFF"
           allowRangeSelection={true}
           onDateChange={this.onDateChange}
+          restrictMonthNavigation={true}
           textStyle={{fontSize:13}}
           previousTitleStyle={{fontSize:14}}
           nextTitleStyle={{fontSize:14}}
