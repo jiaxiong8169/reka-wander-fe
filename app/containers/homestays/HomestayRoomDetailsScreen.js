@@ -16,21 +16,24 @@ import {VendorDetails} from '../../components/DetailsContent/VendorDetails';
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 
-export const HomestayDetailsScreen = ({navigation, route}) => {
-  const {item, checkInDate, checkOutDate, totalDays, adults, children, guests} =
-    route.params;
-  const [locationName, setLocationName] = useState('');
+export const HomestayRoomDetailsScreen = ({navigation, route}) => {
+  const {id, room, thumbnailSrc, locationName} = route.params;
+  //   const [locationName, setLocationName] = useState('');
 
-  const additionalRules = [
-    {
-      key: 1,
-      item: 'No smoking',
-    },
-    {
-      key: 2,
-      item: 'No Pet',
-    },
-  ];
+    const additionalRules = [
+      {
+        key: 1,
+        item: 'Air Condition',
+      },
+      {
+        key: 2,
+        item: 'Sofa Bed',
+      },
+      {
+        key:3,
+        item: 'Hair Dryer',
+      },
+    ];
 
   const footer = () => {
     return (
@@ -54,7 +57,7 @@ export const HomestayDetailsScreen = ({navigation, route}) => {
         <Image
           alt="thumbnail"
           style={styles.image}
-          source={{uri: item.thumbnailSrc}}
+          source={{uri: thumbnailSrc}}
         />
         <View style={styles.textContainer}>
           <View
@@ -68,96 +71,47 @@ export const HomestayDetailsScreen = ({navigation, route}) => {
                 lineHeight: 35,
                 // fontFamily: 'Baloo2-Bold',
               }}>
-              {item.name}
+              {room.name}
             </CustomText>
-            <View
-              style={{
-                flexDirection: 'row',
-                marginTop: 8,
-              }}>
-              <Icon
-                name="location-outline"
-                size={14}
-                color="#52525b"
-                style={{paddingTop: 3}}
-              />
-              <LocationName
-                lat={item?.loc?.coordinates[1]}
-                long={item?.loc?.coordinates[0]}
-                value={locationName}
-                setValue={setLocationName}
-                textViewStyle={{}}
-                textStyle={{paddingLeft: 7, fontSize: 14, color: 'grey'}}
-              />
-            </View>
+
             <View style={{flexDirection: 'row', marginTop: 4}}>
               <Icon
-                name="pricetag-outline"
+                name="person-outline"
                 size={14}
                 color="#52525b"
                 style={{paddingTop: 3}}
               />
               <CustomText fontSize={14} color="grey" style={{paddingLeft: 7}}>
-                RM {item.price ? item.price : item.minPrice}
+                {room.pax} pax
               </CustomText>
             </View>
           </View>
 
-          <About description={item.description} />
-          <Location
-            lat={item?.loc?.coordinates[1]}
-            long={item?.loc?.coordinates[0]}
-            locationName={locationName}
-          />
-          <VendorDetails
-            vendorName={item.vendorName}
-            vendorEmail={item.vendorEmail}
-            vendorPhoneNumber={item.vendorPhoneNumber}
-          />
-
-          
-
-          <HomestayExpandableList type={'House Rules'}>
-            <CheckInOut
-              checkInTime={'5:00pm'}
-              checkOutTime={'4.00pm'}
-              additionalRules={additionalRules}
-            />
-          </HomestayExpandableList>
-
-          <HomestayExpandableList type={'Parking Fee'}>
-            {/* <CheckInOut
-              checkInTime={'5:00pm'}
-              checkOutTime={'4.00pm'}
-              additionalRules={additionalRules}
-            /> */}
-          </HomestayExpandableList>
+          {/* <View
+            style={{
+              flexDirection: 'row',
+              marginTop: 8,
+            }}>
+            <Text style={{fontSize: 18, color: 'black', paddingBottom: 3}}>
+              Amenities
+            </Text>
+          </View> */}
 
           <HomestayExpandableList type={'Amenities'}>
-            {/* <CheckInOut
-              checkInTime={'5:00pm'}
-              checkOutTime={'4.00pm'}
-              additionalRules={additionalRules}
-            /> */}
+          {additionalRules.map(rules => (
+          <View key={rules.key} id={rules.id}>
+            <CustomText>- {rules.item}</CustomText>
+          </View>
+        ))}
+           
           </HomestayExpandableList>
 
-          <CustomButton
+          {/* <CustomButton
             colorScheme="secondary"
             style={{marginTop: 20}}
-            onPress={() => {
-              navigation.navigate('HomestaySelectRoom', {
-                item,
-                checkInDate,
-                checkOutDate,
-                totalDays,
-                adults,
-                children,
-                guests,
-                locationName,
-              });
-            }}>
-            Select Rooms
-          </CustomButton>
+            onPress={() => navigation.goBack()}>
+            Back to Select This Room
+          </CustomButton> */}
         </View>
       </View>
     </GradientBackground>

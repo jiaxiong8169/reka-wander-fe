@@ -6,11 +6,14 @@ import {CustomText} from './texts/custom-text';
 
 export const HomestayRoomCardItem = ({
   id,
+  room,
+  navigation,
   name,
   price,
   pax,
   availability,
   thumbnailSrc,
+  locationName,
   selected,
   setSelected,
 }) => {
@@ -38,6 +41,7 @@ export const HomestayRoomCardItem = ({
     if (!target) {
       target = {
         id,
+        room,
         name,
         price,
         pax,
@@ -94,37 +98,47 @@ export const HomestayRoomCardItem = ({
         _light={{
           backgroundColor: 'gray.50',
         }}>
-        <Box>
-          <AspectRatio w="100%" ratio={16 / 9}>
-            <Image
-              source={{
-                uri: thumbnailSrc,
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('HomestayRoomDetails', {
+              id,
+              room,
+              thumbnailSrc,
+              locationName,
+            });
+          }}>
+          <Box>
+            <AspectRatio w="100%" ratio={16 / 9}>
+              <Image
+                source={{
+                  uri: thumbnailSrc,
+                }}
+                alt="thumbnail"
+              />
+            </AspectRatio>
+            <Center
+              bg="primary.400"
+              rounded={5}
+              _dark={{
+                bg: 'primary.600',
               }}
-              alt="thumbnail"
-            />
-          </AspectRatio>
-          <Center
-            bg="primary.400"
-            rounded={5}
-            _dark={{
-              bg: 'primary.600',
-            }}
-            _text={{
-              color: 'warmGray.50',
-              fontWeight: '700',
-              fontSize: 'lg',
-            }}
-            position="absolute"
-            bottom="0"
-            px="3"
-            py="1.5"
-            style={{flexDirection: 'row'}}>
-            {availability} Left
-          </Center>
-        </Box>
+              _text={{
+                color: 'warmGray.50',
+                fontWeight: '700',
+                fontSize: 'lg',
+              }}
+              position="absolute"
+              bottom="0"
+              px="3"
+              py="1.5"
+              style={{flexDirection: 'row'}}>
+              {availability} Left
+            </Center>
+          </Box>
+        </TouchableOpacity>
         <Stack p="4" space={3}>
           <Stack space={2}>
-            <CustomText fontSize="lg">Twin Room</CustomText>
+            <CustomText fontSize="lg">{name}</CustomText>
             <CustomText
               fontSize="xs"
               _light={{
@@ -138,6 +152,7 @@ export const HomestayRoomCardItem = ({
             </CustomText>
           </Stack>
           <Divider />
+
           <CustomText fontSize="xl">RM {price}</CustomText>
           <View
             style={{

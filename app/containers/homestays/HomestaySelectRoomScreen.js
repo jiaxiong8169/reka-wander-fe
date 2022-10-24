@@ -10,7 +10,7 @@ import {CustomText} from '../../components/texts/custom-text';
 const height = Dimensions.get('window').height;
 
 export const HomestaySelectRoomScreen = ({navigation, route}) => {
-  const {item, checkInDate, checkOutDate, totalDays} = route.params;
+  const {item, checkInDate, checkOutDate, totalDays, adults, children, guests, locationName} = route.params;
   const [selected, setSelected] = useState([]);
 
   const getTotalPrice = () => {
@@ -79,11 +79,14 @@ export const HomestaySelectRoomScreen = ({navigation, route}) => {
           <HomestayRoomCardItem
             key={room.id}
             id={room.id}
+            navigation={navigation}
+            room={room}
             name={room.name}
             price={room.price}
             pax={room.pax}
             availability={room.availability}
             thumbnailSrc={room.thumnailSrc}
+            locationName={locationName}
             selected={selected}
             setSelected={setSelected}
           />

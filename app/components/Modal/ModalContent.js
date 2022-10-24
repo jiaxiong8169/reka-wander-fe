@@ -4,7 +4,7 @@ import {CustomButton} from '../CustomButton';
 
 const ModelContent = props => {
   return (
-    <View style={styles.content}>
+    <View style={{...styles.content, ...props.style}}>
       <View style={{marginBottom: 15}}>{props.children}</View>
       <CustomButton onPress={props.onPress}>
         {!!props.buttonTitle ? props.buttonTitle : 'Close'}

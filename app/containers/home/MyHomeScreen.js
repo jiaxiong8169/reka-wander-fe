@@ -5,15 +5,26 @@ import {
   Text,
   ImageBackground,
   TouchableOpacity,
+  Linking,
+  Platform,
 } from 'react-native';
 import {CustomButton} from '../../components/CustomButton';
 import {preventBack} from '../../utils/navigation-utils';
 import GradientBackground from '../../components/GradientBackground';
 import {CustomText} from '../../components/texts/custom-text';
-import { useAuth } from '../../hooks/useAuth';
+import {useAuth} from '../../hooks/useAuth';
 
 export const MyHomeScreen = ({navigation}) => {
   const {authData} = useAuth();
+  const call = () => {
+    let number = '';
+    if (Platform.OS === 'ios') {
+      number = `telprompt:${'999'}`;
+    } else {
+      number = `tel:${'999'}`;
+    }
+    Linking.openURL(number);
+  };
 
   useEffect(() => {
     preventBack(navigation, 'MyHome');
@@ -26,8 +37,33 @@ export const MyHomeScreen = ({navigation}) => {
         style={{
           width: '100%',
           height: 150,
-          justifyContent: 'center',
+          // justifyContent: 'center',
         }}>
+        <TouchableOpacity
+          style={{
+            backgroundColor: 'red',
+            position: 'absolute',
+            height: 85,
+            width: 85,
+            borderRadius: (85 + 85) / 2,
+            alignContent: 'center',
+            justifyContent: 'center',
+            alignItems: 'center',
+            right: 30,
+            top: 10,
+          }}
+          onPress={call}
+          >
+          <Text
+            style={{
+              textAlign: 'center',
+              color: 'white',
+              fontWeight: 'bold',
+              fontSize: 35,
+            }}>
+            SOS
+          </Text>
+        </TouchableOpacity>
         <Text style={styles.title}>
           Hi{' '}
           <Text
@@ -66,8 +102,7 @@ export const MyHomeScreen = ({navigation}) => {
           style={{
             flex: 1,
           }}
-          isDisabled={!authData?.id}
-          >
+          isDisabled={!authData?.id}>
           VIEW MY TRIP HISTORY
         </CustomButton>
       </View>
@@ -192,6 +227,8 @@ const styles = StyleSheet.create({
     fontWeight: '300',
     fontSize: 40,
     color: `#fff`,
-    marginLeft: 30,
+    marginLeft: 14,
+    position: 'absolute',
+    bottom: 20,
   },
 });

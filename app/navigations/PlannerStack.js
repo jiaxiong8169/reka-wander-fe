@@ -17,6 +17,7 @@ import {SpotsListScreen} from '../containers/spots/SpotsListScreen';
 import {HomestayListScreen} from '../containers/homestays/HomestayListScreen';
 import {HomestayDetailsScreen} from '../containers/homestays/HomestayDetailsScreen';
 import {HomestaySelectRoomScreen} from '../containers/homestays/HomestaySelectRoomScreen';
+import { HomestayRoomDetailsScreen } from '../containers/homestays/HomestayRoomDetailsScreen';
 import {HomestayRentScreen} from '../containers/homestays/HomestayRentScreen';
 import {PlannerHistory} from '../containers/Planner/PlannerHistory';
 import {TripHistoryDetails} from '../containers/Planner/TripHistoryDetails';
@@ -155,6 +156,13 @@ export default function PlannerStack() {
           <Stack.Screen
             name="HomestaySelectRoom"
             component={HomestaySelectRoomScreen}
+            options={{
+              header: () => null,
+            }}
+          />
+          <Stack.Screen
+            name="HomestayRoomDetails"
+            component={HomestayRoomDetailsScreen}
             options={{
               header: () => null,
             }}
