@@ -18,7 +18,7 @@ export const Call = props => {
     <View
       style={{
         flexDirection: 'column',
-        paddingBottom: 8,
+        // paddingBottom: 8,
         alignItems: 'center',
         flex:1,
         // backgroundColor: 'grey',
@@ -26,8 +26,9 @@ export const Call = props => {
       <CustomText>Call the vendor</CustomText>
       <TouchableOpacity
         style={{
-          borderColor: 'grey',
-          borderWidth: 2,
+          // borderColor: 'grey',
+          // borderWidth: 2,
+          backgroundColor:'#0047ab',
           height: 40,
           width: '80%',
           margin: 10,
@@ -36,8 +37,8 @@ export const Call = props => {
           alignItems: 'center',
         }}
         onPress={call}>
-        <CustomText style={{color: 'black', fontWeight: '400'}}>
-          <Icon name="call-outline" size={16} color="#000" />
+        <CustomText style={{color: 'white', fontWeight: '400'}}>
+          <Icon name="call-outline" size={16} color="#fff" />
           {'  '}Call
         </CustomText>
       </TouchableOpacity>

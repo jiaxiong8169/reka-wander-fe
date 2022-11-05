@@ -1,37 +1,53 @@
 import React from 'react';
-import {View, StyleSheet, Image} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Dimensions,
+} from 'react-native';
 import Card from '../components/Card';
 import {RatingButton} from './RatingButton';
 import {CustomButton} from './CustomButton';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {CustomText} from './texts/custom-text';
 
-const CardItem = ({item, navigation, type, marginBottom}) => {
+const {width} = Dimensions.get('window');
+
+const CardItem = ({item, onPress, type, marginBottom}) => {
   return (
-    <Card
-      style={{
-        minHeight: 150,
-        flexDirection: 'row',
-        margin: 10,
-        marginBottom: marginBottom,
-      }}
-      key={item.id}>
-      <Image
-        style={{flex: 1, height: undefined, borderRadius: 5}}
-        source={{uri: item.thumbnailSrc}}
-        alt="thumbnail"
-      />
-      <View style={{flex: 2, flexDirection: 'column', marginLeft: 10}}>
-        <View style={{flexDirection: 'row', flex: 2}}>
-          <View style={{flex: 1}}>
-            <CustomText bold>{item.name}</CustomText>
+    <TouchableOpacity style={{alignItems: 'center'}} onPress={onPress}>
+      <Card
+        style={{
+          minHeight: 150,
+          flexDirection: 'row',
+          margin: 10,
+          marginBottom: marginBottom,
+          width: width * 0.8,
+        }}
+        key={item.id}>
+        <Image
+          style={{flex: 1, height: undefined, borderRadius: 5}}
+          source={{uri: item.thumbnailSrc}}
+          alt="thumbnail"
+        />
+        <View style={{flex: 2, marginLeft: 10, justifyContent: 'space-between'}}>
+          <View
+            style={{}}>
+            <CustomText bold style={{color: '#23297a'}}>
+              {item.name}
+            </CustomText>
             <View
               style={{
                 flexDirection: 'row',
-                marginRight: 'auto',
-                marginTop: 2,
-                marginBottom: 4,
+                alignItems: 'center',
+                paddingBottom: 2,
               }}>
-              <RatingButton rating={item.avgRating} />
+              <Icon name="star" size={13} color="#ffdf00" />
+              <CustomText style={{fontSize: 10, paddingLeft: 8}}>
+                {item.avgRating} (
+                {!item.reviews ? '' : `${item.reviews.length} reviews`})
+              </CustomText>
             </View>
             <View style={styles.lineStyle} />
             <View
@@ -40,73 +56,55 @@ const CardItem = ({item, navigation, type, marginBottom}) => {
                 marginTop: 4,
                 alignItems: 'center',
               }}>
-              <Image
-                style={{width: 15, height: 15}}
-                source={require('../assets/pin.png')}
-                tintColor={'#52525b'}
-                alt="pin"
-              />
-              <CustomText marginLeft="1" fontSize="xs" color="gray.600">
+              <Icon name="map-marker" size={13} color="#52525b" />
+              <CustomText
+                color="gray.600"
+                style={{fontSize: 10, paddingLeft: 8}}>
                 {item.city}
               </CustomText>
             </View>
             <View
               style={{
                 flexDirection: 'row',
-                marginTop: 4,
+                alignItems: 'center',
               }}>
-              <CustomText marginLeft="1" fontSize={8} color="gray.400">
-                {!item.reviews ? '' : `${item.reviews.length} reviews`}
+              <Icon name="home-city" size={13} color="#52525b" />
+              <CustomText
+                color="gray.600"
+                style={{fontSize: 10, paddingLeft: 8}}>
+                {item.category}
               </CustomText>
             </View>
           </View>
           <View
             style={{
-              flex: 1,
-              backgroundColor: '#D0ECFA',
-              height: undefined,
-              margin: 5,
-              flexDirection: 'column',
-              justifyContent: 'center',
-              padding: 8,
+              alignItems: 'flex-end',
             }}>
-            <View>
-              <CustomText
-                fontSize="xs"
-                color="primary.400"
-                style={{textAlign: 'right'}}>
-                {item.perks}
-              </CustomText>
+            <CustomText style={{textAlign: 'left', fontSize: 12}}>
+              From {'  '}
+              <CustomText style={{fontSize: 11}}>RM </CustomText>
               <CustomText
                 bold
-                fontSize="3xl"
-                color="primary.400"
-                style={{textAlign: 'right'}}>
-                RM {item.price ? item.price : item.minPrice}
+                style={{
+                  fontSize: 25,
+                  color: '#fb8500',
+                  lineHeight: 30,
+                }}>
+                {item.price ? item.price : item.minPrice}
               </CustomText>
               {type === 'restaurants' && (
                 <CustomText
                   fontSize="xs"
                   color="primary.400"
                   style={{textAlign: 'right'}}>
-                  average per pax
+                  {'  '}average per pax
                 </CustomText>
               )}
-            </View>
+            </CustomText>
           </View>
         </View>
-        <CustomButton
-          size="xs"
-          onPress={() => {
-            navigation.navigate('SpotDetails', {
-              type: type,
-              id: item.id,
-            });
-          }}>
-          View Details
-        </CustomButton>
-      </View>
-    </Card>
+      </Card>
+    </TouchableOpacity>
   );
 };
 const styles = StyleSheet.create({

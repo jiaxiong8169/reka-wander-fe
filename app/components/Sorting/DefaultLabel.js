@@ -19,7 +19,7 @@ function LabelBase(props) {
     Animated.timing(scaleValue.current, {
       toValue: pressed ? 1 : 0.1,
       duration: 200,
-      delay: pressed ? 0 : 2000,
+      delay: pressed ? 0 : 500,
       useNativeDriver: false,
     }).start();
     cachedPressed.current = pressed;
@@ -36,12 +36,12 @@ function LabelBase(props) {
             transform: [
               { translateY: width },
               { scale: scaleValue.current },
-              { translateY: -width },
+              { translateY: -width + 12 },
             ],
           },
         ]}
       >
-        <View style={styles.pointer} />
+        {/* <View style={styles.pointer} /> */}
         <Text style={styles.sliderLabelText}>{value}</Text>
       </AnimatedView>
     )
@@ -84,23 +84,24 @@ const styles = StyleSheet.create({
   sliderLabel: {
     position: 'absolute',
     justifyContent: 'center',
+    alignItems:'center',
     bottom: '100%',
     width: width,
     // backgroundColor: '#000',
     // padding:15,
-    // height: 20,
+    // height: 24,
   },
   sliderLabelText: {
     textAlign: 'center',
     // lineHeight: 12,
     fontWeight:'600',
     borderRadius: 10,
-    borderWidth: 2,
+    borderWidth: 1,
     // borderColor: '#4169e1',
     borderColor: '#777',
     backgroundColor: '#fff',
     flex: 1,
-    fontSize: 13,
+    fontSize: 10,
     color: '#000',
     // color: '#4169e1',
     padding:3,

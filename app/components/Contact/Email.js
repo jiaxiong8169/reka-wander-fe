@@ -30,15 +30,16 @@ export const Email = props => {
     <View
       style={{
         flexDirection: 'column',
-        paddingBottom: 8,
+        // paddingBottom: 8,
         alignItems: 'center',
         flex:1,
       }}>
       <CustomText>Email the vendor</CustomText>
       <TouchableOpacity
         style={{
-          borderColor: 'grey',
-          borderWidth: 2,
+          // borderColor: 'grey',
+          // borderWidth: 2,
+          backgroundColor:'#0047ab',
           height: 40,
           width: '80%',
           margin: 10,
@@ -47,8 +48,8 @@ export const Email = props => {
           alignItems: 'center',
         }}
         onPress={mail}>
-        <CustomText style={{color: 'black', fontWeight: '400', alignItems: 'center',}}>
-          <Icon name="mail-outline" size={16} color="#000" />
+        <CustomText style={{color: 'white', fontWeight: '400', alignItems: 'center',}}>
+          <Icon name="mail-outline" size={16} color="#fff" />
           {'  '}Email
         </CustomText>
       </TouchableOpacity>

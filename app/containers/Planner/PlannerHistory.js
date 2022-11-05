@@ -81,10 +81,10 @@ export const PlannerHistory = ({navigation}) => {
         style={{width: '80%', marginBottom: 10}}
       />
       <View style={{flexDirection: 'column', marginBottom: 10, width: '100%'}}>
-        {items.map(item => (
+        {items.map((item,i) => (
           <TripCardItem
             item={item}
-            key={item.id}
+            key={i}
             navigation={navigation}
             marginBottom={10}
           />

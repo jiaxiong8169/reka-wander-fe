@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, Dimensions, RefreshControl} from 'react-native';
 import {Image} from 'react-native';
 import {Heading, Text} from 'native-base';
@@ -17,16 +17,37 @@ import {
 import {BackButton} from '../../components/BackButton';
 import DeviceInfo from 'react-native-device-info';
 import Share from 'react-native-share';
+import Icon from 'react-native-vector-icons/Ionicons';
 import {RatingButton} from '../../components/RatingButton';
 import {LocationButton} from '../../components/Location/LocationButton';
 import {CustomButton} from '../../components/CustomButton';
+import {About} from '../../components/DetailsContent/About';
+import {Location} from '../../components/DetailsContent/Location';
+import {LocationName} from '../../components/Location/LocationName';
+import {CheckInOut} from '../../components/DetailsContent/CheckInOut';
+import {VendorDetails} from '../../components/DetailsContent/VendorDetails';
+import {Parking} from '../../components/DetailsContent/Parking';
+import {Facilities} from '../../components/DetailsContent/Facilities';
+import {HomestayExpandableList} from '../../components/ExpandableListView/HomestayContent';
 
 const height = Dimensions.get('window').height;
 
 export default function SpotDetailsScreen({navigation, route}) {
   const {authData} = useAuth();
   const dispatch = useDispatch();
-  const {type, id} = route.params;
+  const {
+    type,
+    id,
+    items,
+    planner,
+    checkInDate,
+    checkOutDate,
+    totalDays,
+    adults,
+    children,
+    guests,
+    facilities,
+  } = route.params;
   const listData = useSelector(state => state.nearbyReducer[type]);
   const {postWithAuth, getWithAuth} = useHttpCall();
   const [item, setItem] = React.useState({});
@@ -36,6 +57,9 @@ export default function SpotDetailsScreen({navigation, route}) {
   const [shared, setShared] = React.useState(false);
   const [likes, setLikes] = React.useState(0);
   const [shares, setShares] = React.useState(0);
+  const [locationName, setLocationName] = useState('');
+  const [lat, setLat] = useState();
+  const [long, setLong] = useState();
 
   function fetchData() {
     setLoading(true);
@@ -57,6 +81,7 @@ export default function SpotDetailsScreen({navigation, route}) {
       .then(({data}) => {
         if (!!data) {
           setItem(data);
+
           // update like and share states
           setLiked(
             data.likes.includes(
@@ -115,12 +140,14 @@ export default function SpotDetailsScreen({navigation, route}) {
   React.useEffect(() => {
     if (!reload) return;
     fetchData();
+    console.log(item);
   }, [reload]);
 
   React.useEffect(() => {
     const willFocusSubscription = navigation.addListener('focus', () => {
       fetchData();
     });
+    console.log(item);
     return willFocusSubscription;
   }, []);
 
@@ -217,12 +244,10 @@ export default function SpotDetailsScreen({navigation, route}) {
               {item.name}
             </Heading>
 
-            <Text fontSize={14} color="white">
-              {item.city}
-            </Text>
             <View
               style={{
                 flexDirection: 'row',
+                marginTop: 15,
               }}>
               <Text bold fontSize={14} color="white">
                 {item.category}
@@ -235,25 +260,169 @@ export default function SpotDetailsScreen({navigation, route}) {
               }}>
               <RatingButton rating={item.avgRating} />
             </View>
-            <Text mt="3" mb="10" color={'white'}>
-              {item.description}
-            </Text>
-            {type === 'hotels' || type === 'nearbyHotels' ? (
-              <CustomButton
-                colorScheme="secondary"
-                style={{marginTop: 20}}
-                onPress={() => {
-                  navigation.navigate('SelectRoom', {
-                    item,
-                  });
-                }}>
-                Select Rooms
-              </CustomButton>
-            ) : (
-              <LocationButton
-                targetLat={item?.loc?.coordinates[1]}
-                targetLong={item?.loc?.coordinates[0]}
+            <View
+              style={{
+                flexDirection: 'row',
+                marginTop: 6,
+              }}>
+              <Icon
+                name="location"
+                size={14}
+                color="#ff4500"
+                style={{paddingTop: 3}}
               />
+              <LocationName
+                lat={item?.loc?.coordinates[1]}
+                long={item?.loc?.coordinates[0]}
+                value={locationName}
+                setValue={setLocationName}
+                textViewStyle={{}}
+                textStyle={{paddingLeft: 7, fontSize: 14, color: 'white'}}
+              />
+            </View>
+
+            {type === 'hotels' || type === 'nearbyHotels' ? (
+              <View>
+                <About
+                  styleContainer={{paddingTop: 25}}
+                  description={item.description}
+                  subContainerView={{borderLeftColor: '#87cefa'}}
+                  titleStyle={{color: 'white'}}
+                  descriptionStyle={{color: 'white'}}
+                  seeStyle={{color: 'red'}}
+                />
+
+                <Location
+                  subContainerView={{borderLeftColor: '#87cefa'}}
+                  titleStyle={{color: 'white'}}
+                  lat={items.loc.coordinates[1]}
+                  long={items.loc.coordinates[0]}
+                  locationName={locationName}
+                  locationNameStyle={{color: 'white'}}
+                  navigationButtonStyle={{
+                    backgroundColor: '#4169e1',
+                    // borderColor: 'white',
+                  }}
+                  navigationButtonTextStyle={{color: '#fff'}}
+                  iconColor={'#fff'}
+                />
+                <VendorDetails
+                  subContainerView={{borderLeftColor: '#87cefa'}}
+                  titleStyle={{color: 'white'}}
+                  vendorName={item.vendorName}
+                  vendorEmail={item.vendorEmail}
+                  vendorPhoneNumber={item.vendorPhoneNumber}
+                  iconColor={'#fff'}
+                  modalButtonStyle={{backgroundColor: '#4169e1'}}
+                  modalButtonTextStyle={{color: '#fff'}}
+                  nameTitleStyle={{color: '#fff'}}
+                  vendorNameStyle={{color: '#fff'}}
+                  emailTitleStyle={{color: '#fff'}}
+                  vendorEmailStyle={{color: '#fff'}}
+                  phoneNumTitleStyle={{color: '#fff'}}
+                  vendorPhoneNumStyle={{color: '#fff'}}
+                />
+                <HomestayExpandableList
+                  type={'House Rules'}
+                  subContainerView={{borderLeftColor: '#87cefa'}}
+                  titleStyle={{color: 'white'}}
+                  iconColor={'#fff'}>
+                  <CheckInOut
+                    checkInTime={items.checkInTime}
+                    checkOutTime={items.checkOutTime}
+                    additionalRules={items.additionalRules}
+                    iconColor={'#fff'}
+                    checkInTitleStyle={{color: 'white'}}
+                    checkOutTitleStyle={{color: 'white'}}
+                    additionalRulesTitleStyle={{color: 'white'}}
+                    additionalRulesStyle={{color: 'white'}}
+                  />
+                </HomestayExpandableList>
+
+                <HomestayExpandableList
+                  type={'Parking'}
+                  subContainerView={{borderLeftColor: '#87cefa'}}
+                  titleStyle={{color: 'white'}}
+                  iconColor={'#fff'}>
+                  <Parking
+                    parkingNumber={item.parkingNumber}
+                    parkingFee={item.parkingFee}
+                    iconColor={'#fff'}
+                    parkingNumStyle={{color: 'white'}}
+                    parkingFeeStyle={{color: 'white'}}
+                  />
+                </HomestayExpandableList>
+                <HomestayExpandableList
+                  type={'Facilities & Amenities'}
+                  subContainerView={{borderLeftColor: '#87cefa'}}
+                  titleStyle={{color: 'white'}}
+                  iconColor={'#fff'}>
+                  <View style={{paddingLeft: 15}}>
+                    <Facilities
+                      facilities={facilities.general}
+                      iconName="home"
+                      title="General"
+                      styleSubContent={{paddingTop: 25}}
+                      iconColor={'#fff'}
+                      valueStyle={{color: 'white'}}
+                      titleStyle={{color: 'white'}}
+                    />
+                    <Facilities
+                      facilities={facilities.services}
+                      iconName="room-service"
+                      title="Services"
+                      iconColor={'#fff'}
+                      valueStyle={{color: 'white'}}
+                      titleStyle={{color: 'white'}}
+                    />
+                    <Facilities
+                      facilities={facilities.outdoors}
+                      iconName="flower"
+                      title="Outdoor"
+                      iconColor={'#fff'}
+                      valueStyle={{color: 'white'}}
+                      titleStyle={{color: 'white'}}
+                    />
+
+                    <Facilities
+                      facilities={facilities.internet}
+                      iconName="wifi"
+                      title="Internet"
+                      iconColor={'#fff'}
+                      valueStyle={{color: 'white'}}
+                      titleStyle={{color: 'white'}}
+                    />
+                  </View>
+                </HomestayExpandableList>
+                <CustomButton
+                  colorScheme="secondary"
+                  style={{marginTop: 20}}
+                  onPress={() => {
+                    navigation.navigate('SelectRoom', {
+                      item,
+                      locationName,
+                      facilities,
+                      checkInDate,
+                      checkOutDate,
+                      totalDays,
+                      adults,
+                      children,
+                      guests,
+                    });
+                  }}>
+                  Select Rooms
+                </CustomButton>
+              </View>
+            ) : (
+              <View style={{marginTop: 20}}>
+                <Text mt="3" mb="10" color={'white'}>
+                  {item.description}
+                </Text>
+                <LocationButton
+                  targetLat={item?.loc?.coordinates[1]}
+                  targetLong={item?.loc?.coordinates[0]}
+                />
+              </View>
             )}
           </View>
           <View style={styles.buttonContainer}>

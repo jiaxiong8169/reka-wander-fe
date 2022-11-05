@@ -12,26 +12,34 @@ import {ContactModal} from '../../components/Contact/ContactModal';
 import {About} from '../../components/DetailsContent/About';
 import {Location} from '../../components/DetailsContent/Location';
 import {VendorDetails} from '../../components/DetailsContent/VendorDetails';
+import {Parking} from '../../components/DetailsContent/Parking';
+import {Facilities} from '../../components/DetailsContent/Facilities';
 
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 
 export const HomestayDetailsScreen = ({navigation, route}) => {
-  const {item, checkInDate, checkOutDate, totalDays, adults, children, guests} =
-    route.params;
+  const {
+    item,
+    checkInDate,
+    checkOutDate,
+    totalDays,
+    adults,
+    children,
+    guests,
+    planner,
+  } = route.params;
   const [locationName, setLocationName] = useState('');
-
-  const additionalRules = [
-    {
-      key: 1,
-      item: 'No smoking',
-    },
-    {
-      key: 2,
-      item: 'No Pet',
-    },
-  ];
-
+  const facilities = {
+    outdoors: ['Swimming pool', 'Badminton court', 'Garden', 'BBQ facilities'],
+    services: ['Room Service', 'CCTV outside property'],
+    general: ['Air Conditioning', 'Fan', 'Safe'],
+    bathroom: ['Shampoo', 'Hot water', 'Hair Dryer', 'Towels', 'Toilet paper'],
+    bedroom: ['Extra pillows and blankets', 'Linens', 'Hangers', 'Iron'],
+    kitchen: ['Electric kettle', 'Refrigerator', 'Stove'],
+    internet: ['WIFI'],
+    media: ['TV'],
+  };
   const footer = () => {
     return (
       <View>
@@ -103,61 +111,106 @@ export const HomestayDetailsScreen = ({navigation, route}) => {
             </View>
           </View>
 
-          <About description={item.description} />
+          <About
+            seeMoreStyle={{color: 'black'}}
+            seeLessStyle={{color: 'black'}}
+            description={item.description}
+            styleContainer={{paddingTop: 0}}
+          />
           <Location
             lat={item?.loc?.coordinates[1]}
             long={item?.loc?.coordinates[0]}
             locationName={locationName}
+            iconColor={'black'}
           />
           <VendorDetails
             vendorName={item.vendorName}
             vendorEmail={item.vendorEmail}
             vendorPhoneNumber={item.vendorPhoneNumber}
+            iconColor={'#52525b'}
           />
 
-          
-
-          <HomestayExpandableList type={'House Rules'}>
+          <HomestayExpandableList type={'House Rules'} iconColor={'#52525b'}>
             <CheckInOut
-              checkInTime={'5:00pm'}
-              checkOutTime={'4.00pm'}
-              additionalRules={additionalRules}
+              checkInTime={item.checkInTime}
+              checkOutTime={item.checkOutTime}
+              additionalRules={item.additionalRules}
+              iconColor={'#52525b'}
             />
           </HomestayExpandableList>
 
-          <HomestayExpandableList type={'Parking Fee'}>
-            {/* <CheckInOut
-              checkInTime={'5:00pm'}
-              checkOutTime={'4.00pm'}
-              additionalRules={additionalRules}
-            /> */}
+          <HomestayExpandableList type={'Parking'} iconColor={'#52525b'}>
+            <Parking
+              parkingNumber={item.parkingNumber}
+              parkingFee={item.parkingFee.toFixed(2)}
+              iconColor={'#52525b'}
+            />
           </HomestayExpandableList>
 
-          <HomestayExpandableList type={'Amenities'}>
-            {/* <CheckInOut
-              checkInTime={'5:00pm'}
-              checkOutTime={'4.00pm'}
-              additionalRules={additionalRules}
-            /> */}
+          <HomestayExpandableList
+            type={'Facilities & Amenities'}
+            iconColor={'#52525b'}>
+            <View style={{paddingLeft: 15}}>
+              <Facilities
+                facilities={facilities.general}
+                iconName="home"
+                title="General"
+                styleSubContent={{paddingTop: 25}}
+                iconColor={'#52525b'}
+              />
+              <Facilities
+                facilities={facilities.services}
+                iconName="room-service"
+                title="Services"
+                iconColor={'#52525b'}
+              />
+              <Facilities
+                facilities={facilities.outdoors}
+                iconName="flower"
+                title="Outdoor"
+                iconColor={'#52525b'}
+              />
+
+              <Facilities
+                facilities={facilities.internet}
+                iconName="wifi"
+                title="Internet"
+                iconColor={'#52525b'}
+              />
+            </View>
           </HomestayExpandableList>
 
-          <CustomButton
-            colorScheme="secondary"
-            style={{marginTop: 20}}
-            onPress={() => {
-              navigation.navigate('HomestaySelectRoom', {
-                item,
-                checkInDate,
-                checkOutDate,
-                totalDays,
-                adults,
-                children,
-                guests,
-                locationName,
-              });
-            }}>
-            Select Rooms
-          </CustomButton>
+          {planner && (
+            <View>
+              <CustomButton
+                colorScheme="secondary"
+                style={{marginTop: 30, marginBottom: 30}}
+                onPress={() => navigation.goBack()}>
+                Back
+              </CustomButton>
+            </View>
+          )}
+
+          {!planner && (
+            <CustomButton
+              colorScheme="secondary"
+              style={{marginTop: 20}}
+              onPress={() => {
+                navigation.navigate('HomestaySelectRoom', {
+                  item,
+                  checkInDate,
+                  checkOutDate,
+                  totalDays,
+                  adults,
+                  children,
+                  guests,
+                  locationName,
+                  facilities,
+                });
+              }}>
+              Select Rooms
+            </CustomButton>
+          )}
         </View>
       </View>
     </GradientBackground>

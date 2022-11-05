@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import GradientBackground from '../../components/GradientBackground';
-import {View} from 'react-native';
+import {View, TouchableOpacity, StyleSheet} from 'react-native';
 import {BackButton} from '../../components/BackButton';
 import {CustomButton} from '../../components/CustomButton';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Card from '../../components/Card';
 import {RoomsSelected} from './HomestayRoomSelected';
 import {Mail} from '../../components/JumpMail/Mail';
@@ -15,11 +15,23 @@ import {SimpleLocationName} from '../../components/Location/SimpleLocationName';
 import Snackbar from 'react-native-snackbar';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {useAuth} from '../../hooks/useAuth';
+import {ContactModal} from '../../components/Contact/ContactModal';
 
 export const HomestayRentScreen = ({navigation, route}) => {
-  const {item, checkInDate, checkOutDate, totalPrice, selected} = route.params;
+  const {
+    item,
+    checkInDate,
+    checkOutDate,
+    totalDays,
+    adults,
+    children,
+    guests,
+    locationName,
+    totalPrice,
+    selected,
+  } = route.params;
   const {authData} = useAuth();
-  const [locationName, setLocationName] = useState('');
+  const [isContactModelPopUp, setIsContactModelPopUp] = useState(false);
   const {postWithAuth} = useHttpCall();
 
   const onPressHandler = () => {
@@ -70,54 +82,113 @@ export const HomestayRentScreen = ({navigation, route}) => {
       stickyHeader={true}>
       <BackButton navigation={navigation} style={{width: '20%'}} />
       <BlueSubtitle
-        text1={item?.name}
+        text1="Confirm booking"
         style={{width: '80%', marginBottom: 10}}
       />
       <View style={{flexDirection: 'column', marginBottom: 10, width: '100%'}}>
         <CustomText
           bold
-          fontSize="lg"
           style={{
             alignSelf: 'center',
+            fontSize: 24,
+            paddingVertical: 10,
+            color: '#4169e1',
           }}>
-          Dates Details
+          Trip Details
         </CustomText>
         <Card style={{margin: 10}}>
-          <View
-            style={{
-              flexDirection: 'row',
-              borderBottomColor: '#DCDCDC',
-              borderBottomWidth: 1,
-              paddingBottom: 5,
-            }}>
-            <Icon name="calendar-sharp" size={19} color="#000"></Icon>
-            <CustomText style={{flex: 1, marginLeft: 3}}>
-              Check In Date:
-            </CustomText>
-            <CustomText style={{flex: 1, marginLeft: 3}}>
-              {checkInDate}
-            </CustomText>
+          <View style={styles.subContainer}>
+            <CustomText style={styles.tripSubTitle}>Dates</CustomText>
+            <View
+              style={{
+                flexDirection: 'row',
+                paddingLeft: 10,
+                paddingBottom: 5,
+              }}>
+              <Icon name="calendar-today" size={19} color="#000"></Icon>
+              <CustomText style={{flex: 1, marginLeft: 3}}>
+                Check In Date:
+              </CustomText>
+              <CustomText style={{flex: 1, marginLeft: 3}}>
+                {checkInDate}
+              </CustomText>
+            </View>
+
+            <View
+              style={{
+                flexDirection: 'row',
+                paddingTop: 5,
+                paddingLeft: 10,
+                paddingBottom: 10,
+              }}>
+              <Icon name="calendar" size={19} color="#000"></Icon>
+              <CustomText style={{flex: 1, marginLeft: 3}}>
+                Check Out Date:
+              </CustomText>
+              <CustomText style={{flex: 1, marginLeft: 3}}>
+                {checkOutDate}
+              </CustomText>
+            </View>
           </View>
+
           <View
             style={{
-              flexDirection: 'row',
-              paddingTop: 5,
+              paddingVertical: 10,
+              marginLeft: 12,
             }}>
-            <Icon name="calendar-sharp" size={19} color="#000"></Icon>
-            <CustomText style={{flex: 1, marginLeft: 3}}>
-              Check Out Date:
-            </CustomText>
-            <CustomText style={{flex: 1, marginLeft: 3}}>
-              {checkOutDate}
-            </CustomText>
+            <CustomText style={styles.tripSubTitle}>Guests</CustomText>
+            <View
+              style={{
+                flexDirection: 'row',
+                paddingLeft: 10,
+                paddingBottom: 10,
+              }}>
+              <Icon name="human-male" size={19} color="#000"></Icon>
+              <CustomText style={{flex: 1, marginLeft: 3}}>
+                Adult(s):
+              </CustomText>
+              <CustomText style={{flex: 1, marginLeft: 3}}>{adults}</CustomText>
+            </View>
+
+            <View
+              style={{
+                flexDirection: 'row',
+                paddingTop: 5,
+                paddingLeft: 10,
+              }}>
+              <Icon name="human-male-child" size={19} color="#000"></Icon>
+              <CustomText style={{flex: 1, marginLeft: 3}}>
+                Children:
+              </CustomText>
+              <CustomText style={{flex: 1, marginLeft: 3}}>
+                {children.length}
+              </CustomText>
+            </View>
+
+            <View style={{paddingBottom: 10}}>
+              {children.map((child, i) => (
+                <View
+                  key={i}
+                  id={i}
+                  style={{
+                    flexDirection: 'row',
+                    paddingTop: 5,
+                    paddingLeft: 10,
+                  }}>
+                  <Icon name="teddy-bear" size={19} color="#000"></Icon>
+                  <CustomText style={{flex: 1, marginLeft: 3}}>
+                    Child {i + 1}:
+                  </CustomText>
+                  <CustomText style={{flex: 1, marginLeft: 3}}>
+                    {child.ageOfChild} years old
+                  </CustomText>
+                </View>
+              ))}
+            </View>
           </View>
         </Card>
-        <CustomText
-          bold
-          fontSize="lg"
-          style={{
-            alignSelf: 'center',
-          }}>
+
+        <CustomText bold style={styles.title}>
           Rooms Selected Details
         </CustomText>
         <View>
@@ -133,7 +204,7 @@ export const HomestayRentScreen = ({navigation, route}) => {
                     return (
                       <RoomsSelected
                         id={item.id}
-                        key={item.id}
+                        key={i}
                         name={item.name}
                         url={item.thumbnailSrc}
                         price={item.price}
@@ -151,58 +222,186 @@ export const HomestayRentScreen = ({navigation, route}) => {
             </Card>
           )}
         </View>
-        <CustomText
-          bold
-          fontSize="lg"
-          style={{
-            alignSelf: 'center',
-          }}>
-          More Details
+
+        <CustomText bold style={styles.title}>
+          Price Details
+        </CustomText>
+        <Card style={{margin: 10}}>
+          <View style={styles.subContainer}>
+            {selected.length > 0 && (
+              <View>
+                {selected.map((item, i) => {
+                  const roomTotalPrice = item.price * totalDays;
+                  return (
+                    <View key={i}>
+                      <CustomText
+                        style={{
+                          fontSize: 18,
+                          color: 'black',
+                          fontWeight: '500',
+                          paddingBottom: 15,
+                          paddingTop: 5,
+                        }}>
+                        Room {i + 1}
+                      </CustomText>
+                      <View style={styles.priceText}>
+                        <CustomText style={{marginLeft: 3}}>
+                          Price per night:
+                        </CustomText>
+                        <CustomText style={{marginLeft: 3}}>
+                          RM {item.price}
+                        </CustomText>
+                      </View>
+                      <View style={styles.priceText}>
+                        <CustomText style={{marginLeft: 3}}>
+                          Total night(s) selected:
+                        </CustomText>
+                        <CustomText style={{marginLeft: 3}}>
+                          {totalDays} night(s)
+                        </CustomText>
+                      </View>
+                      <View style={styles.priceText}>
+                        <CustomText
+                          style={{
+                            flex: 1,
+                            marginLeft: 3,
+                            fontWeight: 'bold',
+                          }}>
+                          Total for this room:
+                        </CustomText>
+                        <CustomText style={{marginLeft: 3}}>
+                          {roomTotalPrice}
+                        </CustomText>
+                      </View>
+                    </View>
+                  );
+                })}
+              </View>
+            )}
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              marginLeft: 12,
+              paddingVertical: 15,
+              paddingRight: 30,
+              justifyContent: 'space-between',
+            }}>
+            <CustomText
+              style={{
+                fontSize: 18,
+                color: '#af002a',
+                fontWeight: '500',
+                paddingLeft: 10,
+                paddingTop: 5,
+              }}>
+              Total:
+            </CustomText>
+            <CustomText
+              style={{
+                fontSize: 18,
+                color: '#af002a',
+                fontWeight: 'bold',
+                paddingLeft: 10,
+                paddingTop: 5,
+              }}>
+              RM {totalPrice}
+            </CustomText>
+          </View>
+        </Card>
+
+        <CustomText bold style={styles.title}>
+          Vendor Details
         </CustomText>
         <Card style={{margin: 10}}>
           <View
             style={{
-              flexDirection: 'column',
-              borderBottomColor: '#DCDCDC',
-              borderBottomWidth: 1,
-              paddingBottom: 5,
+              paddingBottom: 10,
+              paddingTop: 4,
+              marginLeft: 12,
             }}>
-            <CustomText>Homestay Location</CustomText>
-            <SimpleLocationName
-              lat={item?.loc?.coordinates[1]}
-              long={item?.loc?.coordinates[0]}
-              value={locationName}
-              setValue={setLocationName}
-              title="Homestay"
-            />
-          </View>
-          <View
-            style={{
-              flexDirection: 'column',
-              borderBottomColor: '#DCDCDC',
-              borderBottomWidth: 1,
-              paddingBottom: 5,
-            }}>
-            <CustomText>Vendor Name</CustomText>
-            <View style={{flexDirection: 'row', marginTop: 5}}>
-              <Icon name="person-outline" size={23} color="#000" />
+            <View
+              style={{
+                flexDirection: 'row',
+                marginTop: 5,
+                alignItems: 'center',
+              }}>
+              <Icon name="human-greeting" size={23} color="#000" />
+              <CustomText
+                style={{
+                  color: 'black',
+                  fontWeight: '500',
+                  paddingLeft: 5,
+                }}>
+                Name:{' '}
+              </CustomText>
               <View style={{flex: 3, marginLeft: 10}}>
                 <CustomText>{item.vendorName}</CustomText>
               </View>
             </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                marginTop: 15,
+                alignItems: 'center',
+              }}>
+              <Icon name="email" size={23} color="#000" />
+              <CustomText
+                style={{
+                  paddingLeft: 5,
+                  color: 'black',
+                  fontWeight: '500',
+                  paddingLeft: 5,
+                }}>
+                Email:{' '}
+              </CustomText>
+              <View style={{flex: 3, marginLeft: 10}}>
+                <CustomText>{item.vendorEmail}</CustomText>
+              </View>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                marginTop: 15,
+                alignItems: 'center',
+              }}>
+              <Icon name="phone" size={23} color="#000" />
+              <CustomText
+                style={{
+                  paddingLeft: 5,
+                  color: 'black',
+                  fontWeight: '500',
+                  paddingLeft: 5,
+                }}>
+                Phone:{' '}
+              </CustomText>
+              <View style={{flex: 3, marginLeft: 10}}>
+                <CustomText>{item.vendorPhoneNumber}</CustomText>
+              </View>
+            </View>
+            <TouchableOpacity
+              style={{
+                borderWidth: 2,
+                height: 40,
+                borderRadius: 12,
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: 20,
+              }}
+              onPress={() => {
+                setIsContactModelPopUp(current => !current);
+              }}>
+              <CustomText style={{color: 'black', fontWeight: '400'}}>
+                Contact Vendor
+              </CustomText>
+              <ContactModal
+                vendorEmail={item.vendorEmail}
+                vendorPhoneNumber={item.vendorPhoneNumber}
+                isContactModelPopUp={isContactModelPopUp}
+                setIsContactModelPopUp={setIsContactModelPopUp}
+              />
+            </TouchableOpacity>
           </View>
-
-          <Mail
-            type={'Vendor'}
-            firstColumn={{
-              flexDirection: 'column',
-              borderBottomColor: '#DCDCDC',
-              borderBottomWidth: 1,
-              paddingBottom: 5,
-            }}
-            vendorEmail={item.vendorEmail}
-          />
-          <Phone type={'Vendor'} vendorPhoneNumber={item.vendorPhoneNumber} />
         </Card>
         <Total totalPrice={totalPrice} />
 
@@ -216,3 +415,34 @@ export const HomestayRentScreen = ({navigation, route}) => {
     </GradientBackground>
   );
 };
+
+const styles = StyleSheet.create({
+  subContainer: {
+    borderBottomColor: '#DCDCDC',
+    borderBottomWidth: 1,
+    paddingBottom: 10,
+    paddingTop: 4,
+    marginLeft: 12,
+  },
+  title: {
+    alignSelf: 'center',
+    fontSize: 24,
+    paddingTop: 30,
+    paddingBottom: 15,
+    color: '#4169e1',
+  },
+  tripSubTitle: {
+    fontSize: 18,
+    color: 'black',
+    fontWeight: '500',
+    paddingBottom: 15,
+    paddingTop: 5,
+  },
+  priceText: {
+    flexDirection: 'row',
+    paddingLeft: 10,
+    paddingBottom: 5,
+    paddingRight: 30,
+    justifyContent: 'space-between',
+  },
+});

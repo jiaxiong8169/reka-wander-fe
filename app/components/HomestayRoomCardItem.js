@@ -14,6 +14,8 @@ export const HomestayRoomCardItem = ({
   availability,
   thumbnailSrc,
   locationName,
+  facilities,
+  bedType,
   selected,
   setSelected,
 }) => {
@@ -105,7 +107,11 @@ export const HomestayRoomCardItem = ({
               room,
               thumbnailSrc,
               locationName,
+              facilities,
+              bedType,
+              price,
             });
+            console.log(locationName);
           }}>
           <Box>
             <AspectRatio w="100%" ratio={16 / 9}>

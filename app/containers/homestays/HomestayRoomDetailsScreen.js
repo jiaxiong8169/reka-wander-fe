@@ -2,10 +2,11 @@ import React, {useState, useEffect} from 'react';
 import GradientBackground from '../../components/GradientBackground';
 import {Dimensions, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import {Box, Pressable, ArrowBackIcon, View} from 'native-base';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {CustomButton} from '../../components/CustomButton';
 import {CustomText} from '../../components/texts/custom-text';
 import {HomestayExpandableList} from '../../components/ExpandableListView/HomestayContent';
+import {Facilities} from '../../components/DetailsContent/Facilities';
 import {CheckInOut} from '../../components/DetailsContent/CheckInOut';
 import {LocationName} from '../../components/Location/LocationName';
 import {ContactModal} from '../../components/Contact/ContactModal';
@@ -17,24 +18,8 @@ const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 
 export const HomestayRoomDetailsScreen = ({navigation, route}) => {
-  const {id, room, thumbnailSrc, locationName} = route.params;
-  //   const [locationName, setLocationName] = useState('');
-
-    const additionalRules = [
-      {
-        key: 1,
-        item: 'Air Condition',
-      },
-      {
-        key: 2,
-        item: 'Sofa Bed',
-      },
-      {
-        key:3,
-        item: 'Hair Dryer',
-      },
-    ];
-
+  const {id, room, thumbnailSrc, locationName, facilities, bedType, price} =
+    route.params;
   const footer = () => {
     return (
       <View>
@@ -74,44 +59,185 @@ export const HomestayRoomDetailsScreen = ({navigation, route}) => {
               {room.name}
             </CustomText>
 
-            <View style={{flexDirection: 'row', marginTop: 4}}>
+            <View
+              style={{
+                flexDirection: 'row',
+                marginTop: 8,
+              }}>
               <Icon
-                name="person-outline"
+                name="map-marker"
                 size={14}
                 color="#52525b"
                 style={{paddingTop: 3}}
               />
-              <CustomText fontSize={14} color="grey" style={{paddingLeft: 7}}>
+              <CustomText fontSize={14} style={{paddingLeft: 7}}>
+                {locationName}
+              </CustomText>
+            </View>
+          </View>
+
+          <View
+            style={{
+              borderColor: 'grey',
+              borderBottomWidth: 1,
+              paddingBottom: 25,
+            }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                width: '100%',
+                justifyContent: 'space-between',
+                paddingBottom: 6,
+              }}>
+              <View
+                style={{
+                  borderLeftColor: '#4169e1',
+                  borderLeftWidth: 5,
+                  borderRadius: 4,
+                }}>
+                <CustomText
+                  fontSize="2xl"
+                  style={{lineHeight: 35, paddingLeft: 13}}>
+                  General Information
+                </CustomText>
+              </View>
+            </View>
+            <View style={{paddingLeft: 15}}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  paddingTop: 15,
+                  paddingBottom: 5,
+                  alignItems: 'center',
+                  marginBottom: 5,
+                }}>
+                <Icon name="bunk-bed" size={23} />
+                <CustomText
+                  style={{
+                    fontSize: 18,
+                    color: 'black',
+                    fontWeight: '500',
+                    marginLeft: 12,
+                  }}>
+                  Bed Type
+                </CustomText>
+              </View>
+              {bedType.map((value,index) => (
+                <View key={index}>
+                <CustomText style={{marginLeft: 35, paddingBottom: 20}}>
+                  {value}
+                </CustomText>
+                </View>
+              ))}
+              
+
+              <View
+                style={{
+                  flexDirection: 'row',
+                  paddingTop: 15,
+                  paddingBottom: 5,
+                  alignItems: 'center',
+                  marginBottom: 5,
+                }}>
+                <Icon name="tag" size={23} />
+                <CustomText
+                  style={{
+                    fontSize: 18,
+                    color: 'black',
+                    fontWeight: '500',
+                    //
+                    marginLeft: 12,
+                  }}>
+                  Price
+                </CustomText>
+              </View>
+              <CustomText style={{marginLeft: 35, paddingBottom: 20}}>
+                RM{price} per night
+              </CustomText>
+
+              <View
+                style={{
+                  flexDirection: 'row',
+                  paddingTop: 15,
+                  paddingBottom: 5,
+                  alignItems: 'center',
+                  marginBottom: 5,
+                }}>
+                <Icon name="account-multiple" size={23} />
+                <CustomText
+                  style={{
+                    fontSize: 18,
+                    color: 'black',
+                    fontWeight: '500',
+                    marginLeft: 12,
+                  }}>
+                  Number of Guests
+                </CustomText>
+              </View>
+              <CustomText style={{marginLeft: 35, paddingBottom: 20}}>
                 {room.pax} pax
               </CustomText>
             </View>
           </View>
 
-          {/* <View
+          <View
             style={{
-              flexDirection: 'row',
-              marginTop: 8,
+              // borderColor: 'grey',
+              // borderBottomWidth: 1,
+              paddingBottom: 25,
+              paddingTop: 25,
             }}>
-            <Text style={{fontSize: 18, color: 'black', paddingBottom: 3}}>
-              Amenities
-            </Text>
-          </View> */}
-
-          <HomestayExpandableList type={'Amenities'}>
-          {additionalRules.map(rules => (
-          <View key={rules.key} id={rules.id}>
-            <CustomText>- {rules.item}</CustomText>
+            <View
+              style={{
+                flexDirection: 'row',
+                width: '100%',
+                justifyContent: 'space-between',
+                paddingBottom: 6,
+              }}>
+              <View
+                style={{
+                  borderLeftColor: '#4169e1',
+                  borderLeftWidth: 5,
+                  borderRadius: 4,
+                }}>
+                <CustomText
+                  fontSize="2xl"
+                  style={{lineHeight: 35, paddingLeft: 13}}>
+                  Amenities
+                </CustomText>
+              </View>
+            </View>
+            <View style={{paddingLeft: 15}}>
+              <Facilities
+                facilities={facilities.bedroom}
+                iconName="bed"
+                title="Bedroom"
+                style={{paddingTop: 15}}
+              />
+              <Facilities
+                facilities={facilities.bathroom}
+                iconName="shower"
+                title="Bathroom"
+              />
+              <Facilities
+                facilities={facilities.kitchen}
+                iconName="stove"
+                title="Kitchen"
+              />
+              <Facilities
+                facilities={facilities.media}
+                iconName="television"
+                title="Entertaiment"
+              />
+            </View>
           </View>
-        ))}
-           
-          </HomestayExpandableList>
 
-          {/* <CustomButton
+          <CustomButton
             colorScheme="secondary"
             style={{marginTop: 20}}
             onPress={() => navigation.goBack()}>
-            Back to Select This Room
-          </CustomButton> */}
+            Back to Select Room
+          </CustomButton>
         </View>
       </View>
     </GradientBackground>

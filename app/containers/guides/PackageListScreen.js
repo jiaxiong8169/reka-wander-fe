@@ -44,11 +44,11 @@ export const PackageListScreen = ({navigation, route}) => {
       />
       <View style={{flexDirection: 'column', marginBottom: 10, width: '100%'}}>
         {item &&
-          item.packages.map(p => {
+          item.packages.map((p,i) => {
             return (
               <PackageCardItem
                 item={p}
-                key={p.id}
+                key={i}
                 navigation={navigation}
                 selected={selected.filter(x => x.id === p.id).length > 0}
                 setSelected={toggleSelection}

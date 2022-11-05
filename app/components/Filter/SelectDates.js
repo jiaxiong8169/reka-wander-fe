@@ -1,72 +1,35 @@
 import React, {useEffect, useState} from 'react';
-import BlueSubtitle from '../../components/texts/BlueSubtitle';
-import GradientBackground from '../../components/GradientBackground';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import {useHttpCall} from '../../hooks/useHttpCall';
-import {LoadMore} from '../../components/LoadMore';
-import {BackButton} from '../../components/BackButton';
 import Card from '../../components/Card';
 import moment from 'moment';
 import dayjs from 'dayjs';
-import Modal from 'react-native-modal';
-import ModelContent from '../../components/Modal/ModalContent';
-import {RefreshControl, View, TouchableOpacity, Text} from 'react-native';
-import {HomestayCardItem} from '../../components/HomestayCardItem';
-import {useDispatch, useSelector} from 'react-redux';
-import {setTripPlanbyFieldName} from '../../redux/Planner/actions';
+import {View, TouchableOpacity, Text} from 'react-native';
 import {SimpleCalendar} from '../../components/CalenderPicker/SimpleCalendar';
-import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
-import {CustomText} from '../../components/texts/custom-text';
 import Collapsible from 'react-native-collapsible';
-import Counter from 'react-native-counters';
 
 export const SelectDates = ({
-  checkInDate,
-  setCheckInDate,
-  checkOutDate,
-  setCheckOutDate,
+  title,
+  labelStart,
+  labelEnd,
+  startDate,
+  setStartDate,
+  EndDate,
+  setEndDate,
   setTotalDays,
 }) => {
-  const [expandLocation, setExpandLocation] = useState(true);
   const [expandDates, setExpandDates] = useState(true);
-  const [expandGuests, setExpandGuests] = useState(true);
-  const [guests, setGuests] = useState(2);
-  const [adults, setAdults] = useState(1);
-  const [children, setChildren] = useState(0);
-
-  const plusIcon = isPlusDisabled => {
-    return <Icon name="add" size={20} color={'#4169e1'} />;
-  };
-
-  const minusIcon = isDisabled => {
-    return <Icon name="remove" size={20} color={'#4169e1'} />;
-  };
 
   useEffect(() => {
-    if (moment(checkInDate).isAfter(checkOutDate)) setTotalDays(0);
+    if (moment(startDate).isAfter(EndDate)) setTotalDays(0);
     else {
-      const date1 = dayjs(checkOutDate)
+      const date1 = dayjs(EndDate);
       const diff =
-        (checkOutDate.getTime() - checkInDate.getTime()) / (1000 * 3600 * 24);
-        // date1.diff(checkInDate,'day')
-        setTotalDays(diff);
+        (EndDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24);
+      setTotalDays(diff);
     }
-  }, [checkInDate, checkOutDate]);
-
-  useEffect(() => {
-    setGuests(adults + children);
-  }, [adults, children]);
-
-  const onPressExpandLocation = () => {
-    setExpandLocation(current => !current);
-  };
+  }, [startDate, EndDate]);
 
   const onPressExpandDates = () => {
     setExpandDates(current => !current);
-  };
-
-  const onPressExpandGuests = () => {
-    setExpandGuests(current => !current);
   };
 
   return (
@@ -76,34 +39,38 @@ export const SelectDates = ({
           style={{
             backgroundColor: 'aliceblue',
             shadowColor: 'white',
-            // marginTop: 10,
           }}>
-          <Text style={{fontWeight: '400', fontSize: 12}}>
-            Select Your Check-in/out Dates
-          </Text>
-          <Text style={{fontWeight: '600', color: 'black', fontSize: 14}}>
-            {dayjs(checkInDate).format('DD/MM/YYYY')} -{' '}
-            {dayjs(checkOutDate).format('DD/MM/YYYY')}
-          </Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              paddingHorizontal: 2,
+            }}>
+            <Text style={{fontWeight: '400', fontSize: 11, color: 'black'}}>{title}</Text>
+            <Text style={{fontWeight: '600', color: 'black', fontSize: 12}}>
+              {dayjs(startDate).format('DD/MM/YYYY')} -{' '}
+              {dayjs(EndDate).format('DD/MM/YYYY')}
+            </Text>
+          </View>
         </Card>
       </TouchableOpacity>
       <Collapsible collapsed={expandDates}>
         <View
           style={{
             flexDirection: 'row',
-            paddingLeft: 10,
             paddingVertical: 10,
-            justifyContent: 'center',
+            justifyContent: 'space-between',
+            marginHorizontal: 10,
           }}>
           <SimpleCalendar
-            value={checkInDate}
-            setValue={setCheckInDate}
-            label="Check In Date"
+            value={startDate}
+            setValue={setStartDate}
+            label={labelStart}
           />
           <SimpleCalendar
-            value={checkOutDate}
-            setValue={setCheckOutDate}
-            label="Check Out Date"
+            value={EndDate}
+            setValue={setEndDate}
+            label={labelEnd}
           />
         </View>
       </Collapsible>

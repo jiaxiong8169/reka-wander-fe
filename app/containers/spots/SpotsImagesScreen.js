@@ -49,7 +49,16 @@ export default function SpotsImagesScreen({navigation, route}) {
   const [loading3, setLoading3] = useState(false);
   const isNearby = route.params ? route.params.isNearby : false;
   const [firstLoad, setFirstLoad] = useState(true);
-
+  const facilities = {
+    outdoors: ['Swimming pool', 'Badminton court', 'Garden', 'BBQ facilities'],
+    services: ['Room Service', 'CCTV outside property'],
+    general: ['Air Conditioning', 'Fan', 'Safe'],
+    bathroom: ['Shampoo', 'Hot water', 'Hair Dryer', 'Towels', 'Toilet paper'],
+    bedroom: ['Extra pillows and blankets', 'Linens', 'Hangers', 'Iron'],
+    kitchen: ['Electric kettle', 'Refrigerator', 'Stove'],
+    internet: ['WIFI'],
+    media: ['TV'],
+  };
   useEffect(() => {
     if (!firstLoad) return;
     // if first time loading, skip if cached data exists
@@ -373,6 +382,8 @@ export default function SpotsImagesScreen({navigation, route}) {
                   navigation.navigate('SpotDetails', {
                     type: isNearby ? 'nearbyHotels' : 'hotels',
                     id: item.id,
+                    items: item,
+                    facilities,
                   })
                 }>
                 <Image

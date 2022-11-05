@@ -1,7 +1,7 @@
 import React, {useEffect, useState, useRef} from 'react';
 import BlueSubtitle from '../../components/texts/BlueSubtitle';
 import GradientBackground from '../../components/GradientBackground';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {LoadMore} from '../../components/LoadMore';
 import {BackButton} from '../../components/BackButton';
@@ -24,50 +24,95 @@ export const HomestayListScreen = ({navigation, route}) => {
   const dispatch = useDispatch();
   const fieldName = route?.params?.fieldName;
   const fieldNameObj = route?.params?.fieldNameObj;
+  const {planner, plannercheckInDate, plannercheckOutDate, plannertotalDays} =
+    route?.params;
   const [loading, setLoading] = useState(true);
   const [expandFilter, setExpandFilter] = useState(true);
   const [expandSort, setExpandSort] = useState(true);
   const [guests, setGuests] = useState(2);
   const [adults, setAdults] = useState(1);
   const [children, setChildren] = useState([]);
-  const [sortRoom, setSortRoom] = useState([]);
   const [reload, setReload] = useState(true);
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState('');
   const [full, setFull] = useState(false);
   const {getWithoutAuth} = useHttpCall();
-  const [checkInDate, setCheckInDate] = useState(new Date());
-  const [checkOutDate, setCheckOutDate] = useState(new Date());
-  const [totalDays, setTotalDays] = useState(0);
-  const [roomNum, setRoomNum] = useState(2);
+  const [checkInDate, setCheckInDate] = useState(
+    // plannercheckInDate ? plannercheckInDate :
+    new Date(),
+  );
+  const [checkOutDate, setCheckOutDate] = useState(
+    // plannercheckOutDate ? plannercheckOutDate :
+    new Date(),
+  );
+  const [totalDays, setTotalDays] = useState(
+    plannertotalDays ? plannertotalDays : 0,
+  );
+  const [roomNum, setRoomNum] = useState(0);
+  const [propertyType, setPropertyType] = useState('Landed House');
   const {tripPlan} = useSelector(state => state.plannerReducer);
   const [isModelPopUp, setIsModelPopUp] = useState(false);
-  const [prizeRange, setPrizeRange] = useState([50, 1000]);
+  const [priceRange, setPriceRange] = useState([50, 3050]);
+  const [sorting, setSorting] = useState('minPrice');
+  const [priceValueRange, setPriceValueRange] = useState([100, 1500]);
+  const [roomTag, setRoomTag] = useState([]);
+  const [propertyTag, setPropertyTag] = useState([]);
+  const [initial, setInitial] = useState(0);
 
-  useEffect(() => {
-    setGuests(adults + children);
-  }, [adults, children]);
+  const guestData = [
+    {label: '1 years old', value: 1},
+    {label: '2 years old', value: 2},
+    {label: '3 years old', value: 3},
+    {label: '4 years old', value: 4},
+    {label: '5 years old', value: 5},
+    {label: '6 years old', value: 6},
+    {label: '7 years old', value: 7},
+    {label: '8 years old', value: 8},
+    {label: '9 years old', value: 9},
+    {label: '10 years old', value: 10},
+    {label: '11 years old', value: 11},
+    {label: '12 years old', value: 12},
+  ];
+
+  const filterRoom = [
+    {id: 1, label: 'Any'},
+    {id: 2, label: '1'},
+    {id: 3, label: '2'},
+    {id: 4, label: '3'},
+    {id: 5, label: '4'},
+  ];
+
+  const filterPropertyType = [
+    {id: 1, label: 'Apartment'},
+    {id: 2, label: 'Landed House'},
+  ];
+
+  const Homestaydata = [
+    {label: 'Lower Price', value: 'minPrice'},
+    {label: 'Higher Price', value: '-minPrice'},
+  ];
 
   // on load and on search, fetch new 10 records
   useEffect(() => {
-    setItems([]);
+    // setItems([]);
     setLoading(true);
     setFull(false);
     getWithoutAuth(
-      `homestays?sort=-avgRating&limit=10&filter[q]=${search}`,
+      `homestays?sort=${sorting}&limit=10&filter[q]=${search}`,
     ).then(({data}) => {
       if (data.length === 0) setFull(true);
+      // console.log(data);
       setItems(data);
       setLoading(false);
     });
-  }, [search, reload]);
+  }, [search, reload, sorting]);
 
   // getData fetch more data and append to the items array
   const getData = () => {
     if (full) return;
     setLoading(true);
     getWithoutAuth(
-      `homestays?sort=-avgRating&offset=${items.length}&limit=10&filter[q]=${search}`,
+      `homestays?sort=${sorting}&offset=${items.length}&limit=10&filter[q]=${search}`,
     ).then(({data}) => {
       let tmp = JSON.parse(JSON.stringify(items));
       Array.prototype.push.apply(tmp, data);
@@ -125,17 +170,21 @@ export const HomestayListScreen = ({navigation, route}) => {
         text2={`Book a Homestay`}
         style={{width: '80%', marginBottom: 10}}
       />
-      <View style={{flexDirection: 'column', width: '100%'}}>
+      <View
+        
+        style={{flexDirection: 'column', width: '100%'}}>
         <CustomTextInput
           placeholder="Search Here..."
           value={search}
           onChangeText={t => setSearch(t)}
+          padding={1}
+          marginHorizontal={1}
           startAdornment={
             <Icon
               style={{marginLeft: 10}}
               size={20}
-              color="#BDBDBD"
-              name="search"
+              color="#23297a"
+              name="magnify"
             />
           }
           endAdornment={
@@ -146,22 +195,10 @@ export const HomestayListScreen = ({navigation, route}) => {
                   setExpandFilter(current => !current);
                 }}>
                 <Icon
-                  style={{marginLeft: 10}}
-                  size={20}
+                  style={{marginRight: 13}}
+                  size={23}
                   color="#23297a"
-                  name="funnel-outline"
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{marginRight: 10}}
-                onPress={() => {
-                  setExpandSort(current => !current);
-                }}>
-                <Icon
-                  style={{marginLeft: 10}}
-                  size={20}
-                  color="#23297a"
-                  name="options"
+                  name="filter-variant"
                 />
               </TouchableOpacity>
             </View>
@@ -170,33 +207,64 @@ export const HomestayListScreen = ({navigation, route}) => {
 
         <Collapsible collapsed={expandFilter}>
           <Filter
-            checkInDate={checkInDate}
-            setCheckInDate={setCheckInDate}
-            checkOutDate={checkOutDate}
-            setCheckOutDate={setCheckOutDate}
+            screen="Homestay"
+            //selectDates
+            dateTitle={'Check-in/out Dates'}
+            dateLabelStart={'Check In Date'}
+            dateLabelEnd={'Check Out Date'}
+            startDate={plannercheckInDate ? plannercheckInDate : checkInDate}
+            setStartDate={setCheckInDate}
+            EndDate={plannercheckOutDate ? plannercheckOutDate : checkOutDate}
+            setEndDate={setCheckOutDate}
             setTotalDays={setTotalDays}
+            //selectGuests
+            guestTitle={'How many guests'}
+            guestData={guestData}
             adults={adults}
             setAdults={setAdults}
+            min={1}
+            max={12}
+            guestFirstSuffix={'Adult(s)'}
+            guestSecondSuffix={'Children'}
             children={children}
             setChildren={setChildren}
+            minChild={0}
+            maxChild={12}
+            guestSubTitle={"Children's Ages"}
+            guestSubContent={'Child'}
             setGuests={setGuests}
+            //selectPriceRange
+            minPriceValue={priceRange[0]}
+            maxPriceValue={priceRange[1]}
+            defaultMinValue={priceValueRange[0]}
+            defaultMaxValue={priceValueRange[1]}
+            setPriceValueRange={setPriceValueRange}
+            //selectTagRoom
+            roomData={filterRoom}
+            roomTag={roomTag}
+            setRoomTag={setRoomTag}
+            roomNum={roomNum}
+            setRoomNum={setRoomNum}
+            //selectTagProperty
+            propertyData={filterPropertyType}
+            propertyTag={propertyTag}
+            setPropertyTag={setPropertyTag}
+            propertyType={propertyType}
+            setPropertyType={setPropertyType}
+            //search
+            setReload={setReload}
           />
         </Collapsible>
 
-        <Collapsible collapsed={expandSort}>
+        {expandFilter && (
           <Sort
-            sortRoom={sortRoom}
-            setSortRoom={setSortRoom}
-            setPrizeRange={setPrizeRange}
-            setReload={setReload}
-            minPriceValue={50}
-            maxPriceValue={3000}
-            roomNum={roomNum}
-            setRoomNum={setRoomNum}
-            defaultMinValue={100}
-            defaultMaxValue={1500}
+            setSorting={setSorting}
+            data={Homestaydata}
+            sorting={sorting}
+            setInitial={setInitial}
+            initial={initial}
           />
-        </Collapsible>
+        )}
 
         <Card
           style={{
@@ -207,16 +275,16 @@ export const HomestayListScreen = ({navigation, route}) => {
             elevation: 0,
             alignItems: 'center',
           }}>
-          {items.map(item => {
-
+          {items.map((item, i) => {
             if (
-              item.minPrice >= prizeRange[0] &&
-              item.minPrice <= prizeRange[1]
+              item.minPrice >= priceValueRange[0] &&
+              item.minPrice <= priceValueRange[1] &&
+              item.propertyType === propertyType
             ) {
               if (roomNum == 0)
                 return (
                   <HomestayCardItem
-                    key={item.id}
+                    key={i}
                     id={item.id}
                     item={item}
                     name={item.name}
@@ -239,6 +307,7 @@ export const HomestayListScreen = ({navigation, route}) => {
                           adults: adults,
                           children: children,
                           guests: guests,
+                          planner: planner,
                         });
                         console.log(guests, totalDays);
                         console.log(children);
@@ -252,7 +321,7 @@ export const HomestayListScreen = ({navigation, route}) => {
               else if (item.rooms.length == roomNum) {
                 return (
                   <HomestayCardItem
-                    key={item.id}
+                    key={i}
                     id={item.id}
                     item={item}
                     name={item.name}
@@ -275,9 +344,10 @@ export const HomestayListScreen = ({navigation, route}) => {
                           adults: adults,
                           children: children,
                           guests: guests,
+                          planner: planner,
                         });
                         console.log(guests, totalDays);
-                        console.log(children);
+                        console.log(withEdit);
                       }
                     }}
                     withEdit={!!fieldName && !!fieldNameObj}
@@ -314,6 +384,11 @@ export const HomestayListScreen = ({navigation, route}) => {
                   {' '}
                   FILTER
                 </CustomText>{' '}
+                <Icon
+                  style={{marginLeft: 10}}
+                  size={15}
+                  name="filter-variant"
+                />{' '}
                 button beside the search bar.
               </CustomText>
             </ModelContent>

@@ -25,31 +25,40 @@ export const SimpleCalendar = ({value, setValue, label}) => {
     <View
       style={{
         flexDirection: 'column',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
+
       }}>
-      <CustomText color="gray.500">{label}</CustomText>
+      <CustomText style={{fontSize: 12}}>
+        {label}
+      </CustomText>
       <View
         style={{
           display: 'flex',
           flexDirection: 'row',
-          margin: 5,
+          // marginHorizontal: 5,
+          alignItems: 'center',
         }}>
-        <Icon name="calendar-sharp" size={28} />
+        <Icon name="calendar-sharp" size={23} />
         <TouchableOpacity
           onPress={() => {
             setShow(true);
-          }}>
+          }} style={{paddingLeft: 5}}>
           <View
             style={{
               borderWidth: 0.5,
-              marginRight: 10,
-              marginHorizontal: 5,
-              padding: 3,
+              // marginRight: 10,
+              // marginHorizontal: 5,
+              padding: 2,
               flexDirection: 'row',
-              display: 'flex',
+              alignItems: 'center',
+              // display: 'flex',
             }}>
-            <CustomText color="gray.500">{displayDate}</CustomText>
-            <Icon name="caret-down-outline" size={20} />
+            <CustomText
+              color="gray.500"
+              style={{fontSize: 12, paddingRight: 3}}>
+              {displayDate}
+            </CustomText>
+            <Icon name="caret-down-outline" size={13} />
           </View>
           {show && (
             <DateTimePicker

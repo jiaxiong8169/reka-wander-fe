@@ -7,16 +7,33 @@ import Collapsible from 'react-native-collapsible';
 import {Dropdown} from 'react-native-element-dropdown';
 import Counter from 'react-native-counters';
 
-export const SelectGuests = ({adults, setAdults, children, setGuests}) => {
+export const SelectGuests = ({
+  screen,
+  data,
+  guestTitle,
+  adults,
+  setAdults,
+  start,
+  min,
+  max,
+  guestFirstSuffix,
+  guestSecondSuffix,
+  children,
+  minChild,
+  maxChild,
+  guestSubTitle,
+  guestSubContent,
+  setGuests,
+}) => {
   const [expandGuests, setExpandGuests] = useState(true);
   const [totalChildren, setTotalChildren] = useState(0);
 
   const plusIcon = isPlusDisabled => {
-    return <Icon name="add" size={20} color={'#4169e1'} />;
+    return <Icon name="add" size={13} color={'#4169e1'} />;
   };
 
   const minusIcon = isDisabled => {
-    return <Icon name="remove" size={20} color={'#4169e1'} />;
+    return <Icon name="remove" size={13} color={'#4169e1'} />;
   };
 
   const onPressExpandGuests = () => {
@@ -30,23 +47,8 @@ export const SelectGuests = ({adults, setAdults, children, setGuests}) => {
     else if (totalChildren >= value) children.pop();
   };
 
-  const data = [
-    {label: '1 years old', value: 1},
-    {label: '2 years old', value: 2},
-    {label: '3 years old', value: 3},
-    {label: '4 years old', value: 4},
-    {label: '5 years old', value: 5},
-    {label: '6 years old', value: 6},
-    {label: '7 years old', value: 7},
-    {label: '8 years old', value: 8},
-    {label: '9 years old', value: 9},
-    {label: '10 years old', value: 10},
-    {label: '11 years old', value: 11},
-    {label: '12 years old', value: 12},
-  ];
-
   useEffect(() => {
-    setGuests(adults + children.length);
+    if (screen === 'Homestay') setGuests(adults + children.length);
   }, [adults, children.length]);
 
   return (
@@ -58,141 +60,158 @@ export const SelectGuests = ({adults, setAdults, children, setGuests}) => {
             shadowColor: 'white',
             marginTop: 10,
           }}>
-          <Text style={{fontWeight: '400', fontSize: 12}}>How many guests</Text>
-          <Text style={{fontWeight: '600', color: 'black', fontSize: 14}}>
-            {adults} Adult(s) {children.length} Children
-          </Text>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal:2}}>
+            <Text style={{fontWeight: '400', fontSize: 11, color: 'black'}}>{guestTitle}</Text>
+            <Text style={{fontWeight: '600', color: 'black', fontSize: 12}}>
+              {adults} {guestFirstSuffix}{' '}{' '}
+              {children.length != 0 ? children.length : ''}{' '}
+              {children.length != 0 ? guestSecondSuffix : ''}
+            </Text>
+          </View>
         </Card>
       </TouchableOpacity>
       <Collapsible collapsed={expandGuests}>
         <View
           style={{
             flexDirection: 'column',
-            paddingLeft: 10,
             justifyContent: 'center',
-            paddingTop: 10,
+            paddingTop: 7,
+            marginHorizontal: 20,
           }}>
           <View
             style={{
               flexDirection: 'row',
-              paddingLeft: 10,
               justifyContent: 'space-between',
-              paddingTop: 10,
+              paddingTop: 3,
             }}>
-            <CustomText>Adult(s)</CustomText>
+            <CustomText style={{fontSize: 12}}>{guestFirstSuffix}</CustomText>
             <Counter
-              start={1}
-              max={12}
-              min={1}
+              start={min}
+              max={max}
+              min={min}
               onChange={value => setAdults(value)}
-              countTextStyle={{fontWeight: '500', color: '#4169e1'}}
+              countTextStyle={{
+                fontWeight: '500',
+                color: '#4169e1',
+              }}
               buttonStyle={{
                 borderColor: '#4169e1',
                 borderWidth: 2,
+                minWidth: 25,
+                minHeight: 25,
               }}
+              buttonTextStyle={{margin: 0}}
               plusIcon={plusIcon}
               minusIcon={minusIcon}
             />
           </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              paddingLeft: 10,
-              justifyContent: 'space-between',
-              paddingTop: 10,
-            }}>
-            <CustomText>Children</CustomText>
-            <Counter
-              start={0}
-              max={12}
-              onChange={childrenAge}
-              buttonStyle={{
-                borderColor: '#4169e1',
-                borderWidth: 2,
-              }}
-              countTextStyle={{fontWeight: '500', color: '#4169e1'}}
-              plusIcon={plusIcon}
-              minusIcon={minusIcon}
-            />
-          </View>
-          <View
-            style={{
-              flexDirection: 'column',
-              paddingLeft: 10,
-              justifyContent: 'space-between',
-              paddingTop: 10,
-            }}>
-            {children.length >= 1 && (
-              <View>
-                <CustomText
-                  style={{
-                    color: '#333',
-                    fontSize: 15,
-                    fontWeight: '500',
-                    // marginVertical: 13,
-                  }}>
-                  Chidlren's Ages
+
+          {(screen === 'Homestay' || screen === 'hotels') && (
+            <View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  paddingTop: 10,
+                }}>
+                <CustomText style={{fontSize: 12}}>
+                  {guestSecondSuffix}
                 </CustomText>
+                <Counter
+                  start={minChild}
+                  max={maxChild}
+                  onChange={childrenAge}
+                  buttonStyle={{
+                    borderColor: '#4169e1',
+                    borderWidth: 2,
+                    minWidth: 25,
+                    minHeight: 25,
+                  }}
+                  countTextStyle={{fontWeight: '500', color: '#4169e1'}}
+                  plusIcon={plusIcon}
+                  minusIcon={minusIcon}
+                />
               </View>
-            )}
-            {children.map(e => {
-              return (
-                <View key={e.id} id={e.id}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      paddingTop: 10,
-                    }}>
-                    <CustomText>Child {e.item}</CustomText>
-                    <Dropdown
-                      value={e.ageOfChild}
-                      onChange={a => {
-                        e = {...e, ageOfChild: a.value};
-                        console.log(a.value);
-                        children.splice(e.id - 1, 1, e);
-                      }}
+              <View
+                style={{
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  paddingTop: 6,
+                }}>
+                {children.length >= 1 && (
+                  <View>
+                    <CustomText
                       style={{
-                        height: 25,
-                        borderBottomColor: 'gray',
-                        borderBottomWidth: 0.5,
-                        width: 120,
-                        paddingBottom: 6,
-                        paddingLeft: 3,
-                      }}
-                      renderRightIcon={() => (
-                        <Icon name="chevron-down" size={14}></Icon>
-                      )}
-                      selectedTextStyle={{fontSize: 15}}
-                      data={data}
-                      search={false}
-                      labelField="label"
-                      valueField="value"
-                      maxHeight={150}
-                      itemContainerStyle={{
-                        alignItems: 'center',
-                      }}
-                      renderItem={item => {
-                        return (
-                          <View
-                            style={{
-                              padding: 8,
-                              flexDirection: 'row',
-                              justifyContent: 'space-between',
-                              alignItems: 'center',
-                            }}>
-                            <Text style={{fontSize: 14, textAlign: 'center'}}>
-                              {item.label}
-                            </Text>
-                          </View>
-                        );
-                      }}
-                    />
+                        color: '#333',
+                        fontSize: 14,
+                        fontWeight: '500',
+                      }}>
+                      {guestSubTitle}
+                    </CustomText>
                   </View>
-                </View>
-              );
-            })}
-          </View>
+                )}
+                {children.map((e, i) => {
+                  return (
+                    <View key={i}>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          paddingTop: 6,
+                        }}>
+                        <CustomText style={{fontSize: 12}}>
+                          {guestSubContent} {e.item}
+                        </CustomText>
+                        <Dropdown
+                          value={e.ageOfChild}
+                          onChange={a => {
+                            e = {...e, ageOfChild: a.value};
+                            console.log(a.value);
+                            children.splice(e.id - 1, 1, e);
+                          }}
+                          style={{
+                            height: 25,
+                            borderBottomColor: 'gray',
+                            borderBottomWidth: 0.5,
+                            minWidth: 100,
+                            paddingLeft: 3,
+                          }}
+                          renderRightIcon={() => (
+                            <Icon name="chevron-down" size={14}></Icon>
+                          )}
+                          selectedTextStyle={{fontSize: 12}}
+                          data={data}
+                          search={false}
+                          labelField="label"
+                          valueField="value"
+                          maxHeight={150}
+                          itemContainerStyle={{
+                            alignItems: 'center',
+                          }}
+                          renderItem={item => {
+                            return (
+                              <View
+                                style={{
+                                  padding: 8,
+                                  flexDirection: 'row',
+                                  justifyContent: 'space-between',
+                                  alignItems: 'center',
+                                }}>
+                                <Text
+                                  style={{fontSize: 12, textAlign: 'center'}}>
+                                  {item.label}
+                                </Text>
+                              </View>
+                            );
+                          }}
+                        />
+                      </View>
+                    </View>
+                  );
+                })}
+              </View>
+            </View>
+          )}
         </View>
       </Collapsible>
     </View>

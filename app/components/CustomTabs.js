@@ -5,9 +5,9 @@ TouchableOpacity.defaultProps = {activeOpacity: 0.7};
 
 export const CustomTabs = ({tabs, tab, setTab, style}) => (
   <View style={[styles.container, style && style]}>
-    {tabs.map(t => (
+    {tabs.map((t,i) => (
       <TouchableOpacity
-        key={t.id}
+        key={i}
         onPress={() => {
           setTab(t.id);
         }}>

@@ -52,8 +52,7 @@ export const MyHomeScreen = ({navigation}) => {
             right: 30,
             top: 10,
           }}
-          onPress={call}
-          >
+          onPress={call}>
           <Text
             style={{
               textAlign: 'center',
@@ -68,8 +67,10 @@ export const MyHomeScreen = ({navigation}) => {
           Hi{' '}
           <Text
             style={{
-              fontWeight: 'bold',
-              fontFamily: 'sans-serif-light',
+              // fontWeight: 'bold',
+              // fontFamily: 'sans-serif-light',
+              fontFamily: 'Baloo2-Bold',
+              fontSize: 45,
             }}>
             Welcome,
           </Text>
@@ -117,7 +118,8 @@ export const MyHomeScreen = ({navigation}) => {
           fontSize="md">
           Explore
         </CustomText>
-        <TouchableOpacity onPress={() => navigation.navigate('HomestayEdit')}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('HomestayEdit', {planner: false})}>
           <ImageBackground
             source={require('../../assets/home_homestay.jpg')}
             style={{
@@ -183,7 +185,10 @@ export const MyHomeScreen = ({navigation}) => {
           </ImageBackground>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate('CarRentalList')}>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate('CarRentalList', {planner: false})
+          }>
           <ImageBackground
             source={require('../../assets/home_car.jpg')}
             style={{
@@ -225,10 +230,11 @@ const styles = StyleSheet.create({
   },
   title: {
     fontWeight: '300',
-    fontSize: 40,
+    fontSize: 45,
     color: `#fff`,
     marginLeft: 14,
     position: 'absolute',
-    bottom: 20,
+    bottom: 10,
+    fontFamily: 'Baloo2-Bold',
   },
 });

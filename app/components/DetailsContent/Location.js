@@ -4,32 +4,32 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {LocationMap} from '../../components/Location/LocationMap';
 import {Navigation} from '../../components/Location/Navigation';
 import {CustomText} from '../texts/custom-text';
+import {Container} from './container';
 
-export const Location = ({lat, long, locationName}) => {
+export const Location = ({
+  lat,
+  long,
+  locationName,
+  subContainerView,
+  titleStyle,
+  locationNameStyle,
+  navigationButtonStyle,
+  navigationButtonTextStyle,
+  iconColor,
+  styleContainer,
+}) => {
   const [isModelPopUp, setIsModelPopUp] = useState(false);
-
+const lati = lat;
+const longi = long;
   return (
-    <View
-      style={{
-        borderColor: 'grey',
-        borderBottomWidth: 1,
-        paddingBottom: 24,
-        paddingTop: 25,
-      }}>
-      <View
-        style={{
-          borderLeftColor: '#0099FF',
-          borderLeftWidth: 5,
-          borderRadius: 4,
-        }}>
-        <CustomText fontSize="2xl" style={{lineHeight: 35, paddingLeft: 15}}>
-          Location
-        </CustomText>
-      </View>
-
+    <Container
+    styleContainer={styleContainer}
+      subContainerView={subContainerView}
+      titleStyle={titleStyle}
+      title={'Location'}>
       <LocationMap
-        lat={lat}
-        long={long}
+        lat={lati}
+        long={longi}
         viewStyle={{
           alignItems: 'center',
           paddingTop: 18,
@@ -37,37 +37,46 @@ export const Location = ({lat, long, locationName}) => {
       />
       <CustomText
         fontSize="md"
-        style={{lineHeight: 35, paddingTop: 8, paddingBottom: 8}}>
+        style={[
+          {lineHeight: 35, paddingTop: 8, paddingBottom: 8},
+          locationNameStyle,
+        ]}>
         {locationName}
       </CustomText>
       <TouchableOpacity
-        style={{
-          borderColor: '#0099FF',
-          // backgroundColor:'#000',
-          borderWidth: 2,
-          height: 40,
-          borderRadius: 12,
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginHorizontal:10,
-        }}
+        style={[
+          {
+            borderColor: '#4169e1',
+            borderWidth: 2,
+            height: 40,
+            borderRadius: 12,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginHorizontal: 10,
+          },
+          navigationButtonStyle,
+        ]}
         onPress={() => {
           setIsModelPopUp(current => !current);
         }}>
-        <CustomText style={{
-          // color: 'white', 
-        fontWeight: '400'}}>
-          <Icon name="navigate-outline" size={14} />
+        <CustomText
+          style={[
+            {
+              fontWeight: '400',
+            },
+            navigationButtonTextStyle,
+          ]}>
+          <Icon name="navigate-outline" size={14} color={iconColor} />
           {'  '}Show me the way
         </CustomText>
         <Navigation
-          lat={lat}
-          long={long}
+          lat={lati}
+          long={longi}
           value={locationName}
           isModelPopUp={isModelPopUp}
           setIsModelPopUp={setIsModelPopUp}
         />
       </TouchableOpacity>
-    </View>
+    </Container>
   );
 };

@@ -1,5 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, TouchableOpacity, ScrollView,RefreshControl} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  RefreshControl,
+} from 'react-native';
 import moment from 'moment';
 import {useSelector, useDispatch} from 'react-redux';
 import Card from '../../components/card/card';
@@ -97,12 +103,12 @@ export default function Recommended({navigation}) {
 
   return (
     <GradientBackground
-    refreshControl={
-      <RefreshControl
-        refreshing={false}
-        onRefresh={() => navigation.replace('Loading')}
-      />
-    }>
+      refreshControl={
+        <RefreshControl
+          refreshing={false}
+          onRefresh={() => navigation.replace('Loading')}
+        />
+      }>
       <ScrollView
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled">
@@ -130,7 +136,18 @@ export default function Recommended({navigation}) {
           </Text>
           <Card style={{marginVertical: 10}}>
             <View>
-              <Text style={{marginBottom: 15,fontSize:15,fontWeight: '500',textAlign: 'center',color: `#000080`,}}>Please pull down to <Text style={{color: `#ff4500`,}}>REFRESH</Text> the page after you edit your trip details</Text>
+              <Text
+                style={{
+                  marginBottom: 15,
+                  fontSize: 15,
+                  fontWeight: '500',
+                  textAlign: 'center',
+                  color: `#000080`,
+                }}>
+                Please pull down to{' '}
+                <Text style={{color: `#ff4500`}}>REFRESH</Text> the page after
+                you edit your trip details
+              </Text>
               <View
                 style={{flexDirection: 'column', borderBottomColor: '#000'}}>
                 <UserDetails
@@ -149,8 +166,7 @@ export default function Recommended({navigation}) {
                   title={'Destination'}
                   styles={{paddingTop: 10}}
                   url={require('../../assets/pin.png')}
-                  editPage={<PlannerSelectDestinationScreen />}
-                  >
+                  editPage={<PlannerSelectDestinationScreen />}>
                   <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
                     {destination}
                   </Text>
@@ -267,7 +283,9 @@ export default function Recommended({navigation}) {
               type={'hotels'}
               navigation={navigation}
               fieldName={'hotels'}
-              fieldNameObj={'hotelObjects'}>
+              fieldNameObj={'hotelObjects'}
+              startDate={startDate}
+              endDate={endDate}>
               <Text
                 style={{
                   fontSize: 15,
@@ -286,7 +304,9 @@ export default function Recommended({navigation}) {
               type={'hotels'}
               navigation={navigation}
               fieldName={'hotels'}
-              fieldNameObj={'hotelObjects'}>
+              fieldNameObj={'hotelObjects'}
+              startDate={startDate}
+              endDate={endDate}>
               {tripPlan.hotelObjects.map(item => (
                 <RecommendedCardDetails
                   item={item}
@@ -311,7 +331,9 @@ export default function Recommended({navigation}) {
               type={'homestays'}
               navigation={navigation}
               fieldName={'homestays'}
-              fieldNameObj={'homestayObjects'}>
+              fieldNameObj={'homestayObjects'}
+              startDate={startDate}
+              endDate={endDate}>
               <Text
                 style={{
                   fontSize: 15,
@@ -330,6 +352,8 @@ export default function Recommended({navigation}) {
               type={'homestays'}
               navigation={navigation}
               fieldName={'homestays'}
+              startDate={startDate}
+              endDate={endDate}
               fieldNameObj={'homestayObjects'}>
               {tripPlan.homestayObjects.map(item => (
                 <RecommendedCardDetails
@@ -355,7 +379,9 @@ export default function Recommended({navigation}) {
               type={'vehicles'}
               navigation={navigation}
               fieldName={'vehicles'}
-              fieldNameObj={'vehicleObjects'}>
+              fieldNameObj={'vehicleObjects'}
+              startDate={startDate}
+              endDate={endDate}>
               <Text
                 style={{
                   fontSize: 15,
@@ -374,7 +400,9 @@ export default function Recommended({navigation}) {
               type={'vehicles'}
               navigation={navigation}
               fieldName={'vehicles'}
-              fieldNameObj={'vehicleObjects'}>
+              fieldNameObj={'vehicleObjects'}
+              startDate={startDate}
+              endDate={endDate}>
               {tripPlan.vehicleObjects.map(item => (
                 <RecommendedCardDetails
                   item={item}
@@ -399,7 +427,9 @@ export default function Recommended({navigation}) {
               type={'attractions'}
               navigation={navigation}
               fieldName={'attractions'}
-              fieldNameObj={'attractionObjects'}>
+              fieldNameObj={'attractionObjects'}
+              startDate={startDate}
+              endDate={endDate}>
               <Text
                 style={{
                   fontSize: 15,

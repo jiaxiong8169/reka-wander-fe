@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import Card from '../../components/card/card';
+import moment from 'moment';
 
 export default function RecommendedCard({
   navigation,
@@ -10,7 +11,17 @@ export default function RecommendedCard({
   type,
   fieldName,
   fieldNameObj,
+  startDate,
+  endDate,
 }) {
+  const getTotalDays = () => {
+    if (!startDate || !endDate) return 0;
+    return (
+      (new Date(endDate).getTime() - new Date(startDate).getTime()) /
+      (1000 * 3600 * 24)
+    );
+  };
+
   return (
     <View>
       <Text
@@ -38,15 +49,23 @@ export default function RecommendedCard({
                 navigation.navigate('HomestayEdit', {
                   fieldName,
                   fieldNameObj,
+                  planner: true,
+                  plannercheckInDate: new Date(startDate),
+                  plannercheckOutDate: new Date(endDate),
+                  // plannercheckInDate: moment(startDate).format('DD/MM/YYYY'),
+                  // plannercheckOutDate: moment(endDate).format('DD/MM/YYYY'),
+                  plannertotalDays: getTotalDays(),
                 });
               } else if (type === 'vehicles') {
                 navigation.navigate('CarRentalList', {
                   fieldName,
                   fieldNameObj,
+                  planner: true,
                 });
               } else
                 navigation.navigate('Edit', {
-                  type,
+                  planner: true,
+                  type: type,
                   fieldName,
                   fieldNameObj,
                 });

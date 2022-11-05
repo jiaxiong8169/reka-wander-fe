@@ -157,7 +157,7 @@ export const GuideConfirmationScreen = ({navigation, route}) => {
                     return (
                       <GuidePackagesSelected
                         id={p.id}
-                        key={p.id}
+                        key={i}
                         name={p.name}
                         guideName={p.guideName}
                         price={p.price}

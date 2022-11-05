@@ -107,10 +107,10 @@ export const EditScreen = ({navigation, route}) => {
             />
           }
         />
-        {items.map(item => (
+        {items.map((item,i) => (
           <CardItemWithEdit
             item={item}
-            key={item.id}
+            key={i}
             navigation={navigation}
             type={type}
             marginBottom={10}

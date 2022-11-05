@@ -9,6 +9,7 @@ import SpotsImagesScreen from '../containers/spots/SpotsImagesScreen';
 import {SearchScreen} from '../containers/spots/SearchScreen';
 import {SelectRoomScreen} from '../containers/spots/SelectRoomScreen';
 import {HotelConfirmationScreen} from '../containers/spots/HotelConfirmationScreen';
+import { HotelRoomDetailsScreen } from '../containers/spots/HotelRoomDetailsScreen';
 
 //Screen names
 const Stack = createNativeStackNavigator();
@@ -69,6 +70,13 @@ export const SpotsStack = () => {
       <Stack.Screen
         name="SelectRoom"
         component={SelectRoomScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="HotelRoomDetails"
+        component={HotelRoomDetailsScreen}
         options={{
           headerShown: false,
         }}

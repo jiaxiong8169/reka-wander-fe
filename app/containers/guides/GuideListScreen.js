@@ -98,10 +98,10 @@ export const GuideListScreen = ({navigation}) => {
           setTab={setTab}
           style={{marginBottom: 10}}
         />
-        {items.map(item => (
+        {items.map((item,i) => (
           <GuideCardItem
             item={item}
-            key={item.id}
+            key={i}
             navigation={navigation}
             marginBottom={10}
           />

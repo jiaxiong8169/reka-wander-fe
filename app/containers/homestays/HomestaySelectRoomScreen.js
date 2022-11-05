@@ -10,8 +10,19 @@ import {CustomText} from '../../components/texts/custom-text';
 const height = Dimensions.get('window').height;
 
 export const HomestaySelectRoomScreen = ({navigation, route}) => {
-  const {item, checkInDate, checkOutDate, totalDays, adults, children, guests, locationName} = route.params;
+  const {
+    item,
+    checkInDate,
+    checkOutDate,
+    totalDays,
+    adults,
+    children,
+    guests,
+    locationName,
+    facilities,
+  } = route.params;
   const [selected, setSelected] = useState([]);
+  const bedType = ["1 single bed"];
 
   const getTotalPrice = () => {
     let curr = 0;
@@ -55,6 +66,10 @@ export const HomestaySelectRoomScreen = ({navigation, route}) => {
                 checkInDate,
                 checkOutDate,
                 totalDays,
+                adults,
+                children,
+                guests,
+                locationName,
                 totalPrice: getTotalPrice(),
                 selected,
               });
@@ -75,9 +90,9 @@ export const HomestaySelectRoomScreen = ({navigation, route}) => {
       />
 
       <View style={[styles.container, {width: '100%'}]}>
-        {item?.rooms.map(room => (
+        {item?.rooms.map((room,i) => (
           <HomestayRoomCardItem
-            key={room.id}
+            key={i}
             id={room.id}
             navigation={navigation}
             room={room}
@@ -86,7 +101,9 @@ export const HomestaySelectRoomScreen = ({navigation, route}) => {
             pax={room.pax}
             availability={room.availability}
             thumbnailSrc={room.thumnailSrc}
+            bedType={room.bedTypes}
             locationName={locationName}
+            facilities={facilities}
             selected={selected}
             setSelected={setSelected}
           />

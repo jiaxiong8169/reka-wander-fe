@@ -1,30 +1,19 @@
 import React, {useEffect, useState, useRef, Component} from 'react';
-import {
-  View,
-  StyleSheet,
-  Button,
-  Alert,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import Card from '../../components/Card';
 import TagSelectExtension from './TagSelectExtension';
 import Collapsible from 'react-native-collapsible';
 
 export const TagSelection = ({
-  tag,
+  title,
   setTag,
-//   onPressExpandRoom,
-//   expandRoom,
-  roomNum,
+  data,
+  values,
+  predefinedIndex,
+  suffix,
+  label,
 }) => {
-  const data = [
-    {id: 1, label: 'Any'},
-    {id: 2, label: '1'},
-    {id: 3, label: '2'},
-    {id: 4, label: '3'},
-    {id: 5, label: '4'},
-  ];
+  let suffixs = suffix ? suffix : '';
   const [expandRoom, setExpandRoom] = useState(true);
   const onPressExpandRoom = () => {
     setExpandRoom(current => !current);
@@ -37,20 +26,29 @@ export const TagSelection = ({
           style={{
             backgroundColor: 'aliceblue',
             shadowColor: 'white',
+            marginTop: 10,
           }}>
-          <Text style={{fontWeight: '400', fontSize: 12, color: 'black'}}>
-            Select Number of Bedrooms
-          </Text>
-
-          <Text style={{fontWeight: '700', color: 'black', fontSize: 14}}>
-            {roomNum} room(s)
-          </Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              paddingHorizontal: 2,
+            }}>
+            <Text style={{fontWeight: '400', fontSize: 11, color: 'black'}}>
+              {title}
+            </Text>
+            <Text style={{fontWeight: '700', color: 'black', fontSize: 12}}>
+              {values === 0 ? 'Any' : values} {suffixs}
+            </Text>
+          </View>
         </Card>
       </TouchableOpacity>
+
       <Collapsible collapsed={expandRoom}>
         <View style={{paddingLeft: 10}}>
-          <Text style={styles.labelText}>Number of Rooms</Text>
+          <Text style={styles.labelText}>{label}</Text>
           <TagSelectExtension
+            value={[data[predefinedIndex]]}
             itemStyle={styles.item}
             itemLabelStyle={styles.label}
             itemStyleSelected={styles.itemSelected}
@@ -81,17 +79,19 @@ const styles = StyleSheet.create({
   },
   labelText: {
     color: '#333',
-    fontSize: 15,
+    fontSize: 13,
     fontWeight: '500',
-    marginVertical: 13,
+    marginVertical: 6,
   },
   item: {
-    borderWidth: 1,
-    borderColor: '#333',
+    borderWidth: 1.5,
+    borderColor: '#4169e1',
     backgroundColor: '#FFF',
+    paddingVertical: 6,
   },
   label: {
-    color: '#333',
+    color: '#4169e1',
+    fontSize: 12,
   },
   itemSelected: {
     backgroundColor: '#4169e1',

@@ -11,14 +11,25 @@ import Card from '../../components/Card';
 import {SimpleCalendar} from '../../components/CalenderPicker/SimpleCalendar';
 import Modal from 'react-native-modal';
 import ModelContent from '../../components/Modal/ModalContent';
+import {HotelRoomCardItem} from './HotelRoomCard';
 
 const height = Dimensions.get('window').height;
 
 export const SelectRoomScreen = ({navigation, route}) => {
-  const {item} = route.params;
-  const [checkInDate, setCheckInDate] = useState(new Date());
-  const [checkOutDate, setCheckOutDate] = useState(new Date());
-  const [totalDays, setTotalDays] = useState(0);
+  const {
+    item,
+    facilities,
+    locationName,
+    checkInDate,
+    checkOutDate,
+    totalDays,
+    adults,
+    children,
+    guests,
+  } = route.params;
+  // const [checkInDate, setCheckInDate] = useState(new Date());
+  // const [checkOutDate, setCheckOutDate] = useState(new Date());
+  // const [totalDays, setTotalDays] = useState(0);
   const [selected, setSelected] = useState([]);
   const [isModelPopUp, setIsModelPopUp] = useState(false);
 
@@ -26,14 +37,14 @@ export const SelectRoomScreen = ({navigation, route}) => {
     setIsModelPopUp(false);
   };
 
-  useEffect(() => {
-    if (moment(checkInDate).isAfter(checkOutDate)) setTotalDays(0);
-    else {
-      const diff =
-        (checkOutDate.getTime() - checkInDate.getTime()) / (1000 * 3600 * 24);
-      setTotalDays(diff);
-    }
-  }, [checkInDate, checkOutDate]);
+  // useEffect(() => {
+  //   if (moment(checkInDate).isAfter(checkOutDate)) setTotalDays(0);
+  //   else {
+  //     const diff =
+  //       (checkOutDate.getTime() - checkInDate.getTime()) / (1000 * 3600 * 24);
+  //     setTotalDays(diff);
+  //   }
+  // }, [checkInDate, checkOutDate]);
 
   const getTotalPrice = () => {
     let curr = 0;
@@ -67,26 +78,24 @@ export const SelectRoomScreen = ({navigation, route}) => {
             size="md"
             colorScheme="secondary"
             onPress={() => {
-              if (
-                moment(checkInDate).isSame(checkOutDate) ||
-                moment(checkInDate).isAfter(checkOutDate)
-              ) {
-                setIsModelPopUp(true);
-              } else {
-                // check total price
-                if (getTotalPrice() <= 0) {
-                  Alert.alert('You must select at least a room!');
-                  return;
-                }
-                navigation.navigate('HotelConfirmation', {
-                  item,
-                  checkInDate: moment(checkInDate).format('DD/MM/YYYY'),
-                  checkOutDate: moment(checkOutDate).format('DD/MM/YYYY'),
-                  totalDays,
-                  totalPrice: getTotalPrice(),
-                  selected,
-                });
+              // check total price
+              if (getTotalPrice() <= 0) {
+                Alert.alert('You must select at least a room!');
+                return;
               }
+              navigation.navigate('HotelConfirmation', {
+                item,
+                checkInDate,
+                checkOutDate,
+                totalDays,
+                adults,
+                children,
+                guests,
+                locationName,
+                totalPrice: getTotalPrice(),
+                selected,
+              });
+              console.log(selected);
             }}>
             Book Rooms
           </CustomButton>
@@ -103,35 +112,20 @@ export const SelectRoomScreen = ({navigation, route}) => {
         style={{width: '80%', marginBottom: 10}}
       />
       <View style={[styles.container, {width: '100%'}]}>
-        <Card style={{marginBottom: 25}}>
-          <View
-            style={{
-              flexDirection: 'row',
-              paddingBottom: 5,
-              justifyContent: 'center',
-            }}>
-            <SimpleCalendar
-              value={checkInDate}
-              setValue={setCheckInDate}
-              label="Check In Date"
-            />
-            <SimpleCalendar
-              value={checkOutDate}
-              setValue={setCheckOutDate}
-              label="Check Out Date"
-            />
-          </View>
-        </Card>
-
         {item?.rooms.map(room => (
-          <HomestayRoomCardItem
+          <HotelRoomCardItem
             key={room.id}
             id={room.id}
             name={room.name}
+            room={room}
+            navigation={navigation}
             price={room.price}
             pax={room.pax}
             availability={room.availability}
             thumbnailSrc={room.thumnailSrc}
+            bedType={room.bedTypes}
+            facilities={facilities}
+            locationName={locationName}
             selected={selected}
             setSelected={setSelected}
           />

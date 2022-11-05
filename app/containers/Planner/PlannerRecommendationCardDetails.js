@@ -30,21 +30,25 @@ export default function RecommendedCardDetails({
         if (type === 'vehicles') {
           navigation.navigate('CarRentalDetails', {
             item,
+            planner: true,
           });
           return;
         }
         if (type === 'homestays') {
           navigation.navigate('HomestayDetails', {
             item,
-            checkInDate: moment(startDate).format('DD/MM/YYYY'),
-            checkOutDate: moment(endDate).format('DD/MM/YYYY'),
+            planner: true,
+            // checkInDate: moment(startDate).format('DD/MM/YYYY'),
+            // checkOutDate: moment(endDate).format('DD/MM/YYYY'),
             totalDays: getTotalDays(),
           });
           return;
         }
         navigation.navigate('SpotDetails', {
           type: type,
+          item: item,
           id: id,
+          planner: true,
         });
       }}>
       <View
@@ -60,7 +64,7 @@ export default function RecommendedCardDetails({
           style={{
             flex: 1,
             width: undefined,
-            resizeMode: 'cover',
+            resizeMode: 'contain',
             borderRadius: 5,
             paddingRight: 8,
           }}

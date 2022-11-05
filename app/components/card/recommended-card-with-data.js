@@ -37,9 +37,9 @@ export const RecommendedCardWithData = ({
               None is Selected.
             </Text>
           )}
-          {data.map(d => (
+          {data.map((d,i) => (
             <RecommendedCardDetails
-              key={d.id}
+              key={i}
               navigation={navigation}
               perks={d.perks}
               url={d.thumbnailSrc}

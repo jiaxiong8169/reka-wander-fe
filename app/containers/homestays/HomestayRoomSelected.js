@@ -37,7 +37,9 @@ export const RoomsSelected = ({style, id, name, url, price, quantity}) => {
             paddingLeft: 10,
           }}>
           <View>
-            <Text style={{fontSize: 15, color: '#000'}}>{name}</Text>
+            <Text style={{fontSize: 15, color: '#000', fontWeight: 'bold'}}>
+              {name}
+            </Text>
           </View>
           <View style={{flexDirection: 'row'}}>
             <Text style={{flex: 1}}>Price per day: </Text>

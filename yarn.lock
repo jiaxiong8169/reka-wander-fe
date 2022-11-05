@@ -10865,6 +10865,11 @@
   dependencies:
     "dotenv" "^10.0.0"
 
+"react-native-duo-toggle-switch@^1.1.0":
+  "integrity" "sha512-1K4O8W8Y3GrZ3M2wSDOoLpKdBUPIUWkBcAjE1xfh3H1TfeOjssyZKCNnD+Pdso7GCFxgcK0daBf1cdLHJak67w=="
+  "resolved" "https://registry.npmjs.org/react-native-duo-toggle-switch/-/react-native-duo-toggle-switch-1.1.0.tgz"
+  "version" "1.1.0"
+
 "react-native-element-dropdown@^2.3.0":
   "integrity" "sha512-HzuR1+PVS3YJD835ZAmJ7gNzkIvYJady8EwJS0Nnu6NoEeLXyJTvrD2G+dkeBmckZ+FuGjUKeYqhs508gok83w=="
   "resolved" "https://registry.npmjs.org/react-native-element-dropdown/-/react-native-element-dropdown-2.3.0.tgz"
@@ -11144,6 +11149,13 @@
   "integrity" "sha512-Ns7Bn9H/Tyw278+5SQx9oAblDZ7JixyzeOczcBK8dipQk2pD7Djkcfnf1nB/8RErAmMLL9iXgW0QHqiII8AhKw=="
   "resolved" "https://registry.npmjs.org/react-native-swipe-gestures/-/react-native-swipe-gestures-1.0.5.tgz"
   "version" "1.0.5"
+
+"react-native-switch-selector@^2.2.1":
+  "integrity" "sha512-HeUGoPD+rDV9F0CWJnIjZaK1JJS95dnxxVzTzufeLYCtA/iFKxhy+PS8kAyXTwfrTSgFFAmURgcpkAcAMqDg8Q=="
+  "resolved" "https://registry.npmjs.org/react-native-switch-selector/-/react-native-switch-selector-2.2.1.tgz"
+  "version" "2.2.1"
+  dependencies:
+    "prop-types" "^15.7.2"
 
 "react-native-tab-view@^3.1.1", "react-native-tab-view@>= 3.0.0":
   "integrity" "sha512-M5pRN6utQfytKWoKlKVzg5NbkYu308qNoW1khGTtEOTs1k14p2dHJ/BWOJoJYHKbPVUyZldbG9MFT7gUl4YHnw=="
@@ -12803,6 +12815,11 @@
     "extend-shallow" "^3.0.2"
     "regex-not" "^1.0.2"
     "safe-regex" "^1.1.0"
+
+"to-words@^3.3.0":
+  "integrity" "sha512-f5aR/5wSPxE6nUqVYx7TwpOmVJbchGNG5zMFQa90BhD2f9KEsaKJeRJENLCQcRqwqy4PYB4LEokPWsm8B04VpA=="
+  "resolved" "https://registry.npmjs.org/to-words/-/to-words-3.3.0.tgz"
+  "version" "3.3.0"
 
 "toidentifier@1.0.0":
   "integrity" "sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw=="

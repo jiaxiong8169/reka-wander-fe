@@ -8,21 +8,24 @@ import {
   TextInput,
   ScrollView,
   StyleSheet,
+  Dimensions,
 } from 'react-native';
 import Collapsible from 'react-native-collapsible';
 import DefaultLabel from './DefaultLabel';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
+const {width} = Dimensions.get('window');
+
 export const PriceSlider = ({
   // onPressExpandPrice,
   // expandPrice,
-  setMaxPrizeRange,
-  setMinPrizeRange,
+  setMaxPriceRange,
+  setMinPriceRange,
   maxPriceValue,
   minPriceValue,
-  minPrizeRange,
-  maxPrizeRange,
-  defaultMinValue,
-  defaultMaxValue,
+  minPriceRange,
+  maxPriceRange,
+  step,
+  // defaultMaxValue,
 }) => {
   const [expandPrice, setExpandPrice] = useState(true);
 
@@ -36,64 +39,99 @@ export const PriceSlider = ({
           style={{
             backgroundColor: 'aliceblue',
             shadowColor: 'white',
-            marginTop: 15,
+            marginTop: 10,
           }}>
-          <Text style={{fontWeight: '400', fontSize: 12, color: 'black'}}>
-            Your Budget (per night)
-          </Text>
-          <Text style={{fontWeight: '700', color: 'black', fontSize: 14}}>
-            RM {minPrizeRange} - RM {maxPrizeRange}
-          </Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              paddingHorizontal: 2,
+            }}>
+            <Text style={{fontWeight: '400', fontSize: 11, color: 'black'}}>
+              Your Budget (per night)
+            </Text>
+            <Text style={{fontWeight: '700', color: 'black', fontSize: 12}}>
+              RM {minPriceRange} - RM {maxPriceRange}
+            </Text>
+          </View>
         </Card>
       </TouchableOpacity>
       <Collapsible collapsed={expandPrice}>
         <View
           style={{
-            alignItems: 'center',
+            // alignItems: 'center',
+            width: '100%',
+            // flex: 5,
+            // minHeight: 50,
+            // backgroundColor: 'red',
           }}>
           <View
             style={{
               flexDirection: 'row',
               alignItems: 'center',
-              width: '50%',
-              justifyContent: 'space-between',
+              // minHeight: 70,
+              // flex: 5,
+              paddingTop: 15,
+              // justifyContent: 'space-between',
+              // backgroundColor: 'blue',
             }}>
-            <Text style={{fontSize: 15}}>RM </Text>
-            <Text
+            <View
               style={{
-                fontSize: 20,
-                textAlign: 'center',
-                color: '#000',
+                flexDirection: 'row',
+                alignItems: 'flex-end',
+                flex: 2,
+                justifyContent: 'center',
+                // marginHorizontal: 5,
+                // backgroundColor: 'red',
               }}>
-              {minPrizeRange}
-            </Text>
-            <Text style={{fontSize: 29}}> - </Text>
-            <Text style={{fontSize: 15}}>RM </Text>
-            <Text
+              <Text style={{fontSize: 13, paddingBottom: 1}}>RM </Text>
+              <Text
+                style={{
+                  fontSize: 14,
+                  color: '#000',
+                }}>
+                {minPriceRange}
+              </Text>
+            </View>
+            <View style={{flex: 5, marginHorizontal: 3}}>
+              <MultiSlider
+                values={[minPriceRange, maxPriceRange]}
+                sliderLength={width * 0.45}
+                // width='50%'
+                min={minPriceValue}
+                max={maxPriceValue}
+                step={step}
+                selectedStyle={{backgroundColor: '#4169e1'}}
+                markerStyle={{backgroundColor: '#4169e1'}}
+                minMarkerOverlapDistance={10}
+                enableLabel={true}
+                customLabel={DefaultLabel}
+                onValuesChangeFinish={e => {
+                  setMinPriceRange(e[0]);
+                  setMaxPriceRange(e[1]);
+                }}
+              />
+            </View>
+
+            <View
               style={{
-                fontSize: 20,
-                textAlign: 'center',
-                color: '#000',
+                flexDirection: 'row',
+                alignItems: 'center',
+                flex: 2,
+                marginHorizontal: 5,
+                // backgroundColor: 'red',
+                justifyContent: 'center',
               }}>
-              {maxPrizeRange}
-            </Text>
+              <Text style={{fontSize: 13}}>RM </Text>
+              <Text
+                style={{
+                  fontSize: 14,
+                  color: '#000',
+                }}>
+                {maxPriceRange}
+              </Text>
+            </View>
           </View>
-          <MultiSlider
-            values={[defaultMinValue, defaultMaxValue]}
-            sliderLength={250}
-            min={minPriceValue}
-            max={maxPriceValue}
-            step={50}
-            selectedStyle={{backgroundColor: '#4169e1'}}
-            markerStyle={{backgroundColor: '#4169e1'}}
-            minMarkerOverlapDistance={10}
-            enableLabel={true}
-            customLabel={DefaultLabel}
-            onValuesChangeFinish={e => {
-              setMinPrizeRange(e[0]);
-              setMaxPrizeRange(e[1]);
-            }}
-          />
         </View>
       </Collapsible>
     </View>
