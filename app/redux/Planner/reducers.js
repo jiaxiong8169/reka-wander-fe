@@ -3,7 +3,10 @@ import {
   SET_USER_STARTDATE,
   SET_USER_ENDDATE,
   SET_USER_PAX,
-  SET_USER_BUDGET,
+  SET_USER_ACCOMMODATIONBUDGET,
+  SET_USER_RESTAURANTBUDGET,
+  SET_USER_VEHICLEBUDGET,
+  SET_USER_ATTRACTIONBUDGET,
   SET_USER_INTEREST,
   SET_USER_KIDS,
   SET_USER_RENTCAR,
@@ -14,6 +17,7 @@ import {
   SET_TRIP_PLAN_BY_FIELDNAME,
   SET_USER_LONG_LAT,
   SET_USER_DESTINATION,
+  SET_USER_MAXDISTANCE,
 } from './actions';
 import moment from 'moment';
 
@@ -23,7 +27,17 @@ const initialState = {
   startDate: moment(new Date()).format('YYYY-MM-DD[T00:00:00.000Z]'),
   endDate: moment(new Date()).format('YYYY-MM-DD[T00:00:00.000Z]'),
   pax: 1,
-  budget: '0.0',
+  // budget: [
+  //   {accommodation: 0.0},
+  //   {vehicle: 0.0},
+  //   {restaurant: 0.0},
+  //   {attraction: 0.0},
+  // ],
+  accommodationBudget: 0.0,
+  restaurantBudget: 0.0,
+  vehicleBudget: 0.0,
+  attractionBudget: 0.0,
+  maxDistance: 30,
   interest: [],
   kids: true,
   rentCar: true,
@@ -32,8 +46,9 @@ const initialState = {
   latitude: 0,
   tripPlan: {
     days: 0,
-    hours: 0,
-    previousBudget: 0,
+    mealHours: 0,
+    visitHours: 0,
+    estimatedBudget: 0,
     attractionObjects: [],
     attractions: [],
     restaurantObjects: [],
@@ -59,8 +74,16 @@ function plannerReducer(state = initialState, action) {
       return {...state, endDate: action.payload};
     case SET_USER_PAX:
       return {...state, pax: action.payload};
-    case SET_USER_BUDGET:
-      return {...state, budget: action.payload};
+    case SET_USER_ACCOMMODATIONBUDGET:
+      return {...state, accommodationBudget: action.payload};
+    case SET_USER_RESTAURANTBUDGET:
+      return {...state, restaurantBudget: action.payload};
+    case SET_USER_VEHICLEBUDGET:
+      return {...state, vehicleBudget: action.payload};
+    case SET_USER_ATTRACTIONBUDGET:
+      return {...state, attractionBudget: action.payload};
+    case SET_USER_MAXDISTANCE:
+      return {...state, maxDistance: action.payload};
     case SET_USER_INTEREST:
       return {...state, interest: action.payload};
     case SET_USER_KIDS:

@@ -34,7 +34,14 @@ export default function Recommended({navigation}) {
   const {startDate} = useSelector(state => state.plannerReducer);
   const {endDate} = useSelector(state => state.plannerReducer);
   const {pax} = useSelector(state => state.plannerReducer);
-  const {budget} = useSelector(state => state.plannerReducer);
+  const {
+    accommodationBudget,
+    restaurantBudget,
+    vehicleBudget,
+    attractionBudget,
+    estimatedBudget,
+    maxDistance,
+  } = useSelector(state => state.plannerReducer);
   const {interest} = useSelector(state => state.plannerReducer);
   const {kids} = useSelector(state => state.plannerReducer);
   const {rentHomeStay} = useSelector(state => state.plannerReducer);
@@ -50,7 +57,7 @@ export default function Recommended({navigation}) {
   const kid = kids == true ? 'Yes' : 'No';
   const rentHomeStays = rentHomeStay == true ? 'Yes' : 'No';
   const rentCars = rentCar == true ? 'Yes' : 'No';
-  const {putWithAuth} = useHttpCall();
+  const {postWithAuth} = useHttpCall();
   const {authData} = useAuth();
 
   // add navigation listener to prevent back
@@ -71,13 +78,19 @@ export default function Recommended({navigation}) {
       navigation.navigate('Success');
       return;
     }
-    console.log(tripPlan['attractions']);
+    // console.log(tripPlan['attractions']);
     const tmp = {
       name: tripName ? tripName : 'My Trip',
+      userId: authData && authData.id ? authData.id : '',
       startDate: startDate,
       endDate: endDate,
       pax: pax,
-      previousBudget: parseFloat(!!budget ? budget : 0),
+      accommodationBudget: parseFloat(accommodationBudget),
+      restaurantBudget: parseFloat(restaurantBudget),
+      vehicleBudget: parseFloat(vehicleBudget),
+      attractionBudget: parseFloat(attractionBudget),
+      estimatedBudget: parseFloat(accommodationBudget)+parseFloat(restaurantBudget)+parseFloat(vehicleBudget)+parseFloat(attractionBudget),
+      // previousBudget: parseFloat(!!budget ? budget : 0),
       interests: interest,
       kids: kids,
       rentCar: rentCar,
@@ -85,10 +98,12 @@ export default function Recommended({navigation}) {
       attractions: tripPlan['attractions'],
       restaurants: tripPlan['restaurants'],
       hotels: tripPlan['hotels'],
-      vehicles: tripPlan['vihicles'],
+      vehicles: tripPlan['vehicles'],
       homestays: tripPlan['homestays'],
+      maxDistance: maxDistance,
+      destination: destination,
     };
-    putWithAuth(`trips/${tripId}`, tmp)
+    postWithAuth(`trips`, tmp)
       .then(({data}) => {
         console.log(data);
         dispatch(resetTrip());
@@ -270,7 +285,7 @@ export default function Recommended({navigation}) {
                   url={require('../../assets/dollar_icon.png')}
                   editPage={<TravelBudget />}>
                   <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
-                    RM {!!budget ? budget : 0}
+                    Total RM {parseFloat(accommodationBudget) + parseFloat(restaurantBudget) + parseFloat(vehicleBudget) + parseFloat(attractionBudget)}
                   </Text>
                 </UserDetails>
               </View>

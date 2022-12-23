@@ -20,6 +20,7 @@ import Modal from 'react-native-modal';
 import Snackbar from 'react-native-snackbar';
 import {ContactModal} from '../../components/Contact/ContactModal';
 import ModelContent from '../../components/Modal/ModalContent';
+import dayjs from 'dayjs';
 
 export default function UserCarRentalInfo({navigation, route}) {
   const {authData} = useAuth();
@@ -28,6 +29,9 @@ export default function UserCarRentalInfo({navigation, route}) {
   const [totalPrice, setTotalPrice] = useState(0);
   const [days, setDays] = useState(0);
   const [isContactModelPopUp, setIsContactModelPopUp] = useState(false);
+  const selectedItem = [
+    {carId: item.id, carPrice: item.price},
+  ];
 
   useEffect(() => {
     setDays(totalDays);
@@ -41,36 +45,51 @@ export default function UserCarRentalInfo({navigation, route}) {
       navigation.navigate('SignInScreen');
       return;
     }
-    postWithAuth('mail/car-vendor', {
-      pickUpDate,
-      returnDate,
-      carLocation: locationName,
+    postWithAuth('reservations', {
+      targetId: item.id,
+      userId: authData.id,
+      type: 'vehicles',
+      reservedName: item.name,
       totalPrice: totalPrice,
-      vehicle: item,
-      user: authData,
+      selectedItems: selectedItem,
+      isDone: false,
+      startDate: pickUpDate,
+      endDate: returnDate,
+    }).then(() => {
+          navigation.navigate('MyHome');
+        }).catch(err => {
+      console.log(JSON.stringify(err));
     });
-    postWithAuth('mail/car-request', {
-      pickUpDate,
-      returnDate,
-      carLocation: locationName,
-      totalPrice: totalPrice,
-      vehicle: item,
-      user: authData,
-    })
-      .then(() => {
-        Snackbar.show({
-          text: 'Your request has been sent to the vendor successfully, please check your mail box for further updates!',
-          duration: Snackbar.LENGTH_LONG,
-        });
-        navigation.navigate('MyHome');
-      })
-      .catch(e => {
-        Snackbar.show({
-          text: 'Error sending your request, please try again later.',
-          duration: Snackbar.LENGTH_LONG,
-        });
-        console.log(e);
-      });
+    // postWithAuth('mail/car-vendor', {
+    //   pickUpDate,
+    //   returnDate,
+    //   carLocation: locationName,
+    //   totalPrice: totalPrice,
+    //   vehicle: item,
+    //   user: authData,
+    // });
+    // postWithAuth('mail/car-request', {
+    //   pickUpDate,
+    //   returnDate,
+    //   carLocation: locationName,
+    //   totalPrice: totalPrice,
+    //   vehicle: item,
+    //   user: authData,
+    // })
+    //   .then(() => {
+    //     Snackbar.show({
+    //       text: 'Your request has been sent to the vendor successfully, please check your mail box for further updates!',
+    //       duration: Snackbar.LENGTH_LONG,
+    //     });
+    //     navigation.navigate('MyHome');
+    //   })
+    //   .catch(e => {
+    //     Snackbar.show({
+    //       text: 'Error sending your request, please try again later.',
+    //       duration: Snackbar.LENGTH_LONG,
+    //     });
+    //     console.log(e);
+    //   });
   };
 
   return (
@@ -91,7 +110,7 @@ export default function UserCarRentalInfo({navigation, route}) {
             paddingVertical: 10,
             color: '#4169e1',
           }}>
-          Trip Details
+          Car Details
         </CustomText>
         <Card style={{margin: 10}}>
           <View
@@ -112,7 +131,7 @@ export default function UserCarRentalInfo({navigation, route}) {
                 Pickup Date:
               </CustomText>
               <CustomText style={{flex: 1, marginLeft: 3}}>
-                {pickUpDate}
+                {dayjs(pickUpDate).format('DD/MM/YYYY')}
               </CustomText>
             </View>
 
@@ -128,7 +147,7 @@ export default function UserCarRentalInfo({navigation, route}) {
                 Return Date:
               </CustomText>
               <CustomText style={{flex: 1, marginLeft: 3}}>
-                {returnDate}
+                {dayjs(returnDate).format('DD/MM/YYYY')}
               </CustomText>
             </View>
           </View>
@@ -138,7 +157,7 @@ export default function UserCarRentalInfo({navigation, route}) {
           Rooms Selected Details
         </CustomText>
         <Card style={{margin: 10}}>
-          <View style={{flexDirection: 'row', width: '100%',padding:10, }}>
+          <View style={{flexDirection: 'row', width: '100%', padding: 10}}>
             <View style={{flex: 2}}>
               <Image
                 style={{
@@ -174,7 +193,7 @@ export default function UserCarRentalInfo({navigation, route}) {
           Price Details
         </CustomText>
         <Card style={{margin: 10}}>
-        <View style={styles.subContainer}>
+          <View style={styles.subContainer}>
             <CustomText
               style={{
                 fontSize: 18,

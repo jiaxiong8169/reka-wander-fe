@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   StyleSheet,
@@ -10,18 +10,28 @@ import {
 import {Heading, Text} from 'native-base';
 import {ScrollView} from 'react-native';
 import {CustomButton} from '../../components/CustomButton';
+import {CustomText} from '../../components/texts/custom-text';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {useAuth} from '../../hooks/useAuth';
 import {BackButton} from '../../components/BackButton';
 import DeviceInfo from 'react-native-device-info';
 import Share from 'react-native-share';
 import {RatingButton} from '../../components/RatingButton';
+import Icon from 'react-native-vector-icons/Ionicons';
+import {LocationName} from '../../components/Location/LocationName';
+import {Location} from '../../components/DetailsContent/Location';
+import {About} from '../../components/DetailsContent/About';
+import {LocationButton} from '../../components/Location/LocationButton';
+import {VendorDetails} from '../../components/DetailsContent/VendorDetails';
+import {Container} from '../../components/DetailsContent/container';
+import {ContactModal} from '../../components/Contact/ContactModal';
+import {HomestayExpandableList} from '../../components/ExpandableListView/HomestayContent';
 
 const height = Dimensions.get('window').height;
 
 export const GuideDetailsScreen = ({navigation, route}) => {
   const {authData} = useAuth();
-  const {id} = route.params;
+  const {items, id, startDate, endDate, totalDays, guidePackage} = route.params;
   const {postWithAuth, getWithAuth} = useHttpCall();
   const [item, setItem] = React.useState({});
   const [reload, setReload] = React.useState(true);
@@ -30,6 +40,8 @@ export const GuideDetailsScreen = ({navigation, route}) => {
   const [shared, setShared] = React.useState(false);
   const [likes, setLikes] = React.useState(0);
   const [shares, setShares] = React.useState(0);
+  const [locationName, setLocationName] = useState('');
+  const [isContactModelPopUp, setIsContactModelPopUp] = useState(false);
 
   function fetchData() {
     setLoading(true);
@@ -67,6 +79,7 @@ export const GuideDetailsScreen = ({navigation, route}) => {
   React.useEffect(() => {
     if (!reload) return;
     fetchData();
+    console.log(id);
   }, [reload]);
 
   React.useEffect(() => {
@@ -143,28 +156,261 @@ export const GuideDetailsScreen = ({navigation, route}) => {
               {item.name}
             </Heading>
 
-            <Text fontSize={14} color="white">
+            {/* <Text fontSize={14} color="white">
               {item.city}
-            </Text>
+            </Text> */}
             <View
               style={{
                 flexDirection: 'row',
               }}>
               <Text bold fontSize={14} color="white">
-                {item.category}
+                {item.interest}
               </Text>
             </View>
-            <View style={{marginRight: 'auto'}}>
+            <View
+              style={{
+                marginRight: 'auto',
+                marginTop: 6,
+              }}>
               <RatingButton rating={item.avgRating} />
             </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                marginTop: 6,
+              }}>
+              <Icon
+                name="location"
+                size={14}
+                color="#ff4500"
+                style={{paddingTop: 3}}
+              />
+              <LocationName
+                lat={item?.loc?.coordinates[1]}
+                long={item?.loc?.coordinates[0]}
+                value={locationName}
+                setValue={setLocationName}
+                textViewStyle={{}}
+                textStyle={{paddingLeft: 7, fontSize: 14, color: 'white'}}
+              />
+            </View>
 
-            <Text mt="3" mb="10" color={'white'}>
+            <About
+              styleContainer={{paddingTop: 25}}
+              description={item.description}
+              subContainerView={{borderLeftColor: '#87cefa'}}
+              titleStyle={{color: 'white'}}
+              descriptionStyle={{color: 'white'}}
+              seeStyle={{color: 'red'}}
+            />
+
+            <Location
+              subContainerView={{borderLeftColor: '#87cefa'}}
+              titleStyle={{color: 'white'}}
+              lat={items?.loc?.coordinates[1]}
+              long={items?.loc?.coordinates[0]}
+              locationName={locationName}
+              locationNameStyle={{color: 'white'}}
+              navigationButtonStyle={{
+                backgroundColor: '#4169e1',
+                // borderColor: 'white',
+              }}
+              navigationButtonTextStyle={{color: '#fff'}}
+              iconColor={'#fff'}
+            />
+
+            <VendorDetails
+            styleContainer={{borderBottomWidth:0,paddingBottom: 25,}}
+              subContainerView={{borderLeftColor: '#87cefa',}}
+              titleStyle={{color: 'white'}}
+              vendorName={item.vendorName}
+              vendorEmail={item.vendorEmail}
+              vendorPhoneNumber={item.vendorPhoneNumber}
+              iconColor={'#fff'}
+              modalButtonStyle={{backgroundColor: '#4169e1'}}
+              modalButtonTextStyle={{color: '#fff'}}
+              nameTitleStyle={{color: '#fff'}}
+              vendorNameStyle={{color: '#fff'}}
+              emailTitleStyle={{color: '#fff'}}
+              vendorEmailStyle={{color: '#fff'}}
+              phoneNumTitleStyle={{color: '#fff'}}
+              vendorPhoneNumStyle={{color: '#fff'}}
+            />
+
+            {/* <Container
+              subContainerView={{borderLeftColor: '#87cefa'}}
+              titleStyle={{color: '#fff'}}
+              title={'Vendor Details'}>
+              <View style={{flexDirection: 'column', paddingBottom: 20}}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    paddingTop: 18,
+                    paddingBottom: 5,
+                    alignItems: 'center',
+                  }}>
+                  <Icon name="person-outline" size={18} color={'#fff'} />
+                  <CustomText
+                    style={[
+                      {fontSize: 15, paddingHorizontal: 4, paddingRight: 7},
+                      {color: '#fff'},
+                    ]}>
+                    Name:
+                  </CustomText>
+                  <CustomText
+                    style={[
+                      {fontSize: 16, flex: 1, fontSize: 14},
+                      {color: '#fff'},
+                    ]}>
+                    {item.vendorName}
+                  </CustomText>
+                </View>
+
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    paddingBottom: 8,
+                    alignItems: 'center',
+                  }}>
+                  <Icon name="mail-outline" size={18} color={'#fff'} />
+                  <CustomText
+                    style={[
+                      {fontSize: 15, paddingHorizontal: 4, paddingRight: 7},
+                      {color: '#fff'},
+                    ]}>
+                    Email:
+                  </CustomText>
+                  <CustomText
+                    style={[
+                      {fontSize: 16, flex: 1, fontSize: 14},
+                      {color: '#fff'},
+                    ]}>
+                    {item.vendorEmail}
+                  </CustomText>
+                </View>
+
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    paddingBottom: 8,
+                    alignItems: 'center',
+                  }}>
+                  <Icon name="call-outline" size={18} color={'#fff'} />
+                  <CustomText
+                    style={[
+                      {fontSize: 15, paddingHorizontal: 4, paddingRight: 7},
+                      {color: '#fff'},
+                    ]}>
+                    Phone Number:
+                  </CustomText>
+                  <CustomText
+                    style={[{flex: 1, fontSize: 14}, {color: '#fff'}]}>
+                    {item.vendorPhoneNumber}
+                  </CustomText>
+                </View>
+              </View>
+
+              <TouchableOpacity
+                style={[
+                  {
+                    borderColor: '#4169e1',
+                    borderWidth: 2,
+                    height: 40,
+                    borderRadius: 12,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginHorizontal: 10,
+                  },
+                  {backgroundColor: '#4169e1'},
+                ]}
+                onPress={() => {
+                  setIsContactModelPopUp(current => !current);
+                }}>
+                <CustomText
+                  style={[
+                    {color: 'black', fontWeight: '400'},
+                    {color: '#fff'},
+                  ]}>
+                  Contact Vendor
+                </CustomText>
+                <ContactModal
+                  vendorEmail={item.vendorEmail}
+                  vendorPhoneNumber={item.vendorPhoneNumber}
+                  isContactModelPopUp={isContactModelPopUp}
+                  setIsContactModelPopUp={setIsContactModelPopUp}
+                />
+              </TouchableOpacity>
+            </Container> */}
+
+            {/* <HomestayExpandableList
+              type={'Packages'}
+              subContainerView={{borderLeftColor: '#87cefa'}}
+              titleStyle={{color: 'white'}}
+              iconColor={'#fff'}> */}
+            {/* {guidePackage.map(guidePack => {
+              <View
+                style={{
+                  paddingTop: 15,
+                }}>
+                <View style={{flexDirection: 'column', marginLeft: 12}}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      paddingBottom: 4,
+                    }}>
+                    <Icon name="flag" size={26} color={'#fff'} />
+                    <CustomText ml="3" fontSize="14" style={{color: 'white'}}>
+                      Package Name: {guidePack.name}
+                    </CustomText>
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      paddingBottom: 4,
+                    }}>
+                    <Icon name="location" size={26} color={'#fff'} />
+                    <CustomText ml="3" fontSize="14" style={{color: 'white'}}>
+                      Location: {guidePack.location}
+                    </CustomText>
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      paddingBottom: 4,
+                    }}>
+                    <Icon name="time" size={26} color={'#fff'} />
+                    <CustomText ml="3" fontSize="14" style={{color: 'white'}}>
+                      Hours: {guidePack.hours}
+                    </CustomText>
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}>
+                    <Icon name="cash" size={27} color={'#fff'} />
+                    <CustomText ml="3" fontSize="14" style={{color: 'white'}}>
+                      Price: RM {guidePack.price}
+                    </CustomText>
+                  </View>
+                </View>
+              </View>;
+            })} */}
+            {/* </HomestayExpandableList> */}
+
+            {/* <Text mt="3" mb="10" color={'white'}>
               {item.description}
-            </Text>
+            </Text> */}
             <CustomButton
               onPress={() => {
                 navigation.navigate('PackageList', {
                   item,
+                  startDate,
+                  endDate,
+                  totalDays,
                 });
               }}
               colorScheme="secondary">

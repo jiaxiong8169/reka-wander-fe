@@ -4,7 +4,7 @@ import {Image, View} from 'native-base';
 import {RatingButton} from './RatingButton';
 import {CustomText} from './texts/custom-text';
 
-export const GuideCardItem = ({item, navigation, marginBottom}) => {
+export const GuideCardItem = ({item, onPress, marginBottom}) => {
   return (
     <ImageBackground
       style={{
@@ -22,11 +22,7 @@ export const GuideCardItem = ({item, navigation, marginBottom}) => {
       source={require('../assets/sky.jpg')}
       key={item.id}>
       <TouchableOpacity
-        onPress={() => {
-          navigation.navigate('GuideDetails', {
-            id: item.id,
-          });
-        }}
+        onPress={onPress}
         style={{
           display: 'flex',
           flexDirection: 'row',

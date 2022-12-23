@@ -35,7 +35,7 @@ const ChooseDays = () => {
           animationOutTiming={700}
           backdropTransitionInTiming={700}
           backdropTransitionOutTiming={700}>
-          <ModelContent onPress={closeModal} buttonTitle={'Close'}>
+          <ModelContent onPress={closeModal} buttonTitle={'Close'} style={{alignItems: 'center'}}>
             <Text style={{fontSize: 20, marginBottom: 12}}>Instruction</Text>
             <Image
               source={require('../../assets/calender.gif')}
@@ -63,9 +63,12 @@ const styles = StyleSheet.create({
   question: {
     color: '#000000',
     fontSize: 24,
-    fontFamily: 'sans-serif-medium',
-    fontWeight: 'bold',
-    marginBottom: 10,
+    fontFamily: 'Baloo2-Bold',
+    lineHeight: 24 * 1.4,
+    height: 24,
+    // fontFamily: 'sans-serif-medium',
+    // fontWeight: 'bold',
+    marginBottom: 20,
   },
 });
 

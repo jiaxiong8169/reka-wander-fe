@@ -59,6 +59,12 @@ export const Filter = ({
   setCarTypeTag,
   carType,
   setCarType,
+  //selectTagInterest
+  interestData,
+  interestTag,
+  setInterestTag,
+  interest,
+  setInterest,
 
   setPriceValueRange,
   minPriceValue,
@@ -82,6 +88,12 @@ export const Filter = ({
     }
     if (screen == 'hotels') {
       setRoomNum(roomTag.itemsSelected[0].id - 1);
+      // setPropertyType(propertyTag.itemsSelected[0].label);
+    }
+    if (screen == 'Guide') {
+      
+      setInterest(interestTag.itemsSelected);
+      console.log(interest)
       // setPropertyType(propertyTag.itemsSelected[0].label);
     }
   };
@@ -195,6 +207,8 @@ export const Filter = ({
 
           <View>
             <TagSelection
+            
+            type={'single'}
               title={'Select Number of Bedrooms'}
               data={roomData}
               setTag={setRoomTag}
@@ -238,6 +252,7 @@ export const Filter = ({
             predefinedIndex={0}
           />
           <TagSelection
+          type={'single'}
             title={'Select Car Type'}
             data={carTypeData}
             setTag={setCarTypeTag}
@@ -256,6 +271,41 @@ export const Filter = ({
             maxPriceRange={maxPriceRange}
             defaultMinValue={defaultMinValue}
             defaultMaxValue={defaultMaxValue}
+          />
+        </View>
+      ) : screen === 'Guide' ? (
+        <View key={3}>
+          <SelectDates
+            title={dateTitle}
+            labelStart={dateLabelStart}
+            labelEnd={dateLabelEnd}
+            startDate={startDate}
+            setStartDate={setStartDate}
+            EndDate={EndDate}
+            setEndDate={setEndDate}
+            setTotalDays={setTotalDays}
+          />
+          <PriceSlider
+            step={50}
+            setMinPriceRange={setMinPriceRange}
+            setMaxPriceRange={setMaxPriceRange}
+            maxPriceValue={maxPriceValue}
+            minPriceValue={minPriceValue}
+            minPriceRange={minPriceRange}
+            maxPriceRange={maxPriceRange}
+            defaultMinValue={defaultMinValue}
+            defaultMaxValue={defaultMaxValue}
+          />
+
+          <TagSelection
+            type={'multiple'}
+            title={'Select Travel Interest'}
+            data={interestData}
+            setTag={setInterestTag}
+            values={interest}
+            suffix={''}
+            label={'Travel Interest'}
+            predefinedIndex={0}
           />
         </View>
       ) : (

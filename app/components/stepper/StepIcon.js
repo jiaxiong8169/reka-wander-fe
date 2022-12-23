@@ -11,6 +11,7 @@ class StepIcon extends Component {
         circleStyle: {
           width: 13,
           height: 13,
+          zIndex: 2,
           borderRadius: 20,
           backgroundColor: this.props.activeStepIconColor,
         },
@@ -56,6 +57,7 @@ class StepIcon extends Component {
         circleStyle: {
           width: 13,
           height: 13,
+          zIndex: 2,
           borderRadius: 20,
           backgroundColor: this.props.completedStepIconColor,
         },

@@ -17,13 +17,24 @@ import ModelContent from '../../components/Modal/ModalContent';
 import InsertDetailsCard from '../../components/stepper/InsertDetailsCard';
 import PlannerSelectDestinationScreen from './PlannerSelectDestinationScreen';
 import {useAuth} from '../../hooks/useAuth';
+import {TripNameScreen} from './PlannerTripName';
 
 export default function PlannerSteps({navigation}) {
   const {authData} = useAuth();
   const [isModelPopUp, setIsModelPopUp] = useState(false);
+  const [isDistanceModelPopUp, setDistanceIsModelPopUp] = useState(false);
   const [isWarningModelPopUp, setIsWarningModelPopUp] = useState(false);
   const [errors, setErrors] = useState(false);
-  const {budget} = useSelector(state => state.plannerReducer);
+  const [errorsDistance, setErrorsDistance] = useState(false);
+  const [tripName, setTripName] = useState('');
+  const {
+    accommodationBudget,
+    restaurantBudget,
+    vehicleBudget,
+    attractionBudget,
+    maxDistance,
+    rentCar,
+  } = useSelector(state => state.plannerReducer);
 
   useEffect(() => {
     if (!authData?.id) {
@@ -35,23 +46,67 @@ export default function PlannerSteps({navigation}) {
     setIsModelPopUp(false);
   };
 
+  const closeDistanceModel = () => {
+    setDistanceIsModelPopUp(false);
+  };
+
   const onPressHandler = () => {
     navigation.navigate('Loading');
   };
 
   const checkNumberInput = () => {
     try {
+      // let totalBudget = parseFloat(accommodationBudget) + parseFloat(restaurantBudget) + parseFloat(vehicleBudget) + parseFloat(attractionBudget)
       //check for number input
-      if (!budget || parseFloat(budget) < 100) {
-        setIsModelPopUp(true);
-        setErrors(true);
+      if (rentCar) {
+        if (
+          parseFloat(accommodationBudget) < 1000 ||
+          parseFloat(restaurantBudget) < 1000 ||
+          parseFloat(vehicleBudget) < 1000 ||
+          parseFloat(attractionBudget) < 1000
+        ) {
+          setIsModelPopUp(true);
+          setErrors(true);
+        } else {
+          setErrors(false);
+          // navigation.navigate('Loading');
+        }
       } else {
-        setErrors(false);
+        if (
+          parseFloat(accommodationBudget) < 1000 ||
+          parseFloat(restaurantBudget) < 1000 ||
+          parseFloat(attractionBudget) < 1000
+        ) {
+          setIsModelPopUp(true);
+          setErrors(true);
+        } else {
+          setErrors(false);
+          // navigation.navigate('Loading');
+        }
       }
     } catch (err) {
       console.log(err);
       setIsModelPopUp(true);
       setErrors(true);
+    }
+  };
+
+  const checkInput = () => {
+    console.log('abc');
+    try {
+      //check for number input
+      if (maxDistance < 50000) {
+        console.log('abcd');
+        setDistanceIsModelPopUp(true);
+        setErrorsDistance(true);
+      } else {
+        console.log('abcde');
+        setErrorsDistance(false);
+      }
+    } catch (err) {
+      console.log(err);
+      setDistanceIsModelPopUp(true);
+      setErrorsDistance(true);
     }
   };
 
@@ -71,7 +126,7 @@ export default function PlannerSteps({navigation}) {
     activeStepNumColor: 'transparent',
     disabledStepNumColor: 'transparent',
     completedCheckColor: 'transparent',
-    marginBottom: 10,
+    marginBottom: 0,
   };
 
   return (
@@ -82,13 +137,16 @@ export default function PlannerSteps({navigation}) {
         contentContainerStyle={{flexGrow: 1}}
         showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
-          <View>
+          <View style={{paddingTop: 4}}>
             <Text style={styles.title}>
               Hi{' '}
               <Text
                 style={{
-                  fontWeight: 'bold',
-                  fontFamily: 'sans-serif-light',
+                  // fontWeight: 'bold',
+                  // fontFamily: 'sans-serif-light',
+                  lineHeight: 40 * 1.4,
+                  // height: 0,
+                  fontFamily: 'Baloo2-Bold',
                 }}>
                 Welcome,
               </Text>
@@ -104,6 +162,12 @@ export default function PlannerSteps({navigation}) {
               <ProgressStep>
                 <InsertDetailsCard>
                   <TripName />
+                  {/* <TripNameScreen
+                  tripName={tripName}
+                  setTripName={setTripName}
+                  setIsWarningModelPopUp={setIsWarningModelPopUp}
+                  isWarningModelPopUp={isWarningModelPopUp}
+                /> */}
                 </InsertDetailsCard>
                 <Modal
                   isVisible={isWarningModelPopUp}
@@ -139,10 +203,36 @@ export default function PlannerSteps({navigation}) {
                 </Modal>
               </ProgressStep>
 
-              <ProgressStep>
+              <ProgressStep
+              // onNext={checkInput}
+              // errors={errorsDistance}
+              >
                 <InsertDetailsCard>
                   <PlannerSelectDestinationScreen />
                 </InsertDetailsCard>
+                <Modal
+                  isVisible={isDistanceModelPopUp}
+                  onBackdropPress={closeDistanceModel}
+                  onSwipeComplete={closeDistanceModel}
+                  useNativeDriverForBackdrop
+                  swipeDirection={['left', 'right', 'up', 'down']}
+                  animationIn="zoomInDown"
+                  animationOut="zoomOutUp"
+                  animationInTiming={700}
+                  animationOutTiming={700}
+                  backdropTransitionInTiming={700}
+                  backdropTransitionOutTiming={700}>
+                  <ModelContent
+                    onPress={closeDistanceModel}
+                    buttonTitle={'Close'}>
+                    <Text style={{fontSize: 20, marginBottom: 12}}>Opps!</Text>
+                    <Text>
+                      Your maximum distance for recommendation must at least or
+                      more than 50km! Please re-enter your maximum distance for
+                      recommendation!
+                    </Text>
+                  </ModelContent>
+                </Modal>
               </ProgressStep>
 
               <ProgressStep>
@@ -165,13 +255,15 @@ export default function PlannerSteps({navigation}) {
 
               <ProgressStep>
                 <InsertDetailsCard>
-                  <Withkids />
+                  <RentHomeStay />
                 </InsertDetailsCard>
               </ProgressStep>
 
-              <ProgressStep>
-                <InsertDetailsCard>
-                  <RentHomeStay />
+              <ProgressStep
+              // onSubmit={onPressHandler}
+              >
+                <InsertDetailsCard style={{width: '100%'}}>
+                  <RentCar />
                 </InsertDetailsCard>
               </ProgressStep>
 
@@ -191,21 +283,29 @@ export default function PlannerSteps({navigation}) {
                   animationOutTiming={700}
                   backdropTransitionInTiming={700}
                   backdropTransitionOutTiming={700}>
-                  <ModelContent onPress={closeModel} buttonTitle={'Close'}>
+                  <ModelContent
+                    onPress={closeModel}
+                    buttonTitle={'Close'}
+                    style={{alignItems: 'center'}}>
                     <Text style={{fontSize: 20, marginBottom: 12}}>Opps!</Text>
-                    <Text>
-                      Your travel budget must at least more than RM100! Please
-                      re-enter your travel budget!
+                    <Text style={{marginBottom: 12}}>
+                      Your travel budget for{' '}
+                      <Text style={{fontWeight: 'bold', color: '#000000'}}>
+                        each section
+                      </Text>{' '}
+                      must at least or more than RM1000! Please re-enter your
+                      travel budget!
                     </Text>
                   </ModelContent>
                 </Modal>
               </ProgressStep>
 
               <ProgressStep onSubmit={onPressHandler}>
-                <InsertDetailsCard style={{width: '100%'}}>
-                  <RentCar />
+                <InsertDetailsCard>
+                  <Withkids />
                 </InsertDetailsCard>
               </ProgressStep>
+
             </ProgressSteps>
           </View>
         </View>
@@ -219,12 +319,16 @@ const styles = StyleSheet.create({
     display: 'flex',
   },
   title: {
-    fontWeight: '300',
+    // fontWeight: '300',
     fontSize: 40,
+    lineHeight: 40 * 1.4,
+    height: 40,
     color: `#4169E1`,
+    fontFamily: 'Quicksand-Bold',
   },
   subtitle: {
     fontSize: 15,
     color: `#4169E1`,
+    // fontFamily: 'Quicksand-Medium',
   },
 });

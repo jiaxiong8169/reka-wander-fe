@@ -207,6 +207,8 @@ export const HomestayDetailsScreen = ({navigation, route}) => {
                   locationName,
                   facilities,
                 });
+                console.log(typeof(checkInDate));
+                console.log(checkOutDate);
               }}>
               Select Rooms
             </CustomButton>

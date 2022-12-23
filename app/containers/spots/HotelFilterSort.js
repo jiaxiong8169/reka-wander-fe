@@ -212,9 +212,9 @@ export const HotelFilterSort = ({
                         adults: adults,
                         children: children,
                         guests: guests,
-                        facilities,
+                        facilities: item.facilities,
                       });
-                      console.log(item.id);
+                      console.log(facilities);
                       console.log(children.length);
                       console.log('123123');
                     }
@@ -249,10 +249,10 @@ export const HotelFilterSort = ({
                         adults: adults,
                         children: children,
                         guests: guests,
-                        facilities,
+                        facilities: item.facilities,
                       });
                       console.log(guests, totalDays);
-                      console.log(children);
+                      console.log(facilities);
                       console.log('123123123123');
                     }
                   }}
@@ -273,7 +273,7 @@ export const HotelFilterSort = ({
           animationOutTiming={700}
           backdropTransitionInTiming={700}
           backdropTransitionOutTiming={700}>
-          <ModelContent onPress={closeModel} buttonTitle={'Close'}>
+          <ModelContent onPress={closeModel} buttonTitle={'Close'} style={{alignItems: 'center'}}>
             <CustomText fontSize="lg" style={{marginBottom: 12}}>
               Invalid Date
             </CustomText>

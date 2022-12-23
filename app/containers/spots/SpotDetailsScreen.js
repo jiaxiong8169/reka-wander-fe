@@ -81,7 +81,6 @@ export default function SpotDetailsScreen({navigation, route}) {
       .then(({data}) => {
         if (!!data) {
           setItem(data);
-
           // update like and share states
           setLiked(
             data.likes.includes(

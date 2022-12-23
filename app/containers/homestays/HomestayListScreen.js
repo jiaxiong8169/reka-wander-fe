@@ -174,6 +174,7 @@ export const HomestayListScreen = ({navigation, route}) => {
         
         style={{flexDirection: 'column', width: '100%'}}>
         <CustomTextInput
+        
           placeholder="Search Here..."
           value={search}
           onChangeText={t => setSearch(t)}
@@ -300,17 +301,16 @@ export const HomestayListScreen = ({navigation, route}) => {
                       } else {
                         navigation.navigate('HomestayDetails', {
                           item,
-                          checkInDate: dayjs(checkInDate).format('DD/MM/YYYY'),
-                          checkOutDate:
-                            dayjs(checkOutDate).format('DD/MM/YYYY'),
+                          checkInDate,
+                          checkOutDate,
                           totalDays,
                           adults: adults,
                           children: children,
                           guests: guests,
                           planner: planner,
                         });
-                        console.log(guests, totalDays);
-                        console.log(children);
+                        console.log(checkInDate, totalDays);
+                        console.log(checkOutDate);
                       }
                     }}
                     withEdit={!!fieldName && !!fieldNameObj}
@@ -337,9 +337,8 @@ export const HomestayListScreen = ({navigation, route}) => {
                       } else {
                         navigation.navigate('HomestayDetails', {
                           item,
-                          checkInDate: dayjs(checkInDate).format('DD/MM/YYYY'),
-                          checkOutDate:
-                            dayjs(checkOutDate).format('DD/MM/YYYY'),
+                          checkInDate,
+                          checkOutDate,
                           totalDays,
                           adults: adults,
                           children: children,
@@ -370,7 +369,7 @@ export const HomestayListScreen = ({navigation, route}) => {
             animationOutTiming={700}
             backdropTransitionInTiming={700}
             backdropTransitionOutTiming={700}>
-            <ModelContent onPress={closeModel} buttonTitle={'Close'}>
+            <ModelContent onPress={closeModel} buttonTitle={'Close'} style={{alignItems: 'center'}}>
               <CustomText fontSize="lg" style={{marginBottom: 12}}>
                 Invalid Date
               </CustomText>

@@ -17,7 +17,7 @@ import {SpotsListScreen} from '../containers/spots/SpotsListScreen';
 import {HomestayListScreen} from '../containers/homestays/HomestayListScreen';
 import {HomestayDetailsScreen} from '../containers/homestays/HomestayDetailsScreen';
 import {HomestaySelectRoomScreen} from '../containers/homestays/HomestaySelectRoomScreen';
-import { HomestayRoomDetailsScreen } from '../containers/homestays/HomestayRoomDetailsScreen';
+import {HomestayRoomDetailsScreen} from '../containers/homestays/HomestayRoomDetailsScreen';
 import {HomestayRentScreen} from '../containers/homestays/HomestayRentScreen';
 import {PlannerHistory} from '../containers/Planner/PlannerHistory';
 import {TripHistoryDetails} from '../containers/Planner/TripHistoryDetails';
@@ -25,6 +25,10 @@ import {CarRentalListScreen} from '../containers/carRental/CarRentalListScreen';
 import {CarRentalDetailsScreen} from '../containers/carRental/CarRentalDetailsScreen';
 import {SelectRoomScreen} from '../containers/spots/SelectRoomScreen';
 import {HotelConfirmationScreen} from '../containers/spots/HotelConfirmationScreen';
+// import { TripNameScreen } from '../containers/Planner/PlannerTripName';
+// import { PlannerSelectDestination } from '../containers/Planner/PlannerSelectDestination';
+// import { TripPax } from '../containers/Planner/PlannerPax';
+// import { ChooseTripDates } from '../containers/Planner/PlannerCalendar';
 
 const Stack = createStackNavigator();
 
@@ -63,6 +67,46 @@ export default function PlannerStack() {
         />
 
         <Stack.Group>
+        {/* <Stack.Screen
+            name="PlannerTripName"
+            component={TripNameScreen}
+            options={{
+              header: () => null,
+              // cardShadowEnabled: false,
+              // cardOverlayEnabled:false,
+              animationEnabled:false,
+            }}
+          /> */}
+          {/* <Stack.Screen
+            name="PlannerSelectDestination"
+            component={PlannerSelectDestination}
+            options={{
+              header: () => null,
+              // cardShadowEnabled: false,
+              // cardOverlayEnabled:false,
+              animationEnabled:false,
+            }}
+          /> */}
+          {/* <Stack.Screen
+            name="PlannerTripPax"
+            component={TripPax}
+            options={{
+              header: () => null,
+              // cardShadowEnabled: false,
+              // cardOverlayEnabled:false,
+              animationEnabled:false,
+            }}
+          /> */}
+          {/* <Stack.Screen
+            name="PlannerTripDates"
+            component={ChooseTripDates}
+            options={{
+              header: () => null,
+              // cardShadowEnabled: false,
+              // cardOverlayEnabled:false,
+              animationEnabled:false,
+            }}
+          /> */}
           <Stack.Screen
             name="PlannerSteps"
             component={PlannerSteps}

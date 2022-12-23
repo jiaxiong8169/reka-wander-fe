@@ -73,6 +73,8 @@ export const HomestaySelectRoomScreen = ({navigation, route}) => {
                 totalPrice: getTotalPrice(),
                 selected,
               });
+              console.log(checkInDate,
+                checkOutDate)
             }}>
             Rent Rooms
           </CustomButton>

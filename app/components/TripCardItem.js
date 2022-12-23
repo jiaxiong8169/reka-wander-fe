@@ -26,7 +26,7 @@ export const TripCardItem = ({navigation, item, marginBottom}) => {
         <Text fontSize="xs">
           {moment(item.timestamp).format('dddd, MMMM Do YYYY h:mm a')}
         </Text>
-        <Text fontSize="xs">Est. Cost: RM {item.budget.toFixed(2)}</Text>
+        <Text fontSize="xs">Est. Cost: RM {parseFloat(item.accommodationBudget) + parseFloat(item.restaurantBudget) + parseFloat(item.vehicleBudget) + parseFloat(item.attractionBudget)}</Text>
         <Text fontSize="xs">
           {moment(item.startDate).format('dddd, MMMM Do YYYY')} -{' '}
           {moment(item.endDate).format('dddd, MMMM Do YYYY')}

@@ -16,15 +16,13 @@ const TravelInterest = () => {
           <Text style={styles.question}>Travel interest</Text>
         </View>
         <Interest />
-        <View style={{marginTop: 10}}>
+        <View style={{marginTop: 10, alignItems: 'center'}}>
           <Image
             source={require('../../assets/Travel_interest.png')}
             style={{
-              padding: 1,
               aspectRatio: 1,
-              width: '100%',
+              width: '80%',
               resizeMode: 'contain',
-              alignItems: 'flex-end',
               height: undefined,
             }}
             alt="interests"
@@ -48,8 +46,11 @@ const styles = StyleSheet.create({
   question: {
     color: '#000000',
     fontSize: 24,
-    fontFamily: 'sans-serif-medium',
-    fontWeight: 'bold',
+    fontFamily: 'Baloo2-Bold',
+    lineHeight: 24 * 1.4,
+    height: 24,
+    // fontFamily: 'sans-serif-medium',
+    // fontWeight: 'bold',
     marginBottom: 10,
   },
   button: {

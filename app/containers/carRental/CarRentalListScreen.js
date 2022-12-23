@@ -150,6 +150,7 @@ export const CarRentalListScreen = ({navigation, route}) => {
       />
       <View style={{width: '100%'}}>
         <CustomTextInput
+        
           placeholder="Search Here..."
           value={search}
           onChangeText={t => setSearch(t)}
@@ -266,8 +267,8 @@ export const CarRentalListScreen = ({navigation, route}) => {
                       navigation.navigate('CarRentalDetails', {
                         item,
                         planner: planner,
-                        pickUpDate: dayjs(pickUpDate).format('DD/MM/YYYY'),
-                        returnDate: dayjs(returnDate).format('DD/MM/YYYY'),
+                        pickUpDate: pickUpDate,
+                        returnDate: returnDate,
                         totalDays,
                       });
                     }
@@ -291,7 +292,7 @@ export const CarRentalListScreen = ({navigation, route}) => {
           animationOutTiming={700}
           backdropTransitionInTiming={700}
           backdropTransitionOutTiming={700}>
-          <ModelContent onPress={closeModel} buttonTitle={'Close'}>
+          <ModelContent onPress={closeModel} buttonTitle={'Close'} style={{alignItems: 'center'}}>
             <CustomText fontSize="lg" style={{marginBottom: 12}}>
               Invalid Date
             </CustomText>

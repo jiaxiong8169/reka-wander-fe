@@ -20,11 +20,13 @@ export const VendorDetails = ({
   vendorEmailStyle,
   phoneNumTitleStyle,
   vendorPhoneNumStyle,
+  styleContainer,
 }) => {
   const [isContactModelPopUp, setIsContactModelPopUp] = useState(false);
 
   return (
     <Container
+    styleContainer={styleContainer}
       subContainerView={subContainerView}
       titleStyle={titleStyle}
       title={'Vendor Details'}>

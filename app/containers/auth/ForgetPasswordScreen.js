@@ -78,6 +78,7 @@ export const ForgetPasswordScreen = ({navigation}) => {
             </View>
             <View style={{flex: 1}}>
               <CustomTextInput
+              
                 placeholder="Email address"
                 value={email}
                 onChangeText={setEmail}

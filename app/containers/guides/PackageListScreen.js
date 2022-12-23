@@ -10,7 +10,7 @@ import ModelContent from '../../components/Modal/ModalContent';
 import {CustomText} from '../../components/texts/custom-text';
 
 export const PackageListScreen = ({navigation, route}) => {
-  const {item} = route.params;
+  const {item, startDate, endDate, totalDays} = route.params;
   const [selected, setSelected] = useState([]);
   const [isModelPopUp, setIsModelPopUp] = useState(false);
 
@@ -64,12 +64,15 @@ export const PackageListScreen = ({navigation, route}) => {
               navigation.navigate('Confirmation', {
                 item,
                 selected,
+                startDate,
+                endDate,
+                totalDays
               });
             }
           }}
           colorScheme="secondary"
           style={{marginBottom: 40, marginTop: 30}}>
-          Checkout
+          Booking
         </CustomButton>
       </View>
       <Modal
@@ -84,7 +87,7 @@ export const PackageListScreen = ({navigation, route}) => {
         animationOutTiming={700}
         backdropTransitionInTiming={700}
         backdropTransitionOutTiming={700}>
-        <ModelContent onPress={closeModel} buttonTitle={'Close'}>
+        <ModelContent onPress={closeModel} buttonTitle={'Close'} style={{alignItems: 'center'}}>
           <CustomText fontSize="lg" marginBottom="3">
             Opps!
           </CustomText>

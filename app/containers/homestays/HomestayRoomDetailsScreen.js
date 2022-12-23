@@ -20,6 +20,12 @@ const width = Dimensions.get('window').width;
 export const HomestayRoomDetailsScreen = ({navigation, route}) => {
   const {id, room, thumbnailSrc, locationName, facilities, bedType, price} =
     route.params;
+    const singleBed = bedType.singleBed;
+    const superSingleBed = bedType.superSingleBed;
+    const queenBed = bedType.queenBed;
+    const kingBed = bedType.queenBed;
+    const sofaBed = bedType.sofaBed;
+
   const footer = () => {
     return (
       <View>
@@ -122,13 +128,48 @@ export const HomestayRoomDetailsScreen = ({navigation, route}) => {
                   Bed Type
                 </CustomText>
               </View>
-              {bedType.map((value,index) => (
+              {singleBed > 0 && (
+                <View>
+                  <CustomText style={{marginLeft: 35, paddingBottom: 20}}>
+                    Single Bed : {singleBed}
+                  </CustomText>
+                </View>
+              )}
+              {superSingleBed > 0 && (
+                <View>
+                  <CustomText style={{marginLeft: 35, paddingBottom: 20}}>
+                    Super Single Bed : {superSingleBed}
+                  </CustomText>
+                </View>
+              )}
+              {queenBed > 0 && (
+                <View>
+                  <CustomText style={{marginLeft: 35, paddingBottom: 20}}>
+                    Queen Bed : {queenBed}
+                  </CustomText>
+                </View>
+              )}
+              {kingBed > 0 && (
+                <View>
+                  <CustomText style={{marginLeft: 35, paddingBottom: 20}}>
+                    King Bed : {kingBed}
+                  </CustomText>
+                </View>
+              )}
+              {sofaBed > 0 && (
+                <View>
+                  <CustomText style={{marginLeft: 35, paddingBottom: 20}}>
+                    Sofa Bed : {sofaBed}
+                  </CustomText>
+                </View>
+              )}
+              {/* {bedType.map((value,index) => (
                 <View key={index}>
                 <CustomText style={{marginLeft: 35, paddingBottom: 20}}>
                   {value}
                 </CustomText>
                 </View>
-              ))}
+              ))} */}
               
 
               <View

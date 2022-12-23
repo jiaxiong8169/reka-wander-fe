@@ -142,7 +142,7 @@ export const SelectRoomScreen = ({navigation, route}) => {
           animationOutTiming={700}
           backdropTransitionInTiming={700}
           backdropTransitionOutTiming={700}>
-          <ModelContent onPress={closeModel} buttonTitle={'Close'}>
+          <ModelContent onPress={closeModel} buttonTitle={'Close'} style={{alignItems: 'center'}}>
             <CustomText fontSize="lg" style={{marginBottom: 12}}>
               Invalid Date
             </CustomText>

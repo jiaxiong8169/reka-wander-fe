@@ -198,6 +198,7 @@ const SignInScreen = ({navigation, route}) => {
                     }}
                     style={{width: '100%', alignItems: 'center'}}>
                     <CustomTextInput
+                    
                       placeholder={'Email'}
                       value={email}
                       onChangeText={setEmail}

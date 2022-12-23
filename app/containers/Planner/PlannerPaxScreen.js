@@ -3,6 +3,7 @@ import {StyleSheet, View, Text, Image} from 'react-native';
 import SelectPax from '../../components/dropdown/Pax';
 
 const PaxPage = () => {
+  
   return (
     <View style={styles.body_container}>
       <Text style={styles.question}>How many Pax?</Text>
@@ -12,11 +13,9 @@ const PaxPage = () => {
         <Image
           source={require('../../assets/People.png')}
           style={{
-            padding: 1,
             aspectRatio: 1,
-            width: '100%',
+            width: '80%',
             resizeMode: 'contain',
-            alignItems: 'flex-end',
             height: undefined,
           }}
           alt="people"
@@ -41,9 +40,12 @@ const styles = StyleSheet.create({
   question: {
     color: '#000000',
     fontSize: 24,
-    fontFamily: 'sans-serif-medium',
-    fontWeight: 'bold',
-    marginBottom: 10,
+    fontFamily: 'Baloo2-Bold',
+    lineHeight: 24 * 1.4,
+    height: 24,
+    // fontFamily: 'sans-serif-medium',
+    // fontWeight: 'bold',
+    marginBottom: 20,
   },
 });
 

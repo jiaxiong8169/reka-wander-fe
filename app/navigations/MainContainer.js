@@ -26,31 +26,35 @@ function MainContainer() {
           } else if (rn === 'Agency') {
             tabIconSource = 'agency.png';
             iconName = 'agency';
-          } else if (rn === 'Store') {
-            tabIconSource = 'store.png';
-            iconName = 'store';
-          } else if (rn === 'Settings') {
+          } 
+          // else if (rn === 'Store') {
+          //   tabIconSource = 'store.png';
+          //   iconName = 'store';
+          // } 
+          else if (rn === 'Settings') {
             tabIconSource = 'setting.png';
             iconName = 'setting';
-          } else if (rn === 'Payment') {
-            tabIconSource = 'payment.png';
-            iconName = 'payment';
-          } else if (rn === 'News') {
-            tabIconSource = 'news.png';
-            iconName = 'news';
-          } else if (rn === 'Home') {
+          }
+          //  else if (rn === 'Payment') {
+          //   tabIconSource = 'payment.png';
+          //   iconName = 'payment';
+          // } else if (rn === 'News') {
+          //   tabIconSource = 'news.png';
+          //   iconName = 'news';
+          // }
+           else if (rn === 'Home') {
             tabIconSource = 'home.png';
             iconName = 'home';
           }
 
           var tabIcons = {
-            'agency.png': require('../assets/Agency.png'),
-            'news.png': require('../assets/News.png'),
-            'payment.png': require('../assets/Payment.png'),
             'home.png': require('../assets/Home.png'),
+            'agency.png': require('../assets/Agency.png'),
+            // 'news.png': require('../assets/News.png'),
+            // 'payment.png': require('../assets/Payment.png'),
             'setting.png': require('../assets/Setting.png'),
             'spots.png': require('../assets/Spots.png'),
-            'store.png': require('../assets/Store.png'),
+            // 'store.png': require('../assets/Store.png'),
           };
 
           // You can return any component that you like here!
@@ -70,6 +74,13 @@ function MainContainer() {
         tabBarHideOnKeyboard: true,
       })}>
       <Tab.Screen
+        name="Home"
+        component={PlannerStack}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
         name="Spots"
         component={SpotsStack}
         options={{
@@ -83,20 +94,14 @@ function MainContainer() {
           headerShown: false,
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Store"
         component={Temp}
         options={{
           headerShown: false,
         }}
-      />
-      <Tab.Screen
-        name="Home"
-        component={PlannerStack}
-        options={{
-          headerShown: false,
-        }}
-      />
+      /> */}
+      
       <Tab.Screen
         name="Settings"
         component={SettingsStack}
@@ -104,20 +109,20 @@ function MainContainer() {
           headerShown: false,
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Payment"
         component={Temp}
         options={{
           headerShown: false,
         }}
-      />
-      <Tab.Screen
+      /> */}
+      {/* <Tab.Screen
         name="News"
         component={Temp}
         options={{
           headerShown: false,
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 }

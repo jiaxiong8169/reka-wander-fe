@@ -34,16 +34,16 @@ export const SpotsListScreen = ({navigation, route}) => {
   // const [priceValueRange, setPriceValueRange] = useState([100, 1500]);
   const [roomTag, setRoomTag] = useState([]);
 
-  const facilities = {
-    outdoors: ['Swimming pool', 'Badminton court', 'Garden', 'BBQ facilities'],
-    services: ['Room Service', 'CCTV outside property'],
-    general: ['Air Conditioning', 'Fan', 'Safe'],
-    bathroom: ['Shampoo', 'Hot water', 'Hair Dryer', 'Towels', 'Toilet paper'],
-    bedroom: ['Extra pillows and blankets', 'Linens', 'Hangers', 'Iron'],
-    kitchen: ['Electric kettle', 'Refrigerator', 'Stove'],
-    internet: ['WIFI'],
-    media: ['TV'],
-  };
+  // const facilities = {
+  //   outdoors: ['Swimming pool', 'Badminton court', 'Garden', 'BBQ facilities'],
+  //   services: ['Room Service', 'CCTV outside property'],
+  //   general: ['Air Conditioning', 'Fan', 'Safe'],
+  //   bathroom: ['Shampoo', 'Hot water', 'Hair Dryer', 'Towels', 'Toilet paper'],
+  //   bedroom: ['Extra pillows and blankets', 'Linens', 'Hangers', 'Iron'],
+  //   kitchen: ['Electric kettle', 'Refrigerator', 'Stove'],
+  //   internet: ['WIFI'],
+  //   media: ['TV'],
+  // };
 
   // on load, fetch new 10 records
   useEffect(() => {
@@ -144,7 +144,7 @@ export const SpotsListScreen = ({navigation, route}) => {
               setSorting={setSorting}
               sorting={sorting}
               items={items}
-              facilities={facilities}
+              facilities={items.facilities}
               navigation={navigation}></HotelFilterSort>
           </View>
         ) : (

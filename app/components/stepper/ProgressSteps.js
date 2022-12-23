@@ -74,7 +74,7 @@ class ProgressSteps extends Component {
         alignSelf: 'center',
         flexDirection: 'row',
         top: this.props.topOffset,
-        marginBottom: this.props.marginBottom,
+        // marginBottom: this.props.marginBottom,
       },
     };
 
@@ -101,8 +101,8 @@ ProgressSteps.propTypes = {
 ProgressSteps.defaultProps = {
   isComplete: false,
   activeStep: 0,
-  topOffset: 30,
-  marginBottom: 50,
+  topOffset: 20,
+  // marginBottom: 20,
 };
 
 export default ProgressSteps;

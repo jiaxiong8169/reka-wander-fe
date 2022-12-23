@@ -22,13 +22,18 @@ export default function LoadingScreen({navigation}) {
     startDate,
     endDate,
     pax,
-    budget,
+    accommodationBudget,
+    restaurantBudget,
+    vehicleBudget,
+    attractionBudget,
     interest,
     kids,
     rentCar,
     rentHomeStay,
     longitude,
     latitude,
+    maxDistance,
+    destination,
   } = useSelector(state => state.plannerReducer);
 
   const postAPI = () => {
@@ -38,13 +43,18 @@ export default function LoadingScreen({navigation}) {
       startDate: startDate,
       endDate: endDate,
       pax: pax,
-      budget: parseFloat(budget),
+      accommodationBudget: parseFloat(accommodationBudget),
+      restaurantBudget: parseFloat(restaurantBudget),
+      vehicleBudget: parseFloat(vehicleBudget),
+      attractionBudget: parseFloat(attractionBudget),
       interests: interest,
       kids: kids,
       rentCar: rentCar,
       rentHomestay: rentHomeStay,
       long: longitude,
       lat: latitude,
+      maxDistance: maxDistance*1000,
+      destination: destination,
     };
     postWithAuth('trips/recommend', tmp)
       .then(({data}) => {

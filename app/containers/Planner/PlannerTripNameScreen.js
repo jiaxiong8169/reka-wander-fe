@@ -10,25 +10,25 @@ const TripName = () => {
 
   return (
     <View style={styles.body_container}>
-      <Text style={styles.question}>Give Your Trip a name!</Text>
+      <Text style={styles.question}>Name Your Trip!</Text>
       <CustomTextInput
-        autoFocus={true}
+        // autoFocus={true}
         onChangeText={v => dispatch(setTripName(v))}
         placeholder="Type Your trip name here..."
         value={tripName}
       />
-      <Image
-        source={require('../../assets/People.png')}
-        style={{
-          padding: 1,
-          aspectRatio: 1,
-          width: '100%',
-          resizeMode: 'contain',
-          alignItems: 'flex-end',
-          height: undefined,
-        }}
-        alt="people"
-      />
+      <View style={{marginTop: 10}}>
+        <Image
+          source={require('../../assets/People.png')}
+          style={{
+            aspectRatio: 1,
+            width: '80%',
+            resizeMode: 'contain',
+            height: undefined,
+          }}
+          alt="people"
+        />
+      </View>
     </View>
   );
 };
@@ -49,9 +49,12 @@ const styles = StyleSheet.create({
   question: {
     color: '#000000',
     fontSize: 24,
-    fontFamily: 'sans-serif-medium',
-    fontWeight: 'bold',
-    marginBottom: 10,
+    fontFamily: 'Baloo2-Bold',
+    lineHeight: 24 * 1.4,
+    height: 24,
+    // fontFamily: 'sans-serif-medium',
+    // fontWeight: 'bold',
+    marginBottom: 20,
   },
   input: {
     width: '100%',

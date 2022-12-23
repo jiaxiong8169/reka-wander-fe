@@ -60,10 +60,17 @@ export const SelectGuests = ({
             shadowColor: 'white',
             marginTop: 10,
           }}>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal:2}}>
-            <Text style={{fontWeight: '400', fontSize: 11, color: 'black'}}>{guestTitle}</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              paddingHorizontal: 2,
+            }}>
+            <Text style={{fontWeight: '400', fontSize: 11, color: 'black'}}>
+              {guestTitle}
+            </Text>
             <Text style={{fontWeight: '600', color: 'black', fontSize: 12}}>
-              {adults} {guestFirstSuffix}{' '}{' '}
+              {adults} {guestFirstSuffix}{' '}
               {children.length != 0 ? children.length : ''}{' '}
               {children.length != 0 ? guestSecondSuffix : ''}
             </Text>

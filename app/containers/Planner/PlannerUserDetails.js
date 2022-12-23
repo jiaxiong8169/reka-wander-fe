@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {View, Text, Image, TouchableOpacity, ScrollView} from 'react-native';
 import Modal from 'react-native-modal';
 import ModelContent from '../../components/Modal/ModalContent';
 
@@ -34,28 +34,39 @@ export default function UserDetails(props) {
       </View>
       <View style={{padding: 3, flexDirection: 'row'}}>
         {props.children}
-        {!props.noEdit && (
+        {props.editPage ? (
           <TouchableOpacity
             style={{marginTop: 4}}
             onPress={() => setIsModelPopUp(true)}>
             <Text style={{fontSize: 14, color: '#6A5ACD'}}>Edit</Text>
-            <Modal
-              isVisible={isModelPopUp}
-              onBackdropPress={closeModel}
-              onSwipeComplete={closeModel}
-              useNativeDriverForBackdrop
-              swipeDirection={['left', 'right', 'up', 'down']}
-              animationIn="zoomInDown"
-              animationOut="zoomOutUp"
-              animationInTiming={700}
-              animationOutTiming={700}
-              backdropTransitionInTiming={700}
-              backdropTransitionOutTiming={700}>
-              <ModelContent onPress={closeModel}>{props.editPage}</ModelContent>
-            </Modal>
           </TouchableOpacity>
+        ) : (
+          <></>
         )}
       </View>
+      <Modal
+        isVisible={isModelPopUp}
+        onBackdropPress={closeModel}
+        onSwipeComplete={closeModel}
+        useNativeDriverForBackdrop
+        // swipeDirection={['left', 'right']}
+        animationIn="zoomInDown"
+        animationOut="zoomOutUp"
+        animationInTiming={700}
+        animationOutTiming={700}
+        backdropTransitionInTiming={700}
+        backdropTransitionOutTiming={700}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled">
+          <ModelContent
+            style={{margin: 15, paddingTop: 35}}
+            onPress={closeModel}>
+            <View style={{marginBottom: 10}}>{props.editPage}</View>
+          </ModelContent>
+        </ScrollView>
+        {/* </View> */}
+      </Modal>
     </View>
   );
 }

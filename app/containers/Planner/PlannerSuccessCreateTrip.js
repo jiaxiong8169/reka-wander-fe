@@ -25,8 +25,8 @@ export default function SuccessConfirmScreen({navigation}) {
           </View>
           <View
             style={{
-              marginTop: 10,
-              height: 250,
+              // marginTop: 10,
+              // height: 250,
               alignItems: 'center',
               flex: 1,
             }}>
@@ -34,9 +34,10 @@ export default function SuccessConfirmScreen({navigation}) {
               source={require('../../assets/Travel_interest.png')}
               style={{
                 aspectRatio: 1,
-                width: undefined,
+                width: '80%',
                 resizeMode: 'contain',
-                height: '100%',
+                height: undefined,
+                // height: '100%',
               }}
               alt="interests"
             />

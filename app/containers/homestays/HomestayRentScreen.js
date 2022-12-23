@@ -6,7 +6,7 @@ import {CustomButton} from '../../components/CustomButton';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Card from '../../components/Card';
 import {RoomsSelected} from './HomestayRoomSelected';
-import {Mail} from '../../components/JumpMail/Mail';
+import dayjs from 'dayjs';
 import {Phone} from '../../components/Phone/Phone';
 import {Total} from '../../components/Total/Total';
 import BlueSubtitle from '../../components/texts/BlueSubtitle';
@@ -33,6 +33,7 @@ export const HomestayRentScreen = ({navigation, route}) => {
   const {authData} = useAuth();
   const [isContactModelPopUp, setIsContactModelPopUp] = useState(false);
   const {postWithAuth} = useHttpCall();
+  const selectedItem = [];
 
   const onPressHandler = () => {
     // if not logged in, navigate user to login page
@@ -40,37 +41,52 @@ export const HomestayRentScreen = ({navigation, route}) => {
       navigation.navigate('SignInScreen');
       return;
     }
-    postWithAuth('mail/homestay-vendor', {
-      checkInDate,
-      checkOutDate,
-      location: locationName,
+    postWithAuth('reservations', {
+      targetId: item.id,
+      userId: authData.id,
+      type: 'homestays',
+      reservedName: item.name,
       totalPrice: totalPrice,
-      homestay: item,
-      user: authData,
-      rooms: selected,
+      selectedItems: selectedItem,
+      isDone: false,
+      startDate: checkInDate,
+      endDate: checkOutDate,
+    }).then(() => {
+          navigation.navigate('MyHome');
+        }).catch(err => {
+      console.log(JSON.stringify(err));
     });
-    postWithAuth('mail/homestay-request', {
-      checkInDate,
-      checkOutDate,
-      location: locationName,
-      totalPrice: totalPrice,
-      homestay: item,
-      user: authData,
-    })
-      .then(() => {
-        Snackbar.show({
-          text: 'Your request has been sent to the vendor successfully, please check your mail box for further updates!',
-          duration: Snackbar.LENGTH_LONG,
-        });
-        navigation.navigate('MyHome');
-      })
-      .catch(e => {
-        Snackbar.show({
-          text: 'Error sending your request, please try again later.',
-          duration: Snackbar.LENGTH_LONG,
-        });
-        console.log(e);
-      });
+    // postWithAuth('mail/homestay-vendor', {
+    //   checkInDate,
+    //   checkOutDate,
+    //   location: locationName,
+    //   totalPrice: totalPrice,
+    //   homestay: item,
+    //   user: authData,
+    //   rooms: selected,
+    // });
+    // postWithAuth('mail/homestay-request', {
+    //   checkInDate,
+    //   checkOutDate,
+    //   location: locationName,
+    //   totalPrice: totalPrice,
+    //   homestay: item,
+    //   user: authData,
+    // })
+    //   .then(() => {
+    //     Snackbar.show({
+    //       text: 'Your request has been sent to the vendor successfully, please check your mail box for further updates!',
+    //       duration: Snackbar.LENGTH_LONG,
+    //     });
+    //     navigation.navigate('MyHome');
+    //   })
+    //   .catch(e => {
+    //     Snackbar.show({
+    //       text: 'Error sending your request, please try again later.',
+    //       duration: Snackbar.LENGTH_LONG,
+    //     });
+    //     console.log(e);
+    //   });
   };
 
   return (
@@ -110,7 +126,7 @@ export const HomestayRentScreen = ({navigation, route}) => {
                 Check In Date:
               </CustomText>
               <CustomText style={{flex: 1, marginLeft: 3}}>
-                {checkInDate}
+                {dayjs(checkInDate).format('DD/MM/YYYY')}
               </CustomText>
             </View>
 
@@ -126,7 +142,7 @@ export const HomestayRentScreen = ({navigation, route}) => {
                 Check Out Date:
               </CustomText>
               <CustomText style={{flex: 1, marginLeft: 3}}>
-                {checkOutDate}
+                {dayjs(checkOutDate).format('DD/MM/YYYY')}
               </CustomText>
             </View>
           </View>
@@ -201,6 +217,12 @@ export const HomestayRentScreen = ({navigation, route}) => {
                 }}>
                 <View>
                   {selected.map((item, i) => {
+                    selectedItem.push({
+                      roomId: item.id,
+                      roomName: item.name,
+                      roomQuantity: item.quantity,
+                      roomPrice: item.price,
+                    });
                     return (
                       <RoomsSelected
                         id={item.id}

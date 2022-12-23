@@ -42,11 +42,15 @@ class ProgressStep extends Component {
             : this.onNextStep
         }
         style={{
-          width: 100,
-          marginLeft: 10,
-          marginRight: 10,
+          width: '40%',
+          marginTop: 15,
+          borderRadius: 20,
+          marginLeft: 15,
+          marginRight: 15,
+          backgroundColor: '#214fc6',
         }}
-        colorScheme="blue">
+        // colorScheme="blue"
+      >
         {this.props.activeStep === this.props.stepCount - 1
           ? this.props.finishBtnText
           : this.props.nextBtnText}
@@ -60,11 +64,14 @@ class ProgressStep extends Component {
     return (
       <CustomButton
         onPress={this.onPreviousStep}
-        colorScheme="orange"
+        // colorScheme="orange"
         style={{
-          width: 100,
-          marginLeft: 10,
-          marginRight: 10,
+          width: '40%',
+          backgroundColor: '#ff4500',
+          marginLeft: 15,
+          marginTop: 10,
+          marginRight: 15,
+          borderRadius: 20,
         }}>
         {this.props.previousBtnText}
       </CustomButton>

@@ -46,7 +46,8 @@ export default function RecommendedCardDetails({
         }
         navigation.navigate('SpotDetails', {
           type: type,
-          item: item,
+          items: item,
+          facilities: type == 'hotels' ? item.facilities : '',
           id: id,
           planner: true,
         });
@@ -59,18 +60,58 @@ export default function RecommendedCardDetails({
           borderBottomWidth: 1,
           paddingBottom: 10,
           width: '100%',
+          // height: 70
         }}>
-        <Image
+        <View style={{flex: 1}}>
+          {type === 'vehicles' ? (
+            <Image
+              style={{
+                flex: 1,
+                width: undefined,
+                resizeMode: 'contain',
+                borderRadius: 5,
+                paddingRight: 8,
+              }}
+              source={{uri: url}}
+              alt="recommendation"
+            />
+          ) : (
+            <Image
+              style={{
+                flex: 1,
+                width: undefined,
+                resizeMode: 'cover',
+                borderRadius: 5,
+                paddingRight: 8,
+              }}
+              source={{uri: url}}
+              alt="recommendation"
+            />
+          )}
+          {/* <Image
+            style={{
+              flex: 1,
+              width: undefined,
+              resizeMode: 'cover',
+              borderRadius: 5,
+              paddingRight: 8,
+            }}
+            source={{uri: url}}
+            alt="recommendation"
+          /> */}
+        </View>
+        {/* <Image
           style={{
             flex: 1,
             width: undefined,
             resizeMode: 'contain',
             borderRadius: 5,
             paddingRight: 8,
+            // height: 80
           }}
           source={{uri: url}}
           alt="recommendation"
-        />
+        /> */}
 
         <View
           style={{
@@ -78,6 +119,7 @@ export default function RecommendedCardDetails({
             flexDirection: 'column',
             marginLeft: 3,
             paddingLeft: 10,
+            // height: 70
           }}>
           <Text
             style={{
@@ -99,7 +141,7 @@ export default function RecommendedCardDetails({
               alignItems: 'flex-end',
               justifyContent: 'flex-end',
             }}>
-            {perks !== '' && (
+            {/* {perks !== '' && (
               <Text
                 style={{
                   fontSize: 11,
@@ -107,7 +149,7 @@ export default function RecommendedCardDetails({
                 }}>
                 {perks}
               </Text>
-            )}
+            )} */}
           </View>
         </View>
       </View>

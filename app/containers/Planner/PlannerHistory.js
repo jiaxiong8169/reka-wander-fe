@@ -17,18 +17,30 @@ export const PlannerHistory = ({navigation}) => {
   const [full, setFull] = useState(false);
   const [reload, setReload] = useState(true);
   const [items, setItems] = useState([]);
+  const [totalBudget, setTotalbudget] = useState(0);
+
 
   // on load and on search, fetch 10 new trip histories
   useEffect(() => {
     if (!authData?.id) return;
+    console.log('abc');
     setLoading(true);
     setFull(false);
     getWithAuth(
       `trips?filter[userId]=${authData.id}&sort=-timestamp&limit=10&filter[q]=${search}`,
     )
       .then(({data}) => {
-        if (data.length === 0) setFull(true);
+        if (data.length === 0) {
+          console.log('abcd');
+          setFull(true);
+        }
         setItems(data);
+        // let total = parseFloat(data.accommodationBudget) +
+        //   parseFloat(data.restaurantBudget) +
+        //   parseFloat(data.vehicleBudget) +
+        //   parseFloat(data.attractionBudget);
+        //   console.log(data)
+        //   setTotalbudget(total);
       })
       .catch(() => {
         // TODO: add error handling
@@ -81,9 +93,10 @@ export const PlannerHistory = ({navigation}) => {
         style={{width: '80%', marginBottom: 10}}
       />
       <View style={{flexDirection: 'column', marginBottom: 10, width: '100%'}}>
-        {items.map((item,i) => (
+        {items.map((item, i) => (
           <TripCardItem
             item={item}
+            // budget={totalBudget}
             key={i}
             navigation={navigation}
             marginBottom={10}

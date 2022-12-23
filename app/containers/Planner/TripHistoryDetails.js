@@ -15,6 +15,7 @@ import UserDetails from './PlannerUserDetails';
 import {useHttpCall} from '../../hooks/useHttpCall';
 import {BackButton} from '../../components/BackButton';
 import BlueSubtitle from '../../components/texts/BlueSubtitle';
+import PlannerSelectDestinationScreen from './PlannerSelectDestinationScreen';
 import {RecommendedCardWithData} from '../../components/card/recommended-card-with-data';
 
 export const TripHistoryDetails = ({navigation, route}) => {
@@ -26,6 +27,7 @@ export const TripHistoryDetails = ({navigation, route}) => {
   const [homestays, setHomestays] = useState([]);
   const [hotels, setHotels] = useState([]);
   const [vehicles, setVehicles] = useState([]);
+  const [totalBudget, setTotalbudget] = useState(0);
 
   const fetchDataList = (type, values, setResults) => {
     const promises = values.map(id => getWithAuth(`${type}/${id}`));
@@ -42,6 +44,12 @@ export const TripHistoryDetails = ({navigation, route}) => {
       .then(({data}) => {
         setTrip(data);
         console.log(data);
+        let total =
+          parseFloat(data.accommodationBudget) +
+          parseFloat(data.restaurantBudget) +
+          parseFloat(data.vehicleBudget) +
+          parseFloat(data.attractionBudget);
+        setTotalbudget(total);
         fetchDataList('restaurants', data.restaurants, setRestaurants);
         fetchDataList('attractions', data.attractions, setAttractions);
         fetchDataList('homestays', data.homestays, setHomestays);
@@ -74,9 +82,23 @@ export const TripHistoryDetails = ({navigation, route}) => {
                 noEdit
                 title={'Trip Name'}
                 url={require('../../assets/kid_icon.png')}
-                editPage={<TripName />}>
+                // editPage={<TripName />}
+                >
                 <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
                   {trip?.name}
+                </Text>
+              </UserDetails>
+            </View>
+
+            <View style={{flexDirection: 'column', borderBottomColor: '#000'}}>
+              <UserDetails
+                title={'Destination'}
+                styles={{paddingTop: 10}}
+                url={require('../../assets/pin.png')}
+                // editPage={<PlannerSelectDestinationScreen />}
+                >
+                <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
+                  {trip?.destination}
                 </Text>
               </UserDetails>
             </View>
@@ -87,7 +109,8 @@ export const TripHistoryDetails = ({navigation, route}) => {
                 title={'Pax'}
                 styles={{paddingTop: 10}}
                 url={require('../../assets/pax_icon.png')}
-                editPage={<PaxPage />}>
+                // editPage={<PaxPage />}
+                >
                 <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
                   {trip?.pax}
                 </Text>
@@ -100,7 +123,8 @@ export const TripHistoryDetails = ({navigation, route}) => {
                 title={'Date'}
                 styles={{paddingTop: 10}}
                 url={require('../../assets/calendar_icon.png')}
-                editPage={<ChooseDays />}>
+                // editPage={<ChooseDays />}
+                >
                 <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
                   {moment(trip?.startDate).format('YYYY-MM-DD')} -{' '}
                   {moment(trip?.endDate).format('YYYY-MM-DD')}
@@ -114,7 +138,8 @@ export const TripHistoryDetails = ({navigation, route}) => {
                 title={'Travel Interests'}
                 styles={{paddingTop: 10}}
                 url={require('../../assets/travelInterest_icon.jpg')}
-                editPage={<TravelInterest />}>
+                // editPage={<TravelInterest />}
+                >
                 <View style={{flex: 3, paddingLeft: 5}}>
                   {!trip?.interests || trip?.interests.length === 0 ? (
                     <View key={'Everything'}>
@@ -137,7 +162,8 @@ export const TripHistoryDetails = ({navigation, route}) => {
                 title={'Kids'}
                 styles={{paddingTop: 10}}
                 url={require('../../assets/child_icon.jpg')}
-                editPage={<Withkids />}>
+                // editPage={<Withkids />}
+                >
                 <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
                   {trip?.kids ? 'Yes' : 'No'}
                 </Text>
@@ -151,7 +177,8 @@ export const TripHistoryDetails = ({navigation, route}) => {
                 types={'Homestay'}
                 styles={{paddingTop: 10}}
                 url={require('../../assets/Home.png')}
-                editPage={<RentHomeStay />}>
+                // editPage={<RentHomeStay />}
+                >
                 <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
                   {trip?.rentHomeStay ? 'Yes' : 'No'}
                 </Text>
@@ -165,7 +192,8 @@ export const TripHistoryDetails = ({navigation, route}) => {
                 styles={{paddingTop: 10}}
                 url={require('../../assets/car_icon.png')}
                 imageStyle={{margin: 2}}
-                editPage={<RentCar />}>
+                // editPage={<RentCar />}
+                >
                 <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
                   {trip?.rentCar ? 'Yes' : 'No'}
                 </Text>
@@ -178,9 +206,10 @@ export const TripHistoryDetails = ({navigation, route}) => {
                 title={'Budget'}
                 styles={{paddingTop: 10}}
                 url={require('../../assets/dollar_icon.png')}
-                editPage={<TravelBudget />}>
+                // editPage={<TravelBudget />}
+                >
                 <Text style={{flex: 3, paddingLeft: 5, fontSize: 14}}>
-                  RM{trip?.previousBudget}
+                  RM{totalBudget}
                 </Text>
               </UserDetails>
             </View>

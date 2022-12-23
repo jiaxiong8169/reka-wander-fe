@@ -3,6 +3,7 @@ import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import Card from '../../components/Card';
 import TagSelectExtension from './TagSelectExtension';
 import Collapsible from 'react-native-collapsible';
+import {TagSelect} from 'react-native-tag-select';
 
 export const TagSelection = ({
   title,
@@ -12,6 +13,7 @@ export const TagSelection = ({
   predefinedIndex,
   suffix,
   label,
+  type,
 }) => {
   let suffixs = suffix ? suffix : '';
   const [expandRoom, setExpandRoom] = useState(true);
@@ -47,17 +49,31 @@ export const TagSelection = ({
       <Collapsible collapsed={expandRoom}>
         <View style={{paddingLeft: 10}}>
           <Text style={styles.labelText}>{label}</Text>
-          <TagSelectExtension
-            value={[data[predefinedIndex]]}
-            itemStyle={styles.item}
-            itemLabelStyle={styles.label}
-            itemStyleSelected={styles.itemSelected}
-            itemLabelStyleSelected={styles.labelSelected}
-            data={data}
-            ref={t => {
-              setTag(t);
-            }}
-          />
+          {type === 'multiple' ? (
+            <TagSelect
+              value={[data[predefinedIndex]]}
+              itemStyle={styles.item}
+              itemLabelStyle={styles.label}
+              itemStyleSelected={styles.itemSelected}
+              itemLabelStyleSelected={styles.labelSelected}
+              data={data}
+              ref={t => {
+                setTag(t);
+              }}
+            />
+          ) : (
+            <TagSelectExtension
+              value={[data[predefinedIndex]]}
+              itemStyle={styles.item}
+              itemLabelStyle={styles.label}
+              itemStyleSelected={styles.itemSelected}
+              itemLabelStyleSelected={styles.labelSelected}
+              data={data}
+              ref={t => {
+                setTag(t);
+              }}
+            />
+          )}
         </View>
       </Collapsible>
     </View>
