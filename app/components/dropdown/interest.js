@@ -74,7 +74,7 @@ const Interest = () => {
           chipContainer: {
             borderColor: '#6fbae8',
             paddingLeft: 5,
-            height: '55%',
+            // height: '55%',
             margin: 4,
           },
           chipText: {color: '#483D8B', padding: 0, fontSize: 12},
