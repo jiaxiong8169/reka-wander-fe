@@ -8,6 +8,7 @@ import {PersistGate} from 'redux-persist/integration/react';
 import {Provider} from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import {extendTheme} from 'native-base';
+import { LogBox } from "react-native";
 
 const theme = extendTheme({
   colors: {
@@ -53,6 +54,8 @@ const theme = extendTheme({
     // },
   },
 });
+
+LogBox.ignoreAllLogs();
 
 const App = () => {
   return (
