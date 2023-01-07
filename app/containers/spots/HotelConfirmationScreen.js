@@ -46,11 +46,11 @@ export const HotelConfirmationScreen = ({navigation, route}) => {
     postWithAuth('reservations', {
       targetId: item.id,
       userId: authData.id,
-      type: 'hotels',
+      type: 'Hotel',
       reservedName: item.name,
       totalPrice: totalPrice,
       selectedItems: selectedItem,
-      isDone: false,
+      status: 'pending',
       startDate: checkInDate,
       endDate: checkOutDate,
     }).then(() => {

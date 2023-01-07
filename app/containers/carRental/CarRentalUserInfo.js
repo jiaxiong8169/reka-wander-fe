@@ -48,11 +48,11 @@ export default function UserCarRentalInfo({navigation, route}) {
     postWithAuth('reservations', {
       targetId: item.id,
       userId: authData.id,
-      type: 'vehicles',
+      type: 'Vehicle',
       reservedName: item.name,
       totalPrice: totalPrice,
       selectedItems: selectedItem,
-      isDone: false,
+      status: 'pending',
       startDate: pickUpDate,
       endDate: returnDate,
     }).then(() => {
@@ -154,7 +154,7 @@ export default function UserCarRentalInfo({navigation, route}) {
         </Card>
 
         <CustomText bold style={styles.title}>
-          Rooms Selected Details
+          Vehicle Selected Details
         </CustomText>
         <Card style={{margin: 10}}>
           <View style={{flexDirection: 'row', width: '100%', padding: 10}}>

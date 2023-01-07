@@ -150,7 +150,6 @@ export const CarRentalListScreen = ({navigation, route}) => {
       />
       <View style={{width: '100%'}}>
         <CustomTextInput
-        
           placeholder="Search Here..."
           value={search}
           onChangeText={t => setSearch(t)}
@@ -263,6 +262,14 @@ export const CarRentalListScreen = ({navigation, route}) => {
                   onPress={() => {
                     if (moment(pickUpDate).isAfter(returnDate)) {
                       setIsModelPopUp(true);
+                    } else if (moment(pickUpDate).isSame(returnDate)) {
+                      navigation.navigate('CarRentalDetails', {
+                        item,
+                        planner: planner,
+                        pickUpDate: pickUpDate,
+                        returnDate: returnDate,
+                        totalDays: 1,
+                      });
                     } else {
                       navigation.navigate('CarRentalDetails', {
                         item,
@@ -292,7 +299,10 @@ export const CarRentalListScreen = ({navigation, route}) => {
           animationOutTiming={700}
           backdropTransitionInTiming={700}
           backdropTransitionOutTiming={700}>
-          <ModelContent onPress={closeModel} buttonTitle={'Close'} style={{alignItems: 'center'}}>
+          <ModelContent
+            onPress={closeModel}
+            buttonTitle={'Close'}
+            style={{alignItems: 'center'}}>
             <CustomText fontSize="lg" style={{marginBottom: 12}}>
               Invalid Date
             </CustomText>

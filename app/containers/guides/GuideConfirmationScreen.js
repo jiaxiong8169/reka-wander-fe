@@ -64,11 +64,11 @@ export const GuideConfirmationScreen = ({navigation, route}) => {
     postWithAuth('reservations', {
       targetId: item.id,
       userId: authData.id,
-      type: 'guides',
+      type: 'Guide',
       reservedName: item.name,
       totalPrice: totalPrice,
       selectedItems: selectedItem,
-      isDone: false,
+      status: 'pending',
       startDate: startDate,
       endDate: endDate,
     })

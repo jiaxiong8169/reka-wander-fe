@@ -44,11 +44,11 @@ export const HomestayRentScreen = ({navigation, route}) => {
     postWithAuth('reservations', {
       targetId: item.id,
       userId: authData.id,
-      type: 'homestays',
+      type: 'Homestay',
       reservedName: item.name,
       totalPrice: totalPrice,
       selectedItems: selectedItem,
-      isDone: false,
+      status: 'pending',
       startDate: checkInDate,
       endDate: checkOutDate,
     }).then(() => {

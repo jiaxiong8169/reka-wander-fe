@@ -210,8 +210,8 @@ export const GuideListScreen = ({navigation}) => {
                       items: item,
                       guidePackage: item.packages,
                       totalDays,
-                      startDate: dayjs(startDate).format('DD/MM/YYYY'),
-                      endDate: dayjs(endDate).format('DD/MM/YYYY'),
+                      startDate: startDate,
+                      endDate: endDate,
                     });
                   }
                 }}
