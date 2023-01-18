@@ -61,23 +61,51 @@ export const GuideConfirmationScreen = ({navigation, route}) => {
       navigation.navigate('SignInScreen');
       return;
     }
-    postWithAuth('reservations', {
-      targetId: item.id,
-      userId: authData.id,
-      type: 'Guide',
-      reservedName: item.name,
-      totalPrice: totalPrice,
-      selectedItems: selectedItem,
-      status: 'pending',
-      startDate: startDate,
-      endDate: endDate,
-    })
-      .then(() => {
-        navigation.navigate('GuideList');
-      })
-      .catch(err => {
-        console.log(JSON.stringify(err));
-      });
+    // console.log(startDate)
+    selected.map((s, i) => {
+      // for (let i = 0; i < s.quantity; i++) {
+        console.log(s.id)
+        console.log(item.id)
+        console.log(startDate)
+        console.log(endDate)
+        postWithAuth('reservations', {
+          targetId: item.id,
+          userId: authData.id,
+          type: 'Guide',
+          reservedName: item.name,
+          totalPrice: totalPrice,
+          packageId: s.id,
+          status: 'pending',
+          startDate: startDate,
+          endDate: endDate,
+        })
+          .then(() => {
+            navigation.navigate('GuideList');
+          })
+          .catch(err => {
+            console.log(JSON.stringify(err));
+          });
+      // }
+    });
+    // postWithAuth('reservations', {
+    //   targetId: item.id,
+    //   userId: authData.id,
+    //   type: 'Guide',
+    //   reservedName: item.name,
+    //   totalPrice: totalPrice,
+    //   selectedItems: selectedItem,
+    //   status: 'pending',
+    //   startDate: startDate,
+    //   endDate: endDate,
+    // })
+    //   .then(() => {
+    //     navigation.navigate('GuideList');
+    //   })
+    //   .catch(err => {
+    //     console.log(JSON.stringify(err));
+    //   });
+
+
     // if (moment(startDate).isAfter(endDate)) {
     //   setIsModelPopUp(true);
     // } else {

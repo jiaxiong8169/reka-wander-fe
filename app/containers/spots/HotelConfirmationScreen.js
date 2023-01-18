@@ -42,22 +42,37 @@ export const HotelConfirmationScreen = ({navigation, route}) => {
     if (!authData?.id) {
       navigation.navigate('SignInScreen');
       return;
+    }{
+      selected.map((s, i) => {
+        for (let i = 0; i < s.quantity; i++) {
+          postWithAuth('reservations', {
+            targetId: item.id,
+            userId: authData.id,
+            type: 'Hotel',
+            reservedName: item.name,
+            totalPrice: totalPrice,
+            roomId: s.id,
+            status: 'pending',
+            startDate: checkInDate,
+            endDate: checkOutDate,
+          })
+            .then(() => {
+              navigation.navigate('SpotsHome');
+            })
+            .catch(err => {
+              console.log(JSON.stringify(err));
+            });
+        }
+
+        // selectedItem.push({
+        //   roomId: item.id,
+        //   roomName: item.name,
+        //   roomQuantity: item.quantity,
+        //   roomPrice: item.price,
+        // });
+      });
     }
-    postWithAuth('reservations', {
-      targetId: item.id,
-      userId: authData.id,
-      type: 'Hotel',
-      reservedName: item.name,
-      totalPrice: totalPrice,
-      selectedItems: selectedItem,
-      status: 'pending',
-      startDate: checkInDate,
-      endDate: checkOutDate,
-    }).then(() => {
-          navigation.navigate('SpotsHome');
-        }).catch(err => {
-      console.log(JSON.stringify(err));
-    });
+
     // postWithAuth('mail/hotel-vendor', {
     //   checkInDate,
     //   checkOutDate,

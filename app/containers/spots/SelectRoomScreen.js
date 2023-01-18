@@ -6,17 +6,20 @@ import {BackButton} from '../../components/BackButton';
 import {HomestayRoomCardItem} from '../../components/HomestayRoomCardItem';
 import {CustomButton} from '../../components/CustomButton';
 import {CustomText} from '../../components/texts/custom-text';
+import {useHttpCall} from '../../hooks/useHttpCall';
 import moment from 'moment';
 import Card from '../../components/Card';
 import {SimpleCalendar} from '../../components/CalenderPicker/SimpleCalendar';
 import Modal from 'react-native-modal';
 import ModelContent from '../../components/Modal/ModalContent';
 import {HotelRoomCardItem} from './HotelRoomCard';
+import dayjs from 'dayjs';
 
 const height = Dimensions.get('window').height;
 
 export const SelectRoomScreen = ({navigation, route}) => {
   const {
+    id,
     item,
     facilities,
     locationName,
@@ -30,21 +33,33 @@ export const SelectRoomScreen = ({navigation, route}) => {
   // const [checkInDate, setCheckInDate] = useState(new Date());
   // const [checkOutDate, setCheckOutDate] = useState(new Date());
   // const [totalDays, setTotalDays] = useState(0);
+  const {getWithoutAuth} = useHttpCall();
   const [selected, setSelected] = useState([]);
+  const [rooms, setRooms] = useState([]);
   const [isModelPopUp, setIsModelPopUp] = useState(false);
 
   const closeModel = () => {
     setIsModelPopUp(false);
   };
 
-  // useEffect(() => {
-  //   if (moment(checkInDate).isAfter(checkOutDate)) setTotalDays(0);
-  //   else {
-  //     const diff =
-  //       (checkOutDate.getTime() - checkInDate.getTime()) / (1000 * 3600 * 24);
-  //     setTotalDays(diff);
-  //   }
-  // }, [checkInDate, checkOutDate]);
+  useEffect(() => {
+    // if (!id) return;
+    
+    console.log(id)
+    let startDate = dayjs(checkInDate).format('YYYY-MM-DD')
+    let endDate = dayjs(checkOutDate).format('YYYY-MM-DD')
+    console.log(startDate)
+    console.log(endDate)
+    getWithoutAuth(`reservations/availability?startDate=${startDate}&endDate=${endDate}&type=hotel&id=${id}`)
+      .then(({data}) => {
+        setRooms(data);
+        console.log(rooms)
+      })
+      .catch(e => {
+        console.log(e);
+      });
+      console.log(rooms)
+  }, []);
 
   const getTotalPrice = () => {
     let curr = 0;
@@ -112,7 +127,7 @@ export const SelectRoomScreen = ({navigation, route}) => {
         style={{width: '80%', marginBottom: 10}}
       />
       <View style={[styles.container, {width: '100%'}]}>
-        {item?.rooms.map(room => (
+        {rooms.map(room => (
           <HotelRoomCardItem
             key={room.id}
             id={room.id}

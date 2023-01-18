@@ -41,21 +41,53 @@ export const HomestayRentScreen = ({navigation, route}) => {
       navigation.navigate('SignInScreen');
       return;
     }
-    postWithAuth('reservations', {
-      targetId: item.id,
-      userId: authData.id,
-      type: 'Homestay',
-      reservedName: item.name,
-      totalPrice: totalPrice,
-      selectedItems: selectedItem,
-      status: 'pending',
-      startDate: checkInDate,
-      endDate: checkOutDate,
-    }).then(() => {
-          navigation.navigate('MyHome');
-        }).catch(err => {
-      console.log(JSON.stringify(err));
-    });
+    {
+      selected.map((s, i) => {
+        for (let i = 0; i < s.quantity; i++) {
+          postWithAuth('reservations', {
+            targetId: item.id,
+            userId: authData.id,
+            type: 'Homestay',
+            reservedName: item.name,
+            totalPrice: totalPrice,
+            roomId: s.id,
+            status: 'pending',
+            startDate: checkInDate,
+            endDate: checkOutDate,
+          })
+            .then(() => {
+              navigation.navigate('MyHome');
+            })
+            .catch(err => {
+              console.log(JSON.stringify(err));
+            });
+        }
+
+        // selectedItem.push({
+        //   roomId: item.id,
+        //   roomName: item.name,
+        //   roomQuantity: item.quantity,
+        //   roomPrice: item.price,
+        // });
+      });
+    }
+
+    // postWithAuth('reservations', {
+    //   targetId: item.id,
+    //   userId: authData.id,
+    //   type: 'Homestay',
+    //   reservedName: item.name,
+    //   totalPrice: totalPrice,
+    //   selectedItems: selectedItem,
+    //   status: 'pending',
+    //   startDate: checkInDate,
+    //   endDate: checkOutDate,
+    // }).then(() => {
+    //       navigation.navigate('MyHome');
+    //     }).catch(err => {
+    //   console.log(JSON.stringify(err));
+    // });
+
     // postWithAuth('mail/homestay-vendor', {
     //   checkInDate,
     //   checkOutDate,

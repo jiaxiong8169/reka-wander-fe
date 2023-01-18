@@ -51,7 +51,6 @@ export default function UserCarRentalInfo({navigation, route}) {
       type: 'Vehicle',
       reservedName: item.name,
       totalPrice: totalPrice,
-      selectedItems: selectedItem,
       status: 'pending',
       startDate: pickUpDate,
       endDate: returnDate,

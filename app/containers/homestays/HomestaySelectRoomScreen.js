@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import GradientBackground from '../../components/GradientBackground';
 import BlueSubtitle from '../../components/texts/BlueSubtitle';
 import {View, Dimensions, StyleSheet, Alert} from 'react-native';
@@ -6,11 +6,14 @@ import {BackButton} from '../../components/BackButton';
 import {HomestayRoomCardItem} from '../../components/HomestayRoomCardItem';
 import {CustomButton} from '../../components/CustomButton';
 import {CustomText} from '../../components/texts/custom-text';
+import dayjs from 'dayjs';
+import {useHttpCall} from '../../hooks/useHttpCall';
 
 const height = Dimensions.get('window').height;
 
 export const HomestaySelectRoomScreen = ({navigation, route}) => {
   const {
+    id,
     item,
     checkInDate,
     checkOutDate,
@@ -22,7 +25,8 @@ export const HomestaySelectRoomScreen = ({navigation, route}) => {
     facilities,
   } = route.params;
   const [selected, setSelected] = useState([]);
-  const bedType = ["1 single bed"];
+  const [rooms, setRooms] = useState([]);
+  const {getWithoutAuth} = useHttpCall();
 
   const getTotalPrice = () => {
     let curr = 0;
@@ -31,6 +35,25 @@ export const HomestaySelectRoomScreen = ({navigation, route}) => {
     });
     return curr.toFixed(2);
   };
+
+  useEffect(() => {
+    // if (!id) return;
+    
+    console.log(id)
+    let startDate = dayjs(checkInDate).format('YYYY-MM-DD')
+    let endDate = dayjs(checkOutDate).format('YYYY-MM-DD')
+    console.log(startDate)
+    console.log(endDate)
+    getWithoutAuth(`reservations/availability?startDate=${startDate}&endDate=${endDate}&type=homestay&id=${id}`)
+      .then(({data}) => {
+        setRooms(data);
+        console.log(rooms)
+      })
+      .catch(e => {
+        console.log(e);
+      });
+      console.log(rooms)
+  }, []);
 
   return (
     <GradientBackground
@@ -92,7 +115,7 @@ export const HomestaySelectRoomScreen = ({navigation, route}) => {
       />
 
       <View style={[styles.container, {width: '100%'}]}>
-        {item?.rooms.map((room,i) => (
+        {rooms.map((room,i) => (
           <HomestayRoomCardItem
             key={i}
             id={room.id}

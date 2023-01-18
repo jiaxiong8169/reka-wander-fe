@@ -398,6 +398,7 @@ export default function SpotDetailsScreen({navigation, route}) {
                   style={{marginTop: 20}}
                   onPress={() => {
                     navigation.navigate('SelectRoom', {
+                      id,
                       item,
                       locationName,
                       facilities,

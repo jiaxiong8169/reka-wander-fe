@@ -165,13 +165,24 @@ export const HomestayRoomCardItem = ({
               flexDirection: 'row',
               alignItems: 'center',
               marginLeft: 'auto',
+              padding: 5,
+              paddingHorizontal: 10,
+              justifyContent: 'center',
+            }}>
+              {/* <CustomText fontSize="md">Fully Booked</CustomText> */}
+            </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginLeft: 'auto',
               borderWidth: 0.9,
               borderColor: 'gray',
               padding: 5,
               paddingHorizontal: 10,
               justifyContent: 'center',
             }}>
-            <TouchableOpacity>
+            <TouchableOpacity disabled={false}>
               <Icon
                 name="ios-remove-circle"
                 size={25}
@@ -182,7 +193,7 @@ export const HomestayRoomCardItem = ({
             <CustomText fontSize="md" style={{paddingHorizontal: 8}}>
               {getQuantity()}
             </CustomText>
-            <TouchableOpacity>
+            <TouchableOpacity  disabled={true}>
               <Icon
                 name="ios-add-circle"
                 size={25}

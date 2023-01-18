@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import BlueSubtitle from '../../components/texts/BlueSubtitle';
 import GradientBackground from '../../components/GradientBackground';
 import {View} from 'native-base';
@@ -8,11 +8,15 @@ import {CustomButton} from '../../components/CustomButton';
 import Modal from 'react-native-modal';
 import ModelContent from '../../components/Modal/ModalContent';
 import {CustomText} from '../../components/texts/custom-text';
+import dayjs from 'dayjs';
+import {useHttpCall} from '../../hooks/useHttpCall';
 
 export const PackageListScreen = ({navigation, route}) => {
-  const {item, startDate, endDate, totalDays} = route.params;
+  const {id,item, startDate, endDate, totalDays} = route.params;
   const [selected, setSelected] = useState([]);
   const [isModelPopUp, setIsModelPopUp] = useState(false);
+  const [packages, setPackages] = useState([]);
+  const {getWithoutAuth} = useHttpCall();
 
   const closeModel = () => {
     setIsModelPopUp(false);
@@ -29,6 +33,25 @@ export const PackageListScreen = ({navigation, route}) => {
     setSelected(tmp);
   };
 
+  useEffect(() => {
+    // if (!id) return;
+    
+    console.log(id)
+    let startDate = dayjs(startDate).format('YYYY-MM-DD')
+    let endDate = dayjs(endDate).format('YYYY-MM-DD')
+    console.log(startDate)
+    console.log(endDate)
+    getWithoutAuth(`reservations/availability?startDate=${startDate}&endDate=${endDate}&type=guide&id=${id}`)
+      .then(({data}) => {
+        setPackages(data);
+        // console.log(rooms)
+      })
+      .catch(e => {
+        console.log(e);
+      });
+      // console.log(rooms)
+  }, []);
+
   return (
     <GradientBackground
       stickyHeader={true}
@@ -43,8 +66,7 @@ export const PackageListScreen = ({navigation, route}) => {
         style={{width: '80%', marginBottom: 10}}
       />
       <View style={{flexDirection: 'column', marginBottom: 10, width: '100%'}}>
-        {item &&
-          item.packages.map((p,i) => {
+        {packages.map((p,i) => {
             return (
               <PackageCardItem
                 item={p}

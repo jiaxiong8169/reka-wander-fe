@@ -197,6 +197,7 @@ export const HomestayDetailsScreen = ({navigation, route}) => {
               style={{marginTop: 20}}
               onPress={() => {
                 navigation.navigate('HomestaySelectRoom', {
+                  id:item.id,
                   item,
                   checkInDate,
                   checkOutDate,

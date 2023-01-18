@@ -407,6 +407,7 @@ export const GuideDetailsScreen = ({navigation, route}) => {
             <CustomButton
               onPress={() => {
                 navigation.navigate('PackageList', {
+                  id:item.id,
                   item,
                   startDate,
                   endDate,

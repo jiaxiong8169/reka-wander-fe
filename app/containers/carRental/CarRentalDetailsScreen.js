@@ -11,6 +11,8 @@ import {About} from '../../components/DetailsContent/About';
 import {Location} from '../../components/DetailsContent/Location';
 import {LocationName} from '../../components/Location/LocationName';
 import {VendorDetails} from '../../components/DetailsContent/VendorDetails';
+import dayjs from 'dayjs';
+import {useHttpCall} from '../../hooks/useHttpCall';
 
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
@@ -18,6 +20,8 @@ const width = Dimensions.get('window').width;
 export const CarRentalDetailsScreen = ({navigation, route}) => {
   const {item, pickUpDate, returnDate, totalDays, planner} = route.params;
   const [locationName, setLocationName] = useState('');
+  const [car, setCar] = useState([]);
+  const {getWithoutAuth} = useHttpCall();
 
   const onPressHandlerRent = () => {
     navigation.navigate('CarRentalUserInfo', {
@@ -28,6 +32,27 @@ export const CarRentalDetailsScreen = ({navigation, route}) => {
       locationName,
     });
   };
+
+  useEffect(() => {
+    // if (!id) return;
+
+    console.log(item.id);
+    let startDate = dayjs(pickUpDate).format('YYYY-MM-DD');
+    let endDate = dayjs(returnDate).format('YYYY-MM-DD');
+    console.log(startDate);
+    console.log(endDate);
+    getWithoutAuth(
+      `reservations/availability?startDate=${startDate}&endDate=${endDate}&type=vehicle&id=${item.id}`,
+    )
+      .then(({data}) => {
+        setCar(data);
+        // console.log(rooms)
+      })
+      .catch(e => {
+        console.log(e);
+      });
+    // console.log(rooms)
+  }, []);
 
   return (
     <GradientBackground fullWidth={true} stickyHeader={true}>
@@ -83,7 +108,7 @@ export const CarRentalDetailsScreen = ({navigation, route}) => {
 
         <View style={styles.carLeft}>
           <CustomText bold color={'gray.500'}>
-            {item.availability} cars left
+            {car.availability} cars left
           </CustomText>
         </View>
       </View>
@@ -224,7 +249,7 @@ export const CarRentalDetailsScreen = ({navigation, route}) => {
               Car Rules
             </CustomText>
           </View>
-          {item.additionalRules.map((value,index) => (
+          {item.additionalRules.map((value, index) => (
             <View key={index}>
               <CustomText style={{fontSize: 15, marginLeft: 35}}>
                 -{'   '}
@@ -234,27 +259,59 @@ export const CarRentalDetailsScreen = ({navigation, route}) => {
           ))}
         </Container>
 
-        {planner && (
+        {planner ? (
           <View>
             <CustomButton
               colorScheme="secondary"
-              
-              
               onPress={() => navigation.goBack()}>
               Back
             </CustomButton>
           </View>
-        )}
-
-        {!planner && (
+        ): car.availability > 0 ? (
           <CustomButton
             style={{marginTop: 30, marginBottom: 30}}
             colorScheme="secondary"
             onPress={onPressHandlerRent}>
             Rent
           </CustomButton>
+        ): (
+          <CustomButton
+            style={{marginTop: 30, marginBottom: 30}}
+            colorScheme="secondary"
+            onPress={() => navigation.goBack()}>
+            Unavailable
+          </CustomButton>
         )}
 
+        {/* {planner && (
+          <View>
+            <CustomButton
+              colorScheme="secondary"
+              onPress={() => navigation.goBack()}>
+              Back
+            </CustomButton>
+          </View>
+        )} */}
+
+        {/* {!planner &&
+          (car.availability > 0)(
+            <CustomButton
+              style={{marginTop: 30, marginBottom: 30}}
+              colorScheme="secondary"
+              onPress={onPressHandlerRent}>
+              Rent
+            </CustomButton>,
+          )} */}
+
+        {/* {!planner &&
+          (car.availability == 0)(
+            <CustomButton
+              style={{marginTop: 30, marginBottom: 30}}
+              colorScheme="secondary"
+              onPress={() => navigation.goBack()}>
+              Unavailable
+            </CustomButton>,
+          )} */}
       </View>
     </GradientBackground>
   );
