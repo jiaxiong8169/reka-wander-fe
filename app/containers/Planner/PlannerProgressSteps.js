@@ -21,7 +21,11 @@ import {TripNameScreen} from './PlannerTripName';
 
 export default function PlannerSteps({navigation}) {
   const {authData} = useAuth();
-  const [isModelPopUp, setIsModelPopUp] = useState(false);
+  const [isAccommodationModelPopUp, setIsAccommodationModelPopUp] =
+    useState(false);
+  const [isRestaurantModelPopUp, setIsRestaurantModelPopUp] = useState(false);
+  const [isVehicleModelPopUp, setIsVehicleModelPopUp] = useState(false);
+  const [isAttractionModelPopUp, setIsAttractionModelPopUp] = useState(false);
   const [isDistanceModelPopUp, setDistanceIsModelPopUp] = useState(false);
   const [isWarningModelPopUp, setIsWarningModelPopUp] = useState(false);
   const [errors, setErrors] = useState(false);
@@ -42,9 +46,23 @@ export default function PlannerSteps({navigation}) {
     }
   }, [authData]);
 
-  const closeModel = () => {
-    setIsModelPopUp(false);
+  const closeAccommodationModel = () => {
+    setIsAccommodationModelPopUp(false);
   };
+
+  const closeRestaurantModel = () => {
+    setIsRestaurantModelPopUp(false);
+  };
+
+  const closeVehicleModel = () => {
+    setIsVehicleModelPopUp(false);
+  };
+
+  const closeAttractionModel = () => {
+    setIsAttractionModelPopUp(false);
+  };
+
+  // Attraction
 
   const closeDistanceModel = () => {
     setDistanceIsModelPopUp(false);
@@ -58,35 +76,32 @@ export default function PlannerSteps({navigation}) {
     try {
       // let totalBudget = parseFloat(accommodationBudget) + parseFloat(restaurantBudget) + parseFloat(vehicleBudget) + parseFloat(attractionBudget)
       //check for number input
-      if (rentCar) {
-        if (
-          parseFloat(accommodationBudget) < 1000 ||
-          parseFloat(restaurantBudget) < 1000 ||
-          parseFloat(vehicleBudget) < 1000 ||
-          parseFloat(attractionBudget) < 1000
-        ) {
-          setIsModelPopUp(true);
-          setErrors(true);
-        } else {
-          setErrors(false);
-          // navigation.navigate('Loading');
-        }
+
+      if (
+        parseFloat(accommodationBudget) < 350
+        // ||
+        // parseFloat(restaurantBudget) < 10 ||
+        // parseFloat(vehicleBudget) < 100 ||
+        // parseFloat(attractionBudget) < 5
+      ) {
+        setIsAccommodationModelPopUp(true);
+        setErrors(true);
+      } else if (rentCar && parseFloat(vehicleBudget) < 100) {
+        setIsVehicleModelPopUp(true);
+        setErrors(true);
+      } else if (parseFloat(restaurantBudget) < 10) {
+        setIsRestaurantModelPopUp(true);
+        setErrors(true);
+      } else if (parseFloat(attractionBudget) < 5) {
+        setIsAttractionModelPopUp(true);
+        setErrors(true);
       } else {
-        if (
-          parseFloat(accommodationBudget) < 1000 ||
-          parseFloat(restaurantBudget) < 1000 ||
-          parseFloat(attractionBudget) < 1000
-        ) {
-          setIsModelPopUp(true);
-          setErrors(true);
-        } else {
-          setErrors(false);
-          // navigation.navigate('Loading');
-        }
+        setErrors(false);
+        // navigation.navigate('Loading');
       }
     } catch (err) {
       console.log(err);
-      setIsModelPopUp(true);
+      // setIsAccommodationModelPopUp(true);
       setErrors(true);
     }
   };
@@ -272,9 +287,9 @@ export default function PlannerSteps({navigation}) {
                   <TravelBudget />
                 </InsertDetailsCard>
                 <Modal
-                  isVisible={isModelPopUp}
-                  onBackdropPress={closeModel}
-                  onSwipeComplete={closeModel}
+                  isVisible={isAccommodationModelPopUp}
+                  onBackdropPress={closeAccommodationModel}
+                  onSwipeComplete={closeAccommodationModel}
                   useNativeDriverForBackdrop
                   swipeDirection={['left', 'right', 'up', 'down']}
                   animationIn="zoomInDown"
@@ -284,16 +299,98 @@ export default function PlannerSteps({navigation}) {
                   backdropTransitionInTiming={700}
                   backdropTransitionOutTiming={700}>
                   <ModelContent
-                    onPress={closeModel}
+                    onPress={closeAccommodationModel}
                     buttonTitle={'Close'}
                     style={{alignItems: 'center'}}>
                     <Text style={{fontSize: 20, marginBottom: 12}}>Opps!</Text>
                     <Text style={{marginBottom: 12}}>
                       Your travel budget for{' '}
                       <Text style={{fontWeight: 'bold', color: '#000000'}}>
-                        each section
+                        Accommodation
                       </Text>{' '}
-                      must at least or more than RM1000! Please re-enter your
+                      must at least or more than RM350! Please re-enter your
+                      travel budget!
+                    </Text>
+                  </ModelContent>
+                </Modal>
+
+                <Modal
+                  isVisible={isVehicleModelPopUp}
+                  onBackdropPress={closeVehicleModel}
+                  onSwipeComplete={closeVehicleModel}
+                  useNativeDriverForBackdrop
+                  swipeDirection={['left', 'right', 'up', 'down']}
+                  animationIn="zoomInDown"
+                  animationOut="zoomOutUp"
+                  animationInTiming={700}
+                  animationOutTiming={700}
+                  backdropTransitionInTiming={700}
+                  backdropTransitionOutTiming={700}>
+                  <ModelContent
+                    onPress={closeVehicleModel}
+                    buttonTitle={'Close'}
+                    style={{alignItems: 'center'}}>
+                    <Text style={{fontSize: 20, marginBottom: 12}}>Opps!</Text>
+                    <Text style={{marginBottom: 12}}>
+                      Your travel budget for{' '}
+                      <Text style={{fontWeight: 'bold', color: '#000000'}}>
+                        Vehicle
+                      </Text>{' '}
+                      must at least or more than RM100! Please re-enter your
+                      travel budget!
+                    </Text>
+                  </ModelContent>
+                </Modal>
+                <Modal
+                  isVisible={isRestaurantModelPopUp}
+                  onBackdropPress={closeRestaurantModel}
+                  onSwipeComplete={closeRestaurantModel}
+                  useNativeDriverForBackdrop
+                  swipeDirection={['left', 'right', 'up', 'down']}
+                  animationIn="zoomInDown"
+                  animationOut="zoomOutUp"
+                  animationInTiming={700}
+                  animationOutTiming={700}
+                  backdropTransitionInTiming={700}
+                  backdropTransitionOutTiming={700}>
+                  <ModelContent
+                    onPress={closeRestaurantModel}
+                    buttonTitle={'Close'}
+                    style={{alignItems: 'center'}}>
+                    <Text style={{fontSize: 20, marginBottom: 12}}>Opps!</Text>
+                    <Text style={{marginBottom: 12}}>
+                      Your travel budget for{' '}
+                      <Text style={{fontWeight: 'bold', color: '#000000'}}>
+                        Restaurant
+                      </Text>{' '}
+                      must at least or more than RM10! Please re-enter your
+                      travel budget!
+                    </Text>
+                  </ModelContent>
+                </Modal>
+                <Modal
+                  isVisible={isAttractionModelPopUp}
+                  onBackdropPress={closeAttractionModel}
+                  onSwipeComplete={closeAttractionModel}
+                  useNativeDriverForBackdrop
+                  swipeDirection={['left', 'right', 'up', 'down']}
+                  animationIn="zoomInDown"
+                  animationOut="zoomOutUp"
+                  animationInTiming={700}
+                  animationOutTiming={700}
+                  backdropTransitionInTiming={700}
+                  backdropTransitionOutTiming={700}>
+                  <ModelContent
+                    onPress={closeAttractionModel}
+                    buttonTitle={'Close'}
+                    style={{alignItems: 'center'}}>
+                    <Text style={{fontSize: 20, marginBottom: 12}}>Opps!</Text>
+                    <Text style={{marginBottom: 12}}>
+                      Your travel budget for{' '}
+                      <Text style={{fontWeight: 'bold', color: '#000000'}}>
+                        Attraction
+                      </Text>{' '}
+                      must at least or more than RM5! Please re-enter your
                       travel budget!
                     </Text>
                   </ModelContent>
@@ -305,7 +402,6 @@ export default function PlannerSteps({navigation}) {
                   <Withkids />
                 </InsertDetailsCard>
               </ProgressStep>
-
             </ProgressSteps>
           </View>
         </View>
