@@ -59,36 +59,36 @@ export default function UserCarRentalInfo({navigation, route}) {
         }).catch(err => {
       console.log(JSON.stringify(err));
     });
-    // postWithAuth('mail/car-vendor', {
-    //   pickUpDate,
-    //   returnDate,
-    //   carLocation: locationName,
-    //   totalPrice: totalPrice,
-    //   vehicle: item,
-    //   user: authData,
-    // });
-    // postWithAuth('mail/car-request', {
-    //   pickUpDate,
-    //   returnDate,
-    //   carLocation: locationName,
-    //   totalPrice: totalPrice,
-    //   vehicle: item,
-    //   user: authData,
-    // })
-    //   .then(() => {
-    //     Snackbar.show({
-    //       text: 'Your request has been sent to the vendor successfully, please check your mail box for further updates!',
-    //       duration: Snackbar.LENGTH_LONG,
-    //     });
-    //     navigation.navigate('MyHome');
-    //   })
-    //   .catch(e => {
-    //     Snackbar.show({
-    //       text: 'Error sending your request, please try again later.',
-    //       duration: Snackbar.LENGTH_LONG,
-    //     });
-    //     console.log(e);
-    //   });
+    postWithAuth('mail/car-vendor', {
+      pickUpDate,
+      returnDate,
+      carLocation: locationName,
+      totalPrice: totalPrice,
+      vehicle: item,
+      user: authData,
+    });
+    postWithAuth('mail/car-request', {
+      pickUpDate,
+      returnDate,
+      carLocation: locationName,
+      totalPrice: totalPrice,
+      vehicle: item,
+      user: authData,
+    })
+      .then(() => {
+        Snackbar.show({
+          text: 'Your request has been sent to the vendor successfully, please check your mail box for further updates!',
+          duration: Snackbar.LENGTH_LONG,
+        });
+        navigation.navigate('MyHome');
+      })
+      .catch(e => {
+        Snackbar.show({
+          text: 'Error sending your request, please try again later.',
+          duration: Snackbar.LENGTH_LONG,
+        });
+        console.log(e);
+      });
   };
 
   return (

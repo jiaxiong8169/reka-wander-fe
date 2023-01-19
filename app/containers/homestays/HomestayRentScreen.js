@@ -88,37 +88,37 @@ export const HomestayRentScreen = ({navigation, route}) => {
     //   console.log(JSON.stringify(err));
     // });
 
-    // postWithAuth('mail/homestay-vendor', {
-    //   checkInDate,
-    //   checkOutDate,
-    //   location: locationName,
-    //   totalPrice: totalPrice,
-    //   homestay: item,
-    //   user: authData,
-    //   rooms: selected,
-    // });
-    // postWithAuth('mail/homestay-request', {
-    //   checkInDate,
-    //   checkOutDate,
-    //   location: locationName,
-    //   totalPrice: totalPrice,
-    //   homestay: item,
-    //   user: authData,
-    // })
-    //   .then(() => {
-    //     Snackbar.show({
-    //       text: 'Your request has been sent to the vendor successfully, please check your mail box for further updates!',
-    //       duration: Snackbar.LENGTH_LONG,
-    //     });
-    //     navigation.navigate('MyHome');
-    //   })
-    //   .catch(e => {
-    //     Snackbar.show({
-    //       text: 'Error sending your request, please try again later.',
-    //       duration: Snackbar.LENGTH_LONG,
-    //     });
-    //     console.log(e);
-    //   });
+    postWithAuth('mail/homestay-vendor', {
+      checkInDate,
+      checkOutDate,
+      location: locationName,
+      totalPrice: totalPrice,
+      homestay: item,
+      user: authData,
+      rooms: selected,
+    });
+    postWithAuth('mail/homestay-request', {
+      checkInDate,
+      checkOutDate,
+      location: locationName,
+      totalPrice: totalPrice,
+      homestay: item,
+      user: authData,
+    })
+      .then(() => {
+        Snackbar.show({
+          text: 'Your request has been sent to the vendor successfully, please check your mail box for further updates!',
+          duration: Snackbar.LENGTH_LONG,
+        });
+        navigation.navigate('MyHome');
+      })
+      .catch(e => {
+        Snackbar.show({
+          text: 'Error sending your request, please try again later.',
+          duration: Snackbar.LENGTH_LONG,
+        });
+        console.log(e);
+      });
   };
 
   return (

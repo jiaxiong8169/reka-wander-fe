@@ -73,37 +73,37 @@ export const HotelConfirmationScreen = ({navigation, route}) => {
       });
     }
 
-    // postWithAuth('mail/hotel-vendor', {
-    //   checkInDate,
-    //   checkOutDate,
-    //   location: locationName,
-    //   totalPrice: totalPrice,
-    //   hotel: item,
-    //   user: authData,
-    //   rooms: selected,
-    // });
-    // postWithAuth('mail/hotel-request', {
-    //   checkInDate,
-    //   checkOutDate,
-    //   location: locationName,
-    //   totalPrice: totalPrice,
-    //   hotel: item,
-    //   user: authData,
-    // })
-    //   .then(() => {
-    //     Snackbar.show({
-    //       text: 'Your request has been sent to the vendor successfully, please check your mail box for further updates!',
-    //       duration: Snackbar.LENGTH_LONG,
-    //     });
-    //     navigation.navigate('MyHome');
-    //   })
-    //   .catch(e => {
-    //     Snackbar.show({
-    //       text: 'Error sending your request, please try again later.',
-    //       duration: Snackbar.LENGTH_LONG,
-    //     });
-    //     console.log(e);
-    //   });
+    postWithAuth('mail/hotel-vendor', {
+      checkInDate,
+      checkOutDate,
+      location: locationName,
+      totalPrice: totalPrice,
+      hotel: item,
+      user: authData,
+      rooms: selected,
+    });
+    postWithAuth('mail/hotel-request', {
+      checkInDate,
+      checkOutDate,
+      location: locationName,
+      totalPrice: totalPrice,
+      hotel: item,
+      user: authData,
+    })
+      .then(() => {
+        Snackbar.show({
+          text: 'Your request has been sent to the vendor successfully, please check your mail box for further updates!',
+          duration: Snackbar.LENGTH_LONG,
+        });
+        navigation.navigate('MyHome');
+      })
+      .catch(e => {
+        Snackbar.show({
+          text: 'Error sending your request, please try again later.',
+          duration: Snackbar.LENGTH_LONG,
+        });
+        console.log(e);
+      });
   };
 
   return (

@@ -109,38 +109,38 @@ export const GuideConfirmationScreen = ({navigation, route}) => {
     // if (moment(startDate).isAfter(endDate)) {
     //   setIsModelPopUp(true);
     // } else {
-    //   postWithAuth('mail/guide-vendor', {
-    //     startDate,
-    //     endDate,
-    //     location: locationName,
-    //     totalPrice: getTotalPrice(),
-    //     guide: item,
-    //     user: authData,
-    //     packages: selected,
-    //   });
-    //   postWithAuth('mail/guide-request', {
-    //     startDate,
-    //     endDate,
-    //     location: locationName,
-    //     totalPrice: getTotalPrice(),
-    //     guide: item,
-    //     user: authData,
-    //     packages: selected,
-    //   })
-    //     .then(() => {
-    //       Snackbar.show({
-    //         text: 'Your request has been sent to the vendor successfully, please check your mail box for further updates!',
-    //         duration: Snackbar.LENGTH_LONG,
-    //       });
-    //       navigation.navigate('MyHome');
-    //     })
-    //     .catch(e => {
-    //       Snackbar.show({
-    //         text: 'Error sending your request, please try again later.',
-    //         duration: Snackbar.LENGTH_LONG,
-    //       });
-    //       console.log(e);
-    //     });
+      postWithAuth('mail/guide-vendor', {
+        startDate,
+        endDate,
+        location: locationName,
+        totalPrice: getTotalPrice(),
+        guide: item,
+        user: authData,
+        packages: selected,
+      });
+      postWithAuth('mail/guide-request', {
+        startDate,
+        endDate,
+        location: locationName,
+        totalPrice: getTotalPrice(),
+        guide: item,
+        user: authData,
+        packages: selected,
+      })
+        .then(() => {
+          Snackbar.show({
+            text: 'Your request has been sent to the vendor successfully, please check your mail box for further updates!',
+            duration: Snackbar.LENGTH_LONG,
+          });
+          navigation.navigate('MyHome');
+        })
+        .catch(e => {
+          Snackbar.show({
+            text: 'Error sending your request, please try again later.',
+            duration: Snackbar.LENGTH_LONG,
+          });
+          console.log(e);
+        });
     // }
   };
 
